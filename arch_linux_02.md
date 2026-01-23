@@ -326,9 +326,9 @@ mousepad ~/.config/openbox/rc.xml
 
 ```
 # パッケージ
-yay -S --needed bash-completion chromium cmake dosfstools evince \
-filezilla file-roller fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt \
-filezilla gnome-disk-utility less libva-utils lm_sensors mousepad mpv \
+yay -S --needed bash-completion cmake dosfstools evince filezilla \
+file-roller fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt filezilla \
+gnome-disk-utility google-chrome less libva-utils lm_sensors mousepad mpv \
 noto-fonts noto-fonts-emoji 7zip fuse pavucontrol poppler-data flake8 \
 python-jaconv ripgrep ristretto rsync vulkan-radeon \
 webp-pixbuf-loader wget xf86-video-amdgpu xfce4-sensors-plugin \
