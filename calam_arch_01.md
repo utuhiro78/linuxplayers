@@ -13,7 +13,7 @@ Calam-Arch-Installer は、Arch Linux を Calamares でインストールする�
 
 ## Ventoy をUSBメモリにインストール
 
-[Ventoy](https://github.com/ventoy/Ventoy/releases) はブータブルUSBドライブを作成するツール。複数のイメージファイルをUSBドライブにコピーできる。
+[Ventoy](https://github.com/ventoy/Ventoy/releases) はブータブルUSBドライブを作成するツール。Ventoy のインストール後にOSのISOファイルをUSBメモリにコピーすると、そのOSを起動できるようになる。複数のISOファイルをコピーして、起動するOSを選択することもできる。
 
 ventoy-*-linux.tar.gz をダウンロードして展開。
 
@@ -51,7 +51,7 @@ MSI | F11
 あらかじめUEFIで「CSM Support」を無効にしておくと、UEFIブートに対応していないデバイスが非表示になるので、選択が楽になる。
 
 ![](images/calam_arch_01/calam_arch_22.webp)
-Ventoy のメニューで ISO ファイルを選択。
+Ventoy のメニューでISOファイルを選択。
 
 ![](images/calam_arch_01/calam_arch_01.webp)
 ミラーサーバーの地域を選択。「Japan」にチェックが入っているのを確認する。

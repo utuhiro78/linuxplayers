@@ -17,7 +17,7 @@ CachyOS などと比べて[独自パッケージが少なく](https://github.com
 
 ## Ventoy をUSBメモリにインストール
 
-[Ventoy](https://github.com/ventoy/Ventoy/releases) はブータブルUSBドライブを作成するツール。複数のイメージファイルをUSBドライブにコピーできる。
+[Ventoy](https://github.com/ventoy/Ventoy/releases) はブータブルUSBドライブを作成するツール。Ventoy のインストール後にOSのISOファイルをUSBメモリにコピーすると、そのOSを起動できるようになる。複数のISOファイルをコピーして、起動するOSを選択することもできる。
 
 ventoy-*-linux.tar.gz をダウンロードして展開。
 
@@ -54,7 +54,7 @@ MSI | F11
 あらかじめUEFIで「CSM Support」を無効にしておくと、UEFIブートに対応していないデバイスが非表示になるので、選択が楽になる。
 
 ![](images/endeavour_01/endeavour_51.webp)
-Ventoy のメニューで ISO ファイルを選択。
+Ventoy のメニューでISOファイルを選択。
 しばらく待つとデスクトップが起動する。
 
 ![](images/endeavour_01/endeavour_01.webp)
