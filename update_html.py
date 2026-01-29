@@ -18,7 +18,7 @@ def main():
     # 最新の3個を起動時にアップデート
     # list を作成して key でソート
     files_latest = sorted(files_mtime.items(), key=lambda x: x[1])
-    files_latest = files_latest[-3:]
+    files_latest = files_latest[0:]
 
     # files_latest の例
     #     [('mpv_01.md', 1732313157.6537077),
@@ -42,9 +42,14 @@ def main():
 
 def update_html(file):
     subprocess.run(
-        ['./pandoc', '-s', '-f', 'markdown+hard_line_breaks',
-            '-c', 'github.css', '--toc', '--toc-depth=3',
-            file, '-o', file.replace('.md', '.html')])
+        ['./pandoc',
+            '-s',
+            '--template', 'pandoc_template.html',
+            '-f', 'markdown+hard_line_breaks',
+            '-c', 'github.css',
+            '--toc', '--toc-depth=3',
+            file,
+            '-o', file.replace('.md', '.html')])
 
 
 if __name__ == '__main__':
