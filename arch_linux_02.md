@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2025-12-05
+date: 2026-02-06
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -24,7 +24,7 @@ sudo systemctl --force enable sddm.service
 Arch の Wine パッケージは [wow64 ビルドに変更された](https://archlinux.org/news/transition-to-the-new-wow64-wine-and-wine-staging/)。これにより multilib が不要になった。
 
 ```
-yay -S --needed wine-staging
+yay -S --needed wine
 ln -sf ~/.wine/drive_c ~
 
 # Winetricks
@@ -340,7 +340,12 @@ less libva-utils lm_sensors mousepad mpv \
 noto-fonts noto-fonts-emoji 7zip fuse pavucontrol \
 poppler-data flake8 python-jaconv ripgrep ristretto \
 rsync vulkan-radeon webp-pixbuf-loader wget \
-xf86-video-amdgpu xfce4-sensors-plugin xorg-xrandr yt-dlp
+xf86-video-amdgpu xfce4-sensors-plugin xorg-xrandr
+
+# yt-dlp
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+chmod a+x yt-dlp
+sudo mv yt-dlp /usr/bin/
 
 # mousepad のカーソル位置を常に1行目にする
 mkdir -p ~/tmp_arch

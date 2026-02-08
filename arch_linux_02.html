@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2025-12-05" />
+  <meta name="dcterms.date" content="2026-02-06" />
   <title>Arch Linux の設定2</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定2</h1>
-<p class="date">2025-12-05</p>
+<p class="date">2026-02-06</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -83,7 +83,7 @@ sudo systemctl --force enable sddm.service</code></pre>
 <p>Arch の Wine パッケージは <a
 href="https://archlinux.org/news/transition-to-the-new-wow64-wine-and-wine-staging/">wow64
 ビルドに変更された</a>。これにより multilib が不要になった。</p>
-<pre><code>yay -S --needed wine-staging
+<pre><code>yay -S --needed wine
 ln -sf ~/.wine/drive_c ~
 
 # Winetricks
@@ -275,7 +275,12 @@ less libva-utils lm_sensors mousepad mpv \
 noto-fonts noto-fonts-emoji 7zip fuse pavucontrol \
 poppler-data flake8 python-jaconv ripgrep ristretto \
 rsync vulkan-radeon webp-pixbuf-loader wget \
-xf86-video-amdgpu xfce4-sensors-plugin xorg-xrandr yt-dlp
+xf86-video-amdgpu xfce4-sensors-plugin xorg-xrandr
+
+# yt-dlp
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+chmod a+x yt-dlp
+sudo mv yt-dlp /usr/bin/
 
 # mousepad のカーソル位置を常に1行目にする
 mkdir -p ~/tmp_arch

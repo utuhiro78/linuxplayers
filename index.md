@@ -9,11 +9,12 @@ title: LinuxPlayers
 
 [Arch Linux の設定1](arch_linux_01.html) / [設定2](arch_linux_02.html)
 
+[Mozc UT Dictionaries](mozc-ut.html)
+
 [mpv の設定](mpv_01.html)
 [Firefox の設定](firefox.html)
 [Chromium の設定](chromium.html)
-
-[Mozc UT Dictionaries](mozc-ut.html)
+[virt-manager の使い方](virt-manager.html)
 
 [サウンドチップのグレード](soundchip.html)
 [KDE の日本語翻訳ガイド](kde_translation_guide.html)
