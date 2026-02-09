@@ -76,13 +76,13 @@ sudo systemctl enable libvirtd</code></pre>
 <li><p>新しい仮想マシンを作成<br />
 メイン画面の「QEMU/KVM」を右クリックして「新規」を選択<br />
 <img src="images/virt/virt_03.webp" /></p></li>
-<li><p>「オペレーティングシステムのインストール方法」を選択<br />
+<li><p>OS のインストール方法を選択<br />
 「ローカルのインストールメディア（ISO イメージまたは CD-ROM
 ドライブ）」を選択。<br />
 <img src="images/virt/virt_04.webp" /></p></li>
 <li><p>ISO ファイルを指定<br />
 <img src="images/virt/virt_05.webp" /></p></li>
-<li><p>「オペレーティングシステムの選択」に「何も検出されませんでした」と表示された場合<br />
+<li><p>OS の選択欄に「何も検出されませんでした」と表示された場合<br />
 「インストールメディアまたはソースから自動検出」のチェックを外す。<br />
 検索ボックスに「generic」と入力し、「Generic Linux 2024」を選択。<br />
 <img src="images/virt/virt_06.webp" /></p></li>
@@ -98,7 +98,7 @@ sudo systemctl enable libvirtd</code></pre>
 <li><p>ストレージファイルの名前を設定<br />
 ここでは「EndeavourOS」にする。<br />
 <img src="images/virt/virt_10.webp" /></p></li>
-<li><p>qcow2 ファイルをストレージとして選択<br />
+<li><p>作成されたストレージファイルを選択<br />
 <img src="images/virt/virt_11.webp" /></p></li>
 <li><p>「次へ」をクリック<br />
 <img src="images/virt/virt_12.webp" /></p></li>
@@ -110,8 +110,8 @@ sudo systemctl enable libvirtd</code></pre>
 <img src="images/virt/virt_14.webp" /></p></li>
 <li><p>仮想マシンをシャットダウン<br />
 シャットダウンするときは左上の赤い電源ボタンをクリック。<br />
-インストールせずにシャットダウンした場合は、ストレージが空なので次回の起動では
-ISO ファイルの選択からやり直す。<br />
+インストールせずにシャットダウンした場合は、ストレージが空なので次回電源ボタンを押しても何も起動しない。ISO
+ファイルの選択からやり直す。<br />
 <img src="images/virt/virt_15.webp" /></p></li>
 </ol>
 <h2 id="仮想マシンを削除">仮想マシンを削除</h2>
