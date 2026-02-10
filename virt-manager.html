@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-02-08" />
+  <meta name="dcterms.date" content="2026-02-10" />
   <title>virt-manager の使い方</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">virt-manager の使い方</h1>
-<p class="date">2026-02-08</p>
+<p class="date">2026-02-10</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -22,10 +22,11 @@ id="toc-amd-v-が有効になっているか確認">AMD-V
 <li><a href="#virt-manager-と-qemu-をインストール"
 id="toc-virt-manager-と-qemu-をインストール">virt-manager と qemu
 をインストール</a></li>
-<li><a href="#ファイアウォールのバックエンドを変更"
-id="toc-ファイアウォールのバックエンドを変更">ファイアウォールのバックエンドを変更</a></li>
 <li><a href="#libvirtd-を実行" id="toc-libvirtd-を実行">libvirtd
 を実行</a></li>
+<li><a href="#virbr0-によるネット接続を許可"
+id="toc-virbr0-によるネット接続を許可">virbr0
+によるネット接続を許可</a></li>
 <li><a href="#virt-manager-を実行"
 id="toc-virt-manager-を実行">virt-manager を実行</a></li>
 <li><a href="#仮想マシンを削除"
@@ -46,25 +47,14 @@ GIGABYTE 製マザーボードの場合は次のように行う。</p>
 <h2 id="virt-manager-と-qemu-をインストール">virt-manager と qemu
 をインストール</h2>
 <pre><code>yay -S --needed virt-manager qemu-full</code></pre>
-<h2
-id="ファイアウォールのバックエンドを変更">ファイアウォールのバックエンドを変更</h2>
-<p>バックエンドを変更しないと<a
-href="https://bbs.archlinux.org/viewtopic.php?id=296590">ネットに接続できなかった</a>。</p>
-<pre><code>cp /etc/libvirt/network.conf network.conf
-
-sed -i -e &#39;s,#firewall_backend\ =\ &quot;nftables&quot;,firewall_backend\ =\ &quot;iptables&quot;,g&#39; network.conf
-
-sudo mv network.conf /etc/libvirt/network.conf
-
-sudo systemctl start iptables
-
-# システム起動時に実行する場合
-sudo systemctl enable iptables</code></pre>
 <h2 id="libvirtd-を実行">libvirtd を実行</h2>
 <pre><code>sudo systemctl start libvirtd
 
 # システム起動時に実行する場合
 sudo systemctl enable libvirtd</code></pre>
+<h2 id="virbr0-によるネット接続を許可">virbr0
+によるネット接続を許可</h2>
+<pre><code>sudo ufw allow in on virbr0</code></pre>
 <h2 id="virt-manager-を実行">virt-manager を実行</h2>
 <pre><code>sudo virt-manager</code></pre>
 <ol type="1">

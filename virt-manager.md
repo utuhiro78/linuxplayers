@@ -1,6 +1,6 @@
 ---
 title: virt-manager の使い方
-date: 2026-02-08
+date: 2026-02-10
 ---
 
 ## AMD-V が有効になっているか確認
@@ -26,23 +26,6 @@ GIGABYTE 製マザーボードの場合は次のように行う。
 yay -S --needed virt-manager qemu-full
 ```
 
-## ファイアウォールのバックエンドを変更
-
-バックエンドを変更しないと[ネットに接続できなかった](https://bbs.archlinux.org/viewtopic.php?id=296590)。
-
-```
-cp /etc/libvirt/network.conf network.conf
-
-sed -i -e 's,#firewall_backend\ =\ "nftables",firewall_backend\ =\ "iptables",g' network.conf
-
-sudo mv network.conf /etc/libvirt/network.conf
-
-sudo systemctl start iptables
-
-# システム起動時に実行する場合
-sudo systemctl enable iptables
-```
-
 ## libvirtd を実行
 
 ```
@@ -50,6 +33,12 @@ sudo systemctl start libvirtd
 
 # システム起動時に実行する場合
 sudo systemctl enable libvirtd
+```
+
+## virbr0 によるネット接続を許可
+
+```
+sudo ufw allow in on virbr0
 ```
 
 ## virt-manager を実行
