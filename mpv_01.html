@@ -19,8 +19,8 @@
 <li><a href="#mpv-の特徴" id="toc-mpv-の特徴">mpv の特徴</a></li>
 <li><a href="#基本設定" id="toc-基本設定">基本設定</a>
 <ul>
-<li><a href="#アップスケーラーをインストール"
-id="toc-アップスケーラーをインストール">アップスケーラーをインストール</a></li>
+<li><a href="#ravu-をインストール" id="toc-ravu-をインストール">RAVU
+をインストール</a></li>
 <li><a href="#mpv.conf-を設定" id="toc-mpv.conf-を設定">mpv.conf
 を設定</a></li>
 <li><a href="#input.conf-を設定" id="toc-input.conf-を設定">input.conf
@@ -58,18 +58,15 @@ id="toc-ダウンスケーラーの違いを比較">ダウンスケーラーの�
 href="https://github.com/mpv-player/mpv/commits/master">開発中</a></li>
 </ul>
 <h2 id="基本設定">基本設定</h2>
-<h3
-id="アップスケーラーをインストール">アップスケーラーをインストール</h3>
-<pre><code># RAVU
-# Google の超解像技術から着想を得たアップスケーラー。
-# https://github.com/bjin/mpv-prescalers
-
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
+<h3 id="ravu-をインストール">RAVU をインストール</h3>
+<p>Google の超解像技術から着想を得たアップスケーラー。<br />
+<a
+href="https://github.com/bjin/mpv-prescalers">https://github.com/bjin/mpv-prescalers</a></p>
+<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-lite-r*.hook ~/.config/mpv/shaders/</code></pre>
 <h3 id="mpv.conf-を設定">mpv.conf を設定</h3>
-<pre><code>mousepad ~/.config/mpv/mpv.conf</code></pre>
-<p>次の行を追加。</p>
+<p>~/.config/mpv/mpv.conf に次の行を追加。</p>
 <pre><code># ビデオ出力ドライバー
 # https://mpv.io/manual/stable/#video-output-drivers
 vo=gpu-next
@@ -82,15 +79,15 @@ gpu-api=auto
 # https://mpv.io/manual/stable/#options-hwdec
 hwdec=auto
 
-# av1 がサポートされていない場合は「av1,」を削除
+# av1 がサポートされていない場合は「av1,」を削除（Ryzen 5 5600G など）
 # https://mpv.io/manual/stable/#options-hwdec-codecs
 hwdec-codecs=h264,vc1,hevc,vp8,vp9,av1,prores,prores_raw,ffv1,dpx
 
 # アップスケーラー
 # https://mpv.io/manual/stable/#options-glsl-shaders
-#     glsl-shader はシェーダーリストにシェーダーを1個追加し、
-#     glsl-shaders は既存のシェーダーリストを上書きする。
-#     ~~/ は mpv の設定ディレクトリを表す。
+# glsl-shader はシェーダーリストにシェーダーを1個追加し、
+# glsl-shaders は既存のシェーダーリストを上書きする。
+# ~~/ は mpv の設定ディレクトリを表す。
 glsl-shader=&quot;~~/shaders/ravu-lite-ar-r3.hook&quot;
 
 # ダウンスケーラー
@@ -113,11 +110,10 @@ quiet=yes
 
 # オンスクリーンコントローラー
 # https://mpv.io/manual/stable/#on-screen-controller-timetotal
-#     右下の「残り時間」を「全体時間」に変更。
+# 右下の「残り時間」を「全体時間」に変更。
 script-opts=osc-timetotal=yes</code></pre>
 <h3 id="input.conf-を設定">input.conf を設定</h3>
-<pre><code>mousepad ~/.config/mpv/input.conf</code></pre>
-<p>次の行を追加。デフォルトは<a
+<p>~/.config/mpv/input.conf に次の行を追加。デフォルトは<a
 href="https://raw.githubusercontent.com/mpv-player/mpv/refs/heads/master/etc/input.conf">こちら</a>。</p>
 <pre><code># 右クリックで一時停止しない
 MBTN_RIGHT ignore
@@ -139,12 +135,12 @@ Shift+PGUP add chapter 1
 Shift+PGDWN add chapter -1
 
 # マウスの進むボタンと戻るボタンでプレイリスト内を移動
-# その際にプレイリストを2秒表示
+# 移動した後プレイリストを2秒表示
 MBTN_FORWARD playlist-next; show-text ${playlist} 2000
 MBTN_BACK playlist-prev; show-text ${playlist} 2000
 
 # . と , でプレイリスト内を移動
-# その際にプレイリストを2秒表示
+# 移動した後プレイリストを2秒表示
 . playlist-next; show-text ${playlist} 2000
 , playlist-prev; show-text ${playlist} 2000
 
@@ -170,88 +166,85 @@ REGZA をモニターにしている場合は次のようにする。</p>
 <h2 id="アップスケーラーの違いを比較">アップスケーラーの違いを比較</h2>
 <h3
 id="比較用のアップスケーラーをインストール">比較用のアップスケーラーをインストール</h3>
-<pre><code># RAVU
-# Google の超解像技術から着想を得たアップスケーラー。
-#     gather ディレクトリのものは OpenGL の textureGather() 関数を使用する。
-#     compute ディレクトリのものはコンピュートシェーダーで、Vulkan が必要。
-#     ルートディレクトリのものは上の2つが動作しない古いGPU用。
-#     私の環境では compute ディレクトリのものが最速だった。
-#     ravu-lite-ar はアンチリンギングを行う。
-# https://github.com/bjin/mpv-prescalers
-
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
+<h4 id="ravu">RAVU</h4>
+<p>Google の超解像技術から着想を得たアップスケーラー。<br />
+<a
+href="https://github.com/bjin/mpv-prescalers">https://github.com/bjin/mpv-prescalers</a></p>
+<ul>
+<li>gather ディレクトリのものは OpenGL の textureGather()
+関数を使用する。</li>
+<li>compute ディレクトリのものはコンピュートシェーダーで、Vulkan
+が必要。</li>
+<li>ルートディレクトリのものは上の2つが動作しない古いGPU用。</li>
+</ul>
+<p>私の環境では compute ディレクトリのものが最速だった。<br />
+ravu-lite-ar はアンチリンギングを行う。</p>
+<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
 mkdir -p ~/.config/mpv/shaders
-mv ravu-lite-*.hook ~/.config/mpv/shaders/
-
-# CuNNy
-# CNN（畳み込みニューラルネットワーク）ベースのアップスケーラー。
-#     DS はデノイズ（ノイズ除去）とシャープニングを行う。
-#     SOFT はソフトな出力を行う。
-# https://github.com/funnyplanter/CuNNy
-
-wget https://raw.githubusercontent.com/funnyplanter/CuNNy/refs/heads/master/mpv/ds/CuNNy-fast-DS.glsl
+mv ravu-lite-*.hook ~/.config/mpv/shaders/</code></pre>
+<h4 id="cunny">CuNNy</h4>
+<p>CNN（畳み込みニューラルネットワーク）ベースのアップスケーラー。<br />
+<a
+href="https://github.com/funnyplanter/CuNNy">https://github.com/funnyplanter/CuNNy</a></p>
+<ul>
+<li>DS はデノイズ（ノイズ除去）とシャープニングを行う。</li>
+<li>SOFT はソフトな出力を行う。</li>
+</ul>
+<pre><code>wget https://raw.githubusercontent.com/funnyplanter/CuNNy/refs/heads/master/mpv/ds/CuNNy-fast-DS.glsl
 wget https://raw.githubusercontent.com/funnyplanter/CuNNy/refs/heads/master/mpv/soft/CuNNy-fast-SOFT.glsl
-mv CuNNy-*.glsl ~/.config/mpv/shaders/
-
-# ArtCNN
-# アニメコンテンツを対象としたアップスケーラー。
-#     DS はデノイズ（ノイズ除去）とシャープニングを行う。
-# https://github.com/Artoriuz/ArtCNN
-
-wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
+mv CuNNy-*.glsl ~/.config/mpv/shaders/</code></pre>
+<h4 id="artcnn">ArtCNN</h4>
+<p>アニメコンテンツを対象としたアップスケーラー。<br />
+<a
+href="https://github.com/Artoriuz/ArtCNN">https://github.com/Artoriuz/ArtCNN</a></p>
+<ul>
+<li>DS はデノイズ（ノイズ除去）とシャープニングを行う。</li>
+</ul>
+<pre><code>wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
-mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
+mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/</code></pre>
+<h4 id="fsrcnnx">FSRCNNX</h4>
+<p>CNN (畳み込みニューラルネットワーク)
+を使用した超解像アップスケーラー。<br />
+<a
+href="https://github.com/igv/FSRCNN-TensorFlow/releases">https://github.com/igv/FSRCNN-TensorFlow/releases</a></p>
+<pre><code>wget https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_8-0-4-1.glsl
+mv FSRCNNX_x2_*.glsl ~/.config/mpv/shaders/</code></pre>
+<h4 id="anime4k">Anime4K</h4>
+<p>1080pアニメの4K化に最適化されたシェーダー。<br />
+<a
+href="https://github.com/bloc97/Anime4K%5D">https://github.com/bloc97/Anime4K</a></p>
+<p>本来はいくつかのシェーダーを組み合わせて使用するが、標準の組み合わせだと色化けすることがあるので、ここでは
+Anime4K_Upscale_Denoise_CNN_x2 のみを使用する。</p>
+<pre><code>wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
+mv Anime4K_Upscale_Denoise_CNN_x2_*.glsl ~/.config/mpv/shaders/</code></pre>
+<h4 id="acnet">ACNet</h4>
+<p>Anime4KCPP によって実装されたCNNアルゴリズム。<br />
+<a
+href="https://github.com/TianZerL/ACNetGLSL">https://github.com/TianZerL/ACNetGLSL</a></p>
+<pre><code>wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/ACNet.glsl
+mv ACNet.glsl ~/.config/mpv/shaders/</code></pre>
+<p>以下は紹介のみ。</p>
+<pre><code>SSimSuperRes
+シャープニングとアンチリンギングを行う。
+https://gist.github.com/igv
 
-# FSRCNNX
-# CNN (畳み込みニューラルネットワーク) を使用した超解像アップスケーラー。
-# https://github.com/igv/FSRCNN-TensorFlow/releases
+NVScaler
+NVIDIA Image Scaling v1.0.2 の移植。AMDでも使用できる。
+https://gist.github.com/agyild
 
-wget https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_8-0-4-1.glsl
-mv FSRCNNX_x2_*.glsl ~/.config/mpv/shaders/
+SGSR
+Qualcomm Snapdragon Game Super Resolution (GSR) v1 の移植。非常に高速。
+https://gist.github.com/agyild
 
-# Anime4K
-# 1080pアニメの4K化に最適化されたシェーダー。
-#     本来はいくつかのシェーダーを組み合わせて使用するが、
-#     標準の組み合わせだと色化けすることがあるので、
-#     ここでは Anime4K_Upscale_Denoise_CNN_x2 のみを使用する。
-# https://github.com/bloc97/Anime4K
-
-wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
-mv Anime4K_Upscale_Denoise_CNN_x2_*.glsl ~/.config/mpv/shaders/
-
-# ACNet
-# Anime4KCPP によって実装されたCNNアルゴリズム。
-# https://github.com/TianZerL/ACNetGLSL
-
-wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/ACNet.glsl
-mv ACNet.glsl ~/.config/mpv/shaders/
-
-# 以下は紹介のみ
-
-# SSimSuperRes
-# シャープニングとアンチリンギングを行う。
-# https://gist.github.com/igv
-
-# NVScaler
-# NVIDIA Image Scaling v1.0.2 の移植。AMDでも使用できる。
-# https://gist.github.com/agyild
-
-# SGSR
-# Qualcomm Snapdragon Game Super Resolution (GSR) v1 の移植。
-# https://gist.github.com/agyild
-
-# FSR
-# CAS-scaled
-#     ソースのコメントによると、アップスケールは縦2倍まで。
-# https://gist.github.com/agyild</code></pre>
+FSR, CAS-scaled
+ソースのコメントによると、AMDのガイドラインに従い縦横2倍までしかアップスケールできない。
+それ以上のアップスケールは mpv のアップスケーラーが行う。
+https://gist.github.com/agyild</code></pre>
 <h3
 id="アップスケーラーにショートカットキーを割り当てる">アップスケーラーにショートカットキーを割り当てる</h3>
-<pre><code>mousepad ~/.config/mpv/input.conf</code></pre>
-<p>次の行を追加。別のアップスケーラーを使う場合は書き換える。<br />
-デフォルトのアップスケーラーは<a
-href="https://github.com/mpv-player/mpv/commit/703f1588803eaa428e09c0e5547b26c0fff476a7">2023年9月</a>に
-Bilinear から Lanczos に変更された。</p>
+<p>~/.config/mpv/input.conf に次の行を追加。</p>
 <pre><code># シェーダーの切り替え
 CTRL+1 no-osd change-list glsl-shaders set &quot;~~/shaders/ravu-lite-r3.hook&quot;; show-text &quot;ravu-lite-r3.hook&quot;
 CTRL+2 no-osd change-list glsl-shaders set &quot;~~/shaders/ravu-lite-ar-r3.hook&quot;; show-text &quot;ravu-lite-ar-r3.hook&quot;
@@ -264,15 +257,16 @@ CTRL+8 no-osd change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_Deno
 CTRL+9 no-osd change-list glsl-shaders set &quot;~~/shaders/ACNet.glsl&quot;; show-text &quot;ACNet.glsl&quot;
 CTRL+0 no-osd change-list glsl-shaders clr &quot;&quot;; set scale lanczos; show-text &quot;lanczos&quot;</code></pre>
 <h3 id="画像を表示して違いを比較">画像を表示して違いを比較</h3>
-<p>画像の改変と再配布を許可してくださった皆様に感謝。</p>
+<p>画像の改変と再配布を許可してくださっている皆様に感謝。</p>
 <p><img
 src="images/mpv/pexels-liam-anderson-411198-1458332_480.jpg" /></p>
 <p>Source: “<a
 href="https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/">Shallow
 Focus Photography of Woman</a>” by Liam Anderson<br />
-License: <a href="https://www.pexels.com/license/">English</a>, <a
-href="https://www.pexels.com/ja-JP/license/">日本語</a></p>
-<p>縦480にリサイズした画像を全画面にアップスケール。</p>
+License: <a
+href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
+<p>元の画像を縦480にリサイズしたものを全画面で表示する。<br />
+縦横2倍以上にアップスケールしないと効果が分かりづらい。</p>
 <pre><code>mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --fs --pause</code></pre>
 <p>「Ctrl」を押したまま 0 から 9 まで押していき、違いを比較する。</p>
 <p>シャープネスが強いアップスケーラーは髪がごわつく。<br />
@@ -292,12 +286,12 @@ href="https://www.ghibli.jp/works/chihiro/#frame">千と千尋の神隠し
 作品静止画</a>” by STUDIO GHIBLI<br />
 License: <a
 href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご自由にお使いください。</a></p>
-<p>縦480にリサイズした画像を全画面にアップスケール。</p>
+<p>元の画像を縦480にリサイズしたものを全画面で表示する。</p>
 <pre><code>mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --fs --pause</code></pre>
 <p>「Ctrl」を押したまま 0 から 9 まで押していき、違いを比較する。</p>
 <hr />
 <p>比較した結果 CuNNy-fast-DS.glsl
-をデフォルトにする場合は、~/.config/mpv/mpv.conf を変更。</p>
+をデフォルトにする場合は、~/.config/mpv/mpv.conf を次のように変更。</p>
 <pre><code># アップスケーラー
 glsl-shader=&quot;~~/shaders/CuNNy-fast-DS.glsl&quot;</code></pre>
 <p>lanczos をデフォルトにする場合</p>
@@ -308,9 +302,10 @@ scale=lanczos</code></pre>
 <p>Source: “<a
 href="https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/">Aerial
 view of a boat sailing in the sea</a>” by Burak Evlivan<br />
-License: <a href="https://www.pexels.com/license/">English</a>, <a
-href="https://www.pexels.com/ja-JP/license/">日本語</a></p>
-<p>縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測。</p>
+License: <a
+href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
+<p>縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測。<br />
+縦1080の動画を縦1080のモニターで再生しても、アップスケーラーの負荷はかからない。</p>
 <pre><code>wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
 
 # SGSR.glsl で再生する場合
@@ -504,13 +499,13 @@ Focus Photography of Woman</a>” by Liam Anderson</p>
 <p>「Ctrl」を押したまま 1 から 3 まで押していき、違いを比較する。</p>
 <p>1 から順に髪のシャープネスが強くなっていく。</p>
 <p>比較した結果 SSimDownscaler
-をデフォルトにする場合は、~/.config/mpv/mpv.conf を変更。</p>
+をデフォルトにする場合は、~/.config/mpv/mpv.conf を次のように変更。</p>
 <pre><code># ダウンスケーラー
 linear-downscaling=no
 glsl-shader=&quot;~~/shaders/SSimDownscaler.glsl&quot;</code></pre>
-<p>hermite をデフォルトにする場合</p>
+<p>lanczos をデフォルトにする場合</p>
 <pre><code># ダウンスケーラー
-dscale=hermite</code></pre>
+dscale=lanczos</code></pre>
 <p><a href="index.html">HOME</a></p>
 </body>
 </html>
