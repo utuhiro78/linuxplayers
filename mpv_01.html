@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-02-12" />
+  <meta name="dcterms.date" content="2026-02-19" />
   <title>mpv の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">mpv の設定</h1>
-<p class="date">2026-02-12</p>
+<p class="date">2026-02-19</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -290,10 +290,10 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 <pre><code>mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --fs --pause</code></pre>
 <p>「Ctrl」を押したまま 0 から 9 まで押していき、違いを比較する。</p>
 <hr />
-<p>比較した結果 CuNNy-fast-DS.glsl
+<p>比較した結果 ArtCNN_C4F16_DS.glsl
 をデフォルトにする場合は、~/.config/mpv/mpv.conf を次のように変更。</p>
 <pre><code># アップスケーラー
-glsl-shader=&quot;~~/shaders/CuNNy-fast-DS.glsl&quot;</code></pre>
+glsl-shader=&quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;</code></pre>
 <p>lanczos をデフォルトにする場合</p>
 <pre><code># アップスケーラー
 scale=lanczos</code></pre>

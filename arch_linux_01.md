@@ -41,6 +41,11 @@ cp /etc/makepkg.conf .
 sed -i -e 's,purge\ debug,purge\ \!debug,g' makepkg.conf
 sudo mv makepkg.conf /etc/
 
+# multilib を使用しない
+cp /etc/pacman.conf .
+python -c "import sys; open('pacman.conf.new', 'w').write(open('pacman.conf').read().replace('[multilib]\n\nInclude', '#[multilib]\n\n#Include'))"
+sudo mv pacman.conf.new /etc/pacman.conf
+
 # [CachyOS, EndeavourOS] yay をインストール
 sudo pacman -S --needed yay
 

@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-02-12
+date: 2026-02-19
 ---
 
 ## mpv の特徴
@@ -306,11 +306,11 @@ mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --fs 
 
 ---
 
-比較した結果 CuNNy-fast-DS.glsl をデフォルトにする場合は、~/.config/mpv/mpv.conf を次のように変更。
+比較した結果 ArtCNN_C4F16_DS.glsl をデフォルトにする場合は、~/.config/mpv/mpv.conf を次のように変更。
 
 ```
 # アップスケーラー
-glsl-shader="~~/shaders/CuNNy-fast-DS.glsl"
+glsl-shader="~~/shaders/ArtCNN_C4F16_DS.glsl"
 ```
 
 lanczos をデフォルトにする場合
