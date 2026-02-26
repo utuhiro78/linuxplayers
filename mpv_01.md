@@ -190,7 +190,7 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 #### FSRCNNX
 
 CNN (畳み込みニューラルネットワーク) を使用した超解像アップスケーラー。
-[https://github.com/igv/FSRCNN-TensorFlow/releases](https://github.com/igv/FSRCNN-TensorFlow/releases)
+[https://github.com/igv/FSRCNN-TensorFlow](https://github.com/igv/FSRCNN-TensorFlow)
 
 ```
 wget https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_8-0-4-1.glsl
@@ -209,11 +209,11 @@ wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Ups
 mv Anime4K_Upscale_Denoise_CNN_x2_*.glsl ~/.config/mpv/shaders/
 ```
 
-#### ACNet
+#### ACNetGLSL
 
-Anime4KCPP プロジェクトで使用されているディープラーニングモデル。ACNet シリーズと ARNet シリーズがある。
-ACNet シリーズの HDN0 から HDN3 はデノイズ（ノイズ除去）が強化されていく。GAN はディテールが強調される。
-ARNet シリーズは B4 から B64 までサイズがあり、深度とパラメータ数が増えて品質が向上する。各サイズには LE と HDN のバリアントがあり、LE は線を強調する。HDN は ACNet の HDN0 より効果が弱く、元画像のルックアンドフィールを維持するよう設計されている。
+Anime4KCPP プロジェクトで使用されているディープラーニングモデルの GLSL 実装。ACNet シリーズと ARNet シリーズがある。
+ACNet シリーズの HDN0 から HDN3 は、順にデノイズ（ノイズ除去）が強化される。GAN はディテールが強調される。
+ARNet シリーズは B4 から B64 までサイズがあり、深度とパラメータ数が増えて品質が向上する。各サイズには LE と HDN のバリアントがあり、LE はラインを強調する。HDN は ACNet の HDN0 より効果が弱く、元画像のルックアンドフィールを維持するよう設計されている。
 [https://github.com/TianZerL/ACNetGLSL](https://github.com/TianZerL/ACNetGLSL)
 
 ```
