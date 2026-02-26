@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-02-19
+date: 2026-02-26
 ---
 
 ## mpv の特徴
@@ -14,7 +14,9 @@ date: 2026-02-19
 
 ## 基本設定
 
-### RAVU をインストール
+### アップスケーラーをインストール
+
+#### RAVU
 
 Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
@@ -135,9 +137,9 @@ REGZA をモニターにしている場合は次のようにする。
 
 質感リアライザーはオフにすると全体の色味が白っぽくなるのでオートにする。
 
-## アップスケーラーの違いを比較
+## アップスケーラーの比較
 
-### 比較用のアップスケーラーをインストール
+### アップスケーラーをインストール
 
 #### RAVU
 
@@ -198,7 +200,7 @@ mv FSRCNNX_x2_*.glsl ~/.config/mpv/shaders/
 #### Anime4K
 
 1080pアニメの4K化に最適化されたシェーダー。
-[https://github.com/bloc97/Anime4K](https://github.com/bloc97/Anime4K])
+[https://github.com/bloc97/Anime4K](https://github.com/bloc97/Anime4K)
 
 本来はいくつかのシェーダーを組み合わせて使用するが、標準の組み合わせだと色化けすることがあるので、ここでは Anime4K_Upscale_Denoise_CNN_x2 のみを使用する。
 
@@ -209,12 +211,14 @@ mv Anime4K_Upscale_Denoise_CNN_x2_*.glsl ~/.config/mpv/shaders/
 
 #### ACNet
 
-Anime4KCPP によって実装されたCNNアルゴリズム。
+Anime4KCPP プロジェクトで使用されているディープラーニングモデル。ACNet シリーズと ARNet シリーズがある。
+ACNet シリーズの HDN0 から HDN3 はデノイズ（ノイズ除去）が強化されていく。GAN はディテールが強調される。
+ARNet シリーズは B4 から B64 までサイズがあり、深度とパラメータ数が増えて品質が向上する。各サイズには LE と HDN のバリアントがあり、LE は線を強調する。HDN は ACNet の HDN0 より効果が弱く、元画像のルックアンドフィールを維持するよう設計されている。
 [https://github.com/TianZerL/ACNetGLSL](https://github.com/TianZerL/ACNetGLSL)
 
 ```
-wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/ACNet.glsl
-mv ACNet.glsl ~/.config/mpv/shaders/
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/arnet_b4_hdn.glsl
+mv arnet_b4_hdn.glsl ~/.config/mpv/shaders/
 ```
 
 以下は紹介のみ。
@@ -252,7 +256,7 @@ CTRL+5 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"; sh
 CTRL+6 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"; show-text "ArtCNN_C4F16.glsl"
 CTRL+7 no-osd change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"; show-text "FSRCNNX_x2_8-0-4-1.glsl"
 CTRL+8 no-osd change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl"; show-text "Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
-CTRL+9 no-osd change-list glsl-shaders set "~~/shaders/ACNet.glsl"; show-text "ACNet.glsl"
+CTRL+9 no-osd change-list glsl-shaders set "~~/shaders/arnet_b4_hdn.glsl"; show-text "arnet_b4_hdn.glsl"
 CTRL+0 no-osd change-list glsl-shaders clr ""; set scale lanczos; show-text "lanczos"
 ```
 
@@ -377,11 +381,14 @@ python mpv_shader_benchmark.py <shaders>
 | Anime4K_Upscale_CNN_x2_L | 14.93 |
 | Anime4K_Upscale_Denoise_CNN_x2_L | 15.25 |
 | CuNNy-4x12-DS | 15.52 |
-| ACNet | 16.3 |
 | CuNNy-4x16-SOFT | 16.55 |
+| arnet_b4_hdn | 18.59 |
 | ArtCNN_C4F16 | 19.07 |
 | ArtCNN_C4F16_DS | 19.17 |
+| acnet_hdn0 | 21.54 |
+| acnet_gan | 21.7 |
 | AiUpscale_Fast_2x_Photo | 21.92 |
+| arnet_b4_le | 22.67 |
 | CuNNy-4x16-DS | 23.2 |
 | Anime4K_Upscale_Denoise_CNN_x2_VL | 25.76 |
 | FSRCNNX_x2_16-0-4-1 | 26.43 |
