@@ -1,12 +1,12 @@
 ---
 title: サウンドチップのグレード
-date: 2026-02-09
+date: 2026-03-11
 ---
 
 ## SNR値による比較
 
 実際の音質は実装によって大きく変わる。サウンドチップにイヤホンを差し込んで聞くわけではないので。
-同じチップ（ALC1220）を採用していても、「ASRock Z690 Phantom Gaming Velocita」の RMAA 評価は「[Very good](https://www.techpowerup.com/review/asrock-z690-pg-velocita/9.html)」で、「ASRock Z690 Phantom Gaming-ITX/TB4」の RMAA 評価は「[Good](https://www.techpowerup.com/review/asrock-z690-phantom-gaming-itx-tb4/9.html)」。
+ALC1220 を採用しているマザーボードでも、RMAA 評価が「[Very good](https://www.techpowerup.com/review/asrock-z690-pg-velocita/9.html)」のものもあれば、「[Good](https://www.techpowerup.com/review/asrock-z690-phantom-gaming-itx-tb4/9.html)」のものもある。
 
 サウンドチップ | SNR
 -- | --

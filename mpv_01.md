@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-02-26
+date: 2026-03-09
 ---
 
 ## mpv の特徴
@@ -373,14 +373,18 @@ python mpv_shader_benchmark.py <shaders>
 | Anime4K_Upscale_Denoise_CNN_x2_S | 8.4 |
 | adaptive-sharpen | 9.07 |
 | CuNNy-fast-SOFT | 9.75 |
+| nnedi3-nns16-win8x4 | 10.01 |
 | Anime4K_Upscale_Denoise_CNN_x2_M | 10.35 |
 | SSimSuperRes | 10.37 |
 | CuNNy-fast-DS | 10.47 |
+| nnedi3-nns16-win8x6 | 11.64 |
 | CuNNy-4x12-SOFT | 12.72 |
+| nnedi3-nns32-win8x4 | 13.39 |
 | FSRCNNX_x2_8-0-4-1 | 13.47 |
 | Anime4K_Upscale_CNN_x2_L | 14.93 |
 | Anime4K_Upscale_Denoise_CNN_x2_L | 15.25 |
 | CuNNy-4x12-DS | 15.52 |
+| nnedi3-nns32-win8x6 | 16.35 |
 | CuNNy-4x16-SOFT | 16.55 |
 | arnet_b4_hdn | 18.59 |
 | ArtCNN_C4F16 | 19.07 |
