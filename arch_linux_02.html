@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-03-20" />
+  <meta name="dcterms.date" content="2026-04-10" />
   <title>Arch Linux の設定2</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定2</h1>
-<p class="date">2026-03-20</p>
+<p class="date">2026-04-10</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -342,7 +342,7 @@ alias df=&quot;df -h -x tmpfs&quot;
 alias du=&quot;du -h&quot;
 
 # ディレクトリをサイズ順に並べる
-alias duu=&quot;du -BM -d1 | sort -n&quot;
+alias duu=&quot;du -hd1 . | sort -h&quot;
 
 # ファイルリストを縦に並べる
 alias ls=&quot;ls -1&quot;

@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-03-20
+date: 2026-04-10
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -407,7 +407,7 @@ alias df="df -h -x tmpfs"
 alias du="du -h"
 
 # ディレクトリをサイズ順に並べる
-alias duu="du -BM -d1 | sort -n"
+alias duu="du -hd1 . | sort -h"
 
 # ファイルリストを縦に並べる
 alias ls="ls -1"

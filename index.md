@@ -20,5 +20,6 @@ title: LinuxPlayers
 [KDE の日本語翻訳ガイド](kde_translation_guide.html)
 [Social IME - 辞書共有の問題点](social_ime.html)
 [Modified fonts](modified_fonts_01.html)
+[三井住友銀行アプリのロック解除](mitui_sumitomo.html)
 
 [About](about.html)
