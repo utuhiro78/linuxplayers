@@ -41,7 +41,7 @@ date: 2026-03-31
 書き終えたら紙を案内係に渡す。受付番号の紙を受け取る。
 
 番号が呼ばれるまで40分以上かかった。混み具合も待ち時間も病院のよう。
-銀行のロビー案内や窓口業務は[パートナー社員](https://www.mizuho-bp.co.jp/concierge/workstyle_partner/)が行っているらしく、ほとんどが女性だった。
+銀行内のスタッフはほとんどが女性だった。ロビー案内や窓口業務は[パートナー社員](https://www.mizuho-bp.co.jp/concierge/workstyle_partner/)が行っているらしい。
 
 ### 窓口での処理
 
