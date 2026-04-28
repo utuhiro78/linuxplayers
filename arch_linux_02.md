@@ -394,7 +394,7 @@ rm -f ~/.local/share/icons/Papirus*/*/*/*mozc*
 mkdir -p ~/tmp_arch
 cd ~/tmp_arch/
 wget https://github.com/daniruiz/skeuos-gtk/archive/refs/heads/master.zip -O skeuos-gtk-master.zip
-7z x skeuos-gtk-master.zip
+unzip skeuos-gtk-master.zip
 mkdir -p ~/.local/share/themes
 rm -rf ~/.local/share/themes/Skeuos-Blue-*
 mv skeuos-gtk-master/themes/Skeuos-Blue-* ~/.local/share/themes/
