@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-01-26" />
+  <meta name="dcterms.date" content="2026-04-28" />
   <title>CachyOS のインストール</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">CachyOS のインストール</h1>
-<p class="date">2026-01-26</p>
+<p class="date">2026-04-28</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -108,9 +108,7 @@ Settings…」を選択。</p>
 <p><img src="images/cachyos_01/cachyos_06.webp" /><br />
 「手動パーティション」を選択。</p>
 <p><img src="images/cachyos_01/cachyos_07.webp" /><br />
-パーティションを作成。<br />
-私は次のようにしています。余裕をもたせるなら「/」は 30000 MiB
-にする。</p>
+パーティションを作成。</p>
 <table style="width:100%;">
 <colgroup>
 <col style="width: 23%" />
@@ -131,14 +129,14 @@ Settings…」を選択。</p>
 <tbody>
 <tr>
 <td>/boot</td>
-<td>2048 MiB</td>
+<td>4096 MiB</td>
 <td>する</td>
 <td>fat32</td>
 <td>boot</td>
 </tr>
 <tr>
 <td>/</td>
-<td>20000 MiB</td>
+<td>20480 MiB</td>
 <td>する</td>
 <td>ext4</td>
 <td>なし</td>
@@ -152,7 +150,12 @@ Settings…」を選択。</p>
 </tr>
 </tbody>
 </table>
-<p>「/home」は初めて作成する場合のみフォーマット。</p>
+<p>「/」は余裕をもたせるなら 30720 MiB（30 GiB）にする。<br />
+「/home」は初めて作成する場合のみフォーマット。<br />
+「/boot」は複数のカーネルや Limine ブートローダー（Btrfs
+のスナップショットからの起動をサポート）を使用しないのであれば、1024 MiB
+で<a
+href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">足りる</a>。</p>
 <p><img src="images/cachyos_01/cachyos_08.webp" /><br />
 /boot パーティションの編集例。</p>
 <p><img src="images/cachyos_01/cachyos_09.webp" /><br />

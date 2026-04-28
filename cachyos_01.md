@@ -1,6 +1,6 @@
 ---
 title: CachyOS のインストール
-date: 2026-01-26
+date: 2026-04-28
 ---
 
 ## CachyOS とは
@@ -81,15 +81,16 @@ Ventoy のメニューでISOファイルを選択。
 
 ![](images/cachyos_01/cachyos_07.webp)
 パーティションを作成。
-私は次のようにしています。余裕をもたせるなら「/」は 30000 MiB にする。
 
 | パーティション  | サイズ    | フォーマット | ファイルシステム | フラグ    |
 | -------------- | --------- | ------------ | ---------------- | --------- |
-| /boot          | 2048 MiB  | する         | fat32            | boot      |
-| /              | 20000 MiB | する         | ext4             | なし      |
+| /boot          | 4096 MiB  | する         | fat32            | boot      |
+| /              | 20480 MiB | する         | ext4             | なし      |
 | /home          | 残り全部  | しない       | ext4             | なし      |
 
+「/」は余裕をもたせるなら 30720 MiB（30 GiB）にする。
 「/home」は初めて作成する場合のみフォーマット。
+「/boot」は複数のカーネルや Limine ブートローダー（Btrfs のスナップショットからの起動をサポート）を使用しないのであれば、1024 MiB で[足りる](https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition)。
 
 ![](images/cachyos_01/cachyos_08.webp)
 /boot パーティションの編集例。

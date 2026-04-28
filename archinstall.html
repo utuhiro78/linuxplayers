@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2025-11-18" />
+  <meta name="dcterms.date" content="2026-04-28" />
   <title>archinstall で Arch Linux をインストール</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">archinstall で Arch Linux をインストール</h1>
-<p class="date">2025-11-18</p>
+<p class="date">2026-04-28</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -69,8 +69,7 @@ sudo python -m archinstall</code></pre>
 href="images/archinstall/archinstall.mp4">Video</a></video></p>
 <p>カーソルで移動。Enter で決定。「/」で選択肢を絞り込む。<br />
 例えば「/ja」と入力すれば、「ja」を含む選択肢が表示される。</p>
-<p>パーティションのサイズは次のようにしています。余裕をもたせるなら「/」は
-30000 MiB にする。</p>
+<p>パーティションのサイズは次のようにする。</p>
 <table>
 <thead>
 <tr>
@@ -89,7 +88,7 @@ href="images/archinstall/archinstall.mp4">Video</a></video></p>
 </tr>
 <tr>
 <td>/</td>
-<td>20000 MiB</td>
+<td>20480 MiB</td>
 <td>する</td>
 <td>ext4</td>
 </tr>
@@ -101,7 +100,12 @@ href="images/archinstall/archinstall.mp4">Video</a></video></p>
 </tr>
 </tbody>
 </table>
-<p>「/home」は初めて作成する場合のみフォーマット。</p>
+<p>「/」は余裕をもたせるなら 30720 MiB（30 GiB）にする。<br />
+「/home」は初めて作成する場合のみフォーマット。<br />
+「/boot」は複数のカーネルや Limine ブートローダー（Btrfs
+のスナップショットからの起動をサポート）を使用しないのであれば、1024 MiB
+で<a
+href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">足りる</a>。</p>
 <p>インストールが終わったら再起動して<a
 href="arch_linux_01.html">設定を行う</a>。</p>
 <p><a href="index.html">HOME</a></p>

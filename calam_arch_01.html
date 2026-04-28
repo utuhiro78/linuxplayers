@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-01-26" />
+  <meta name="dcterms.date" content="2026-04-28" />
   <title>Calam-Arch-Installer のインストール</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Calam-Arch-Installer のインストール</h1>
-<p class="date">2026-01-26</p>
+<p class="date">2026-04-28</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -115,9 +115,7 @@ Scale を 1.25 にして「Apply」を押す。</p>
 <p><img src="images/calam_arch_01/calam_arch_07.webp" /><br />
 「手動パーティション」を選択。</p>
 <p><img src="images/calam_arch_01/calam_arch_08.webp" /><br />
-パーティションを作成。<br />
-私は次のようにしています。余裕をもたせるなら「/」は 30000 MiB
-にする。</p>
+パーティションを作成。</p>
 <table style="width:100%;">
 <colgroup>
 <col style="width: 23%" />
@@ -145,7 +143,7 @@ Scale を 1.25 にして「Apply」を押す。</p>
 </tr>
 <tr>
 <td>/</td>
-<td>20000 MiB</td>
+<td>20480 MiB</td>
 <td>フォーマット</td>
 <td>ext4</td>
 <td>なし</td>
@@ -159,7 +157,12 @@ Scale を 1.25 にして「Apply」を押す。</p>
 </tr>
 </tbody>
 </table>
-<p>「/home」は初めて作成する場合のみフォーマット。</p>
+<p>「/」は余裕をもたせるなら 30720 MiB（30 GiB）にする。<br />
+「/home」は初めて作成する場合のみフォーマット。<br />
+「/boot/efi」は複数のカーネルや Limine ブートローダー（Btrfs
+のスナップショットからの起動をサポート）を使用しないのであれば、1024 MiB
+で<a
+href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">足りる</a>。</p>
 <p><img src="images/calam_arch_01/calam_arch_10.webp" /><br />
 デスクトップを選択。</p>
 <p><img src="images/calam_arch_01/calam_arch_11.webp" /><br />

@@ -1,6 +1,6 @@
 ---
 title: Calam-Arch-Installer のインストール
-date: 2026-01-26
+date: 2026-04-28
 ---
 
 ## Calam-Arch-Installer とは
@@ -96,15 +96,16 @@ Scale を 1.25 にして「Apply」を押す。
 
 ![](images/calam_arch_01/calam_arch_08.webp)
 パーティションを作成。
-私は次のようにしています。余裕をもたせるなら「/」は 30000 MiB にする。
 
 | パーティション | サイズ    | 内容         | ファイルシステム | フラグ    |
 | -------------- | --------- | ------------ | ---------------- | --------- |
 | /boot/efi      | 2048 MiB   | フォーマット | fat32            | boot      |
-| /              | 20000 MiB | フォーマット | ext4             | なし      |
+| /              | 20480 MiB | フォーマット | ext4             | なし      |
 | /home          | 残り全部  | 保持         | ext4             | なし      |
 
+「/」は余裕をもたせるなら 30720 MiB（30 GiB）にする。
 「/home」は初めて作成する場合のみフォーマット。
+「/boot/efi」は複数のカーネルや Limine ブートローダー（Btrfs のスナップショットからの起動をサポート）を使用しないのであれば、1024 MiB で[足りる](https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition)。
 
 ![](images/calam_arch_01/calam_arch_10.webp)
 デスクトップを選択。
