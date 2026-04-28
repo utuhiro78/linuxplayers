@@ -136,6 +136,14 @@ sed -i -e 's,Nachlieli,Noto\ Sans\ CJK\ JP,g' 65-nonlatin.conf
 sed -i -e 's,Miriam\ Mono,Noto\ Sans\ Mono\ CJK\ JP,g' 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/
 
+# LightDM の背景を変更
+printf "[Greeter]
+background=/usr/share/backgrounds/xfce/xfce-x.svg
+content-align=center
+draw-user-backgrounds=false
+" > slick-greeter.conf
+sudo mv slick-greeter.conf /etc/lightdm/
+
 # AMD の GPU を使用する場合: ドライバをインストール
 yay -S --needed xf86-video-amdgpu vulkan-radeon libva-utils
 ```
