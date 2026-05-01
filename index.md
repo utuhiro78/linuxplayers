@@ -12,6 +12,7 @@ title: LinuxPlayers
 [Mozc UT Dictionaries](mozc-ut.html)
 
 [mpv の設定](mpv_01.html)
+[LXQt の設定](lxqt.html)
 [Firefox の設定](firefox.html)
 [Chromium の設定](chromium.html)
 [virt-manager の使い方](virt-manager.html)

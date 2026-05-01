@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2026-04-30" />
+  <title>LXQt の設定</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="github.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LXQt の設定</h1>
+<p class="date">2026-04-30</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lxqt-をインストール" id="toc-lxqt-をインストール">LXQt
+をインストール</a></li>
+<li><a href="#labwc-を設定" id="toc-labwc-を設定">Labwc を設定</a>
+<ul>
+<li><a href="#キーボードレイアウトをjpに変更"
+id="toc-キーボードレイアウトをjpに変更">キーボードレイアウトを「jp」に変更</a></li>
+<li><a href="#マウスカーソルのテーマを変更"
+id="toc-マウスカーソルのテーマを変更">マウスカーソルのテーマを変更</a></li>
+<li><a href="#マウスホイールでウィンドウを上に出す"
+id="toc-マウスホイールでウィンドウを上に出す">マウスホイールでウィンドウを上に出す</a></li>
+<li><a href="#中クリックでのテキスト貼り付けを有効にする"
+id="toc-中クリックでのテキスト貼り付けを有効にする">中クリックでのテキスト貼り付けを有効にする</a></li>
+<li><a href="#音量変更のショートカットを設定"
+id="toc-音量変更のショートカットを設定">音量変更のショートカットを設定</a></li>
+<li><a href="#labwc-のテーマを変更" id="toc-labwc-のテーマを変更">Labwc
+のテーマを変更</a></li>
+</ul></li>
+<li><a href="#その他の設定" id="toc-その他の設定">その他の設定</a>
+<ul>
+<li><a href="#noto-sans-mono-cjk-jpを等幅フォントとして認識させる"
+id="toc-noto-sans-mono-cjk-jpを等幅フォントとして認識させる">「Noto Sans
+Mono CJK JP」を等幅フォントとして認識させる</a></li>
+<li><a href="#時計の表示形式を設定"
+id="toc-時計の表示形式を設定">時計の表示形式を設定</a></li>
+<li><a href="#パネルの設定" id="toc-パネルの設定">パネルの設定</a></li>
+</ul></li>
+</ul>
+</nav>
+<h2 id="lxqt-をインストール">LXQt をインストール</h2>
+<pre><code>yay -S lxqt lxqt-wayland-session labwc</code></pre>
+<h2 id="labwc-を設定">Labwc を設定</h2>
+<h3
+id="キーボードレイアウトをjpに変更">キーボードレイアウトを「jp」に変更</h3>
+<pre><code>mousepad ~/.config/labwc/environment</code></pre>
+<p>「# XKB_DEFAULT_LAYOUT=se」を<br />
+「XKB_DEFAULT_LAYOUT=jp」に変更。</p>
+<p>設定を反映させる。</p>
+<pre><code>labwc --reconfigure</code></pre>
+<h3 id="マウスカーソルのテーマを変更">マウスカーソルのテーマを変更</h3>
+<pre><code>mousepad ~/.config/labwc/environment</code></pre>
+<p>「# XCURSOR_THEME=」を<br />
+「XCURSOR_THEME=Future-cursors」に変更。<br />
+「# XCURSOR_SIZE=」を<br />
+「XCURSOR_SIZE=24」に変更。</p>
+<h3
+id="マウスホイールでウィンドウを上に出す">マウスホイールでウィンドウを上に出す</h3>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p>「&lt;context name="Client"&gt;」の部分に次の行を追加。</p>
+<pre><code>      &lt;mousebind direction=&quot;Up&quot; action=&quot;Scroll&quot;&gt;
+        &lt;action name=&quot;Focus&quot; /&gt;
+        &lt;action name=&quot;Raise&quot; /&gt;
+      &lt;/mousebind&gt;
+      &lt;mousebind direction=&quot;Down&quot; action=&quot;Scroll&quot;&gt;
+        &lt;action name=&quot;Focus&quot; /&gt;
+        &lt;action name=&quot;Raise&quot; /&gt;
+      &lt;/mousebind&gt;</code></pre>
+<h3
+id="中クリックでのテキスト貼り付けを有効にする">中クリックでのテキスト貼り付けを有効にする</h3>
+<pre><code>gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true</code></pre>
+<h3
+id="音量変更のショートカットを設定">音量変更のショートカットを設定</h3>
+<p>「lxqt-config-globalkeyshortcuts」は Wayland
+ではサポートされていない。<br />
+rc.xml を編集する。</p>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p>「Ctrl+PageUp」「Ctrl+PageDown」で音量を変更する場合は次のように設定。</p>
+<pre><code>    &lt;keybind key=&quot;C-Next&quot;&gt;
+      &lt;action name=&quot;Execute&quot; command=&quot;lxqt-qdbus volume down&quot; /&gt;
+    &lt;/keybind&gt;
+    &lt;keybind key=&quot;C-Prior&quot;&gt;
+      &lt;action name=&quot;Execute&quot; command=&quot;lxqt-qdbus volume up&quot; /&gt;
+    &lt;/keybind&gt;</code></pre>
+<h3 id="labwc-のテーマを変更">Labwc のテーマを変更</h3>
+<p>Labwc では Openbox のテーマを利用できる。<br />
+インストール済みの Openbox テーマを確認。</p>
+<pre><code>ls /usr/share/themes/*/openbox-3/themerc</code></pre>
+<p>テーマを「Clearlooks」に変更する場合:</p>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p>次のように変更する。</p>
+<pre><code>  &lt;theme&gt;
+    &lt;name&gt;Clearlooks&lt;/name&gt;</code></pre>
+<h2 id="その他の設定">その他の設定</h2>
+<h3 id="noto-sans-mono-cjk-jpを等幅フォントとして認識させる">「Noto Sans
+Mono CJK JP」を等幅フォントとして認識させる</h3>
+<p>LXQt では「Noto Sans Mono CJK JP」が等幅フォントとして<a
+href="https://github.com/notofonts/noto-fonts/issues/2393">認識されない</a>。</p>
+<pre><code>mkdir -p ~/.config/fontconfig/conf.d
+mousepad ~/.config/fontconfig/conf.d/70-noto-mono.conf</code></pre>
+<p>次の内容を貼り付けて保存。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM &quot;fonts.dtd&quot;&gt;
+&lt;fontconfig&gt;
+    &lt;match target=&quot;scan&quot;&gt;
+        &lt;test name=&quot;family&quot;&gt;
+            &lt;string&gt;Noto Sans Mono CJK JP&lt;/string&gt;
+        &lt;/test&gt;
+        &lt;edit name=&quot;spacing&quot; mode=&quot;assign&quot;&gt;
+            &lt;int&gt;100&lt;/int&gt;
+        &lt;/edit&gt;
+    &lt;/match&gt;
+&lt;/fontconfig&gt;</code></pre>
+<p>フォント情報のキャッシュを更新。</p>
+<pre><code>fc-cache -f -v</code></pre>
+<p>次のコマンドでフォントファイルが表示されるのを確認。</p>
+<pre><code>fc-list :spacing=100 | grep -i &quot;Noto Sans Mono CJK JP:style=Regular&quot;</code></pre>
+<h3 id="時計の表示形式を設定">時計の表示形式を設定</h3>
+<p>「形式を詳しく指定する」にチェックを入れて、<br />
+「MM月dd日 (ddd) HH:mm」と指定する。</p>
+<h3 id="パネルの設定">パネルの設定</h3>
+<p>幅: 38 ピクセル<br />
+アイコン: 36 ピクセル<br />
+場所: 画面上部</p>
+<p><a href="index.html">HOME</a></p>
+</body>
+</html>
