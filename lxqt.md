@@ -1,6 +1,6 @@
 ---
-title: LXQt の設定
-date: 2026-04-30
+title: LXQt + Wayland の設定
+date: 2026-05-01
 ---
 
 ## LXQt をインストール
@@ -65,7 +65,6 @@ gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true
 ### 音量変更のショートカットを設定
 
 「lxqt-config-globalkeyshortcuts」は Wayland ではサポートされていない。
-rc.xml を編集する。
 
 ```
 mousepad ~/.config/labwc/rc.xml
@@ -154,5 +153,14 @@ fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
 幅: 38 ピクセル
 アイコン: 36 ピクセル
 場所: 画面上部
+
+### LXQt セッションの設定
+
+「セッション終了時に確認する」のチェックを外す。
+「サスペンド/ハイバネートの前に画面をロックする」のチェックを外す。
+
+### ファンシーメニューの設定
+
+「カテゴリの位置」を「左」にする。
 
 [HOME](index.html)
