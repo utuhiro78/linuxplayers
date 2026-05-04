@@ -1,6 +1,6 @@
 ---
 title: LXQt + Wayland の設定
-date: 2026-05-01
+date: 2026-05-04
 ---
 
 ## LXQt をインストール
@@ -162,5 +162,58 @@ fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
 ### ファンシーメニューの設定
 
 「カテゴリの位置」を「左」にする。
+
+### パネルに CPU の温度と使用率を表示
+
+「ウィジェットの管理」で「カスタムコマンド」を追加。
+コマンドの内容は次のようにする。
+
+```
+python ~/get_cpu_usage_and_temp.py
+```
+
+get_cpu_usage_and_temp.py
+
+```
+#!/usr/bin/env python
+# coding: utf-8
+
+# Author: UTUMI Hirosi (utuhiro78 at yahoo dot co dot jp)
+# License: Apache License, Version 2.0
+
+import psutil
+
+
+def main():
+    cpu_temp = get_cpu_temperature()
+    cpu_usage = get_cpu_usage()
+    print(f'{cpu_temp} | {cpu_usage}')
+
+
+def get_cpu_temperature():
+    temps = psutil.sensors_temperatures()
+    if not temps:
+        return "N/A"
+
+    for name, entries in temps.items():
+        if name in ['k10temp', 'coretemp']:
+            cpu_temp = entries[0].current
+            break
+
+    cpu_temp = round(float(cpu_temp))
+    cpu_temp = f'{cpu_temp:2} °C'
+    return cpu_temp
+
+
+def get_cpu_usage():
+    cpu_usage = psutil.cpu_percent(interval=1.0)
+    cpu_usage = round(float(cpu_usage))
+    cpu_usage = f'{cpu_usage:2} %'
+    return cpu_usage
+
+
+if __name__ == '__main__':
+    main()
+```
 
 [HOME](index.html)
