@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-05-01" />
+  <meta name="dcterms.date" content="2026-05-04" />
   <title>LXQt + Wayland の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">LXQt + Wayland の設定</h1>
-<p class="date">2026-05-01</p>
+<p class="date">2026-05-04</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -45,6 +45,9 @@ id="toc-時計の表示形式を設定">時計の表示形式を設定</a></li>
 セッションの設定</a></li>
 <li><a href="#ファンシーメニューの設定"
 id="toc-ファンシーメニューの設定">ファンシーメニューの設定</a></li>
+<li><a href="#パネルに-cpu-の温度と使用率を表示"
+id="toc-パネルに-cpu-の温度と使用率を表示">パネルに CPU
+の温度と使用率を表示</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -136,6 +139,45 @@ mousepad ~/.config/fontconfig/conf.d/70-noto-mono.conf</code></pre>
 「サスペンド/ハイバネートの前に画面をロックする」のチェックを外す。</p>
 <h3 id="ファンシーメニューの設定">ファンシーメニューの設定</h3>
 <p>「カテゴリの位置」を「左」にする。</p>
+<h3 id="パネルに-cpu-の温度と使用率を表示">パネルに CPU
+の温度と使用率を表示</h3>
+<p>「ウィジェットの管理」で「カスタムコマンド」を追加。<br />
+コマンドの内容は次のようにする。</p>
+<pre><code>python ~/get_cpu_usage_and_temp.py</code></pre>
+<p>get_cpu_usage_and_temp.py</p>
+<pre><code>#!/usr/bin/env python
+# coding: utf-8
+
+# Author: UTUMI Hirosi (utuhiro78 at yahoo dot co dot jp)
+# License: Apache License, Version 2.0
+
+import psutil
+
+
+def main():
+    cpu_temp = get_cpu_temperature()
+    cpu_usage = get_cpu_usage()
+    print(f&#39;{round(cpu_temp):2} °C | {round(cpu_usage):2} %&#39;)
+
+
+def get_cpu_temperature():
+    temps = psutil.sensors_temperatures()
+
+    for name, entries in temps.items():
+        if name in [&#39;k10temp&#39;, &#39;coretemp&#39;]:
+            cpu_temp = entries[0].current
+            break
+
+    return float(cpu_temp)
+
+
+def get_cpu_usage():
+    cpu_usage = psutil.cpu_percent(interval=1.0)
+    return float(cpu_usage)
+
+
+if __name__ == &#39;__main__&#39;:
+    main()</code></pre>
 <p><a href="index.html">HOME</a></p>
 </body>
 </html>

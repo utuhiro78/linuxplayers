@@ -187,29 +187,23 @@ import psutil
 def main():
     cpu_temp = get_cpu_temperature()
     cpu_usage = get_cpu_usage()
-    print(f'{cpu_temp} | {cpu_usage}')
+    print(f'{round(cpu_temp):2} °C | {round(cpu_usage):2} %')
 
 
 def get_cpu_temperature():
     temps = psutil.sensors_temperatures()
-    if not temps:
-        return "N/A"
 
     for name, entries in temps.items():
         if name in ['k10temp', 'coretemp']:
             cpu_temp = entries[0].current
             break
 
-    cpu_temp = round(float(cpu_temp))
-    cpu_temp = f'{cpu_temp:2} °C'
-    return cpu_temp
+    return float(cpu_temp)
 
 
 def get_cpu_usage():
     cpu_usage = psutil.cpu_percent(interval=1.0)
-    cpu_usage = round(float(cpu_usage))
-    cpu_usage = f'{cpu_usage:2} %'
-    return cpu_usage
+    return float(cpu_usage)
 
 
 if __name__ == '__main__':
