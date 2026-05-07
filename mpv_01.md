@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-03-09
+date: 2026-05-07
 ---
 
 ## mpv の特徴
@@ -22,9 +22,9 @@ Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
 
 ```
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/ravu-lite-ar-r3.hook
 mkdir -p ~/.config/mpv/shaders
-mv ravu-lite-r*.hook ~/.config/mpv/shaders/
+mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
 ```
 
 ### mpv.conf を設定
@@ -154,24 +154,9 @@ Google の超解像技術から着想を得たアップスケーラー。
 ravu-lite-ar はアンチリンギングを行う。
 
 ```
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/ravu-lite-ar-r3.hook
 mkdir -p ~/.config/mpv/shaders
-mv ravu-lite-*.hook ~/.config/mpv/shaders/
-```
-
-#### CuNNy
-
-CNN（畳み込みニューラルネットワーク）ベースのアップスケーラー。
-[https://github.com/funnyplanter/CuNNy](https://github.com/funnyplanter/CuNNy)
-
-- DS はデノイズ（ノイズ除去）とシャープニングを行う。
-- SOFT はソフトな出力を行う。
-
-```
-wget https://raw.githubusercontent.com/funnyplanter/CuNNy/refs/heads/master/mpv/ds/CuNNy-fast-DS.glsl
-wget https://raw.githubusercontent.com/funnyplanter/CuNNy/refs/heads/master/mpv/soft/CuNNy-fast-SOFT.glsl
-mv CuNNy-*.glsl ~/.config/mpv/shaders/
+mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
 ```
 
 #### ArtCNN
@@ -187,59 +172,16 @@ wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtC
 mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 ```
 
-#### FSRCNNX
-
-CNN (畳み込みニューラルネットワーク) を使用した超解像アップスケーラー。
-[https://github.com/igv/FSRCNN-TensorFlow](https://github.com/igv/FSRCNN-TensorFlow)
-
-```
-wget https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_8-0-4-1.glsl
-mv FSRCNNX_x2_*.glsl ~/.config/mpv/shaders/
-```
-
 #### Anime4K
 
 1080pアニメの4K化に最適化されたシェーダー。
 [https://github.com/bloc97/Anime4K](https://github.com/bloc97/Anime4K)
 
-本来はいくつかのシェーダーを組み合わせて使用するが、標準の組み合わせだと色化けすることがあるので、ここでは Anime4K_Upscale_Denoise_CNN_x2 のみを使用する。
+本来はいくつかのシェーダーを組み合わせて使用するが、標準の組み合わせだと色化けすることがあるので、ここでは Anime4K_Upscale_Denoise_CNN_x2_M を単体で使用する。
 
 ```
 wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
-mv Anime4K_Upscale_Denoise_CNN_x2_*.glsl ~/.config/mpv/shaders/
-```
-
-#### ACNetGLSL
-
-Anime4KCPP プロジェクトで使用されているディープラーニングモデルの GLSL 実装。ACNet シリーズと ARNet シリーズがある。
-ACNet シリーズの HDN0 から HDN3 は、順にデノイズ（ノイズ除去）が強化される。GAN はディテールが強調される。
-ARNet シリーズは B4 から B64 までサイズがあり、深度とパラメータ数が増えて品質が向上する。各サイズには LE と HDN のバリアントがあり、LE はラインを強調する。HDN は ACNet の HDN0 より効果が弱く、元画像のルックアンドフィールを維持するよう設計されている。
-[https://github.com/TianZerL/ACNetGLSL](https://github.com/TianZerL/ACNetGLSL)
-
-```
-wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/arnet_b4_hdn.glsl
-mv arnet_b4_hdn.glsl ~/.config/mpv/shaders/
-```
-
-以下は紹介のみ。
-
-```
-SSimSuperRes
-シャープニングとアンチリンギングを行う。
-https://gist.github.com/igv
-
-NVScaler
-NVIDIA Image Scaling v1.0.2 の移植。AMDでも使用できる。
-https://gist.github.com/agyild
-
-SGSR
-Qualcomm Snapdragon Game Super Resolution (GSR) v1 の移植。非常に高速。
-https://gist.github.com/agyild
-
-FSR, CAS-scaled
-ソースのコメントによると、AMDのガイドラインに従い縦横2倍までしかアップスケールできない。
-それ以上のアップスケールは mpv のアップスケーラーが行う。
-https://gist.github.com/agyild
+mv Anime4K_Upscale_Denoise_CNN_x2_M.glsl ~/.config/mpv/shaders/
 ```
 
 ### アップスケーラーにショートカットキーを割り当てる
@@ -248,15 +190,10 @@ https://gist.github.com/agyild
 
 ```
 # シェーダーの切り替え
-CTRL+1 no-osd change-list glsl-shaders set "~~/shaders/ravu-lite-r3.hook"; show-text "ravu-lite-r3.hook"
-CTRL+2 no-osd change-list glsl-shaders set "~~/shaders/ravu-lite-ar-r3.hook"; show-text "ravu-lite-ar-r3.hook"
-CTRL+3 no-osd change-list glsl-shaders set "~~/shaders/CuNNy-fast-DS.glsl"; show-text "CuNNy-fast-DS.glsl"
-CTRL+4 no-osd change-list glsl-shaders set "~~/shaders/CuNNy-fast-SOFT.glsl"; show-text "CuNNy-fast-SOFT.glsl"
-CTRL+5 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"; show-text "ArtCNN_C4F16_DS.glsl"
-CTRL+6 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"; show-text "ArtCNN_C4F16.glsl"
-CTRL+7 no-osd change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"; show-text "FSRCNNX_x2_8-0-4-1.glsl"
-CTRL+8 no-osd change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl"; show-text "Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
-CTRL+9 no-osd change-list glsl-shaders set "~~/shaders/arnet_b4_hdn.glsl"; show-text "arnet_b4_hdn.glsl"
+CTRL+1 no-osd change-list glsl-shaders set "~~/shaders/ravu-lite-ar-r3.hook"; show-text "ravu-lite-ar-r3.hook"
+CTRL+2 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"; show-text "ArtCNN_C4F16_DS.glsl"
+CTRL+3 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"; show-text "ArtCNN_C4F16.glsl"
+CTRL+4 no-osd change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl"; show-text "Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
 CTRL+0 no-osd change-list glsl-shaders clr ""; set scale lanczos; show-text "lanczos"
 ```
 
