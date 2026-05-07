@@ -21,10 +21,30 @@ date: 2026-05-07
 Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
 
+gather ディレクトリのものは OpenGL を使用する。
+compute ディレクトリのものは Vulkan を使用する。
+ルートディレクトリのものは上の2つが動作しない古いGPU用。
+
+私の環境では compute ディレクトリのものが最速だった。
+「ar」が付いているものはアンチリンギングを行う。
+
 ```
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/ravu-lite-ar-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
+```
+
+#### ArtCNN
+
+アニメコンテンツを対象としたアップスケーラー。
+[https://github.com/Artoriuz/ArtCNN](https://github.com/Artoriuz/ArtCNN)
+
+「DS」が付いているものはデノイズ（ノイズ除去）とシャープニングを行う。
+
+```
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
+mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 ```
 
 ### mpv.conf を設定
@@ -123,6 +143,12 @@ Ctrl+d run gio trash "${path}"; playlist-remove current; show-text "\"${filename
 
 # Esc で終了
 ESC quit
+
+# シェーダーの切り替え
+CTRL+1 no-osd change-list glsl-shaders set "~~/shaders/ravu-lite-ar-r3.hook"; show-text "ravu-lite-ar-r3.hook"
+CTRL+2 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"; show-text "ArtCNN_C4F16_DS.glsl"
+CTRL+3 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"; show-text "ArtCNN_C4F16.glsl"
+CTRL+0 no-osd change-list glsl-shaders clr ""; set scale lanczos; show-text "lanczos"
 ```
 
 ### モニターに超解像技術が搭載されている場合
@@ -138,64 +164,6 @@ REGZA をモニターにしている場合は次のようにする。
 質感リアライザーはオフにすると全体の色味が白っぽくなるのでオートにする。
 
 ## アップスケーラーの比較
-
-### アップスケーラーをインストール
-
-#### RAVU
-
-Google の超解像技術から着想を得たアップスケーラー。
-[https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
-
-- gather ディレクトリのものは OpenGL の textureGather() 関数を使用する。
-- compute ディレクトリのものはコンピュートシェーダーで、Vulkan が必要。
-- ルートディレクトリのものは上の2つが動作しない古いGPU用。
-
-私の環境では compute ディレクトリのものが最速だった。
-ravu-lite-ar はアンチリンギングを行う。
-
-```
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/ravu-lite-ar-r3.hook
-mkdir -p ~/.config/mpv/shaders
-mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
-```
-
-#### ArtCNN
-
-アニメコンテンツを対象としたアップスケーラー。
-[https://github.com/Artoriuz/ArtCNN](https://github.com/Artoriuz/ArtCNN)
-
-- DS はデノイズ（ノイズ除去）とシャープニングを行う。
-
-```
-wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
-wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
-mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
-```
-
-#### Anime4K
-
-1080pアニメの4K化に最適化されたシェーダー。
-[https://github.com/bloc97/Anime4K](https://github.com/bloc97/Anime4K)
-
-本来はいくつかのシェーダーを組み合わせて使用するが、標準の組み合わせだと色化けすることがあるので、ここでは Anime4K_Upscale_Denoise_CNN_x2_M を単体で使用する。
-
-```
-wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
-mv Anime4K_Upscale_Denoise_CNN_x2_M.glsl ~/.config/mpv/shaders/
-```
-
-### アップスケーラーにショートカットキーを割り当てる
-
-~/.config/mpv/input.conf に次の行を追加。
-
-```
-# シェーダーの切り替え
-CTRL+1 no-osd change-list glsl-shaders set "~~/shaders/ravu-lite-ar-r3.hook"; show-text "ravu-lite-ar-r3.hook"
-CTRL+2 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"; show-text "ArtCNN_C4F16_DS.glsl"
-CTRL+3 no-osd change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"; show-text "ArtCNN_C4F16.glsl"
-CTRL+4 no-osd change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl"; show-text "Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
-CTRL+0 no-osd change-list glsl-shaders clr ""; set scale lanczos; show-text "lanczos"
-```
 
 ### 画像を表示して違いを比較
 
@@ -213,7 +181,7 @@ License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/li
 mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --fs --pause
 ```
 
-「Ctrl」を押したまま 0 から 9 まで押していき、違いを比較する。
+「Ctrl」を押したまま 0 から 3 まで押していき、違いを比較する。
 
 シャープネスが強いアップスケーラーは髪がごわつく。
 アニメ特化のアップスケーラーは髪がのっぺりする。
@@ -243,7 +211,7 @@ License: [画像は常識の範囲でご自由にお使いください。](https
 mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --fs --pause
 ```
 
-「Ctrl」を押したまま 0 から 9 まで押していき、違いを比較する。
+「Ctrl」を押したまま 0 から 3 まで押していき、違いを比較する。
 
 ---
 
@@ -261,15 +229,15 @@ lanczos をデフォルトにする場合
 scale=lanczos
 ```
 
-### コマ落ちが発生しないか確認
+### コマ落ちしないか確認
 
 ![](images/mpv/12393381_3840_2160_60fps_480_01.jpg)
 
 Source: "[Aerial view of a boat sailing in the sea](https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/)" by Burak Evlivan
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測。
-縦1080の動画を縦1080のモニターで再生しても、アップスケーラーの負荷はかからない。
+縦480の動画をノーウェイトで全画面再生して、終了までの時間を計測する。
+縦1080の動画を縦1080のモニターで再生しても、1倍なのでアップスケーラーのテストにはならない。
 
 ```
 wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
@@ -345,54 +313,5 @@ Test system:
 | CPU | Ryzen 5 5600G |
 | GPU | Integrated graphics |
 | Monitor | 1920x1080 |
-
-## ダウンスケーラーの違いを比較
-
-ダウンスケーラーをインストール。
-
-```
-# SSimDownscaler
-# https://gist.github.com/igv
-wget https://gist.githubusercontent.com/igv/36508af3ffc84410fe39761d6969be10/raw/38992bce7f9ff844f800820df0908692b65bb74a/SSimDownscaler.glsl
-mv SSimDownscaler.glsl ~/.config/mpv/shaders/
-```
-
-~/.config/mpv/input.conf を一時的に変更。
-
-```
-# シェーダーの切り替え
-CTRL+1 no-osd change-list glsl-shaders clr ""; set dscale hermite; show-text "hermite"
-CTRL+2 no-osd change-list glsl-shaders clr ""; set dscale lanczos; show-text "lanczos"
-CTRL+3 no-osd change-list glsl-shaders set "~~/shaders/SSimDownscaler.glsl"; set dscale hermite; set linear-downscaling no; show-text "SSimDownscaler.glsl"
-```
-
-こちらの画像をダウンロード。
-
-Source: "[Shallow Focus Photography of Woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" by Liam Anderson
-
-縦1000にダウンスケールして表示。
-
-```
-mpv pexels-liam-anderson-411198-1458332.jpg --autofit=x1000 --window-maximized=no --pause
-```
-
-「Ctrl」を押したまま 1 から 3 まで押していき、違いを比較する。
-
-1 から順に髪のシャープネスが強くなっていく。
-
-比較した結果 SSimDownscaler をデフォルトにする場合は、~/.config/mpv/mpv.conf を次のように変更。
-
-```
-# ダウンスケーラー
-linear-downscaling=no
-glsl-shader="~~/shaders/SSimDownscaler.glsl"
-```
-
-lanczos をデフォルトにする場合
-
-```
-# ダウンスケーラー
-dscale=lanczos
-```
 
 [HOME](index.html)
