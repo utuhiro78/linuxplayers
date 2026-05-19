@@ -1,6 +1,6 @@
 ---
-title: LXQt + Wayland の設定
-date: 2026-05-04
+title: LXQt + Labwc の設定
+date: 2026-05-10
 ---
 
 ## LXQt をインストール
@@ -41,6 +41,19 @@ mousepad ~/.config/labwc/environment
 
 ```
 mousepad ~/.config/labwc/rc.xml
+```
+
+「\<context name="TitleBar"\>」の部分を次のように変更。
+
+```
+      <mousebind direction="Up" action="Scroll">
+        <action name="Focus" />
+        <action name="Raise" />
+      </mousebind>
+      <mousebind direction="Down" action="Scroll">
+        <action name="Focus" />
+        <action name="Raise" />
+      </mousebind>
 ```
 
 「\<context name=\"Client\"\>」の部分に次の行を追加。
@@ -151,7 +164,7 @@ fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
 ### パネルの設定
 
 幅: 38 ピクセル
-アイコン: 36 ピクセル
+アイコン: 32 ピクセル
 場所: 画面上部
 
 ### LXQt セッションの設定

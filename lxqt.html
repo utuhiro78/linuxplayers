@@ -4,15 +4,15 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-05-04" />
-  <title>LXQt + Wayland の設定</title>
+  <meta name="dcterms.date" content="2026-05-10" />
+  <title>LXQt + Labwc の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">LXQt + Wayland の設定</h1>
-<p class="date">2026-05-04</p>
+<h1 class="title">LXQt + Labwc の設定</h1>
+<p class="date">2026-05-10</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -70,6 +70,15 @@ id="キーボードレイアウトをjpに変更">キーボードレイアウト
 <h3
 id="マウスホイールでウィンドウを上に出す">マウスホイールでウィンドウを上に出す</h3>
 <pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p>「&lt;context name=“TitleBar”&gt;」の部分を次のように変更。</p>
+<pre><code>      &lt;mousebind direction=&quot;Up&quot; action=&quot;Scroll&quot;&gt;
+        &lt;action name=&quot;Focus&quot; /&gt;
+        &lt;action name=&quot;Raise&quot; /&gt;
+      &lt;/mousebind&gt;
+      &lt;mousebind direction=&quot;Down&quot; action=&quot;Scroll&quot;&gt;
+        &lt;action name=&quot;Focus&quot; /&gt;
+        &lt;action name=&quot;Raise&quot; /&gt;
+      &lt;/mousebind&gt;</code></pre>
 <p>「&lt;context name="Client"&gt;」の部分に次の行を追加。</p>
 <pre><code>      &lt;mousebind direction=&quot;Up&quot; action=&quot;Scroll&quot;&gt;
         &lt;action name=&quot;Focus&quot; /&gt;
@@ -132,7 +141,7 @@ mousepad ~/.config/fontconfig/conf.d/70-noto-mono.conf</code></pre>
 「MM月dd日 (ddd) HH:mm」と指定する。</p>
 <h3 id="パネルの設定">パネルの設定</h3>
 <p>幅: 38 ピクセル<br />
-アイコン: 36 ピクセル<br />
+アイコン: 32 ピクセル<br />
 場所: 画面上部</p>
 <h3 id="lxqt-セッションの設定">LXQt セッションの設定</h3>
 <p>「セッション終了時に確認する」のチェックを外す。<br />
