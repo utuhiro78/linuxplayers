@@ -17,8 +17,8 @@ CachyOS などと比べて[独自パッケージが少なく](https://github.com
 
 ## Ventoy をUSBメモリにインストール
 
-[Ventoy](https://github.com/ventoy/Ventoy/releases) はブータブルUSBドライブを作成するツール。
-Ventoy をUSBドライブにインストールした後にOSのISOファイルをUSBメモリにコピーすると、そのOSを起動できるようになる。複数のISOファイルをコピーすると、起動するOSを選択できる。
+[Ventoy](https://github.com/ventoy/Ventoy/releases) をUSBメモリにインストールすると、USBメモリ内のISOファイルを起動できるようになる。
+複数のISOファイルが存在する場合は、起動するISOファイルを選択できる。
 
 ventoy-*-linux.tar.gz をダウンロードして展開。
 
