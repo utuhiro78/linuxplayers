@@ -2,9 +2,8 @@
 title: LinuxPlayers
 ---
 
-[CachyOS のインストール](cachyos_01.html)
 [EndeavourOS のインストール](endeavour_01.html)
-[Calam-Arch-Installer のインストール](calam_arch_01.html)
+[CachyOS のインストール](cachyos_01.html)
 [archinstall で Arch Linux をインストール](archinstall.html)
 
 [Arch Linux の設定1](arch_linux_01.html) / [設定2](arch_linux_02.html)
