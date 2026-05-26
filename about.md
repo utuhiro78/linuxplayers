@@ -1,6 +1,6 @@
 ---
 title: About
-date: 2025-09-23
+date: 2026-05-26
 ---
 
 GitHub
@@ -8,5 +8,8 @@ GitHub
 
 Transifex
 [https://app.transifex.com/user/profile/utuhiro78/](https://app.transifex.com/user/profile/utuhiro78/)
+
+LXQt Weblate
+[https://translate.lxqt-project.org/user/utuhiro/](https://translate.lxqt-project.org/user/utuhiro/)
 
 [HOME](index.html)

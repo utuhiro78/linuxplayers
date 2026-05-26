@@ -43,7 +43,7 @@ mousepad ~/.config/labwc/environment
 mousepad ~/.config/labwc/rc.xml
 ```
 
-「\<context name="TitleBar"\>」の部分を次のように変更。
+「\<context name=\"TitleBar\"\>」の部分を次のように変更。
 
 ```
       <mousebind direction="Up" action="Scroll">
