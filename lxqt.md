@@ -1,6 +1,6 @@
 ---
 title: LXQt + Labwc の設定
-date: 2026-05-10
+date: 2026-05-28
 ---
 
 ## LXQt をインストール
@@ -97,13 +97,19 @@ mousepad ~/.config/labwc/rc.xml
 ### Labwc のテーマを変更
 
 Labwc では Openbox のテーマを利用できる。
-インストール済みの Openbox テーマを確認。
+私は青系のテーマを作成して使用しています。
+ファイルは[こちら](images/labwc/Labwc-Blue/themerc)。
+
+![](images/labwc/Labwc-Blue/labwc-blue.webp)
+
+インストール方法
 
 ```
-ls /usr/share/themes/*/openbox-3/themerc
+mkdir -p ~/.local/share/themes/Labwc-Blue/labwc
+mv themerc ~/.local/share/themes/Labwc-Blue/labwc/
 ```
 
-テーマを「Clearlooks」に変更する場合:
+編集したテーマを適用。
 
 ```
 mousepad ~/.config/labwc/rc.xml
@@ -113,7 +119,7 @@ mousepad ~/.config/labwc/rc.xml
 
 ```
   <theme>
-    <name>Clearlooks</name>
+    <name>Labwc-Blue</name>
 ```
 
 ## その他の設定
@@ -178,49 +184,12 @@ fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
 
 ### パネルに CPU の温度と使用率を表示
 
+[get_cpu_usage_and_temp.py](images/labwc/get_cpu_usage_and_temp.py) をダウンロード。
 「ウィジェットの管理」で「カスタムコマンド」を追加。
-コマンドの内容は次のようにする。
+「カスタムコマンドの設定」をクリックして次のようなコマンドを書く。
 
 ```
-python ~/get_cpu_usage_and_temp.py
-```
-
-get_cpu_usage_and_temp.py
-
-```
-#!/usr/bin/env python
-# coding: utf-8
-
-# Author: UTUMI Hirosi (utuhiro78 at yahoo dot co dot jp)
-# License: Apache License, Version 2.0
-
-import psutil
-
-
-def main():
-    cpu_temp = get_cpu_temperature()
-    cpu_usage = get_cpu_usage()
-    print(f'{round(cpu_temp):2} °C | {round(cpu_usage):2} %')
-
-
-def get_cpu_temperature():
-    temps = psutil.sensors_temperatures()
-
-    for name, entries in temps.items():
-        if name in ['k10temp', 'coretemp']:
-            cpu_temp = entries[0].current
-            break
-
-    return float(cpu_temp)
-
-
-def get_cpu_usage():
-    cpu_usage = psutil.cpu_percent(interval=1.0)
-    return float(cpu_usage)
-
-
-if __name__ == '__main__':
-    main()
+python /where/to/get_cpu_usage_and_temp.py
 ```
 
 [HOME](index.html)
