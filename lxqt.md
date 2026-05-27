@@ -96,31 +96,40 @@ mousepad ~/.config/labwc/rc.xml
 
 ### Labwc のテーマを変更
 
-Labwc では Openbox のテーマを利用できる。
 私は青系のテーマを作成して使用しています。
-ファイルは[こちら](images/labwc/Labwc-Blue/themerc)。
-
 ![](images/labwc/Labwc-Blue/labwc-blue.webp)
 
-インストール方法
+ファイルは[こちら](images/labwc/Labwc-Blue/themerc)。
+ダウンロードしたファイルをインストール。
 
 ```
 mkdir -p ~/.local/share/themes/Labwc-Blue/labwc
 mv themerc ~/.local/share/themes/Labwc-Blue/labwc/
 ```
 
-編集したテーマを適用。
+rc.xml を編集。
 
 ```
 mousepad ~/.config/labwc/rc.xml
 ```
 
-次のように変更する。
+\<theme\> を次のように変更。
 
 ```
   <theme>
     <name>Labwc-Blue</name>
 ```
+
+GUI で設定する場合は「labwc-tweaks」を使用する。
+
+#### 自分でテーマを作成する場合
+
+```
+mkdir -p ~/.local/share/themes/theme_name/labwc
+cp /usr/share/doc/labwc/themerc ~/.local/share/themes/theme_name/labwc/
+```
+
+ローカルの themerc を編集して適用。
 
 ## その他の設定
 
@@ -186,10 +195,10 @@ fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
 
 [get_cpu_usage_and_temp.py](images/labwc/get_cpu_usage_and_temp.py) をダウンロード。
 「ウィジェットの管理」で「カスタムコマンド」を追加。
-「カスタムコマンドの設定」をクリックして次のようなコマンドを書く。
+「カスタムコマンドの設定」をクリックして次のコマンドを書く。
 
 ```
-python /where/to/get_cpu_usage_and_temp.py
+python ~/get_cpu_usage_and_temp.py
 ```
 
 [HOME](index.html)
