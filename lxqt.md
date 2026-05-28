@@ -1,6 +1,6 @@
 ---
 title: LXQt + Labwc の設定
-date: 2026-05-28
+date: 2026-05-29
 ---
 
 ## LXQt をインストール
@@ -91,6 +91,21 @@ mousepad ~/.config/labwc/rc.xml
     </keybind>
     <keybind key="C-Prior">
       <action name="Execute" command="lxqt-qdbus volume up" />
+    </keybind>
+```
+
+### QTerminal のドロップダウンを無効にする
+
+```
+mousepad ~/.config/labwc/rc.xml
+```
+
+この部分を削除。
+
+```
+    <!-- For qterminal dropdown -->
+    <keybind key="F12">
+      <action name="Execute" command="qterminal -d" />
     </keybind>
 ```
 
