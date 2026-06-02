@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-04-10
+date: 2026-06-03
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -389,15 +389,6 @@ wget -qO- https://git.io/papirus-icon-theme-install | env DESTDIR="$HOME/.local/
 
 # Mozc 用のアイコンを削除
 rm -f ~/.local/share/icons/Papirus*/*/*/*mozc*
-
-# テーマ
-mkdir -p ~/tmp_arch
-cd ~/tmp_arch/
-wget https://github.com/daniruiz/skeuos-gtk/archive/refs/heads/master.zip -O skeuos-gtk-master.zip
-unzip skeuos-gtk-master.zip
-mkdir -p ~/.local/share/themes
-rm -rf ~/.local/share/themes/Skeuos-Blue-*
-mv skeuos-gtk-master/themes/Skeuos-Blue-* ~/.local/share/themes/
 
 # ~/.bashrc の設定
 printf 'EDITOR=/usr/bin/mousepad
