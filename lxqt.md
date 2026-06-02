@@ -1,6 +1,6 @@
 ---
 title: LXQt + Labwc の設定
-date: 2026-05-29
+date: 2026-06-02
 ---
 
 ## LXQt をインストール
@@ -109,9 +109,23 @@ mousepad ~/.config/labwc/rc.xml
     </keybind>
 ```
 
+### 壁紙を左クリックしたときにメニューを表示しない
+
+```
+mousepad ~/.config/labwc/rc.xml
+```
+
+この部分を削除。
+
+```
+      <mousebind button="Left" action="Press">
+        <action name="ShowMenu" menu="root-menu" />
+      </mousebind>
+```
+
 ### Labwc のテーマを変更
 
-私は青系のテーマを作成して使用しています。
+私は自分で作成した青系のテーマを使用しています。
 ![](images/labwc/Labwc-Blue/labwc-blue.webp)
 
 ファイルは[こちら](images/labwc/Labwc-Blue/themerc)。
