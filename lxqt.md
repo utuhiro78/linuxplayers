@@ -1,6 +1,6 @@
 ---
 title: LXQt + Labwc の設定
-date: 2026-06-02
+date: 2026-06-08
 ---
 
 ## LXQt をインストール
@@ -121,6 +121,14 @@ mousepad ~/.config/labwc/rc.xml
       <mousebind button="Left" action="Press">
         <action name="ShowMenu" menu="root-menu" />
       </mousebind>
+```
+
+### 壁紙を右クリックしたときに表示されるメニューを更新
+
+```
+yay -S labwc-menu-generator-git
+labwc-menu-generator --icons > ~/.config/labwc/menu.xml
+labwc --reconfigure
 ```
 
 ### Labwc のテーマを変更
