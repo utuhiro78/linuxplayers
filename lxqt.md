@@ -1,6 +1,6 @@
 ---
 title: LXQt + Labwc の設定
-date: 2026-06-30
+date: 2026-07-01
 ---
 
 ## LXQt をインストール
@@ -168,38 +168,6 @@ cp /usr/share/doc/labwc/themerc ~/.local/share/themes/theme_name/labwc/
 
 ローカルの themerc を編集して適用。
 
-## ディスプレイマネージャーを emptty に変更
-
-ディスプレイマネージャーを Xorg 非依存のものに変更する。
-例として lightdm から emptty に変更:
-
-```
-yay -S --needed emptty
-sudo systemctl disable lightdm.service
-sudo systemctl enable emptty.service
-```
-
-emptty の設定を使いやすいものに変更。
-
-```
-cp /etc/emptty/conf .
-mousepad conf
-```
-
-次の箇所を変更。
-
-```
-DEFAULT_USER=ログイン名
-AUTOLOGIN_SESSION="LXQt (Wayland)"
-LANG=ja_JP.UTF-8
-```
-
-ファイルを上書き。
-
-```
-sudo mv conf /etc/emptty/conf
-```
-
 ## その他の設定
 
 ### 「Noto Sans Mono CJK JP」を等幅フォントとして認識させる
@@ -245,18 +213,18 @@ fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
 「形式を詳しく指定する」にチェックを入れて、
 「MM月dd日 (ddd) HH:mm」と指定する。
 
-### パネルの設定
+### パネルを設定
 
 幅: 38 ピクセル
 アイコン: 32 ピクセル
 場所: 画面上部
 
-### LXQt セッションの設定
+### LXQt セッションを設定
 
 「セッション終了時に確認する」のチェックを外す。
 「サスペンド/ハイバネートの前に画面をロックする」のチェックを外す。
 
-### ファンシーメニューの設定
+### ファンシーメニューを設定
 
 「カテゴリの位置」を「左」にする。
 
@@ -268,6 +236,38 @@ fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
 
 ```
 python ~/get_cpu_usage_and_temp.py
+```
+
+### ディスプレイマネージャーを emptty に変更
+
+ディスプレイマネージャーを Xorg に依存しないものに変更する。
+例: lightdm から emptty に変更
+
+```
+yay -S --needed emptty
+sudo systemctl disable lightdm.service
+sudo systemctl enable emptty.service
+```
+
+emptty の設定を使いやすいものに変更。
+
+```
+cp /etc/emptty/conf .
+mousepad conf
+```
+
+次の箇所を変更。
+
+```
+DEFAULT_USER=ログイン名
+AUTOLOGIN_SESSION="LXQt (Wayland)"
+LANG=ja_JP.UTF-8
+```
+
+ファイルを上書き。
+
+```
+sudo mv conf /etc/emptty/conf
 ```
 
 [HOME](index.html)

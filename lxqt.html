@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-06-30" />
+  <meta name="dcterms.date" content="2026-07-01" />
   <title>LXQt + Labwc の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">LXQt + Labwc の設定</h1>
-<p class="date">2026-06-30</p>
+<p class="date">2026-07-01</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -40,9 +40,6 @@ id="toc-壁紙を右クリックしたときに表示されるメニューを更
 <li><a href="#labwc-のテーマを変更" id="toc-labwc-のテーマを変更">Labwc
 のテーマを変更</a></li>
 </ul></li>
-<li><a href="#ディスプレイマネージャーを-emptty-に変更"
-id="toc-ディスプレイマネージャーを-emptty-に変更">ディスプレイマネージャーを
-emptty に変更</a></li>
 <li><a href="#その他の設定" id="toc-その他の設定">その他の設定</a>
 <ul>
 <li><a href="#noto-sans-mono-cjk-jpを等幅フォントとして認識させる"
@@ -50,14 +47,17 @@ id="toc-noto-sans-mono-cjk-jpを等幅フォントとして認識させる">「N
 Mono CJK JP」を等幅フォントとして認識させる</a></li>
 <li><a href="#時計の表示形式を設定"
 id="toc-時計の表示形式を設定">時計の表示形式を設定</a></li>
-<li><a href="#パネルの設定" id="toc-パネルの設定">パネルの設定</a></li>
-<li><a href="#lxqt-セッションの設定" id="toc-lxqt-セッションの設定">LXQt
-セッションの設定</a></li>
-<li><a href="#ファンシーメニューの設定"
-id="toc-ファンシーメニューの設定">ファンシーメニューの設定</a></li>
+<li><a href="#パネルを設定" id="toc-パネルを設定">パネルを設定</a></li>
+<li><a href="#lxqt-セッションを設定" id="toc-lxqt-セッションを設定">LXQt
+セッションを設定</a></li>
+<li><a href="#ファンシーメニューを設定"
+id="toc-ファンシーメニューを設定">ファンシーメニューを設定</a></li>
 <li><a href="#パネルに-cpu-の温度と使用率を表示"
 id="toc-パネルに-cpu-の温度と使用率を表示">パネルに CPU
 の温度と使用率を表示</a></li>
+<li><a href="#ディスプレイマネージャーを-emptty-に変更"
+id="toc-ディスプレイマネージャーを-emptty-に変更">ディスプレイマネージャーを
+emptty に変更</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -151,23 +151,6 @@ mv themerc ~/.local/share/themes/Labwc-Blue/labwc/</code></pre>
 <pre><code>mkdir -p ~/.local/share/themes/theme_name/labwc
 cp /usr/share/doc/labwc/themerc ~/.local/share/themes/theme_name/labwc/</code></pre>
 <p>ローカルの themerc を編集して適用。</p>
-<h2
-id="ディスプレイマネージャーを-emptty-に変更">ディスプレイマネージャーを
-emptty に変更</h2>
-<p>ディスプレイマネージャーを Xorg 非依存のものに変更する。<br />
-例として lightdm から emptty に変更:</p>
-<pre><code>yay -S --needed emptty
-sudo systemctl disable lightdm.service
-sudo systemctl enable emptty.service</code></pre>
-<p>emptty の設定を使いやすいものに変更。</p>
-<pre><code>cp /etc/emptty/conf .
-mousepad conf</code></pre>
-<p>次の箇所を変更。</p>
-<pre><code>DEFAULT_USER=ログイン名
-AUTOLOGIN_SESSION=&quot;LXQt (Wayland)&quot;
-LANG=ja_JP.UTF-8</code></pre>
-<p>ファイルを上書き。</p>
-<pre><code>sudo mv conf /etc/emptty/conf</code></pre>
 <h2 id="その他の設定">その他の設定</h2>
 <h3 id="noto-sans-mono-cjk-jpを等幅フォントとして認識させる">「Noto Sans
 Mono CJK JP」を等幅フォントとして認識させる</h3>
@@ -195,14 +178,14 @@ mousepad ~/.config/fontconfig/conf.d/70-noto-mono.conf</code></pre>
 <h3 id="時計の表示形式を設定">時計の表示形式を設定</h3>
 <p>「形式を詳しく指定する」にチェックを入れて、<br />
 「MM月dd日 (ddd) HH:mm」と指定する。</p>
-<h3 id="パネルの設定">パネルの設定</h3>
+<h3 id="パネルを設定">パネルを設定</h3>
 <p>幅: 38 ピクセル<br />
 アイコン: 32 ピクセル<br />
 場所: 画面上部</p>
-<h3 id="lxqt-セッションの設定">LXQt セッションの設定</h3>
+<h3 id="lxqt-セッションを設定">LXQt セッションを設定</h3>
 <p>「セッション終了時に確認する」のチェックを外す。<br />
 「サスペンド/ハイバネートの前に画面をロックする」のチェックを外す。</p>
-<h3 id="ファンシーメニューの設定">ファンシーメニューの設定</h3>
+<h3 id="ファンシーメニューを設定">ファンシーメニューを設定</h3>
 <p>「カテゴリの位置」を「左」にする。</p>
 <h3 id="パネルに-cpu-の温度と使用率を表示">パネルに CPU
 の温度と使用率を表示</h3>
@@ -212,6 +195,23 @@ href="images/labwc/get_cpu_usage_and_temp.py">get_cpu_usage_and_temp.py</a>
 「ウィジェットの管理」で「カスタムコマンド」を追加。<br />
 「カスタムコマンドの設定」をクリックして次のコマンドを書く。</p>
 <pre><code>python ~/get_cpu_usage_and_temp.py</code></pre>
+<h3
+id="ディスプレイマネージャーを-emptty-に変更">ディスプレイマネージャーを
+emptty に変更</h3>
+<p>ディスプレイマネージャーを Xorg に依存しないものに変更する。<br />
+例: lightdm から emptty に変更</p>
+<pre><code>yay -S --needed emptty
+sudo systemctl disable lightdm.service
+sudo systemctl enable emptty.service</code></pre>
+<p>emptty の設定を使いやすいものに変更。</p>
+<pre><code>cp /etc/emptty/conf .
+mousepad conf</code></pre>
+<p>次の箇所を変更。</p>
+<pre><code>DEFAULT_USER=ログイン名
+AUTOLOGIN_SESSION=&quot;LXQt (Wayland)&quot;
+LANG=ja_JP.UTF-8</code></pre>
+<p>ファイルを上書き。</p>
+<pre><code>sudo mv conf /etc/emptty/conf</code></pre>
 <p><a href="index.html">HOME</a></p>
 </body>
 </html>
