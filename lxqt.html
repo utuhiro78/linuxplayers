@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-06-08" />
+  <meta name="dcterms.date" content="2026-06-30" />
   <title>LXQt + Labwc の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,13 +12,13 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">LXQt + Labwc の設定</h1>
-<p class="date">2026-06-08</p>
+<p class="date">2026-06-30</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
 <li><a href="#lxqt-をインストール" id="toc-lxqt-をインストール">LXQt
 をインストール</a></li>
-<li><a href="#labwc-を設定" id="toc-labwc-を設定">Labwc を設定</a>
+<li><a href="#labwc-の設定" id="toc-labwc-の設定">Labwc の設定</a>
 <ul>
 <li><a href="#キーボードレイアウトをjpに変更"
 id="toc-キーボードレイアウトをjpに変更">キーボードレイアウトを「jp」に変更</a></li>
@@ -40,6 +40,9 @@ id="toc-壁紙を右クリックしたときに表示されるメニューを更
 <li><a href="#labwc-のテーマを変更" id="toc-labwc-のテーマを変更">Labwc
 のテーマを変更</a></li>
 </ul></li>
+<li><a href="#ディスプレイマネージャーを-emptty-に変更"
+id="toc-ディスプレイマネージャーを-emptty-に変更">ディスプレイマネージャーを
+emptty に変更</a></li>
 <li><a href="#その他の設定" id="toc-その他の設定">その他の設定</a>
 <ul>
 <li><a href="#noto-sans-mono-cjk-jpを等幅フォントとして認識させる"
@@ -60,7 +63,7 @@ id="toc-パネルに-cpu-の温度と使用率を表示">パネルに CPU
 </nav>
 <h2 id="lxqt-をインストール">LXQt をインストール</h2>
 <pre><code>yay -S lxqt lxqt-wayland-session labwc</code></pre>
-<h2 id="labwc-を設定">Labwc を設定</h2>
+<h2 id="labwc-の設定">Labwc の設定</h2>
 <h3
 id="キーボードレイアウトをjpに変更">キーボードレイアウトを「jp」に変更</h3>
 <pre><code>mousepad ~/.config/labwc/environment</code></pre>
@@ -148,6 +151,23 @@ mv themerc ~/.local/share/themes/Labwc-Blue/labwc/</code></pre>
 <pre><code>mkdir -p ~/.local/share/themes/theme_name/labwc
 cp /usr/share/doc/labwc/themerc ~/.local/share/themes/theme_name/labwc/</code></pre>
 <p>ローカルの themerc を編集して適用。</p>
+<h2
+id="ディスプレイマネージャーを-emptty-に変更">ディスプレイマネージャーを
+emptty に変更</h2>
+<p>ディスプレイマネージャーを Xorg 非依存のものに変更する。<br />
+例として lightdm から emptty に変更:</p>
+<pre><code>yay -S --needed emptty
+sudo systemctl disable lightdm.service
+sudo systemctl enable emptty.service</code></pre>
+<p>emptty の設定を使いやすいものに変更。</p>
+<pre><code>cp /etc/emptty/conf .
+mousepad conf</code></pre>
+<p>次の箇所を変更。</p>
+<pre><code>DEFAULT_USER=ログイン名
+AUTOLOGIN_SESSION=&quot;LXQt (Wayland)&quot;
+LANG=ja_JP.UTF-8</code></pre>
+<p>ファイルを上書き。</p>
+<pre><code>sudo mv conf /etc/emptty/conf</code></pre>
 <h2 id="その他の設定">その他の設定</h2>
 <h3 id="noto-sans-mono-cjk-jpを等幅フォントとして認識させる">「Noto Sans
 Mono CJK JP」を等幅フォントとして認識させる</h3>

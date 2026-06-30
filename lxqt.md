@@ -1,6 +1,6 @@
 ---
 title: LXQt + Labwc の設定
-date: 2026-06-08
+date: 2026-06-30
 ---
 
 ## LXQt をインストール
@@ -9,7 +9,7 @@ date: 2026-06-08
 yay -S lxqt lxqt-wayland-session labwc
 ```
 
-## Labwc を設定
+## Labwc の設定
 
 ### キーボードレイアウトを「jp」に変更
 
@@ -167,6 +167,38 @@ cp /usr/share/doc/labwc/themerc ~/.local/share/themes/theme_name/labwc/
 ```
 
 ローカルの themerc を編集して適用。
+
+## ディスプレイマネージャーを emptty に変更
+
+ディスプレイマネージャーを Xorg 非依存のものに変更する。
+例として lightdm から emptty に変更:
+
+```
+yay -S --needed emptty
+sudo systemctl disable lightdm.service
+sudo systemctl enable emptty.service
+```
+
+emptty の設定を使いやすいものに変更。
+
+```
+cp /etc/emptty/conf .
+mousepad conf
+```
+
+次の箇所を変更。
+
+```
+DEFAULT_USER=ログイン名
+AUTOLOGIN_SESSION="LXQt (Wayland)"
+LANG=ja_JP.UTF-8
+```
+
+ファイルを上書き。
+
+```
+sudo mv conf /etc/emptty/conf
+```
 
 ## その他の設定
 
