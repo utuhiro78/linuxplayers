@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-04-28" />
+  <meta name="dcterms.date" content="2026-06-30" />
   <title>EndeavourOS のインストール</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">EndeavourOS のインストール</h1>
-<p class="date">2026-04-28</p>
+<p class="date">2026-06-30</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -21,7 +21,12 @@
 <li><a href="#ダウンロード" id="toc-ダウンロード">ダウンロード</a></li>
 <li><a href="#ventoy-をusbメモリにインストール"
 id="toc-ventoy-をusbメモリにインストール">Ventoy
-をUSBメモリにインストール</a></li>
+をUSBメモリにインストール</a>
+<ul>
+<li><a href="#xorg-の場合" id="toc-xorg-の場合">Xorg の場合</a></li>
+<li><a href="#wayland-コンポジターの場合"
+id="toc-wayland-コンポジターの場合">Wayland コンポジターの場合</a></li>
+</ul></li>
 <li><a href="#endeavouros-のisoファイルをusbメモリにコピー"
 id="toc-endeavouros-のisoファイルをusbメモリにコピー">EndeavourOS
 のISOファイルをUSBメモリにコピー</a></li>
@@ -44,15 +49,23 @@ Linuxに近い。</p>
 <h2 id="ventoy-をusbメモリにインストール">Ventoy
 をUSBメモリにインストール</h2>
 <p><a href="https://github.com/ventoy/Ventoy/releases">Ventoy</a>
-をUSBメモリにインストールすると、USBメモリ内のISOファイルを起動できるようになる。<br />
-複数のISOファイルが存在する場合は、起動するISOファイルを選択できる。</p>
-<p>ventoy-*-linux.tar.gz をダウンロードして展開。</p>
-<p>USBメモリを差し込んで Ventoy のインストーラーを起動。</p>
+をUSBメモリにインストールしたあと、USBメモリにLinuxディストリビューションのISOファイルをコピーすると、ISOファイルを起動できるようになる。<br />
+複数のISOファイルをコピーすると、起動するISOファイルを選択できる。</p>
+<p>ventoy-*-linux.tar.gz をダウンロードして展開。<br />
+USBメモリを差し込んで次を実行。</p>
+<h3 id="xorg-の場合">Xorg の場合</h3>
 <pre><code>./VentoyGUI.x86_64</code></pre>
 <p><img src="images/endeavour_01/endeavour_50.webp" /></p>
 <p>インストール先を必ず確認。<br />
-新規の場合は「Install」を選択。USBメモリ内のファイルはすべて消える。<br />
-アップデートの場合は「Update」を選択。USBメモリ内のファイルは維持される。</p>
+新規インストールの場合は「Install」を選択。USBメモリ内のファイルはすべて消える。<br />
+既存の Ventoy
+をアップデートする場合は「Update」を選択。USBメモリ内のファイルは維持される。</p>
+<h3 id="wayland-コンポジターの場合">Wayland コンポジターの場合</h3>
+<p>GUI インストールができないのでコマンドを使用する。</p>
+<p>新規インストールの場合:</p>
+<pre><code>sudo sh Ventoy2Disk.sh -i /dev/sdX</code></pre>
+<p>アップデートの場合:</p>
+<pre><code>sudo sh Ventoy2Disk.sh -u /dev/sdX</code></pre>
 <h2 id="endeavouros-のisoファイルをusbメモリにコピー">EndeavourOS
 のISOファイルをUSBメモリにコピー</h2>
 <p>EndeavourOS のISOファイルをUSBメモリにコピーする。<br />

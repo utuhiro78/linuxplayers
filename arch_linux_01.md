@@ -73,6 +73,11 @@ printf "nameserver 2606:4700:4700::1111
 nameserver 2606:4700:4700::1001" > resolv.conf
 sudo mv resolv.conf /etc/
 
+# DNSリゾルバを Quad9 に変更する場合
+# printf "nameserver 2620:fe::fe
+# nameserver 2620:fe::9" > resolv.conf
+# sudo mv resolv.conf /etc/
+
 # DNSリゾルバを Google Public DNS に変更する場合
 # printf "nameserver 2001:4860:4860::8888
 # nameserver 2001:4860:4860::8844" > resolv.conf

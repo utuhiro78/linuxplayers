@@ -1,6 +1,6 @@
 ---
 title: Firefox の設定
-date: 2025-12-30
+date: 2026-06-30
 ---
 
 ## 最初に行うこと
@@ -112,6 +112,7 @@ about:preferences#privacy を開く。
 [Close Other Tabs Button](https://addons.mozilla.org/ja/firefox/addon/close-other-tabs-btn/)
 [Close Right Tabs Button](https://addons.mozilla.org/ja/firefox/addon/close-right-tabs-button/)
 [Selection Search](https://addons.mozilla.org/ja/firefox/addon/selection-search-ff/)
+[Cookie Whitelist](https://addons.mozilla.org/ja/firefox/addon/cookiewhitelist/)
 [ShowPassword](https://addons.mozilla.org/ja/firefox/addon/471ae3f875c443e48e1f/)
 [TWP - Translate Web Pages](https://addons.mozilla.org/ja/firefox/addon/traduzir-paginas-web/)
 [uBlock Origin](https://addons.mozilla.org/ja/firefox/addon/ublock-origin/)

@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-06-03
+date: 2026-06-30
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -333,10 +333,9 @@ mousepad ~/.config/openbox/rc.xml
 
 ```
 # パッケージ
-yay -S --needed bash-completion cmake dosfstools evince \
-fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt \
-file-roller gnome-disk-utility \
-less libva-utils lm_sensors mousepad mpv \
+yay -S --needed bash-completion cmake dosfstools engrampa \
+evince fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt \
+gnome-disk-utility less libva-utils lm_sensors mousepad mpv \
 noto-fonts noto-fonts-emoji 7zip fuse pavucontrol \
 poppler-data flake8 python-jaconv ripgrep ristretto \
 rsync vulkan-radeon webp-pixbuf-loader wget \

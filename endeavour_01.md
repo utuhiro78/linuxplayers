@@ -1,6 +1,6 @@
 ---
 title: EndeavourOS のインストール
-date: 2026-04-28
+date: 2026-06-30
 ---
 
 ## EndeavourOS とは
@@ -17,12 +17,13 @@ CachyOS などと比べて[独自パッケージが少なく](https://github.com
 
 ## Ventoy をUSBメモリにインストール
 
-[Ventoy](https://github.com/ventoy/Ventoy/releases) をUSBメモリにインストールすると、USBメモリ内のISOファイルを起動できるようになる。
-複数のISOファイルが存在する場合は、起動するISOファイルを選択できる。
+[Ventoy](https://github.com/ventoy/Ventoy/releases) をUSBメモリにインストールしたあと、USBメモリにLinuxディストリビューションのISOファイルをコピーすると、ISOファイルを起動できるようになる。
+複数のISOファイルをコピーすると、起動するISOファイルを選択できる。
 
 ventoy-*-linux.tar.gz をダウンロードして展開。
+USBメモリを差し込んで次を実行。
 
-USBメモリを差し込んで Ventoy のインストーラーを起動。
+### Xorg の場合
 
 ```
 ./VentoyGUI.x86_64
@@ -31,8 +32,24 @@ USBメモリを差し込んで Ventoy のインストーラーを起動。
 ![](images/endeavour_01/endeavour_50.webp)
 
 インストール先を必ず確認。
-新規の場合は「Install」を選択。USBメモリ内のファイルはすべて消える。
-アップデートの場合は「Update」を選択。USBメモリ内のファイルは維持される。
+新規インストールの場合は「Install」を選択。USBメモリ内のファイルはすべて消える。
+既存の Ventoy をアップデートする場合は「Update」を選択。USBメモリ内のファイルは維持される。
+
+### Wayland コンポジターの場合
+
+GUI インストールができないのでコマンドを使用する。
+
+新規インストールの場合:
+
+```
+sudo sh Ventoy2Disk.sh -i /dev/sdX
+```
+
+アップデートの場合:
+
+```
+sudo sh Ventoy2Disk.sh -u /dev/sdX
+```
 
 ## EndeavourOS のISOファイルをUSBメモリにコピー
 
