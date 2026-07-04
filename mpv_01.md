@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-05-07
+date: 2026-07-05
 ---
 
 ## mpv の特徴
@@ -21,12 +21,10 @@ date: 2026-05-07
 Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
 
-gather ディレクトリのものは OpenGL を使用する。
-compute ディレクトリのものは Vulkan を使用する。
-ルートディレクトリのものは上の2つが動作しない古いGPU用。
-
-私の環境では compute ディレクトリのものが最速だった。
-「ar」が付いているものはアンチリンギングを行う。
+[compute](https://github.com/bjin/mpv-prescalers/tree/master/compute) ディレクトリのものはコンピュートシェーダーで、最速。
+[gather](https://github.com/bjin/mpv-prescalers/tree/master/gather) ディレクトリのものは textureGather() 関数を使用する。
+[ルート](https://github.com/bjin/mpv-prescalers/tree/master)ディレクトリのものは上の2つが動作しない古いGPU用。
+ファイル名に「-ar」が付いているものはアンチリンギングを行う。
 
 ```
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/ravu-lite-ar-r3.hook
@@ -39,7 +37,7 @@ mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
 アニメコンテンツを対象としたアップスケーラー。
 [https://github.com/Artoriuz/ArtCNN](https://github.com/Artoriuz/ArtCNN)
 
-「DS」が付いているものはデノイズ（ノイズ除去）とシャープニングを行う。
+ファイル名に「_DS」が付いているものはデノイズ（ノイズ除去）とシャープニングを行う。
 
 ```
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
@@ -70,9 +68,9 @@ hwdec-codecs=h264,vc1,hevc,vp8,vp9,av1,prores,prores_raw,ffv1,dpx
 
 # アップスケーラー
 # https://mpv.io/manual/stable/#options-glsl-shaders
-# glsl-shader はシェーダーリストにシェーダーを1個追加し、
-# glsl-shaders は既存のシェーダーリストを上書きする。
-# ~~/ は mpv の設定ディレクトリを表す。
+# 「glsl-shader」はシェーダーリストにシェーダーを1個追加し、
+# 「glsl-shaders」はシェーダーリストを上書きする。
+# 「~~」は mpv の設定ディレクトリを表す。
 glsl-shader="~~/shaders/ravu-lite-ar-r3.hook"
 
 # ダウンスケーラー
@@ -124,16 +122,16 @@ Shift+PGUP add chapter 1
 Shift+PGDWN add chapter -1
 
 # マウスの進むボタンと戻るボタンでプレイリスト内を移動
-# 移動した後プレイリストを2秒表示
+# 移動した後にプレイリストを2秒表示
 MBTN_FORWARD playlist-next; show-text ${playlist} 2000
 MBTN_BACK playlist-prev; show-text ${playlist} 2000
 
 # . と , でプレイリスト内を移動
-# 移動した後プレイリストを2秒表示
+# 移動した後にプレイリストを2秒表示
 . playlist-next; show-text ${playlist} 2000
 , playlist-prev; show-text ${playlist} 2000
 
-# i でファイル情報の表示をトグル
+# i でファイル情報をオンオフ
 # I でファイル情報を一時的に表示
 i script-binding stats/display-stats-toggle
 I script-binding stats/display-stats
@@ -154,28 +152,26 @@ CTRL+0 no-osd change-list glsl-shaders clr ""; set scale lanczos; show-text "lan
 ### モニターに超解像技術が搭載されている場合
 
 モニターに超解像技術が搭載されている場合はオフにする。アップスケーラーの効果がわかりづらくなるので。
-REGZA をモニターにしている場合は次のようにする。
+REGZA を使用している場合は次のようにする。
 
-低遅延モード: オン
-レゾリューションプラス: オフ
-ヒストグラムバックライト制御: オン
-質感リアライザー: オート
+- 低遅延モード: オン
+- レゾリューションプラス: オフ
+- ヒストグラムバックライト制御: オン
+- 質感リアライザー: オート
 
-質感リアライザーはオフにすると全体の色味が白っぽくなるのでオートにする。
+質感リアライザーはオフにすると全体の色味が白っぽくなる。
 
 ## アップスケーラーの比較
 
 ### 画像を表示して違いを比較
-
-画像の改変と再配布を許可してくださっている皆様に感謝。
 
 ![](images/mpv/pexels-liam-anderson-411198-1458332_480.jpg)
 
 Source: "[Shallow Focus Photography of Woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" by Liam Anderson
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-元の画像を縦480にリサイズしたものを全画面で表示する。
-縦横2倍以上にアップスケールしないと効果が分かりづらい。
+縦横それぞれ2倍以上にアップスケールしないと効果が分かりづらいので、
+元画像を縦480にリサイズしたものを全画面で表示する。
 
 ```
 mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --fs --pause
@@ -205,7 +201,7 @@ done
 Source: "[千と千尋の神隠し 作品静止画](https://www.ghibli.jp/works/chihiro/#frame)" by STUDIO GHIBLI
 License: [画像は常識の範囲でご自由にお使いください。](https://www.ghibli.jp/works/chihiro/#frame)
 
-元の画像を縦480にリサイズしたものを全画面で表示する。
+元画像を縦480にリサイズしたものを全画面で表示する。
 
 ```
 mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --fs --pause
@@ -215,14 +211,15 @@ mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --fs 
 
 ---
 
-比較した結果 ArtCNN_C4F16_DS.glsl をデフォルトにする場合は、~/.config/mpv/mpv.conf を次のように変更。
+比較した結果「ArtCNN_C4F16_DS.glsl」をデフォルトにする場合は、
+~/.config/mpv/mpv.conf を次のように変更。
 
 ```
 # アップスケーラー
 glsl-shader="~~/shaders/ArtCNN_C4F16_DS.glsl"
 ```
 
-lanczos をデフォルトにする場合
+「lanczos」をデフォルトにする場合は次のように変更。
 
 ```
 # アップスケーラー

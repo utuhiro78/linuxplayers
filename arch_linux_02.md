@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-06-30
+date: 2026-07-01
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -336,10 +336,16 @@ mousepad ~/.config/openbox/rc.xml
 yay -S --needed bash-completion cmake dosfstools engrampa \
 evince fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt \
 gnome-disk-utility less libva-utils lm_sensors mousepad mpv \
-noto-fonts noto-fonts-emoji 7zip fuse pavucontrol \
+ncdu noto-fonts noto-fonts-emoji 7zip fuse pavucontrol \
 poppler-data flake8 python-jaconv ripgrep ristretto \
 rsync vulkan-radeon webp-pixbuf-loader wget \
-xf86-video-amdgpu xfce4-sensors-plugin xorg-xrandr yt-dlp
+xf86-video-amdgpu xfce4-sensors-plugin xorg-xrandr
+
+# yt-dlp
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+chmod a+x yt-dlp
+sudo mv yt-dlp /usr/bin/
+sudo yt-dlp --update-to master
 
 # mousepad のカーソル位置を常に1行目にする
 mkdir -p ~/tmp_arch
@@ -397,7 +403,7 @@ alias df="df -h -x tmpfs"
 alias du="du -h"
 
 # ディレクトリをサイズ順に並べる
-alias duu="du -hd1 . | sort -h"
+alias duu="ncdu"
 
 # ファイルリストを縦に並べる
 alias ls="ls -1"
