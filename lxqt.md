@@ -1,15 +1,15 @@
 ---
-title: LXQt + Labwc の設定
-date: 2026-07-01
+title: Labwc と LXQt の設定
+date: 2026-07-08
 ---
 
-## LXQt をインストール
+## Labwc と LXQt をインストール
 
 ```
 yay -S lxqt lxqt-wayland-session labwc
 ```
 
-## Labwc の設定
+## Labwc を設定
 
 ### キーボードレイアウトを「jp」に変更
 
@@ -168,7 +168,7 @@ cp /usr/share/doc/labwc/themerc ~/.local/share/themes/theme_name/labwc/
 
 ローカルの themerc を編集して適用。
 
-## その他の設定
+## LXQt を設定
 
 ### 「Noto Sans Mono CJK JP」を等幅フォントとして認識させる
 
@@ -208,24 +208,29 @@ fc-cache -f -v
 fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
 ```
 
-### 時計の表示形式を設定
+### 世界時計の表示形式を設定
 
-「形式を詳しく指定する」にチェックを入れて、
-「MM月dd日 (ddd) HH:mm」と指定する。
+「世界時計の設定」→「表示形式」タブ→
+「形式を詳しく指定する」にチェックを入れる→
+「指定」をクリック→
+MM月dd日 (ddd) HH:mm
 
 ### パネルを設定
 
+「パネルの設定」→「配置」→
 幅: 38 ピクセル
 アイコン: 32 ピクセル
 場所: 画面上部
 
 ### LXQt セッションを設定
 
+「LXQt セッションの設定」→「基本設定」→
 「セッション終了時に確認する」のチェックを外す。
 「サスペンド/ハイバネートの前に画面をロックする」のチェックを外す。
 
 ### ファンシーメニューを設定
 
+「ファンシーメニューの設定」→
 「カテゴリの位置」を「左」にする。
 
 ### パネルに CPU の温度と使用率を表示
@@ -238,9 +243,8 @@ fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
 python ~/get_cpu_usage_and_temp.py
 ```
 
-### ディスプレイマネージャーを emptty に変更
+### Xorg に依存しないディスプレイマネージャーに変更
 
-ディスプレイマネージャーを Xorg に依存しないものに変更する。
 例: lightdm から emptty に変更
 
 ```
@@ -249,7 +253,7 @@ sudo systemctl disable lightdm.service
 sudo systemctl enable emptty.service
 ```
 
-emptty の設定を使いやすいものに変更。
+emptty の設定を変更。
 
 ```
 cp /etc/emptty/conf .
