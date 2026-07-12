@@ -229,9 +229,8 @@ href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/licens
 <p>縦480の動画をノーウェイトで全画面再生して、終了までの時間を計測する。</p>
 <pre><code>wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
 
-# Wayland で再生する場合
-time mpv --wayland-internal-vsync=no --untimed=yes --audio=no --glsl-shaders=&quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot; --fs 12393381_3840_2160_60fps_480.mp4</code></pre>
-<p>結果が「real 0m18.06s」のように表示される。<br />
+time mpv --audio=no --untimed=yes --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --wayland-internal-vsync=no --glsl-shaders=&quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot; --fs 12393381_3840_2160_60fps_480.mp4</code></pre>
+<p>結果が「real 0m18.08s」のように表示される。<br />
 動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。</p>
 <p>縦480へのリサイズは次のように行った。</p>
 <pre><code>ffmpeg -i 12393381_3840_2160_60fps.mp4 -vf scale=854:480:flags=lanczos 12393381_3840_2160_60fps_480.mp4</code></pre>
@@ -260,23 +259,23 @@ measure the processing speed on Wayland.</p>
 <tbody>
 <tr>
 <td>Lanczos</td>
-<td>3.33</td>
+<td>3.34</td>
 </tr>
 <tr>
 <td>ravu-lite-ar-r3</td>
-<td>6.89</td>
+<td>6.96</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_Denoise_CNN_x2_M</td>
-<td>9.67</td>
+<td>9.48</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16</td>
-<td>18.06</td>
+<td>18.08</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>18.06</td>
+<td>18.08</td>
 </tr>
 </tbody>
 </table>

@@ -221,11 +221,10 @@ License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/li
 ```
 wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
 
-# Wayland で再生する場合
-time mpv --wayland-internal-vsync=no --untimed=yes --audio=no --glsl-shaders="~~/shaders/ArtCNN_C4F16_DS.glsl" --fs 12393381_3840_2160_60fps_480.mp4
+time mpv --audio=no --untimed=yes --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --wayland-internal-vsync=no --glsl-shaders="~~/shaders/ArtCNN_C4F16_DS.glsl" --fs 12393381_3840_2160_60fps_480.mp4
 ```
 
-結果が「real 0m18.06s」のように表示される。
+結果が「real 0m18.08s」のように表示される。
 動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。
 
 縦480へのリサイズは次のように行った。
@@ -261,11 +260,11 @@ python mpv_shader_benchmark.py <shaders>
 
 | Upscaler | Time (sec) |
 | --- | --- |
-| Lanczos | 3.33 |
-| ravu-lite-ar-r3 | 6.89 |
-| Anime4K_Upscale_Denoise_CNN_x2_M | 9.67 |
-| ArtCNN_C4F16 | 18.06 |
-| ArtCNN_C4F16_DS | 18.06 |
+| Lanczos | 3.34 |
+| ravu-lite-ar-r3 | 6.96 |
+| Anime4K_Upscale_Denoise_CNN_x2_M | 9.48 |
+| ArtCNN_C4F16 | 18.08 |
+| ArtCNN_C4F16_DS | 18.08 |
 
 Test system:
 
