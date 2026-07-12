@@ -51,9 +51,8 @@ def run_mpv(shader):
     start_time = time.time()
 
     subprocess.run(
-        ['mpv', '--audio=no', '--untimed=yes',
-            '--video-sync=display-desync', '--vulkan-swap-mode=immediate',
-            '--opengl-swapinterval=0', '--scale=lanczos',
+        ['mpv', '--wayland-internal-vsync=no', '--untimed=yes',
+            '--audio=no', '--scale=lanczos',
             f'--glsl-shaders={shader}', '--fs',
             '12393381_3840_2160_60fps_480.mp4'],
         check=True)
