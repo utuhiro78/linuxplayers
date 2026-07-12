@@ -158,7 +158,7 @@ cp /usr/share/doc/labwc/themerc ~/.local/share/themes/theme_name/labwc/</code></
 <h3 id="noto-sans-mono-cjk-jpを等幅フォントとして認識させる">「Noto Sans
 Mono CJK JP」を等幅フォントとして認識させる</h3>
 <p>LXQt では「Noto Sans Mono CJK JP」が等幅フォントとして<a
-href="https://github.com/notofonts/noto-fonts/issues/2393">認識されない</a>。</p>
+href="https://github.com/notofonts/noto-fonts/issues/2393">認識されない</a>ので、次のように修正。</p>
 <pre><code>mkdir -p ~/.config/fontconfig/conf.d
 mousepad ~/.config/fontconfig/conf.d/70-noto-mono.conf</code></pre>
 <p>次の内容を貼り付けて保存。</p>
@@ -176,7 +176,7 @@ mousepad ~/.config/fontconfig/conf.d/70-noto-mono.conf</code></pre>
 &lt;/fontconfig&gt;</code></pre>
 <p>フォント情報のキャッシュを更新。</p>
 <pre><code>fc-cache -f -v</code></pre>
-<p>次のコマンドでフォントファイルが表示されるのを確認。</p>
+<p>次のコマンドで「Noto Sans Mono CJK JP」が表示されるのを確認。</p>
 <pre><code>fc-list :spacing=100 | grep -i &quot;Noto Sans Mono CJK JP:style=Regular&quot;</code></pre>
 <h3 id="世界時計の表示形式を設定">世界時計の表示形式を設定</h3>
 <p>「世界時計の設定」→「表示形式」タブ→<br />

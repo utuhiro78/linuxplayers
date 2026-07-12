@@ -172,7 +172,7 @@ cp /usr/share/doc/labwc/themerc ~/.local/share/themes/theme_name/labwc/
 
 ### 「Noto Sans Mono CJK JP」を等幅フォントとして認識させる
 
-LXQt では「Noto Sans Mono CJK JP」が等幅フォントとして[認識されない](https://github.com/notofonts/noto-fonts/issues/2393)。
+LXQt では「Noto Sans Mono CJK JP」が等幅フォントとして[認識されない](https://github.com/notofonts/noto-fonts/issues/2393)ので、次のように修正。
 
 ```
 mkdir -p ~/.config/fontconfig/conf.d
@@ -202,7 +202,7 @@ mousepad ~/.config/fontconfig/conf.d/70-noto-mono.conf
 fc-cache -f -v
 ```
 
-次のコマンドでフォントファイルが表示されるのを確認。
+次のコマンドで「Noto Sans Mono CJK JP」が表示されるのを確認。
 
 ```
 fc-list :spacing=100 | grep -i "Noto Sans Mono CJK JP:style=Regular"
