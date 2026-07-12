@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-07-05
+date: 2026-07-12
 ---
 
 ## mpv の特徴
@@ -161,17 +161,17 @@ REGZA を使用している場合は次のようにする。
 
 質感リアライザーはオフにすると全体の色味が白っぽくなる。
 
-## アップスケーラーの比較
+## アップスケーラーを比較
 
-### 画像を表示して違いを比較
+### 人物の場合
 
 ![](images/mpv/pexels-liam-anderson-411198-1458332_480.jpg)
 
 Source: "[Shallow Focus Photography of Woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" by Liam Anderson
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-縦横それぞれ2倍以上にアップスケールしないと効果が分かりづらいので、
 元画像を縦480にリサイズしたものを全画面で表示する。
+縦1080の画像を縦1080のモニターで表示しても、1倍なのでアップスケーラーのテストにならない。2倍以上にアップスケールしないと効果が分かりづらい。
 
 ```
 mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --fs --pause
@@ -180,7 +180,7 @@ mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411
 「Ctrl」を押したまま 0 から 3 まで押していき、違いを比較する。
 
 シャープネスが強いアップスケーラーは髪がごわつく。
-アニメ特化のアップスケーラーは髪がのっぺりする。
+アニメ特化のアップスケーラーは髪が平面的になる。
 
 縦480へのリサイズは次のように行った。
 
@@ -194,7 +194,7 @@ done
 # magick identify -verbose *.jpg | grep Quality
 ```
 
----
+### アニメの場合
 
 ![](images/mpv/chihiro030_480.jpg)
 
@@ -209,7 +209,32 @@ mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --fs 
 
 「Ctrl」を押したまま 0 から 3 まで押していき、違いを比較する。
 
----
+### コマ落ちしないか確認
+
+![](images/mpv/12393381_3840_2160_60fps_480_01.jpg)
+
+Source: "[Aerial view of a boat sailing in the sea](https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/)" by Burak Evlivan
+License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
+
+縦480の動画をノーウェイトで全画面再生して、終了までの時間を計測する。
+
+```
+wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
+
+# Wayland で再生する場合
+time mpv --wayland-internal-vsync=no --untimed=yes --audio=no --glsl-shaders="~~/shaders/ArtCNN_C4F16_DS.glsl" --fs 12393381_3840_2160_60fps_480.mp4
+```
+
+結果が「real 0m18.06s」のように表示される。
+動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。
+
+縦480へのリサイズは次のように行った。
+
+```
+ffmpeg -i 12393381_3840_2160_60fps.mp4 -vf scale=854:480:flags=lanczos 12393381_3840_2160_60fps_480.mp4
+```
+
+### デフォルトのアップスケーラーを変更
 
 比較した結果「ArtCNN_C4F16_DS.glsl」をデフォルトにする場合は、
 ~/.config/mpv/mpv.conf を次のように変更。
@@ -226,35 +251,9 @@ glsl-shader="~~/shaders/ArtCNN_C4F16_DS.glsl"
 scale=lanczos
 ```
 
-### コマ落ちしないか確認
+## Speed comparison of mpv upscalers on Wayland
 
-![](images/mpv/12393381_3840_2160_60fps_480_01.jpg)
-
-Source: "[Aerial view of a boat sailing in the sea](https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/)" by Burak Evlivan
-License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
-
-縦480の動画をノーウェイトで全画面再生して、終了までの時間を計測する。
-縦1080の動画を縦1080のモニターで再生しても、1倍なのでアップスケーラーのテストにはならない。
-
-```
-wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
-
-# SGSR.glsl で再生する場合
-time mpv --audio=no --untimed=yes --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --glsl-shaders="~~/shaders/SGSR.glsl" --fs 12393381_3840_2160_60fps_480.mp4
-```
-
-結果が「real 0m3.869s」のように表示される。
-動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。
-
-縦480へのリサイズは次のように行った。
-
-```
-ffmpeg -i 12393381_3840_2160_60fps.mp4 -vf scale=854:480:flags=lanczos 12393381_3840_2160_60fps_480.mp4
-```
-
-## Speed comparison of mpv upscalers
-
-I wrote [mpv_shader_benchmark.py](images/mpv/mpv_shader_benchmark.py) to measure the processing speed.
+I wrote [mpv_shader_benchmark.py](images/mpv/mpv_shader_benchmark.py) to measure the processing speed on Wayland.
 
 ```
 python mpv_shader_benchmark.py <shaders>
@@ -262,46 +261,11 @@ python mpv_shader_benchmark.py <shaders>
 
 | Upscaler | Time (sec) |
 | --- | --- |
-| SGSR | 3.88 |
-| Lanczos | 4.01 |
-| NVScaler | 5.03 |
-| ravu-lite-r2_compute | 6.83 |
-| ravu-lite-r3_compute | 6.92 |
-| ravu-lite-ar-r3_compute | 7.02 |
-| ravu-lite-r4_compute | 7.18 |
-| ravu-lite-ar-r4_compute | 7.28 |
-| ravu-lite-r4_gather | 7.85 |
-| ravu-lite-r4_general | 8.22 |
-| Anime4K_Upscale_Denoise_CNN_x2_S | 8.4 |
-| adaptive-sharpen | 9.07 |
-| CuNNy-fast-SOFT | 9.75 |
-| nnedi3-nns16-win8x4 | 10.01 |
-| Anime4K_Upscale_Denoise_CNN_x2_M | 10.35 |
-| SSimSuperRes | 10.37 |
-| CuNNy-fast-DS | 10.47 |
-| nnedi3-nns16-win8x6 | 11.64 |
-| CuNNy-4x12-SOFT | 12.72 |
-| nnedi3-nns32-win8x4 | 13.39 |
-| FSRCNNX_x2_8-0-4-1 | 13.47 |
-| Anime4K_Upscale_CNN_x2_L | 14.93 |
-| Anime4K_Upscale_Denoise_CNN_x2_L | 15.25 |
-| CuNNy-4x12-DS | 15.52 |
-| nnedi3-nns32-win8x6 | 16.35 |
-| CuNNy-4x16-SOFT | 16.55 |
-| arnet_b4_hdn | 18.59 |
-| ArtCNN_C4F16 | 19.07 |
-| ArtCNN_C4F16_DS | 19.17 |
-| acnet_hdn0 | 21.54 |
-| acnet_gan | 21.7 |
-| AiUpscale_Fast_2x_Photo | 21.92 |
-| arnet_b4_le | 22.67 |
-| CuNNy-4x16-DS | 23.2 |
-| Anime4K_Upscale_Denoise_CNN_x2_VL | 25.76 |
-| FSRCNNX_x2_16-0-4-1 | 26.43 |
-| CuNNy-4x16-SOFT-Q | 26.72 |
-| CuNNy-4x32-SOFT | 49.8 |
-| ArtCNN_C4F32_DS | 55.37 |
-| ArtCNN_C4F32 | 55.62 |
+| Lanczos | 3.33 |
+| ravu-lite-ar-r3 | 6.89 |
+| Anime4K_Upscale_Denoise_CNN_x2_M | 9.67 |
+| ArtCNN_C4F16 | 18.06 |
+| ArtCNN_C4F16_DS | 18.06 |
 
 Test system:
 
