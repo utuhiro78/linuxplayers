@@ -161,9 +161,9 @@ REGZA を使用している場合は次のようにする。
 
 質感リアライザーはオフにすると全体の色味が白っぽくなる。
 
-## アップスケーラーを比較
+## アップスケーラーの比較
 
-### 人物の場合
+### 人物写真で比較
 
 ![](images/mpv/pexels-liam-anderson-411198-1458332_480.jpg)
 
@@ -194,7 +194,7 @@ done
 # magick identify -verbose *.jpg | grep Quality
 ```
 
-### アニメの場合
+### アニメ画像で比較
 
 ![](images/mpv/chihiro030_480.jpg)
 
@@ -250,7 +250,7 @@ glsl-shader="~~/shaders/ArtCNN_C4F16_DS.glsl"
 scale=lanczos
 ```
 
-## Speed comparison of mpv upscalers on Wayland
+### Speed comparison of mpv upscalers on Wayland
 
 I wrote [mpv_shader_benchmark.py](images/mpv/mpv_shader_benchmark.py) to measure the processing speed on Wayland.
 
