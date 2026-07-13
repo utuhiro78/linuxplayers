@@ -252,7 +252,7 @@ scale=lanczos
 
 ### Speed comparison of mpv upscalers
 
-[mpv_shader_benchmark.py](images/mpv/mpv_shader_benchmark.py)
+[mpv_shader_benchmark.py](https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_benchmark.py)
 
 ```
 python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
@@ -276,7 +276,7 @@ Test system:
 
 ## Normalize short tracks
 
-[normalize-short-tracks.lua](images/mpv/normalize-short-tracks.lua)
+[normalize-short-tracks.lua](https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/normalize-short-tracks.lua)
 
 ```
 mkdir -p ~/.config/mpv/scripts
