@@ -39,10 +39,12 @@ id="toc-アニメ画像で比較">アニメ画像で比較</a></li>
 id="toc-コマ落ちしないか確認">コマ落ちしないか確認</a></li>
 <li><a href="#デフォルトのアップスケーラーを変更"
 id="toc-デフォルトのアップスケーラーを変更">デフォルトのアップスケーラーを変更</a></li>
-<li><a href="#speed-comparison-of-mpv-upscalers-on-wayland"
-id="toc-speed-comparison-of-mpv-upscalers-on-wayland">Speed comparison
-of mpv upscalers on Wayland</a></li>
+<li><a href="#speed-comparison-of-mpv-upscalers"
+id="toc-speed-comparison-of-mpv-upscalers">Speed comparison of mpv
+upscalers</a></li>
 </ul></li>
+<li><a href="#normalize-short-tracks"
+id="toc-normalize-short-tracks">Normalize short tracks</a></li>
 </ul>
 </nav>
 <h2 id="mpv-の特徴">mpv の特徴</h2>
@@ -231,7 +233,7 @@ href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/licens
 <p>縦480の動画をノーウェイトで全画面再生して、終了までの時間を計測する。</p>
 <pre><code>wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
 
-time mpv --audio=no --untimed=yes --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --wayland-internal-vsync=no --glsl-shaders=&quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot; --fs 12393381_3840_2160_60fps_480.mp4</code></pre>
+time mpv --audio=no --untimed=yes --load-scripts=no --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --wayland-internal-vsync=no --glsl-shaders=&quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot; --fs 12393381_3840_2160_60fps_480.mp4</code></pre>
 <p>結果が「real 0m18.08s」のように表示される。<br />
 動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。</p>
 <p>縦480へのリサイズは次のように行った。</p>
@@ -245,12 +247,11 @@ glsl-shader=&quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;</code></pre>
 <p>「lanczos」をデフォルトにする場合は次のように変更。</p>
 <pre><code># アップスケーラー
 scale=lanczos</code></pre>
-<h3 id="speed-comparison-of-mpv-upscalers-on-wayland">Speed comparison
-of mpv upscalers on Wayland</h3>
-<p>I wrote <a
-href="images/mpv/mpv_shader_benchmark.py">mpv_shader_benchmark.py</a> to
-measure the processing speed on Wayland.</p>
-<pre><code>python mpv_shader_benchmark.py &lt;shaders&gt;</code></pre>
+<h3 id="speed-comparison-of-mpv-upscalers">Speed comparison of mpv
+upscalers</h3>
+<p><a
+href="images/mpv/mpv_shader_benchmark.py">mpv_shader_benchmark.py</a></p>
+<pre><code>python mpv_shader_benchmark.py ~/.config/mpv/shaders/*</code></pre>
 <table>
 <thead>
 <tr>
@@ -298,6 +299,16 @@ measure the processing speed on Wayland.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="normalize-short-tracks">Normalize short tracks</h2>
+<p><a
+href="images/mpv/normalize-short-tracks.lua">normalize-short-tracks.lua</a></p>
+<pre><code>mkdir -p ~/.config/mpv/scripts
+mv normalize-short-tracks.lua ~/.config/mpv/scripts/</code></pre>
+<p>For tracks up to 480 seconds, the peak volume is determined and
+normalized before playback begins. It covers most singles.<br />
+Calculating the peak volume takes time, so the time limit is set.</p>
+<p>When the video starts playing, the normalization result is displayed
+in the top-left of the screen.</p>
 <p><a href="index.html">HOME</a></p>
 </body>
 </html>

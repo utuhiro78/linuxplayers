@@ -221,7 +221,7 @@ License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/li
 ```
 wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
 
-time mpv --audio=no --untimed=yes --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --wayland-internal-vsync=no --glsl-shaders="~~/shaders/ArtCNN_C4F16_DS.glsl" --fs 12393381_3840_2160_60fps_480.mp4
+time mpv --audio=no --untimed=yes --load-scripts=no --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --wayland-internal-vsync=no --glsl-shaders="~~/shaders/ArtCNN_C4F16_DS.glsl" --fs 12393381_3840_2160_60fps_480.mp4
 ```
 
 結果が「real 0m18.08s」のように表示される。
@@ -250,12 +250,12 @@ glsl-shader="~~/shaders/ArtCNN_C4F16_DS.glsl"
 scale=lanczos
 ```
 
-### Speed comparison of mpv upscalers on Wayland
+### Speed comparison of mpv upscalers
 
-I wrote [mpv_shader_benchmark.py](images/mpv/mpv_shader_benchmark.py) to measure the processing speed on Wayland.
+[mpv_shader_benchmark.py](images/mpv/mpv_shader_benchmark.py)
 
 ```
-python mpv_shader_benchmark.py <shaders>
+python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
 ```
 
 | Upscaler | Time (sec) |
@@ -273,5 +273,19 @@ Test system:
 | CPU | Ryzen 5 5600G |
 | GPU | Integrated graphics |
 | Monitor | 1920x1080 |
+
+## Normalize short tracks
+
+[normalize-short-tracks.lua](images/mpv/normalize-short-tracks.lua)
+
+```
+mkdir -p ~/.config/mpv/scripts
+mv normalize-short-tracks.lua ~/.config/mpv/scripts/
+```
+
+For tracks up to 480 seconds, the peak volume is determined and normalized before playback begins. It covers most singles.
+Calculating the peak volume takes time, so the time limit is set.
+
+When the video starts playing, the normalization result is displayed in the top-left of the screen.
 
 [HOME](index.html)
