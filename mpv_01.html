@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-07-12" />
+  <meta name="dcterms.date" content="2026-07-14" />
   <title>mpv の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">mpv の設定</h1>
-<p class="date">2026-07-12</p>
+<p class="date">2026-07-14</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -73,7 +73,7 @@ href="https://github.com/bjin/mpv-prescalers/tree/master/gather">gather</a>
 <a
 href="https://github.com/bjin/mpv-prescalers/tree/master">ルート</a>ディレクトリのものは上の2つが動作しない古いGPU用。<br />
 ファイル名に「-ar」が付いているものはアンチリンギングを行う。</p>
-<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/ravu-lite-ar-r3.hook
+<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/</code></pre>
 <h4 id="artcnn">ArtCNN</h4>
@@ -265,7 +265,15 @@ href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_
 <td>3.34</td>
 </tr>
 <tr>
-<td>ravu-lite-ar-r3</td>
+<td>ravu-lite-ar-r3 (compute)</td>
+<td>6.31</td>
+</tr>
+<tr>
+<td>ravu-lite-ar-r3 (gather)</td>
+<td>6.84</td>
+</tr>
+<tr>
+<td>ravu-lite-ar-r3 (non-optimized)</td>
 <td>6.96</td>
 </tr>
 <tr>

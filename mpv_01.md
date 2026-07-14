@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-07-12
+date: 2026-07-14
 ---
 
 ## mpv の特徴
@@ -27,7 +27,7 @@ Google の超解像技術から着想を得たアップスケーラー。
 ファイル名に「-ar」が付いているものはアンチリンギングを行う。
 
 ```
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/ravu-lite-ar-r3.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
 ```
@@ -261,7 +261,9 @@ python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
 | Upscaler | Time (sec) |
 | --- | --- |
 | Lanczos | 3.34 |
-| ravu-lite-ar-r3 | 6.96 |
+| ravu-lite-ar-r3 (compute) | 6.31 |
+| ravu-lite-ar-r3 (gather) | 6.84 |
+| ravu-lite-ar-r3 (non-optimized) | 6.96 |
 | Anime4K_Upscale_Denoise_CNN_x2_M | 9.48 |
 | ArtCNN_C4F16 | 18.08 |
 | ArtCNN_C4F16_DS | 18.08 |
