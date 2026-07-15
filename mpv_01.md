@@ -263,8 +263,9 @@ python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
 | Lanczos | 3.34 |
 | ravu-lite-ar-r3 (compute) | 6.31 |
 | ravu-lite-ar-r3 (gather) | 6.84 |
-| ravu-lite-ar-r3 (non-optimized) | 6.96 |
+| ravu-lite-ar-r3 (root) | 6.96 |
 | Anime4K_Upscale_Denoise_CNN_x2_M | 9.48 |
+| ravu-zoom-ar-r3 (compute) | 10.67 |
 | ArtCNN_C4F16 | 18.08 |
 | ArtCNN_C4F16_DS | 18.08 |
 
