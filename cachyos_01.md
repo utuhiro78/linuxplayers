@@ -17,22 +17,39 @@ CPUに応じて最適化されたパッケージを使用するので、性能�
 
 ## Ventoy をUSBメモリにインストール
 
-[Ventoy](https://github.com/ventoy/Ventoy/releases) をUSBメモリにインストールすると、USBメモリ内のISOファイルを起動できるようになる。
-複数のISOファイルが存在する場合は、起動するISOファイルを選択できる。
+[Ventoy](https://github.com/ventoy/Ventoy/releases) をUSBメモリにインストールしたあと、USBメモリにLinuxディストリビューションのISOファイルをコピーすると、ISOファイルを起動できるようになる。
+複数のISOファイルをコピーすると、起動するISOファイルを選択できる。
 
 ventoy-*-linux.tar.gz をダウンロードして展開。
+USBメモリを差し込んで次を実行。
 
-USBメモリを差し込んで Ventoy のインストーラーを起動。
+### Xorg の場合
 
 ```
 ./VentoyGUI.x86_64
 ```
 
-![](images/cachyos_01/cachyos_50.webp)
+![](images/endeavour_01/endeavour_50.webp)
 
 インストール先を必ず確認。
-新規の場合は「Install」を選択。USBメモリ内のファイルはすべて消える。
-アップデートの場合は「Update」を選択。USBメモリ内のファイルは維持される。
+新規インストールの場合は「Install」を選択。USBメモリ内のファイルはすべて消える。
+既存の Ventoy をアップデートする場合は「Update」を選択。USBメモリ内のファイルは維持される。
+
+### Wayland コンポジターの場合
+
+GUI インストールができないので次を実行。
+
+新規インストールの場合:
+
+```
+sudo sh Ventoy2Disk.sh -i /dev/sdX
+```
+
+アップデートの場合:
+
+```
+sudo sh Ventoy2Disk.sh -u /dev/sdX
+```
 
 ## CachyOS のISOファイルをUSBメモリにコピー
 

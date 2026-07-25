@@ -5,18 +5,19 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="dcterms.date" content="2026-04-28" />
-  <title>CachyOS のインストール</title>
+  <title>Calam-Arch-Installer のインストール</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">CachyOS のインストール</h1>
+<h1 class="title">Calam-Arch-Installer のインストール</h1>
 <p class="date">2026-04-28</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#cachyos-とは" id="toc-cachyos-とは">CachyOS とは</a></li>
+<li><a href="#calam-arch-installer-とは"
+id="toc-calam-arch-installer-とは">Calam-Arch-Installer とは</a></li>
 <li><a href="#ダウンロード" id="toc-ダウンロード">ダウンロード</a></li>
 <li><a href="#ventoy-をusbメモリにインストール"
 id="toc-ventoy-をusbメモリにインストール">Ventoy
@@ -26,22 +27,21 @@ id="toc-ventoy-をusbメモリにインストール">Ventoy
 <li><a href="#wayland-コンポジターの場合"
 id="toc-wayland-コンポジターの場合">Wayland コンポジターの場合</a></li>
 </ul></li>
-<li><a href="#cachyos-のisoファイルをusbメモリにコピー"
-id="toc-cachyos-のisoファイルをusbメモリにコピー">CachyOS
+<li><a href="#calam-arch-installer-のisoファイルをusbメモリにコピー"
+id="toc-calam-arch-installer-のisoファイルをusbメモリにコピー">Calam-Arch-Installer
 のISOファイルをUSBメモリにコピー</a></li>
-<li><a href="#cachyos-をシステムにインストール"
-id="toc-cachyos-をシステムにインストール">CachyOS
+<li><a href="#calam-arch-installer-をシステムにインストール"
+id="toc-calam-arch-installer-をシステムにインストール">Calam-Arch-Installer
 をシステムにインストール</a></li>
 </ul>
 </nav>
-<h2 id="cachyos-とは">CachyOS とは</h2>
-<p>CachyOS は Arch Linux をベースにしたディストリビューション。<br />
-Calamares で簡単にインストールできる。<br />
-日本語フォントが入っているので文字化けしない。<br />
-オンラインインストールを行うので、最新の環境をすぐに使える。<br />
-CPUに応じて最適化されたパッケージを使用するので、性能が向上する。</p>
+<h2 id="calam-arch-installer-とは">Calam-Arch-Installer とは</h2>
+<p>Calam-Arch-Installer は、Arch Linux を Calamares
+でインストールするためのディストリビューション。パッケージのすべてが
+Arch 純正なので、派生系特有の不具合が生じにくい。</p>
 <h2 id="ダウンロード">ダウンロード</h2>
-<p><a href="https://cachyos.org/download/">こちら</a>。</p>
+<p><a
+href="https://sourceforge.net/projects/blue-arch-installer/files/arch-installer/">こちら</a>。</p>
 <h2 id="ventoy-をusbメモリにインストール">Ventoy
 をUSBメモリにインストール</h2>
 <p><a href="https://github.com/ventoy/Ventoy/releases">Ventoy</a>
@@ -62,16 +62,18 @@ USBメモリを差し込んで次を実行。</p>
 <pre><code>sudo sh Ventoy2Disk.sh -i /dev/sdX</code></pre>
 <p>アップデートの場合:</p>
 <pre><code>sudo sh Ventoy2Disk.sh -u /dev/sdX</code></pre>
-<h2 id="cachyos-のisoファイルをusbメモリにコピー">CachyOS
+<h2
+id="calam-arch-installer-のisoファイルをusbメモリにコピー">Calam-Arch-Installer
 のISOファイルをUSBメモリにコピー</h2>
-<p>CachyOS のISOファイルをUSBメモリにコピーする。<br />
+<p>Calam-Arch-Installer のISOファイルをUSBメモリにコピーする。<br />
 <a href="https://kubuntu.org/getkubuntu/">Kubuntu</a>
-などの利用者が多いOSのISOファイルもコピーしておく。CachyOS
+などの利用者が多いOSのISOファイルもコピーしておく。Calam-Arch-Installer
 のインストールが失敗したとき、別のOSのISOファイルがないと何もできなくなる。</p>
-<h2 id="cachyos-をシステムにインストール">CachyOS
+<h2
+id="calam-arch-installer-をシステムにインストール">Calam-Arch-Installer
 をシステムにインストール</h2>
-<p>USBメモリを挿してPCの電源を入れ、ブートメニューキーを押す。<br />
-ブートメニューキーは次のとおり。</p>
+<p>USBメモリを挿してPCの電源を入れる。</p>
+<p>BIOS画面でブートメニューキーを押し続ける。ブートメニューキーは次のとおり。</p>
 <table>
 <thead>
 <tr>
@@ -101,25 +103,30 @@ USBメモリを差し込んで次を実行。</p>
 <p>ブートメニューキーを押すとブートデバイスの選択画面が出る。<br />
 あらかじめUEFIで「CSM
 Support」を無効にしておくと、UEFIブートに対応していないデバイスが非表示になるので、選択が楽になる。</p>
-<p><img src="images/cachyos_01/cachyos_51.webp" /><br />
-Ventoy のメニューでISOファイルを選択。<br />
-しばらく待つとデスクトップが起動する。</p>
-<p><img src="images/cachyos_01/cachyos_52.webp" /><br />
-文字が小さいときは壁紙を右クリックして「Configure Display
-Settings…」を選択。</p>
-<p><img src="images/cachyos_01/cachyos_53.webp" /><br />
-「Global scale」のスライダーを右に動かして「125%」にする。</p>
-<p><img src="images/cachyos_01/cachyos_01.webp" /><br />
-「Launch installer」をクリック。</p>
-<p><img src="images/cachyos_01/cachyos_02.webp" /><br />
-「Systemd-boot (Default)」をクリック。</p>
-<p><img src="images/cachyos_01/cachyos_04.webp" /><br />
-ゾーンが「Tokyo」になっているのを確認。「次へ」をクリック。</p>
-<p><img src="images/cachyos_01/cachyos_05.webp" /><br />
-キーボードモデルが「Japanese」になっているのを確認。</p>
-<p><img src="images/cachyos_01/cachyos_06.webp" /><br />
+<p><img src="images/calam_arch_01/calam_arch_22.webp" /><br />
+Ventoy のメニューでISOファイルを選択。</p>
+<p><img src="images/calam_arch_01/calam_arch_01.webp" /><br />
+ミラーサーバーの地域を選択。「Japan」にチェックが入っているのを確認する。</p>
+<p><img src="images/calam_arch_01/calam_arch_02.webp" /><br />
+「Save」を押す。</p>
+<p>ターミナルを起動して日本語フォントをインストール。</p>
+<pre><code>sudo pacman -Sy
+sudo pacman -S --needed otf-ipafont</code></pre>
+<p>Calamares を起動。</p>
+<pre><code>sudo calamares</code></pre>
+<p><img src="images/calam_arch_01/calam_arch_03.webp" /><br />
+「次へ」を押せるようになるまで待つ。1分以上かかることがある。</p>
+<p>文字が小さくて読みづらい場合は次を実行。</p>
+<pre><code>xfce4-display-settings </code></pre>
+<p><img src="images/calam_arch_01/calam_arch_04.webp" /><br />
+Scale を 1.25 にして「Apply」を押す。</p>
+<p><img src="images/calam_arch_01/calam_arch_05.webp" /><br />
+「Tokyo」が選択されているのを確認。</p>
+<p><img src="images/calam_arch_01/calam_arch_06.webp" /><br />
+キーボードモデルを選択。</p>
+<p><img src="images/calam_arch_01/calam_arch_07.webp" /><br />
 「手動パーティション」を選択。</p>
-<p><img src="images/cachyos_01/cachyos_07.webp" /><br />
+<p><img src="images/calam_arch_01/calam_arch_08.webp" /><br />
 パーティションを作成。</p>
 <table style="width:100%;">
 <colgroup>
@@ -133,30 +140,30 @@ Settings…」を選択。</p>
 <tr>
 <th>パーティション</th>
 <th>サイズ</th>
-<th>フォーマット</th>
+<th>内容</th>
 <th>ファイルシステム</th>
 <th>フラグ</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>/boot</td>
-<td>4096 MiB</td>
-<td>する</td>
+<td>/boot/efi</td>
+<td>2048 MiB</td>
+<td>フォーマット</td>
 <td>fat32</td>
 <td>boot</td>
 </tr>
 <tr>
 <td>/</td>
 <td>20480 MiB</td>
-<td>する</td>
+<td>フォーマット</td>
 <td>ext4</td>
 <td>なし</td>
 </tr>
 <tr>
 <td>/home</td>
 <td>残り全部</td>
-<td>しない</td>
+<td>保持</td>
 <td>ext4</td>
 <td>なし</td>
 </tr>
@@ -164,19 +171,17 @@ Settings…」を選択。</p>
 </table>
 <p>「/」は余裕をもたせるなら 30720 MiB（30 GiB）にする。<br />
 「/home」は初めて作成する場合のみフォーマット。<br />
-「/boot」は複数のカーネルや Limine ブートローダー（Btrfs
+「/boot/efi」は複数のカーネルや Limine ブートローダー（Btrfs
 のスナップショットからの起動をサポート）を使用しないのであれば、1024 MiB
 で<a
 href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">足りる</a>。</p>
-<p><img src="images/cachyos_01/cachyos_08.webp" /><br />
-/boot パーティションの編集例。</p>
-<p><img src="images/cachyos_01/cachyos_09.webp" /><br />
+<p><img src="images/calam_arch_01/calam_arch_10.webp" /><br />
 デスクトップを選択。</p>
-<p><img src="images/cachyos_01/cachyos_10.webp" /><br />
+<p><img src="images/calam_arch_01/calam_arch_11.webp" /><br />
 インストールするパッケージを選択。</p>
-<p><img src="images/cachyos_01/cachyos_11.webp" /><br />
+<p><img src="images/calam_arch_01/calam_arch_12.webp" /><br />
 ユーザー名とパスワードを設定。</p>
-<p><img src="images/cachyos_01/cachyos_12.webp" /><br />
+<p><img src="images/calam_arch_01/calam_arch_13.webp" /><br />
 内容を確認して「インストール」をクリック。</p>
 <p>インストールが終わったら再起動して<a
 href="arch_linux_01.html">設定を行う</a>。</p>
