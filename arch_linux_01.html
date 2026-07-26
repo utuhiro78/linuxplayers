@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2025-12-05" />
+  <meta name="dcterms.date" content="2026-07-27" />
   <title>Arch Linux の設定1</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定1</h1>
-<p class="date">2025-12-05</p>
+<p class="date">2026-07-27</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -39,12 +39,6 @@ cd ~/tmp_arch/
 
 # [CachyOS] デフォルトシェルを bash に変更
 chsh -s /usr/bin/bash
-
-# [CachyOS] 起動時のロゴ表示を無効にする
-cp /etc/sdboot-manage.conf .
-sed -i -e &#39;s,LINUX_OPTIONS=\&quot;.*splash\&quot;,LINUX_OPTIONS=\&quot;\&quot;,g&#39; sdboot-manage.conf
-sudo mv sdboot-manage.conf /etc/
-sudo sdboot-manage gen
 
 # [archinstall] ログを削除
 sudo rm -rf /var/log/archinstall/
@@ -168,16 +162,8 @@ sed -i -e &#39;s,Nachlieli,Noto\ Sans\ CJK\ JP,g&#39; 65-nonlatin.conf
 sed -i -e &#39;s,Miriam\ Mono,Noto\ Sans\ Mono\ CJK\ JP,g&#39; 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/
 
-# LightDM の背景を変更
-printf &quot;[Greeter]
-background=/usr/share/backgrounds/xfce/xfce-x.svg
-content-align=center
-draw-user-backgrounds=false
-&quot; &gt; slick-greeter.conf
-sudo mv slick-greeter.conf /etc/lightdm/
-
-# AMD の GPU を使用する場合: ドライバをインストール
-yay -S --needed xf86-video-amdgpu vulkan-radeon libva-utils</code></pre>
+# [AMD の GPU] ドライバをインストール
+yay -S --needed vulkan-radeon libva-utils</code></pre>
 <h2 id="日本語を入力できるようにする">日本語を入力できるようにする</h2>
 <h3 id="fcitx5-と-mozc-をインストール">Fcitx5 と Mozc
 をインストール</h3>

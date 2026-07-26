@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定1
-date: 2025-12-05
+date: 2026-07-27
 ---
 
 ## 最初に行うこと
@@ -12,12 +12,6 @@ cd ~/tmp_arch/
 
 # [CachyOS] デフォルトシェルを bash に変更
 chsh -s /usr/bin/bash
-
-# [CachyOS] 起動時のロゴ表示を無効にする
-cp /etc/sdboot-manage.conf .
-sed -i -e 's,LINUX_OPTIONS=\".*splash\",LINUX_OPTIONS=\"\",g' sdboot-manage.conf
-sudo mv sdboot-manage.conf /etc/
-sudo sdboot-manage gen
 
 # [archinstall] ログを削除
 sudo rm -rf /var/log/archinstall/
@@ -141,16 +135,8 @@ sed -i -e 's,Nachlieli,Noto\ Sans\ CJK\ JP,g' 65-nonlatin.conf
 sed -i -e 's,Miriam\ Mono,Noto\ Sans\ Mono\ CJK\ JP,g' 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/
 
-# LightDM の背景を変更
-printf "[Greeter]
-background=/usr/share/backgrounds/xfce/xfce-x.svg
-content-align=center
-draw-user-backgrounds=false
-" > slick-greeter.conf
-sudo mv slick-greeter.conf /etc/lightdm/
-
-# AMD の GPU を使用する場合: ドライバをインストール
-yay -S --needed xf86-video-amdgpu vulkan-radeon libva-utils
+# [AMD の GPU] ドライバをインストール
+yay -S --needed vulkan-radeon libva-utils
 ```
 
 ## 日本語を入力できるようにする

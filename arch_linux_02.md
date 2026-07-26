@@ -337,9 +337,8 @@ yay -S --needed bash-completion cmake dosfstools engrampa \
 evince fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt \
 gnome-disk-utility less libva-utils lm_sensors mousepad mpv \
 ncdu noto-fonts noto-fonts-emoji 7zip fuse pavucontrol \
-poppler-data flake8 python-jaconv ripgrep ristretto \
-rsync vulkan-radeon webp-pixbuf-loader wget \
-xf86-video-amdgpu xfce4-sensors-plugin xorg-xrandr
+poppler-data flake8 python-jaconv python-psutil ripgrep \
+ristretto rsync vulkan-radeon webp-pixbuf-loader wget
 
 # yt-dlp
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp

@@ -29,7 +29,7 @@ USBメモリを差し込んで次を実行。
 ./VentoyGUI.x86_64
 ```
 
-![](images/endeavour_01/endeavour_50.webp)
+![](images/cachyos_01/cachyos_50.webp)
 
 インストール先を必ず確認。
 新規インストールの場合は「Install」を選択。USBメモリ内のファイルはすべて消える。

@@ -6,7 +6,7 @@ date: 2026-07-08
 ## Labwc と LXQt をインストール
 
 ```
-yay -S lxqt lxqt-wayland-session labwc
+yay -S --needed lxqt lxqt-wayland-session labwc
 ```
 
 ## Labwc を設定
@@ -239,6 +239,10 @@ MM月dd日 (ddd) HH:mm
 「カテゴリの位置」を「左」にする。
 
 ### パネルに CPU の温度と使用率を表示
+
+```
+yay -S --needed python-psutil
+```
 
 [get_cpu_usage_and_temp.py](images/labwc/get_cpu_usage_and_temp.py) をダウンロード。
 「ウィジェットの管理」で「カスタムコマンド」を追加。

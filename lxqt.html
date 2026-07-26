@@ -65,7 +65,7 @@ id="toc-xorg-に依存しないディスプレイマネージャーに変更">Xo
 </ul>
 </nav>
 <h2 id="labwc-と-lxqt-をインストール">Labwc と LXQt をインストール</h2>
-<pre><code>yay -S lxqt lxqt-wayland-session labwc</code></pre>
+<pre><code>yay -S --needed lxqt lxqt-wayland-session labwc</code></pre>
 <h2 id="labwc-を設定">Labwc を設定</h2>
 <h3
 id="キーボードレイアウトをjpに変更">キーボードレイアウトを「jp」に変更</h3>
@@ -200,6 +200,7 @@ MM月dd日 (ddd) HH:mm</p>
 「カテゴリの位置」を「左」にする。</p>
 <h3 id="パネルに-cpu-の温度と使用率を表示">パネルに CPU
 の温度と使用率を表示</h3>
+<pre><code>yay -S --needed python-psutil</code></pre>
 <p><a
 href="images/labwc/get_cpu_usage_and_temp.py">get_cpu_usage_and_temp.py</a>
 をダウンロード。<br />
