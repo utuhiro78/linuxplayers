@@ -336,8 +336,8 @@ mousepad ~/.config/openbox/rc.xml
 yay -S --needed bash-completion cmake dosfstools engrampa \
 evince fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt \
 gnome-disk-utility less libva-utils lm_sensors mousepad mpv \
-ncdu noto-fonts noto-fonts-emoji 7zip fuse pavucontrol \
-poppler-data flake8 python-jaconv python-psutil ripgrep \
+ncdu noto-fonts noto-fonts-emoji 7zip fuse poppler-data \
+flake8 python-jaconv python-psutil qt6-tools ripgrep \
 ristretto rsync vulkan-radeon webp-pixbuf-loader wget
 
 # yt-dlp
@@ -378,6 +378,14 @@ sudo ufw status
 # ファイアウォールの例外アプリを削除
 # sudo ufw delete allow qBittorrent
 
+# ripgrep を設定
+printf -- '--ignore-case
+--colors path:fg:0x34,0x83,0xE3
+--colors line:fg:0x34,0x83,0xE3
+--colors match:bg:0x34,0x83,0xE3
+--colors match:fg:white
+' > ~/.ripgreprc
+
 # マウスカーソル
 mkdir -p ~/tmp_arch
 cd ~/tmp_arch/
@@ -395,7 +403,8 @@ wget -qO- https://git.io/papirus-icon-theme-install | env DESTDIR="$HOME/.local/
 rm -f ~/.local/share/icons/Papirus*/*/*/*mozc*
 
 # ~/.bashrc の設定
-printf 'EDITOR=/usr/bin/mousepad
+cat << 'EOF' > ~/.bashrc
+EDITOR=/usr/bin/mousepad
 export XCURSOR_PATH="~/.local/share/icons/"
 
 alias df="df -h -x tmpfs"
@@ -407,15 +416,9 @@ alias duu="ncdu"
 # ファイルリストを縦に並べる
 alias ls="ls -1"
 
-alias rg="rg --ignore-case \
-  --colors path:fg:0x34,0x83,0xE3 \
-  --colors line:fg:0x34,0x83,0xE3 \
-  --colors match:bg:0x34,0x83,0xE3 \
-  --colors match:fg:white"
-
-alias yt-dlp="yt-dlp --trim-filenames 100"
-alias yt-dlp-fhd="yt-dlp -S res:1080 --trim-filenames 100"
-' > ~/.bashrc
+alias yt-dlp='yt-dlp -o "%(title).200B [%(id)s].%(ext)s"'
+alias yt-dlp-fhd='yt-dlp -S res:1080 -o "%(title).200B [%(id)s].%(ext)s"'
+EOF
 ```
 
 [HOME](index.html)

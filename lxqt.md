@@ -6,7 +6,7 @@ date: 2026-07-08
 ## Labwc と LXQt をインストール
 
 ```
-yay -S --needed lxqt lxqt-wayland-session labwc
+yay -S --needed lxqt lxqt-wayland-session labwc qt6-tools
 ```
 
 ## Labwc を設定
