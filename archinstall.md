@@ -1,6 +1,6 @@
 ---
 title: archinstall で Arch Linux をインストール
-date: 2026-04-28
+date: 2026-07-28
 ---
 
 ## archinstall とは
@@ -21,8 +21,7 @@ EndeavourOS を起動。
 
 ```
 # Arch Linux の公式リポジトリのみを使用する
-wget https://gitlab.archlinux.org/archlinux/packaging/\
-packages/pacman/-/raw/main/pacman.conf
+wget https://gitlab.archlinux.org/archlinux/packaging/packages/pacman/-/raw/main/pacman.conf
 sudo mv pacman.conf /etc/
 sudo pacman -Sy
 
@@ -34,20 +33,10 @@ sudo pacman -S --needed reflector rsync
 sudo reflector -c jp -f 5 --save /etc/pacman.d/mirrorlist
 sudo pacman -Sy
 
-# 必要なパッケージをインストール
-sudo pacman -S --needed wget python python-sphinx_rtd_theme \
-python-typing_extensions python-pydantic \
-python-pydantic-core python-annotated-types python-cryptography \
-python-pyparted python-textual
+# archinstall をインストール
+sudo pacman -S --needed archinstall
 
-# archinstall の開発版をダウンロード
-wget https://github.com/archlinux/archinstall/archive/\
-refs/heads/master.zip -O archinstall-master.zip
-bsdunzip archinstall-master.zip
-
-# archinstall を実行
-cd archinstall-master/
-sudo python -m archinstall
+sudo archinstall
 ```
 
 ## 実行時の動画

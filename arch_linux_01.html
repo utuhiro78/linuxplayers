@@ -71,11 +71,12 @@ sudo mv pacman.conf.new /etc/pacman.conf
 sudo pacman -S --needed yay
 
 # [Arch Linux] yay をインストール
-# wget -N https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
-# tar -xf yay-bin.tar.gz
-# cd yay-bin/
-# makepkg -is
-# cd ~/tmp_arch/
+sudo pacman -S --needed fakeroot
+wget -N https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
+tar -xf yay-bin.tar.gz
+cd yay-bin/
+makepkg -is
+cd ~/tmp_arch/
 
 # パッケージのキャッシュを削除
 yay -Scc
