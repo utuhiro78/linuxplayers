@@ -32,8 +32,7 @@ Arch Linux のインストーラー。ガイドに沿って進めれば、簡単
 href="endeavour_01.html">EndeavourOS</a> を使用する。</p>
 <p>EndeavourOS を起動。</p>
 <p>ブラウザで今見ているページを開く。</p>
-<p>ターミナルを開いてウィンドウを最大化。ウィンドウが小さいと
-archinstall の表示が崩れる。</p>
+<p>ターミナルを開いてウィンドウを最大化。ウィンドウが小さいと表示が崩れる。</p>
 <p>次のコマンドを貼り付けて実行。</p>
 <pre><code># Arch Linux の公式リポジトリのみを使用する
 wget https://gitlab.archlinux.org/archlinux/packaging/packages/pacman/-/raw/main/pacman.conf
@@ -43,7 +42,7 @@ sudo pacman -Sy
 # keyring を更新
 sudo pacman -S --needed archlinux-keyring
 
-# 高速なダウンロードサーバを選択。しばらく待つ
+# 高速なダウンロードサーバを選択
 sudo pacman -S --needed reflector rsync
 sudo reflector -c jp -f 5 --save /etc/pacman.d/mirrorlist
 sudo pacman -Sy
@@ -53,12 +52,9 @@ sudo pacman -S --needed archinstall
 
 sudo archinstall</code></pre>
 <h2 id="実行時の動画">実行時の動画</h2>
-<p>動画は vokoscreenNG で作成した。</p>
 <p><video src="images/archinstall/archinstall.mp4" controls=""><a
 href="images/archinstall/archinstall.mp4">Video</a></video></p>
-<p>カーソルで移動。Enter で決定。「/」で選択肢を絞り込む。<br />
-例えば「/ja」と入力すれば、「ja」を含む選択肢が表示される。</p>
-<p>パーティションのサイズは次のようにする。</p>
+<p>パーティションのサイズは次のようにしています。</p>
 <table>
 <thead>
 <tr>
@@ -71,7 +67,7 @@ href="images/archinstall/archinstall.mp4">Video</a></video></p>
 <tbody>
 <tr>
 <td>/boot</td>
-<td>2048 MiB</td>
+<td>1024 MiB</td>
 <td>する</td>
 <td>fat32</td>
 </tr>
@@ -89,12 +85,11 @@ href="images/archinstall/archinstall.mp4">Video</a></video></p>
 </tr>
 </tbody>
 </table>
-<p>「/」は余裕をもたせるなら 30720 MiB（30 GiB）にする。<br />
-「/home」は初めて作成する場合のみフォーマット。<br />
-「/boot」は複数のカーネルや Limine ブートローダー（Btrfs
-のスナップショットからの起動をサポート）を使用しないのであれば、1024 MiB
-で<a
-href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">足りる</a>。</p>
+<p>「/boot」は基本的には <a
+href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">1024
+MiB</a> で足りる。<br />
+「/」は余裕をもたせるなら 30720 MiB にする。<br />
+「/home」は初めて作成する場合のみフォーマット。</p>
 <p>インストールが終わったら再起動して<a
 href="arch_linux_01.html">設定を行う</a>。</p>
 <p><a href="index.html">HOME</a></p>

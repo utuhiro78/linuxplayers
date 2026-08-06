@@ -15,7 +15,7 @@ EndeavourOS を起動。
 
 ブラウザで今見ているページを開く。
 
-ターミナルを開いてウィンドウを最大化。ウィンドウが小さいと archinstall の表示が崩れる。
+ターミナルを開いてウィンドウを最大化。ウィンドウが小さいと表示が崩れる。
 
 次のコマンドを貼り付けて実行。
 
@@ -28,7 +28,7 @@ sudo pacman -Sy
 # keyring を更新
 sudo pacman -S --needed archlinux-keyring
 
-# 高速なダウンロードサーバを選択。しばらく待つ
+# 高速なダウンロードサーバを選択
 sudo pacman -S --needed reflector rsync
 sudo reflector -c jp -f 5 --save /etc/pacman.d/mirrorlist
 sudo pacman -Sy
@@ -41,24 +41,19 @@ sudo archinstall
 
 ## 実行時の動画
 
-動画は vokoscreenNG で作成した。
-
 ![](images/archinstall/archinstall.mp4)
 
-カーソルで移動。Enter で決定。「/」で選択肢を絞り込む。
-例えば「/ja」と入力すれば、「ja」を含む選択肢が表示される。
-
-パーティションのサイズは次のようにする。
+パーティションのサイズは次のようにしています。
 
 | パーティション  | サイズ    | フォーマット | ファイルシステム |
 | -------------- | --------- | ------------ | ---------------- |
-| /boot          |  2048 MiB     | する         | fat32            |
+| /boot          |  1024 MiB     | する         | fat32            |
 | /              | 20480 MiB     | する         | ext4             |
 | /home          | 残り全部  | しない       | ext4             |
 
-「/」は余裕をもたせるなら 30720 MiB（30 GiB）にする。
+「/boot」は基本的には [1024 MiB](https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition) で足りる。
+「/」は余裕をもたせるなら 30720 MiB にする。
 「/home」は初めて作成する場合のみフォーマット。
-「/boot」は複数のカーネルや Limine ブートローダー（Btrfs のスナップショットからの起動をサポート）を使用しないのであれば、1024 MiB で[足りる](https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition)。
 
 インストールが終わったら再起動して[設定を行う](arch_linux_01.html)。
 

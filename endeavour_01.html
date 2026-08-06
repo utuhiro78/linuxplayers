@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-06-30" />
+  <meta name="dcterms.date" content="2026-07-29" />
   <title>EndeavourOS のインストール</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">EndeavourOS のインストール</h1>
-<p class="date">2026-06-30</p>
+<p class="date">2026-07-29</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -153,7 +153,7 @@ Settings…」を選択。</p>
 <tbody>
 <tr>
 <td>/efi</td>
-<td>2048 MiB</td>
+<td>1024 MiB</td>
 <td>する</td>
 <td>fat32</td>
 <td>boot</td>
@@ -174,12 +174,11 @@ Settings…」を選択。</p>
 </tr>
 </tbody>
 </table>
-<p>「/」は余裕をもたせるなら 30720 MiB（30 GiB）にする。<br />
-「/home」は初めて作成する場合のみフォーマット。<br />
-「/efi」は複数のカーネルや Limine ブートローダー（Btrfs
-のスナップショットからの起動をサポート）を使用しないのであれば、1024 MiB
-で<a
-href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">足りる</a>。</p>
+<p>「/efi」は基本的には <a
+href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">1024
+MiB</a> で足りる。<br />
+「/」は余裕をもたせるなら 30720 MiB にする。<br />
+「/home」は初めて作成する場合のみフォーマット。</p>
 <p><img src="images/endeavour_01/endeavour_14.webp" /><br />
 /efi パーティションの編集例。</p>
 <p><img src="images/endeavour_01/endeavour_15.webp" /><br />
