@@ -109,8 +109,8 @@ It downloads the latest "jawiki-latest-pages-articles-multistream.xml.bz2" (over
 IMF は IME とLinuxソフトを橋渡しするもので、[多くの言語](https://fcitx-im.org/wiki/Input_method_engines)で必要になる。
 需要が日本に限定されないので、以下では日本語IMEについて考える。
 
-デフォルトで使用されることの多い Mozc は、Google日本語入力\ の[サブセット](https://github.com/google/mozc#whats-mozc)で、[マルチプラットフォーム](https://github.com/google/mozc#build-instructions)。「Linux日本語入力」に限定されるものではない。
-Linuxで使用される[オープンソースの日本語IME](https://github.com/search?q=japanese+input+method&type=repositories&s=stars&o=desc)は、マルチプラットフォームになっていたり、他のOSに移植されていたりする。オープンソースの日本語IMEを、「Linux日本語入力」と限定することにそもそも無理がある。
+デフォルトで使用されることの多い Mozc は、Google日本語入力\ の[サブセット](https://github.com/google/mozc#whats-mozc)で、[マルチプラットフォーム](https://github.com/google/mozc#build-instructions)。
+Linuxで使用される[オープンソースの日本語IME](https://github.com/search?q=japanese+input+method&type=repositories&s=stars&o=desc)は、マルチプラットフォームになっていたり、他のOSに移植されていたりする。「Linux日本語入力」に限定されるものではない。
 
 ☘️ 「オープンソースの日本語IMEは需要が小さいから終わる」
 オープンソースソフトウェアの場合、需要の小ささと開発の終了はあまり関係がない。
