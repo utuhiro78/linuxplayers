@@ -1,6 +1,6 @@
 ---
 title: Mozc UT Dictionaries
-date: 2026-08-07
+date: 2026-08-09
 ---
 
 ## Overview
@@ -109,8 +109,8 @@ It downloads the latest "jawiki-latest-pages-articles-multistream.xml.bz2" (over
 IMF は IME とLinuxソフトを橋渡しするもので、[多くの言語](https://fcitx-im.org/wiki/Input_method_engines)で必要になる。
 需要が日本に限定されないので、以下では日本語IMEについて考える。
 
-デフォルトで使用されることの多い Mozc は、Google日本語入力\ の[サブセット](https://github.com/google/mozc#whats-mozc)で、[マルチプラットフォーム](https://github.com/google/mozc#build-instructions)。
-Linuxで使用される[オープンソースの日本語IME](https://github.com/search?q=japanese+input+method&type=repositories&s=stars&o=desc)は、マルチプラットフォームになっていたり、他のOSに移植されていたりする。「Linux日本語入力」に限定されるものではない。
+デフォルトで使用されることの多い Mozc は、Google日本語入力\ の[サブセット](https://github.com/google/mozc#whats-mozc)で、[マルチプラットフォーム](https://github.com/google/mozc#build-instructions)。「Linux日本語入力」に限定されるものではない。
+Linuxで使用される[オープンソースの日本語IME](https://github.com/search?q=japanese+input+method&type=repositories)は、マルチプラットフォームになっていたり、他のOSに移植されていたりする。
 
 ☘️ 「オープンソースの日本語IMEは需要が小さいから終わる」
 オープンソースソフトウェアの場合、需要の小ささと開発の終了はあまり関係がない。
@@ -149,7 +149,7 @@ UT辞書に関して言うと、山田さんは過去にも「[-ut系はライ�
 > Ut系辞書はライセンス的に微妙なのでまともな方法がほしい
 > 2023年1月9日 · 61 いいね
 
-数十人から「まともじゃない」と言われて、公開を続けるのはどうなんだろうか。
+数十人から「まともじゃない」と言われて、公開を続けるのはどうなんだろう。
 今後も同じことを言われるのはしんどいし、山田さんにはフォロワーが6000人以上いるので、そこからの反応もあるだろう。このまま公開を続けると面倒なことになるかもしれない。
 
 山田さんのツイートを掲載して、UT辞書の公開終了をアナウンスした。
