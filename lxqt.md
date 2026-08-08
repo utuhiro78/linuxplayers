@@ -1,6 +1,6 @@
 ---
 title: Labwc と LXQt の設定
-date: 2026-07-08
+date: 2026-08-09
 ---
 
 ## Labwc と LXQt をインストール
@@ -17,8 +17,8 @@ yay -S --needed lxqt lxqt-wayland-session labwc qt6-tools
 mousepad ~/.config/labwc/environment
 ```
 
-「# XKB_DEFAULT_LAYOUT=se」を
-「XKB_DEFAULT_LAYOUT=jp」に変更。
+```# XKB_DEFAULT_LAYOUT=se``` を
+```XKB_DEFAULT_LAYOUT=jp``` に変更。
 
 設定を反映させる。
 
@@ -32,10 +32,22 @@ labwc --reconfigure
 mousepad ~/.config/labwc/environment
 ```
 
-「# XCURSOR_THEME=」を
-「XCURSOR_THEME=Future-cursors」に変更。
-「# XCURSOR_SIZE=」を
-「XCURSOR_SIZE=24」に変更。
+```# XCURSOR_THEME=``` を
+```XCURSOR_THEME=Future-cursors``` に変更。
+
+```# XCURSOR_SIZE=``` を
+```XCURSOR_SIZE=24``` に変更。
+
+### ウィンドウのスナップを無効にする
+
+ウィンドウを画面最上部にドラッグしても、ウィンドウが拡大されないようにする。
+
+```
+mousepad ~/.config/labwc/rc.xml
+```
+
+```<range inner="10" outer="10" />``` を
+```<range inner="0" outer="0" />``` に変更。
 
 ### マウスホイールでウィンドウを上に出す
 
@@ -43,7 +55,7 @@ mousepad ~/.config/labwc/environment
 mousepad ~/.config/labwc/rc.xml
 ```
 
-「\<context name=\"TitleBar\"\>」の部分を次のように変更。
+```<context name="TitleBar">``` の部分を次のように変更。
 
 ```
       <mousebind direction="Up" action="Scroll">
@@ -56,7 +68,7 @@ mousepad ~/.config/labwc/rc.xml
       </mousebind>
 ```
 
-「\<context name=\"Client\"\>」の部分に次の行を追加。
+```<context name="Client">``` の部分に次の行を追加。
 
 ```
       <mousebind direction="Up" action="Scroll">
