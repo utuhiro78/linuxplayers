@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-07-01" />
+  <meta name="dcterms.date" content="2026-08-08" />
   <title>Arch Linux の設定2</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,12 +12,16 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定2</h1>
-<p class="date">2026-07-01</p>
+<p class="date">2026-08-08</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
 <li><a href="#cpuの脆弱性が緩和されているか確認"
 id="toc-cpuの脆弱性が緩和されているか確認">CPUの脆弱性が緩和されているか確認</a></li>
+<li><a href="#インストール済みのパッケージをサイズが大きい順に表示"
+id="toc-インストール済みのパッケージをサイズが大きい順に表示">インストール済みのパッケージをサイズが大きい順に表示</a></li>
+<li><a href="#孤立したパッケージを削除"
+id="toc-孤立したパッケージを削除">孤立したパッケージを削除</a></li>
 <li><a href="#ディスプレイマネージャを-sddm-に変更"
 id="toc-ディスプレイマネージャを-sddm-に変更">ディスプレイマネージャを
 SDDM に変更</a></li>
@@ -75,6 +79,11 @@ id="cpuの脆弱性が緩和されているか確認">CPUの脆弱性が緩和�
 <pre><code>wget https://github.com/speed47/spectre-meltdown-checker/raw/master/spectre-meltdown-checker.sh
 sudo sh spectre-meltdown-checker.sh</code></pre>
 <p>「SUMMARY」がすべて「OK」（緑色）になっていれば問題ない。</p>
+<h3
+id="インストール済みのパッケージをサイズが大きい順に表示">インストール済みのパッケージをサイズが大きい順に表示</h3>
+<pre><code>LC_ALL=C pacman -Qi | awk &#39;/^Name/ { name=$3 } /^Installed Size/ { print $4 $5, name }&#39; | sort -h -r | more</code></pre>
+<h3 id="孤立したパッケージを削除">孤立したパッケージを削除</h3>
+<pre><code>if orphans=$(pacman -Qdtq); then sudo pacman -Rns $orphans; else echo &quot;No orphans found.&quot;; fi</code></pre>
 <h3 id="ディスプレイマネージャを-sddm-に変更">ディスプレイマネージャを
 SDDM に変更</h3>
 <pre><code>yay -S --needed sddm

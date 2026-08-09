@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-07-01
+date: 2026-08-08
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -11,6 +11,18 @@ sudo sh spectre-meltdown-checker.sh
 ```
 
 「SUMMARY」がすべて「OK」（緑色）になっていれば問題ない。
+
+### インストール済みのパッケージをサイズが大きい順に表示
+
+```
+LC_ALL=C pacman -Qi | awk '/^Name/ { name=$3 } /^Installed Size/ { print $4 $5, name }' | sort -h -r | more
+```
+
+### 孤立したパッケージを削除
+
+```
+if orphans=$(pacman -Qdtq); then sudo pacman -Rns $orphans; else echo "No orphans found."; fi
+```
 
 ### ディスプレイマネージャを SDDM に変更
 
