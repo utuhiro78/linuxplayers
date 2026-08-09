@@ -91,8 +91,7 @@ id="ウィンドウのスナップを無効にする">ウィンドウのスナ�
 <h3
 id="マウスホイールでウィンドウを上に出す">マウスホイールでウィンドウを上に出す</h3>
 <pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
-<p><code>&lt;context name="TitleBar"&gt;</code>
-の部分を次のように変更。</p>
+<p><code>&lt;context name="TitleBar"&gt;</code> を次のように変更。</p>
 <pre><code>      &lt;mousebind direction=&quot;Up&quot; action=&quot;Scroll&quot;&gt;
         &lt;action name=&quot;Focus&quot; /&gt;
         &lt;action name=&quot;Raise&quot; /&gt;
@@ -101,7 +100,7 @@ id="マウスホイールでウィンドウを上に出す">マウスホイー�
         &lt;action name=&quot;Focus&quot; /&gt;
         &lt;action name=&quot;Raise&quot; /&gt;
       &lt;/mousebind&gt;</code></pre>
-<p><code>&lt;context name="Client"&gt;</code> の部分に次の行を追加。</p>
+<p><code>&lt;context name="Client"&gt;</code> に次の行を追加。</p>
 <pre><code>      &lt;mousebind direction=&quot;Up&quot; action=&quot;Scroll&quot;&gt;
         &lt;action name=&quot;Focus&quot; /&gt;
         &lt;action name=&quot;Raise&quot; /&gt;
@@ -116,7 +115,8 @@ id="中クリックでのテキスト貼り付けを有効にする">中クリ�
 <h3
 id="音量変更のショートカットを設定">音量変更のショートカットを設定</h3>
 <p>「lxqt-config-globalkeyshortcuts」は Wayland
-ではサポートされていない。</p>
+ではサポートされていない。<br />
+ショートカットは <code>~/.config/labwc/rc.xml</code> で設定する。</p>
 <pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
 <p>「Ctrl+PageUp」「Ctrl+PageDown」で音量を変更する場合は次のように設定。</p>
 <pre><code>    &lt;keybind key=&quot;C-Next&quot;&gt;
