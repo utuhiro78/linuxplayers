@@ -356,7 +356,7 @@ ristretto rsync vulkan-radeon webp-pixbuf-loader wget
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
 chmod a+x yt-dlp
 sudo mv yt-dlp /usr/bin/
-sudo yt-dlp --update-to master
+sudo yt-dlp -U
 
 # mousepad のカーソル位置を常に1行目にする
 mkdir -p ~/tmp_arch
