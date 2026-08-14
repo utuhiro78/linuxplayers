@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-08-12
+date: 2026-08-14
 ---
 
 ## mpv の特徴
@@ -95,6 +95,12 @@ quiet=yes
 # https://mpv.io/manual/stable/#on-screen-controller-timetotal
 # 右下の「残り時間」を「全体時間」に変更。
 script-opts=osc-timetotal=yes
+
+# ウィンドウのタイトルバーに動画タイトルではなくファイル名を表示
+title='${filename}'
+
+# プレイリストに動画タイトルではなくファイル名を表示
+osd-playlist-entry=filename
 ```
 
 ### input.conf を設定

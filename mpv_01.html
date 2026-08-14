@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-08-12" />
+  <meta name="dcterms.date" content="2026-08-14" />
   <title>mpv の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">mpv の設定</h1>
-<p class="date">2026-08-12</p>
+<p class="date">2026-08-14</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -130,7 +130,13 @@ quiet=yes
 # オンスクリーンコントローラー
 # https://mpv.io/manual/stable/#on-screen-controller-timetotal
 # 右下の「残り時間」を「全体時間」に変更。
-script-opts=osc-timetotal=yes</code></pre>
+script-opts=osc-timetotal=yes
+
+# ウィンドウのタイトルバーに動画タイトルではなくファイル名を表示
+title=&#39;${filename}&#39;
+
+# プレイリストに動画タイトルではなくファイル名を表示
+osd-playlist-entry=filename</code></pre>
 <h3 id="input.conf-を設定">input.conf を設定</h3>
 <p>~/.config/mpv/input.conf に次の行を追加。デフォルトは<a
 href="https://raw.githubusercontent.com/mpv-player/mpv/refs/heads/master/etc/input.conf">こちら</a>。</p>
