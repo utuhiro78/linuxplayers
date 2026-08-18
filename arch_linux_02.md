@@ -350,7 +350,8 @@ evince fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt \
 gnome-disk-utility less libva-utils lm_sensors mousepad mpv \
 ncdu noto-fonts noto-fonts-emoji 7zip fuse poppler-data \
 flake8 python-jaconv python-psutil qt6-tools ripgrep \
-ristretto rsync vulkan-radeon webp-pixbuf-loader wget
+ristretto rsync vulkan-radeon webp-pixbuf-loader wget \
+dash lxqt-wayland-session labwc qt6-tools gcc make pkgconf
 
 # yt-dlp
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp

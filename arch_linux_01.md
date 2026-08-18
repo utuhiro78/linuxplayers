@@ -35,18 +35,18 @@ fi
 
 # AUR パッケージをビルドするときのスレッド数を論理プロセッサ数にする
 cp /etc/makepkg.conf .
-sed -i -e 's,#MAKEFLAGS="-j2",MAKEFLAGS="-j\$(nproc)",g' makepkg.conf
+sed -i 's/^#\(MAKEFLAGS="-j\)[0-9]*\(.*\)/\1$(nproc)\2/' makepkg.conf
 sudo mv makepkg.conf /etc/
 
 # debug パッケージを作らない
 cp /etc/makepkg.conf .
-sed -i -e 's,purge\ debug,purge\ \!debug,g' makepkg.conf
+sed -i 's/purge debug/purge !debug/g' makepkg.conf
 sudo mv makepkg.conf /etc/
 
 # multilib を使用しない
 cp /etc/pacman.conf .
-python -c "import sys; open('pacman.conf.new', 'w').write(open('pacman.conf').read().replace('[multilib]\n\nInclude', '#[multilib]\n\n#Include'))"
-sudo mv pacman.conf.new /etc/pacman.conf
+sed -i 's/^\[multilib\]/#&/; n; s/^Include/#&/' pacman.conf
+sudo mv pacman.conf /etc/
 
 # [CachyOS, EndeavourOS] yay をインストール
 if [[ "$ID" = "cachyos" || "$ID" = "endeavouros" ]]; then
@@ -68,7 +68,7 @@ yay -Scc
 
 # パッケージのキャッシュディレクトリを /tmp に変更（再起動するとキャッシュが空になる）
 cp /etc/pacman.conf .
-sed -i -e 's,#CacheDir\ \ \ \ \=\ \/var,CacheDir\ \ \ \ \ \=\ \/tmp,g' pacman.conf
+sed -i 's,#CacheDir    = /var,CacheDir    = /tmp,' pacman.conf
 sudo mv pacman.conf /etc/
 
 # DNSリゾルバを Cloudflare に変更
