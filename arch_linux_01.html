@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-07-27" />
+  <meta name="dcterms.date" content="2026-08-18" />
   <title>Arch Linux の設定1</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定1</h1>
-<p class="date">2026-07-27</p>
+<p class="date">2026-08-18</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -33,12 +33,18 @@ id="toc-mozc-の変換精度が下がってきた場合">Mozc
 </ul>
 </nav>
 <h2 id="最初に行うこと">最初に行うこと</h2>
-<pre><code>sudo pacman -S --needed wget
-mkdir -p ~/tmp_arch
+<pre><code>mkdir -p ~/tmp_arch
 cd ~/tmp_arch/
 
+# 使用中の OS を識別
+. /etc/os-release
+
+sudo pacman -S --needed wget
+
 # [CachyOS] デフォルトシェルを bash に変更
-chsh -s /usr/bin/bash
+if [ &quot;$ID&quot; = &quot;cachyos&quot; ]; then
+    chsh -s /usr/bin/bash
+fi
 
 # [archinstall] ログを削除
 sudo rm -rf /var/log/archinstall/
@@ -50,7 +56,9 @@ sudo reflector -c jp -f 5 --save /etc/pacman.d/mirrorlist
 sudo pacman -Sy
 
 # [CachyOS] 高速なダウンロードサーバを選択
-sudo cachyos-rate-mirrors
+if [ &quot;$ID&quot; = &quot;cachyos&quot; ]; then
+    sudo cachyos-rate-mirrors
+fi
 
 # AUR パッケージをビルドするときのスレッド数を論理プロセッサ数にする
 cp /etc/makepkg.conf .
@@ -68,15 +76,19 @@ python -c &quot;import sys; open(&#39;pacman.conf.new&#39;, &#39;w&#39;).write(o
 sudo mv pacman.conf.new /etc/pacman.conf
 
 # [CachyOS, EndeavourOS] yay をインストール
-sudo pacman -S --needed yay
+if [[ &quot;$ID&quot; = &quot;cachyos&quot; || &quot;$ID&quot; = &quot;endeavouros&quot; ]]; then
+    sudo pacman -S --needed yay
+fi
 
 # [Arch Linux] yay をインストール
-sudo pacman -S --needed fakeroot
-wget -N https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
-tar -xf yay-bin.tar.gz
-cd yay-bin/
-makepkg -is
-cd ~/tmp_arch/
+if [ &quot;$ID&quot; = &quot;arch&quot; ]; then
+    sudo pacman -S --needed fakeroot
+    wget -N https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
+    tar -xf yay-bin.tar.gz
+    cd yay-bin/
+    makepkg -is
+    cd ../
+fi
 
 # パッケージのキャッシュを削除
 yay -Scc
@@ -166,8 +178,10 @@ sed -i -e &#39;s,Nachlieli,Noto\ Sans\ CJK\ JP,g&#39; 65-nonlatin.conf
 sed -i -e &#39;s,Miriam\ Mono,Noto\ Sans\ Mono\ CJK\ JP,g&#39; 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/
 
-# [AMD の GPU] ドライバをインストール
-yay -S --needed vulkan-radeon libva-utils</code></pre>
+# [Radeon] ドライバをインストール
+if lspci -k | grep -q &#39;Kernel driver in use: amdgpu&#39;; then
+    yay -S --needed vulkan-radeon libva-utils
+fi</code></pre>
 <h2 id="日本語を入力できるようにする">日本語を入力できるようにする</h2>
 <h3 id="fcitx5-と-mozc-をインストール">Fcitx5 と Mozc
 をインストール</h3>

@@ -1,6 +1,6 @@
 ---
 title: Labwc と LXQt の設定
-date: 2026-08-09
+date: 2026-08-18
 ---
 
 ## Labwc と LXQt をインストール
@@ -81,7 +81,7 @@ mousepad ~/.config/labwc/rc.xml
       </mousebind>
 ```
 
-### 中クリックでのテキスト貼り付けを有効にする
+### 中クリックによるテキスト貼り付けを有効にする
 
 ```
 gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true
@@ -265,7 +265,7 @@ yay -S --needed python-psutil
 python ~/get_cpu_usage_and_temp.py
 ```
 
-### Xorg に依存しないディスプレイマネージャーに変更
+### ディスプレイマネージャーを emptty に変更
 
 例: lightdm から emptty に変更
 
