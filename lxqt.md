@@ -1,6 +1,6 @@
 ---
 title: Labwc と LXQt の設定
-date: 2026-08-18
+date: 2026-08-20
 ---
 
 ## Labwc と LXQt をインストール
@@ -23,7 +23,7 @@ mousepad ~/.config/labwc/environment
 設定を反映させる。
 
 ```
-labwc --reconfigure
+labwc -r
 ```
 
 ### マウスカーソルのテーマを変更
@@ -89,14 +89,15 @@ gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true
 
 ### 音量変更のショートカットを設定
 
-「lxqt-config-globalkeyshortcuts」は Wayland ではサポートされていない。
-ショートカットは `~/.config/labwc/rc.xml` で設定する。
+「lxqt-config-globalkeyshortcuts」は Wayland ではサポートされていないので、
+`~/.config/labwc/rc.xml` で設定する。
 
 ```
 mousepad ~/.config/labwc/rc.xml
 ```
 
-「Ctrl+PageUp」「Ctrl+PageDown」で音量を変更する場合は次のように設定。
+「Ctrl+PageUp」「Ctrl+PageDown」で音量を変更する場合は、
+`<keyboard>` に次の行を追加。
 
 ```
     <keybind key="C-Next">
@@ -113,7 +114,7 @@ mousepad ~/.config/labwc/rc.xml
 mousepad ~/.config/labwc/rc.xml
 ```
 
-この部分を削除。
+`<keyboard>` のこの部分を削除。
 
 ```
     <!-- For qterminal dropdown -->
@@ -128,7 +129,7 @@ mousepad ~/.config/labwc/rc.xml
 mousepad ~/.config/labwc/rc.xml
 ```
 
-この部分を削除。
+`<context name="Root">` のこの部分を削除。
 
 ```
       <mousebind button="Left" action="Press">
@@ -139,9 +140,9 @@ mousepad ~/.config/labwc/rc.xml
 ### 壁紙を右クリックしたときに表示されるメニューを更新
 
 ```
-yay -S labwc-menu-generator-git
+yay -S --needed labwc-menu-generator-git
 labwc-menu-generator --icons > ~/.config/labwc/menu.xml
-labwc --reconfigure
+labwc -r
 ```
 
 ### Labwc のテーマを変更
@@ -163,7 +164,7 @@ rc.xml を編集。
 mousepad ~/.config/labwc/rc.xml
 ```
 
-\<theme\> を次のように変更。
+`<theme>` を次のように変更。
 
 ```
   <theme>
