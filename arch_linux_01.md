@@ -37,12 +37,12 @@ fi
 
 # AUR パッケージをビルドするときのスレッド数を論理プロセッサ数にする
 cp /etc/makepkg.conf .
-sed -i 's/^#\(MAKEFLAGS="-j\)[0-9]*\(.*\)/\1$(nproc)\2/' makepkg.conf
+sed -i 's,#MAKEFLAGS="-j2",MAKEFLAGS="-j$(nproc)",g' makepkg.conf
 sudo mv makepkg.conf /etc/
 
 # debug パッケージを作らない
 cp /etc/makepkg.conf .
-sed -i 's/purge debug/purge !debug/g' makepkg.conf
+sed -i 's,purge debug,purge !debug,g' makepkg.conf
 sudo mv makepkg.conf /etc/
 
 # multilib を使用しない
