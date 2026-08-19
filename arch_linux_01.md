@@ -47,7 +47,7 @@ sudo mv makepkg.conf /etc/
 
 # multilib を使用しない
 cp /etc/pacman.conf .
-sed -i 's/^\[multilib\]/#&/; n; s/^Include/#&/' pacman.conf
+sed -i -z 's,\[multilib\]\nInclude,#\[multilib\]\n#Include,g' pacman.conf
 sudo mv pacman.conf /etc/
 
 # [CachyOS, EndeavourOS] yay をインストール
