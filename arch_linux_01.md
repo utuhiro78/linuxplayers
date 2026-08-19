@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定1
-date: 2026-08-18
+date: 2026-08-19
 ---
 
 ## 最初に行うこと
@@ -20,7 +20,9 @@ if [ "$ID" = "cachyos" ]; then
 fi
 
 # [archinstall] ログを削除
-sudo rm -rf /var/log/archinstall/
+if [ "$ID" = "arch" ]; then
+    sudo rm -rf /var/log/archinstall/
+fi
 
 # 高速なダウンロードサーバを選択
 sudo pacman -S --needed archlinux-keyring
@@ -73,7 +75,8 @@ sudo mv pacman.conf /etc/
 
 # DNSリゾルバを Cloudflare に変更
 printf "[main]
-dns=none" > NetworkManager.conf
+dns=none
+" > NetworkManager.conf
 sudo mv NetworkManager.conf /etc/NetworkManager/
 
 printf "nameserver 2606:4700:4700::1111
@@ -128,7 +131,8 @@ XDG_VIDEOS_DIR="$HOME"
 ' > ~/.config/user-dirs.dirs
 
 # コアダンプを無効にする
-printf "kernel.core_pattern=|/bin/false" > 50-coredump.conf
+printf "kernel.core_pattern=|/bin/false
+" > 50-coredump.conf
 sudo mv 50-coredump.conf /etc/sysctl.d/50-coredump.conf
 sudo sysctl -p /etc/sysctl.d/50-coredump.conf
 
@@ -144,11 +148,9 @@ yay -S --needed noto-fonts-cjk
 mkdir -p ~/.local/share/fonts/
 cp -f /usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc ~/.local/share/fonts/
 
-# ディスプレイマネージャのフォントを noto-fonts-cjk に変更
+# ディスプレイマネージャのフォントを「Noto Sans Mono CJK JP」に変更
 cp /etc/fonts/conf.d/65-nonlatin.conf .
-sed -i -e 's,Artsounk,Noto\ Serif\ CJK\ JP,g' 65-nonlatin.conf
-sed -i -e 's,Nachlieli,Noto\ Sans\ CJK\ JP,g' 65-nonlatin.conf
-sed -i -e 's,Miriam\ Mono,Noto\ Sans\ Mono\ CJK\ JP,g' 65-nonlatin.conf
+sed -i 's,IPAGothic,Noto Sans Mono CJK JP,g' 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/
 
 # [Radeon] ドライバをインストール

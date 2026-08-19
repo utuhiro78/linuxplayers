@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-08-18" />
+  <meta name="dcterms.date" content="2026-08-19" />
   <title>Arch Linux の設定1</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定1</h1>
-<p class="date">2026-08-18</p>
+<p class="date">2026-08-19</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -47,7 +47,9 @@ if [ &quot;$ID&quot; = &quot;cachyos&quot; ]; then
 fi
 
 # [archinstall] ログを削除
-sudo rm -rf /var/log/archinstall/
+if [ &quot;$ID&quot; = &quot;arch&quot; ]; then
+    sudo rm -rf /var/log/archinstall/
+fi
 
 # 高速なダウンロードサーバを選択
 sudo pacman -S --needed archlinux-keyring
@@ -100,7 +102,8 @@ sudo mv pacman.conf /etc/
 
 # DNSリゾルバを Cloudflare に変更
 printf &quot;[main]
-dns=none&quot; &gt; NetworkManager.conf
+dns=none
+&quot; &gt; NetworkManager.conf
 sudo mv NetworkManager.conf /etc/NetworkManager/
 
 printf &quot;nameserver 2606:4700:4700::1111
@@ -155,7 +158,8 @@ XDG_VIDEOS_DIR=&quot;$HOME&quot;
 &#39; &gt; ~/.config/user-dirs.dirs
 
 # コアダンプを無効にする
-printf &quot;kernel.core_pattern=|/bin/false&quot; &gt; 50-coredump.conf
+printf &quot;kernel.core_pattern=|/bin/false
+&quot; &gt; 50-coredump.conf
 sudo mv 50-coredump.conf /etc/sysctl.d/50-coredump.conf
 sudo sysctl -p /etc/sysctl.d/50-coredump.conf
 
@@ -171,11 +175,9 @@ yay -S --needed noto-fonts-cjk
 mkdir -p ~/.local/share/fonts/
 cp -f /usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc ~/.local/share/fonts/
 
-# ディスプレイマネージャのフォントを noto-fonts-cjk に変更
+# ディスプレイマネージャのフォントを「Noto Sans Mono CJK JP」に変更
 cp /etc/fonts/conf.d/65-nonlatin.conf .
-sed -i -e &#39;s,Artsounk,Noto\ Serif\ CJK\ JP,g&#39; 65-nonlatin.conf
-sed -i -e &#39;s,Nachlieli,Noto\ Sans\ CJK\ JP,g&#39; 65-nonlatin.conf
-sed -i -e &#39;s,Miriam\ Mono,Noto\ Sans\ Mono\ CJK\ JP,g&#39; 65-nonlatin.conf
+sed -i &#39;s,IPAGothic,Noto Sans Mono CJK JP,g&#39; 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/
 
 # [Radeon] ドライバをインストール
