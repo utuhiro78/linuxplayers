@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-08-08
+date: 2026-08-21
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -12,13 +12,21 @@ sudo sh spectre-meltdown-checker.sh
 
 「SUMMARY」がすべて「OK」（緑色）になっていれば問題ない。
 
-### インストール済みのパッケージをサイズが大きい順に表示
+### Pacman: パッケージ名を検索
+
+```
+pacman -Slq | grep qt.*compat
+
+# => qt6-5compat
+```
+
+### Pacman: インストール済みのパッケージをサイズが大きい順に表示
 
 ```
 LC_ALL=C pacman -Qi | awk '/^Name/ { name=$3 } /^Installed Size/ { print $4 $5, name }' | sort -h -r | more
 ```
 
-### 孤立したパッケージを削除
+### Pacman: 孤立したパッケージを削除
 
 ```
 if orphans=$(pacman -Qdtq); then sudo pacman -Rns $orphans; else echo "No orphans found."; fi
@@ -165,7 +173,7 @@ udevadm info -e | grep -e MEMORY_DEVICE | grep SPEED
 
 ### \$HOME のバックアップと復元
 
-\$HOME にある 10MB 以下のファイルを \$HOME/_tmp/home_bak/ にバックアップする。
+`$HOME` にある 10MB 以下のファイルを `$HOME/_tmp/home_bak/` にバックアップする。
 
 ```
 mkdir -p $HOME/_tmp
@@ -188,7 +196,7 @@ tar --zstd -cf home_bak.tar.zst home_bak/
 ```
 
 home_bak.tar.zst をUSBメモリに保存。
-これがあればSSDが壊れてもパスワードや設定ファイルを残せる。
+これがあればSSDが壊れてもパスワードや設定ファイルを復元できる。
 
 #### \$HOME を復元
 
@@ -234,6 +242,12 @@ sudo smartctl -a /dev/nvme0 | grep "SMART overall-health"
 sudo smartctl -t short /dev/nvme0
 ```
 
+3-4分経ったら結果を表示。
+
+```
+sudo smartctl -l selftest /dev/nvme0
+```
+
 ### ext4 の断片化状態を確認
 
 例として /home パーティションの断片化状態を確認する。
@@ -277,14 +291,10 @@ sudo tune2fs -m 0 /dev/nvme0n1p3
 ### WDの IntelliPark を回避
 
 7秒ごとにSMART情報を読み込んで、IntelliPark を回避する。
+「/dev/sda」は環境に応じて変更する。
 
 ```
-mousepad prevent-intellipark-sda
-```
-
-次の行を貼り付けて保存。「/dev/sda」はデバイスの場所。環境に応じて変更する。
-
-```
+cat << 'EOF' > prevent-intellipark-sda
 #!/bin/sh
 
 while true
@@ -292,18 +302,13 @@ do
     sudo smartctl -a /dev/sda | grep Load_Cycle_Count
     sleep 7
 done
-```
+EOF
 
-インストール。
-
-```
+# インストール
 chmod a+x prevent-intellipark-sda
-sudo cp prevent-intellipark-sda /usr/bin/
-```
+sudo mv prevent-intellipark-sda /usr/bin/
 
-実行。
-
-```
+# 実行
 sudo prevent-intellipark-sda
 ```
 

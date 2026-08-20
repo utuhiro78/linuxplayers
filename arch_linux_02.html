@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-08-08" />
+  <meta name="dcterms.date" content="2026-08-21" />
   <title>Arch Linux の設定2</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,16 +12,21 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定2</h1>
-<p class="date">2026-08-08</p>
+<p class="date">2026-08-21</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
 <li><a href="#cpuの脆弱性が緩和されているか確認"
 id="toc-cpuの脆弱性が緩和されているか確認">CPUの脆弱性が緩和されているか確認</a></li>
-<li><a href="#インストール済みのパッケージをサイズが大きい順に表示"
-id="toc-インストール済みのパッケージをサイズが大きい順に表示">インストール済みのパッケージをサイズが大きい順に表示</a></li>
-<li><a href="#孤立したパッケージを削除"
-id="toc-孤立したパッケージを削除">孤立したパッケージを削除</a></li>
+<li><a href="#pacman-パッケージ名を検索"
+id="toc-pacman-パッケージ名を検索">Pacman: パッケージ名を検索</a></li>
+<li><a
+href="#pacman-インストール済みのパッケージをサイズが大きい順に表示"
+id="toc-pacman-インストール済みのパッケージをサイズが大きい順に表示">Pacman:
+インストール済みのパッケージをサイズが大きい順に表示</a></li>
+<li><a href="#pacman-孤立したパッケージを削除"
+id="toc-pacman-孤立したパッケージを削除">Pacman:
+孤立したパッケージを削除</a></li>
 <li><a href="#ディスプレイマネージャを-sddm-に変更"
 id="toc-ディスプレイマネージャを-sddm-に変更">ディスプレイマネージャを
 SDDM に変更</a></li>
@@ -79,10 +84,16 @@ id="cpuの脆弱性が緩和されているか確認">CPUの脆弱性が緩和�
 <pre><code>wget https://github.com/speed47/spectre-meltdown-checker/raw/master/spectre-meltdown-checker.sh
 sudo sh spectre-meltdown-checker.sh</code></pre>
 <p>「SUMMARY」がすべて「OK」（緑色）になっていれば問題ない。</p>
+<h3 id="pacman-パッケージ名を検索">Pacman: パッケージ名を検索</h3>
+<pre><code>pacman -Slq | grep qt.*compat
+
+# =&gt; qt6-5compat</code></pre>
 <h3
-id="インストール済みのパッケージをサイズが大きい順に表示">インストール済みのパッケージをサイズが大きい順に表示</h3>
+id="pacman-インストール済みのパッケージをサイズが大きい順に表示">Pacman:
+インストール済みのパッケージをサイズが大きい順に表示</h3>
 <pre><code>LC_ALL=C pacman -Qi | awk &#39;/^Name/ { name=$3 } /^Installed Size/ { print $4 $5, name }&#39; | sort -h -r | more</code></pre>
-<h3 id="孤立したパッケージを削除">孤立したパッケージを削除</h3>
+<h3 id="pacman-孤立したパッケージを削除">Pacman:
+孤立したパッケージを削除</h3>
 <pre><code>if orphans=$(pacman -Qdtq); then sudo pacman -Rns $orphans; else echo &quot;No orphans found.&quot;; fi</code></pre>
 <h3 id="ディスプレイマネージャを-sddm-に変更">ディスプレイマネージャを
 SDDM に変更</h3>
@@ -174,8 +185,8 @@ xrandr --output HDMI-A-0 --brightness 1</code></pre>
 # E: MEMORY_DEVICE_3_SPEED_MTS=4000
 # E: MEMORY_DEVICE_3_CONFIGURED_SPEED_MTS=4000</code></pre>
 <h3 id="home-のバックアップと復元">$HOME のバックアップと復元</h3>
-<p>$HOME にある 10MB 以下のファイルを $HOME/_tmp/home_bak/
-にバックアップする。</p>
+<p><code>$HOME</code> にある 10MB 以下のファイルを
+<code>$HOME/_tmp/home_bak/</code> にバックアップする。</p>
 <pre><code>mkdir -p $HOME/_tmp
 
 rsync -av \
@@ -194,7 +205,7 @@ $HOME/ $HOME/_tmp/home_bak/
 cd $HOME/_tmp/
 tar --zstd -cf home_bak.tar.zst home_bak/</code></pre>
 <p>home_bak.tar.zst をUSBメモリに保存。<br />
-これがあればSSDが壊れてもパスワードや設定ファイルを残せる。</p>
+これがあればSSDが壊れてもパスワードや設定ファイルを復元できる。</p>
 <h4 id="home-を復元">$HOME を復元</h4>
 <pre><code># tmpfs にファイルを解凍
 tar -xf home_bak.tar.zst -C /tmp/
@@ -217,6 +228,8 @@ sudo smartctl -a /dev/nvme0 | grep &quot;Data Units Written&quot;
 # SMART overall-health self-assessment test result: PASSED</code></pre>
 <p>必要ならショートテストを行う。</p>
 <pre><code>sudo smartctl -t short /dev/nvme0</code></pre>
+<p>3-4分経ったら結果を表示。</p>
+<pre><code>sudo smartctl -l selftest /dev/nvme0</code></pre>
 <h3 id="ext4-の断片化状態を確認">ext4 の断片化状態を確認</h3>
 <p>例として /home パーティションの断片化状態を確認する。<br />
 最初に /home のデバイス名を調べる。</p>
@@ -242,21 +255,24 @@ href="https://wiki.archlinux.org/index.php/ext4#Reserved_blocks">予約ブロッ
 <p>/dev/nvme0n1p3 の予約ブロックを 0 にする。</p>
 <pre><code>sudo tune2fs -m 0 /dev/nvme0n1p3</code></pre>
 <h3 id="wdの-intellipark-を回避">WDの IntelliPark を回避</h3>
-<p>7秒ごとにSMART情報を読み込んで、IntelliPark を回避する。</p>
-<pre><code>mousepad prevent-intellipark-sda</code></pre>
-<p>次の行を貼り付けて保存。「/dev/sda」はデバイスの場所。環境に応じて変更する。</p>
-<pre><code>#!/bin/sh
+<p>7秒ごとにSMART情報を読み込んで、IntelliPark を回避する。<br />
+「/dev/sda」は環境に応じて変更する。</p>
+<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; prevent-intellipark-sda
+#!/bin/sh
 
 while true
 do
     sudo smartctl -a /dev/sda | grep Load_Cycle_Count
     sleep 7
-done</code></pre>
-<p>インストール。</p>
-<pre><code>chmod a+x prevent-intellipark-sda
-sudo cp prevent-intellipark-sda /usr/bin/</code></pre>
-<p>実行。</p>
-<pre><code>sudo prevent-intellipark-sda</code></pre>
+done
+EOF
+
+# インストール
+chmod a+x prevent-intellipark-sda
+sudo mv prevent-intellipark-sda /usr/bin/
+
+# 実行
+sudo prevent-intellipark-sda</code></pre>
 <p>30秒ほど待って「Load_Cycle_Count」が増えなければ成功。</p>
 <h3 id="キーリピートを有効にする">キーリピートを有効にする</h3>
 <pre><code>xset r on</code></pre>
