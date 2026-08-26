@@ -1,6 +1,6 @@
 ---
 title: Mozc UT Dictionaries
-date: 2026-08-12
+date: 2026-08-27
 ---
 
 ## Overview
@@ -31,7 +31,7 @@ git clone --depth 1 https://github.com/utuhiro78/merge-ut-dictionaries.git
 
 ## Configure
 
-Comment out unnecessary dictionaries in src/merge/make.sh.
+Comment out unnecessary dictionaries in `src/merge/make.sh`.
 
 Default settings:
 
@@ -58,7 +58,7 @@ Build Mozc as usual.
 
 ## Option: Generate the UT dictionaries using the latest stuff
 
-Uncomment ```#generate_latest="true"``` in src/merge/make.sh.
+Uncomment ```#generate_latest="true"``` in `src/merge/make.sh`.
 
 It downloads the latest "jawiki-latest-pages-articles-multistream.xml.bz2" (over 4.2 GB).
 
@@ -70,7 +70,7 @@ It downloads the latest "jawiki-latest-pages-articles-multistream.xml.bz2" (over
 
 - [jawiki-latest-pages-articles-multistream-index.txt](https://dumps.wikimedia.org/jawiki/latest/): [CC BY-SA](https://ja.wikipedia.org/wiki/Wikipedia:ウィキペディアを二次利用する)
 
-  merge-ut-dictionaries use it to generate the costs for words.
+  merge-ut-dictionaries use it to calculate the costs of words.
 
 - [dictionary*.txt](https://github.com/google/mozc/tree/master/src/data/dictionary_oss) in Mozc: [Mixed](https://github.com/google/mozc/tree/master#srcdatadictionary_oss)
 
@@ -78,7 +78,7 @@ It downloads the latest "jawiki-latest-pages-articles-multistream.xml.bz2" (over
 
 - [id.def](https://github.com/google/mozc/tree/master/src/data/dictionary_oss) in Mozc: [BSD-3-Clause](https://github.com/google/mozc)
 
-  merge-ut-dictionaries use it to update ID.
+  merge-ut-dictionaries use it to update IDs.
 
 - Source code: Apache License, Version 2.0
 
@@ -194,7 +194,7 @@ Mozc UT辞書を入れたパーティションを壊してしまったので、�
 Mozc UT2辞書のコストをWikipedia全記事（解凍前で3GB）から計算するようにした。表記を全記事内で完全一致検索して、ヒット数からコストを計算する。この処理には長い時間と高い負荷がかかった。
 
 2020-02-06:
-NEologd辞書のコストをWikipedia全見出し（解凍前で12MB）から計算するようにした。表記を全見出し内で前方一致検索して、ヒット数からコストを計算する。Wikipedia全記事（解凍前で3GB）から計算すると時間がかかりすぎる。
+NEologd辞書のコストをWikipedia全見出し（解凍前で12MB）から計算するようにした。表記を全見出し内で前方一致検索して、ヒット数からコストを計算する。この処理は短時間で終わる。
 
 2020-06-11:
 UT2辞書とNEologd辞書をまとめて、改めて「Mozc UT辞書」としてリリース。コストの計算方法はNEologd辞書のものに統一した。
@@ -214,7 +214,7 @@ merge-ut-dictionaries のリポジトリを作成。
 辞書生成コードを Python で書き直した。オリジナルは Ruby。
 
 2024-10-22:
-辞書生成コードをすべて merge-ut-dictionaries/src/ に置くようにした。辞書を個別のリポジトリに置いたときに一部のコードもそこに分けたのだが、コードが分散していると開発効率が下がる。
+辞書生成コードをすべて `merge-ut-dictionaries/src/` に置くようにした。辞書を個別のリポジトリに置いたときに一部のコードもそこに分けたのだが、コードが分散していると開発効率が下がる。
 
 2026-04-03:
 辞書生成コードを Google AI のアドバイスを得て改良。
