@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-08-19" />
+  <meta name="dcterms.date" content="2026-08-29" />
   <title>Arch Linux の設定1</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定1</h1>
-<p class="date">2026-08-19</p>
+<p class="date">2026-08-29</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -187,14 +187,16 @@ fi</code></pre>
 <h2 id="日本語を入力できるようにする">日本語を入力できるようにする</h2>
 <h3 id="fcitx5-と-mozc-をインストール">Fcitx5 と Mozc
 をインストール</h3>
-<pre><code>yay -S --needed fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt fcitx5-mozc-ut
-
-# Fcitx5 をデフォルトの入力メソッドフレームワークにする
-printf &#39;export GTK_IM_MODULE=fcitx
+<pre><code>yay -S --needed fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt fcitx5-mozc</code></pre>
+<p>~/.bashrc に次の行を追加。~/.xprofile に追加すると Wayland
+では認識しないので注意。</p>
+<pre><code>export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
-&#39; &gt; ~/.xprofile</code></pre>
-<p>設定を有効にするためログアウトしてログイン。</p>
+export XMODIFIERS=@im=fcitx</code></pre>
+<p>設定を有効にするためログアウトしてログイン。<br />
+設定が反映されているか確認。</p>
+<pre><code>printf $GTK_IM_MODULE
+=&gt; fcitx</code></pre>
 <h3 id="fcitx5-を設定">Fcitx5 を設定</h3>
 <pre><code>fcitx5-configtool </code></pre>
 <p><img src="images/arch_01/arch_29.webp" /><br />

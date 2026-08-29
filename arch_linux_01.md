@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定1
-date: 2026-08-19
+date: 2026-08-29
 ---
 
 ## 最初に行うこと
@@ -164,16 +164,24 @@ fi
 ### Fcitx5 と Mozc をインストール
 
 ```
-yay -S --needed fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt fcitx5-mozc-ut
+yay -S --needed fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt fcitx5-mozc
+```
 
-# Fcitx5 をデフォルトの入力メソッドフレームワークにする
-printf 'export GTK_IM_MODULE=fcitx
+~/.bashrc に次の行を追加。~/.xprofile に追加すると Wayland では認識しないので注意。
+
+```
+export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
-' > ~/.xprofile
 ```
 
 設定を有効にするためログアウトしてログイン。
+設定が反映されているか確認。
+
+```
+printf $GTK_IM_MODULE
+=> fcitx
+```
 
 ### Fcitx5 を設定
 

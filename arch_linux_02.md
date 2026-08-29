@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-08-21
+date: 2026-08-29
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -12,12 +12,24 @@ sudo sh spectre-meltdown-checker.sh
 
 「SUMMARY」がすべて「OK」（緑色）になっていれば問題ない。
 
-### Pacman: パッケージ名を検索
+### Pacman: パッケージ名から検索
 
 ```
-pacman -Slq | grep qt.*compat
+pacman -Sl | grep qt.*compat
 
-# => qt6-5compat
+# extra qt6-5compat 6.11.2-1
+```
+
+### Pacman: パッケージ名と説明文から検索
+
+```
+pacman -Ss qt.*compat
+
+# extra/qt5-script 5.15.19-4 (qt5)
+#     Classes for making Qt applications scriptable. Provided for Qt 4.x
+#     compatibility
+# extra/qt6-5compat 6.11.2-1 (qt6)
+#     Module that contains unsupported Qt 5 APIs
 ```
 
 ### Pacman: インストール済みのパッケージをサイズが大きい順に表示
@@ -422,8 +434,12 @@ rm -f ~/.local/share/icons/Papirus*/*/*/*mozc*
 
 # ~/.bashrc の設定
 cat << 'EOF' > ~/.bashrc
-EDITOR=/usr/bin/mousepad
-export XCURSOR_PATH="~/.local/share/icons/"
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+
+export EDITOR=/usr/bin/mousepad
+export XCURSOR_PATH=~/.local/share/icons:/usr/share/icons
 
 alias df="df -h -x tmpfs"
 alias du="du -h"
