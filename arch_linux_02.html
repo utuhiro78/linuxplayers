@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-08-29" />
+  <meta name="dcterms.date" content="2026-08-31" />
   <title>Arch Linux の設定2</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定2</h1>
-<p class="date">2026-08-29</p>
+<p class="date">2026-08-31</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -28,6 +28,10 @@ id="toc-pacman-パッケージ名と説明文から検索">Pacman:
 href="#pacman-インストール済みのパッケージをサイズが大きい順に表示"
 id="toc-pacman-インストール済みのパッケージをサイズが大きい順に表示">Pacman:
 インストール済みのパッケージをサイズが大きい順に表示</a></li>
+<li><a
+href="#pacman-インストール済みのパッケージに含まれるファイルを表示"
+id="toc-pacman-インストール済みのパッケージに含まれるファイルを表示">Pacman:
+インストール済みのパッケージに含まれるファイルを表示</a></li>
 <li><a href="#pacman-孤立したパッケージを削除"
 id="toc-pacman-孤立したパッケージを削除">Pacman:
 孤立したパッケージを削除</a></li>
@@ -105,6 +109,10 @@ sudo sh spectre-meltdown-checker.sh</code></pre>
 id="pacman-インストール済みのパッケージをサイズが大きい順に表示">Pacman:
 インストール済みのパッケージをサイズが大きい順に表示</h3>
 <pre><code>LC_ALL=C pacman -Qi | awk &#39;/^Name/ { name=$3 } /^Installed Size/ { print $4 $5, name }&#39; | sort -h -r | more</code></pre>
+<h3
+id="pacman-インストール済みのパッケージに含まれるファイルを表示">Pacman:
+インストール済みのパッケージに含まれるファイルを表示</h3>
+<pre><code>pacman -Ql mpv</code></pre>
 <h3 id="pacman-孤立したパッケージを削除">Pacman:
 孤立したパッケージを削除</h3>
 <pre><code>if orphans=$(pacman -Qdtq); then sudo pacman -Rns $orphans; else echo &quot;No orphans found.&quot;; fi</code></pre>

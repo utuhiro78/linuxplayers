@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-08-29
+date: 2026-08-31
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -36,6 +36,12 @@ pacman -Ss qt.*compat
 
 ```
 LC_ALL=C pacman -Qi | awk '/^Name/ { name=$3 } /^Installed Size/ { print $4 $5, name }' | sort -h -r | more
+```
+
+### Pacman: インストール済みのパッケージに含まれるファイルを表示
+
+```
+pacman -Ql mpv
 ```
 
 ### Pacman: 孤立したパッケージを削除

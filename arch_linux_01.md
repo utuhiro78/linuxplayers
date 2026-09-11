@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定1
-date: 2026-08-29
+date: 2026-09-11
 ---
 
 ## 最初に行うこと
@@ -9,33 +9,40 @@ date: 2026-08-29
 mkdir -p ~/tmp_arch
 cd ~/tmp_arch/
 
+sudo pacman -S --needed wget
+
 # 使用中の OS を識別
 . /etc/os-release
-
-sudo pacman -S --needed wget
 
 # [CachyOS] デフォルトシェルを bash に変更
 if [ "$ID" = "cachyos" ]; then
     chsh -s /usr/bin/bash
 fi
 
-# [archinstall] ログを削除
+# [Arch Linux] インストールログを削除
 if [ "$ID" = "arch" ]; then
     sudo rm -rf /var/log/archinstall/
 fi
+```
 
+```
 # 高速なダウンロードサーバを選択
 sudo pacman -S --needed archlinux-keyring
 sudo pacman -S --needed reflector rsync
 sudo reflector -c jp -f 5 --save /etc/pacman.d/mirrorlist
 sudo pacman -Sy
 
+# 使用中の OS を識別
+. /etc/os-release
+
 # [CachyOS] 高速なダウンロードサーバを選択
 if [ "$ID" = "cachyos" ]; then
     sudo cachyos-rate-mirrors
 fi
+```
 
-# AUR パッケージをビルドするときのスレッド数を論理プロセッサ数にする
+```
+# AUR パッケージのビルドを論理プロセッサ数のスレッドで行う
 cp /etc/makepkg.conf .
 sed -i 's,#MAKEFLAGS="-j2",MAKEFLAGS="-j$(nproc)",g' makepkg.conf
 sudo mv makepkg.conf /etc/
@@ -49,6 +56,11 @@ sudo mv makepkg.conf /etc/
 cp /etc/pacman.conf .
 sed -i -z 's,\[multilib\]\nInclude,#\[multilib\]\n#Include,g' pacman.conf
 sudo mv pacman.conf /etc/
+```
+
+```
+# 使用中の OS を識別
+. /etc/os-release
 
 # [CachyOS, EndeavourOS] yay をインストール
 if [[ "$ID" = "cachyos" || "$ID" = "endeavouros" ]]; then
@@ -72,7 +84,9 @@ yay -Scc
 cp /etc/pacman.conf .
 sed -i 's,#CacheDir    = /var,CacheDir    = /tmp,' pacman.conf
 sudo mv pacman.conf /etc/
+```
 
+```
 # DNSリゾルバを Cloudflare に変更
 printf "[main]
 dns=none
@@ -101,7 +115,9 @@ sudo systemctl restart NetworkManager
 yay -S --needed bind
 dig https://www.youtube.com | grep SERVER
 # ;; SERVER: 2606:4700:4700::1111
+```
 
+```
 # 時刻サーバを日本のものに変更
 yay -S --needed ntp
 
@@ -118,7 +134,9 @@ sudo systemctl enable ntpd
 sudo systemctl start ntpd
 systemctl status ntpd | grep Active
 # Active: active (running)
+```
 
+```
 # 「デスクトップ」などのディレクトリが作られるのを止める
 printf 'XDG_DESKTOP_DIR="$HOME"
 XDG_DOWNLOAD_DIR="$HOME"
@@ -138,7 +156,9 @@ sudo sysctl -p /etc/sysctl.d/50-coredump.conf
 
 # 既存のダンプファイルを削除
 sudo rm /var/lib/systemd/coredump/*
+```
 
+```
 # noto-fonts-cjk をインストール
 yay -S --needed noto-fonts-cjk
 
@@ -152,7 +172,9 @@ cp -f /usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc ~/.local/share/fonts/
 cp /etc/fonts/conf.d/65-nonlatin.conf .
 sed -i 's,IPAGothic,Noto Sans Mono CJK JP,g' 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/
+```
 
+```
 # [Radeon] ドライバをインストール
 if lspci -k | grep -q 'Kernel driver in use: amdgpu'; then
     yay -S --needed vulkan-radeon libva-utils
