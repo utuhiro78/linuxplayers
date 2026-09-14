@@ -1,6 +1,6 @@
 ---
 title: Mozc UT Dictionaries
-date: 2026-08-27
+date: 2026-09-15
 ---
 
 ## Overview
@@ -31,7 +31,7 @@ git clone --depth 1 https://github.com/utuhiro78/merge-ut-dictionaries.git
 
 ## Configure
 
-Comment out unnecessary dictionaries in `src/merge/make.sh`.
+Comment out unnecessary dictionaries in src/merge/make.sh.
 
 Default settings:
 
@@ -58,7 +58,7 @@ Build Mozc as usual.
 
 ## Option: Generate the UT dictionaries using the latest stuff
 
-Uncomment ```#generate_latest="true"``` in `src/merge/make.sh`.
+Uncomment `#generate_latest="true"` in src/merge/make.sh.
 
 It downloads the latest "jawiki-latest-pages-articles-multistream.xml.bz2" (over 4.2 GB).
 
@@ -114,8 +114,8 @@ Linuxで使用される[オープンソースの日本語IME](https://github.com
 
 ☘️ 「オープンソースの日本語IMEは需要が小さいから終わる」
 オープンソースソフトウェアの場合、需要の小ささと開発の終了はあまり関係がない。
-作っている本人が必要としているソフトなら、需要が小さくても開発は続く。オリジナル版の開発が終わったあとに、フォークされて開発が続くこともよくある。
-私はMozc用の非公式辞書を公開しているが、私が使ううちはユーザーが0人でも開発を続ける。
+作っている人が必要としているソフトなら、需要が小さくても開発は続く。別の人がフォークして開発が続くこともよくある。
+私はMozc用の追加辞書を公開しているが、私が使ううちはユーザーが0人でも開発を続ける。
 
 ☘️ 「オープンソースの日本語IMEはなぜ終わるのか」
 終わる理由は開発者によって異なる。他人が「簡単な話」として語れるものではない。
@@ -140,7 +140,7 @@ UT辞書に関して言うと、山田さんは過去にも「[-ut系はライ�
 > 2021年9月4日 · 2 いいね
 
 「法的な部分が怖い」と言われると、作っている方はもっと怖くなる。山田さんが法曹関係者なのかはわからないが、公開を続けて良いものか迷った。
-当時のUT辞書では mozcdic-ut/{edict2,neologd} のように、1個のパッケージにすべての辞書を収録していた。mozcdic-ut/LICENSE には辞書名とそれぞれのライセンスを列挙していた。それが「ライセンス的に微妙」「ライセンスが複雑で不透明」「法的な部分が怖い」と判断されたようだ。
+当時のUT辞書では mozcdic-ut/edict2, mozcdic-ut/neologd のように、1個のパッケージにすべての辞書を収録していた。mozcdic-ut/LICENSE には辞書名とそれぞれのライセンスを列挙していた。それが「ライセンス的に微妙」「ライセンスが複雑で不透明」「法的な部分が怖い」と判断されたようだ。
 
 今回のツイート。
 
@@ -148,7 +148,7 @@ UT辞書に関して言うと、山田さんは過去にも「[-ut系はライ�
 > 2023年1月9日 · 61 いいね
 
 数十人から「まともじゃない」と言われて、公開を続けるのはどうなんだろう。
-今後も同じことを言われるのはしんどいし、山田さんにはフォロワーが6000人以上いるので、そこからの反応もあるだろう。このまま公開を続けると面倒なことになるかもしれない。
+今後も同じことを言われるのはしんどいし、山田さんにはフォロワーが6000人以上いるので、そこからの反応もあるだろう。公開を続けると面倒なことになるかもしれない。
 
 山田さんのツイートを掲載して、UT辞書の公開終了をアナウンスした。
 
@@ -175,7 +175,6 @@ UT辞書終了のアナウンスをしてから、Mozc関連の話題は見て�
 
 Mozcチームの皆さんと、Fcitx開発者の wengxt さんに感謝。
 ユーザーからの[感謝](mozc-ut.html#press-the-star-button-on-github)がないと、オープンソースソフトウェアは続けられないと思う。
-数十人から「まともじゃない」と言われても、数百人から感謝されていれば耐えられるかもしれない。
 
 ## 更新履歴
 
@@ -214,7 +213,7 @@ merge-ut-dictionaries のリポジトリを作成。
 辞書生成コードを Python で書き直した。オリジナルは Ruby。
 
 2024-10-22:
-辞書生成コードをすべて `merge-ut-dictionaries/src/` に置くようにした。辞書を個別のリポジトリに置いたときに一部のコードもそこに分けたのだが、コードが分散していると開発効率が下がる。
+辞書生成コードをすべて merge-ut-dictionaries/src/ に置くようにした。辞書を個別のリポジトリに置いたときに一部のコードもそこに分けたのだが、コードが分散していると開発効率が下がる。
 
 2026-04-03:
 辞書生成コードを Google AI のアドバイスを得て改良。

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-08-27" />
+  <meta name="dcterms.date" content="2026-09-15" />
   <title>Mozc UT Dictionaries</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Mozc UT Dictionaries</h1>
-<p class="date">2026-08-27</p>
+<p class="date">2026-09-15</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -70,8 +70,7 @@ Docs</a></p>
 <h2 id="download">Download</h2>
 <pre><code>git clone --depth 1 https://github.com/utuhiro78/merge-ut-dictionaries.git</code></pre>
 <h2 id="configure">Configure</h2>
-<p>Comment out unnecessary dictionaries in
-<code>src/merge/make.sh</code>.</p>
+<p>Comment out unnecessary dictionaries in src/merge/make.sh.</p>
 <p>Default settings:</p>
 <pre><code>#alt_cannadic=&quot;true&quot;
 #edict2=&quot;true&quot;
@@ -90,7 +89,7 @@ cat mozcdic-ut.txt &gt;&gt; ../../../mozc-master/src/data/dictionary_oss/diction
 id="option-generate-the-ut-dictionaries-using-the-latest-stuff">Option:
 Generate the UT dictionaries using the latest stuff</h2>
 <p>Uncomment <code>#generate_latest="true"</code> in
-<code>src/merge/make.sh</code>.</p>
+src/merge/make.sh.</p>
 <p>It downloads the latest
 “jawiki-latest-pages-articles-multistream.xml.bz2” (over 4.2 GB).</p>
 <h2 id="license">License</h2>
@@ -148,8 +147,8 @@ Linuxで使用される<a
 href="https://github.com/search?q=japanese+input+method&amp;type=repositories">オープンソースの日本語IME</a>は、マルチプラットフォームになっていたり、他のOSに移植されていたりする。</p>
 <p>☘️ 「オープンソースの日本語IMEは需要が小さいから終わる」<br />
 オープンソースソフトウェアの場合、需要の小ささと開発の終了はあまり関係がない。<br />
-作っている本人が必要としているソフトなら、需要が小さくても開発は続く。オリジナル版の開発が終わったあとに、フォークされて開発が続くこともよくある。<br />
-私はMozc用の非公式辞書を公開しているが、私が使ううちはユーザーが0人でも開発を続ける。</p>
+作っている人が必要としているソフトなら、需要が小さくても開発は続く。別の人がフォークして開発が続くこともよくある。<br />
+私はMozc用の追加辞書を公開しているが、私が使ううちはユーザーが0人でも開発を続ける。</p>
 <p>☘️ 「オープンソースの日本語IMEはなぜ終わるのか」<br />
 終わる理由は開発者によって異なる。他人が「簡単な話」として語れるものではない。<br />
 暗黒美無王さんが「簡単な話」として語れてしまうのは、日本語IMEを作っている人へのリスペクトがないからだと思う。<br />
@@ -177,7 +176,7 @@ href="https://x.com/Hayao0819/status/1433817801056088068">法的な部分が怖�
 2021年9月4日 · 2 いいね</p>
 </blockquote>
 <p>「法的な部分が怖い」と言われると、作っている方はもっと怖くなる。山田さんが法曹関係者なのかはわからないが、公開を続けて良いものか迷った。<br />
-当時のUT辞書では mozcdic-ut/{edict2,neologd}
+当時のUT辞書では mozcdic-ut/edict2, mozcdic-ut/neologd
 のように、1個のパッケージにすべての辞書を収録していた。mozcdic-ut/LICENSE
 には辞書名とそれぞれのライセンスを列挙していた。それが「ライセンス的に微妙」「ライセンスが複雑で不透明」「法的な部分が怖い」と判断されたようだ。</p>
 <p>今回のツイート。</p>
@@ -186,7 +185,7 @@ href="https://x.com/Hayao0819/status/1433817801056088068">法的な部分が怖�
 2023年1月9日 · 61 いいね</p>
 </blockquote>
 <p>数十人から「まともじゃない」と言われて、公開を続けるのはどうなんだろう。<br />
-今後も同じことを言われるのはしんどいし、山田さんにはフォロワーが6000人以上いるので、そこからの反応もあるだろう。このまま公開を続けると面倒なことになるかもしれない。</p>
+今後も同じことを言われるのはしんどいし、山田さんにはフォロワーが6000人以上いるので、そこからの反応もあるだろう。公開を続けると面倒なことになるかもしれない。</p>
 <p>山田さんのツイートを掲載して、UT辞書の公開終了をアナウンスした。</p>
 <h3 id="再構築">再構築</h3>
 <p>2023-01-13:<br />
@@ -212,8 +211,7 @@ Mozc Re-UT Dictionary.
 山田さんが誰かのクレームをきっかけに自分のプロジェクトをやめて、クレームを書いた人が「Re-Hayao」と名付けたプロジェクトを始めたら、山田さんはどう思うんだろう。</p>
 <p>Mozcチームの皆さんと、Fcitx開発者の wengxt さんに感謝。<br />
 ユーザーからの<a
-href="mozc-ut.html#press-the-star-button-on-github">感謝</a>がないと、オープンソースソフトウェアは続けられないと思う。<br />
-数十人から「まともじゃない」と言われても、数百人から感謝されていれば耐えられるかもしれない。</p>
+href="mozc-ut.html#press-the-star-button-on-github">感謝</a>がないと、オープンソースソフトウェアは続けられないと思う。</p>
 <h2 id="更新履歴">更新履歴</h2>
 <p>主な更新のみ記載。</p>
 <p>2010-11-03:<br />
@@ -243,7 +241,7 @@ merge-ut-dictionaries のリポジトリを作成。</p>
 <p>2024-07-04:<br />
 辞書生成コードを Python で書き直した。オリジナルは Ruby。</p>
 <p>2024-10-22:<br />
-辞書生成コードをすべて <code>merge-ut-dictionaries/src/</code>
+辞書生成コードをすべて merge-ut-dictionaries/src/
 に置くようにした。辞書を個別のリポジトリに置いたときに一部のコードもそこに分けたのだが、コードが分散していると開発効率が下がる。</p>
 <p>2026-04-03:<br />
 辞書生成コードを Google AI のアドバイスを得て改良。</p>
