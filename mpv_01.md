@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-08-14
+date: 2026-09-17
 ---
 
 ## mpv の特徴
@@ -119,25 +119,23 @@ WHEEL_DOWN ignore
 WHEEL_LEFT ignore
 WHEEL_RIGHT ignore
 
-# PGUP/PGDWN で10分移動
+# PGUP と PGDWN で10分移動
 PGUP seek 600
 PGDWN seek -600
 
-# Shift+PGUP/PGDWN でチャプター移動
-Shift+PGUP add chapter 1
-Shift+PGDWN add chapter -1
+# マウスの進むボタンと戻るボタンでプレイリストを移動
+MBTN_FORWARD playlist-next;show-text ${playlist} 2000
+MBTN_BACK playlist-prev;show-text ${playlist} 2000
 
-# マウスの進むボタンと戻るボタンでプレイリスト内を移動
-# 移動した後にプレイリストを2秒表示
-MBTN_FORWARD playlist-next; show-text ${playlist} 2000
-MBTN_BACK playlist-prev; show-text ${playlist} 2000
+# . と , でプレイリストを移動
+. playlist-next;show-text ${playlist} 2000
+, playlist-prev;show-text ${playlist} 2000
 
-# . と , でプレイリスト内を移動
-# 移動した後にプレイリストを2秒表示
-. playlist-next; show-text ${playlist} 2000
-, playlist-prev; show-text ${playlist} 2000
+# \ と / でチャプターを移動
+\ add chapter 1
+/ add chapter -1
 
-# i でファイル情報をオンオフ
+# i でファイル情報の表示をトグル
 # I でファイル情報を一時的に表示
 i script-binding stats/display-stats-toggle
 I script-binding stats/display-stats
