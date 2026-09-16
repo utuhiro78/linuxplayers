@@ -54,7 +54,7 @@ mp.add_hook("on_load", 50, function()
 
     local ext = path:match("%.([^%.]+)$")
     if ext and ext:lower() == "cue" then
-        local msg = string.format("Skip analysis: Can't analyze CUE files.")
+        local msg = string.format("Skip analysis: CUE file.")
         print(msg)
         mp.osd_message(msg, onscreen_time)
         return
