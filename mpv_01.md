@@ -145,7 +145,7 @@ REGZA を使用している場合は次のようにする。
 
 Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
-ファイル名に「-ar」が付くものは、anti-ringing（リンギングを減らす。リンギング: 輪郭まわりの[リング状のゴースト](https://en.wikipedia.org/wiki/Ringing_artifacts)）処理が行われる。RAVU の作者が使用を[推奨](https://github.com/bjin/mpv-prescalers#about-ravu)している。
+ファイル名に「-ar」が付くものは、anti-ringing（リンギングを減らす。リンギング: 輪郭まわりの[リング状のゴースト](https://en.wikipedia.org/wiki/Ringing_artifacts)）処理が行われる。
 
 ```
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
@@ -311,8 +311,9 @@ python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
 | GPU | Integrated graphics |
 | Monitor | 1920x1080 |
 
-## シングル曲の音量をノーマライズ
+## シングル曲のピーク音量を 0 dB に揃える（ノーマライズ）
 
+再生前にファイルのピーク音量を検出して、そこが 0 dB になるよう [volume-gain](https://mpv.io/manual/stable/#options-volume-gain) を設定してから再生を開始する。元のファイルは一切変更しない。
 [normalize-short-tracks.lua](https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/normalize-short-tracks.lua)
 
 ```
@@ -321,8 +322,7 @@ mkdir -p ~/.config/mpv/scripts
 mv normalize-short-tracks.lua ~/.config/mpv/scripts/
 ```
 
-6分以内のファイルであれば、再生前に最大音量を検出して、ノーマライズを行う。元のファイルは何も変更しない。
-最大音量の検出には時間がかかるので、6分以内のファイルに限定している。6分あればほとんどのシングル曲をカバーできる。
-mpv でファイルを再生すると、ノーマライズの結果が画面左上に表示される。
+ピーク音量の検出には時間がかかるので、これを行うのは6分以内のファイルに限定している。6分あればほとんどのシングル曲をカバーできる。
+ノーマライズの結果は画面左上に表示される。
 
 [HOME](index.html)

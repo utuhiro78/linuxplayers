@@ -50,8 +50,9 @@ id="toc-デフォルトのアップスケーラーを設定">デフォルトの�
 </ul></li>
 <li><a href="#アップスケーラーの速度を比較"
 id="toc-アップスケーラーの速度を比較">アップスケーラーの速度を比較</a></li>
-<li><a href="#シングル曲の音量をノーマライズ"
-id="toc-シングル曲の音量をノーマライズ">シングル曲の音量をノーマライズ</a></li>
+<li><a href="#シングル曲のピーク音量を-0-db-に揃えるノーマライズ"
+id="toc-シングル曲のピーク音量を-0-db-に揃えるノーマライズ">シングル曲のピーク音量を
+0 dB に揃える（ノーマライズ）</a></li>
 </ul>
 </nav>
 <h2 id="mpv-の特徴">mpv の特徴</h2>
@@ -173,9 +174,7 @@ id="アップスケーラーをインストール">アップスケーラーを�
 href="https://github.com/bjin/mpv-prescalers">https://github.com/bjin/mpv-prescalers</a><br />
 ファイル名に「-ar」が付くものは、anti-ringing（リンギングを減らす。リンギング:
 輪郭まわりの<a
-href="https://en.wikipedia.org/wiki/Ringing_artifacts">リング状のゴースト</a>）処理が行われる。RAVU
-の作者が使用を<a
-href="https://github.com/bjin/mpv-prescalers#about-ravu">推奨</a>している。</p>
+href="https://en.wikipedia.org/wiki/Ringing_artifacts">リング状のゴースト</a>）処理が行われる。</p>
 <pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/</code></pre>
@@ -330,16 +329,18 @@ href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_
 </tbody>
 </table>
 <h2
-id="シングル曲の音量をノーマライズ">シングル曲の音量をノーマライズ</h2>
-<p><a
+id="シングル曲のピーク音量を-0-db-に揃えるノーマライズ">シングル曲のピーク音量を
+0 dB に揃える（ノーマライズ）</h2>
+<p>再生前にファイルのピーク音量を検出して、そこが 0 dB になるよう <a
+href="https://mpv.io/manual/stable/#options-volume-gain">volume-gain</a>
+を設定してから再生を開始する。元のファイルは一切変更しない。<br />
+<a
 href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/normalize-short-tracks.lua">normalize-short-tracks.lua</a></p>
 <pre><code>wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/normalize-short-tracks.lua
 mkdir -p ~/.config/mpv/scripts
 mv normalize-short-tracks.lua ~/.config/mpv/scripts/</code></pre>
-<p>6分以内のファイルであれば、再生前に最大音量を検出して、ノーマライズを行う。元のファイルは何も変更しない。<br />
-最大音量の検出には時間がかかるので、6分以内のファイルに限定している。6分あればほとんどのシングル曲をカバーできる。<br />
-mpv
-でファイルを再生すると、ノーマライズの結果が画面左上に表示される。</p>
+<p>ピーク音量の検出には時間がかかるので、これを行うのは6分以内のファイルに限定している。6分あればほとんどのシングル曲をカバーできる。<br />
+ノーマライズの結果は画面左上に表示される。</p>
 <p><a href="index.html">HOME</a></p>
 </body>
 </html>
