@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-09-17" />
+  <meta name="dcterms.date" content="2026-09-18" />
   <title>mpv の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,15 +12,13 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">mpv の設定</h1>
-<p class="date">2026-09-17</p>
+<p class="date">2026-09-18</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
 <li><a href="#mpv-の特徴" id="toc-mpv-の特徴">mpv の特徴</a></li>
 <li><a href="#基本設定" id="toc-基本設定">基本設定</a>
 <ul>
-<li><a href="#アップスケーラーをインストール"
-id="toc-アップスケーラーをインストール">アップスケーラーをインストール</a></li>
 <li><a href="#mpv.conf-を設定" id="toc-mpv.conf-を設定">mpv.conf
 を設定</a></li>
 <li><a href="#input.conf-を設定" id="toc-input.conf-を設定">input.conf
@@ -28,8 +26,18 @@ id="toc-アップスケーラーをインストール">アップスケーラー�
 <li><a href="#モニターに超解像技術が搭載されている場合"
 id="toc-モニターに超解像技術が搭載されている場合">モニターに超解像技術が搭載されている場合</a></li>
 </ul></li>
-<li><a href="#アップスケーラーの比較"
-id="toc-アップスケーラーの比較">アップスケーラーの比較</a>
+<li><a href="#アップスケーラーをインストール"
+id="toc-アップスケーラーをインストール">アップスケーラーをインストール</a>
+<ul>
+<li><a href="#ravu" id="toc-ravu">RAVU</a></li>
+<li><a href="#anime4k" id="toc-anime4k">Anime4K</a></li>
+<li><a href="#fsrcnnx" id="toc-fsrcnnx">FSRCNNX</a></li>
+<li><a href="#artcnn" id="toc-artcnn">ArtCNN</a></li>
+<li><a href="#アップスケーラーにショートカットを割り当てる"
+id="toc-アップスケーラーにショートカットを割り当てる">アップスケーラーにショートカットを割り当てる</a></li>
+</ul></li>
+<li><a href="#アップスケーラーを比較"
+id="toc-アップスケーラーを比較">アップスケーラーを比較</a>
 <ul>
 <li><a href="#人物写真で比較"
 id="toc-人物写真で比較">人物写真で比較</a></li>
@@ -37,14 +45,13 @@ id="toc-人物写真で比較">人物写真で比較</a></li>
 id="toc-アニメ画像で比較">アニメ画像で比較</a></li>
 <li><a href="#コマ落ちしないか確認"
 id="toc-コマ落ちしないか確認">コマ落ちしないか確認</a></li>
-<li><a href="#デフォルトのアップスケーラーを変更"
-id="toc-デフォルトのアップスケーラーを変更">デフォルトのアップスケーラーを変更</a></li>
-<li><a href="#speed-comparison-of-mpv-upscalers"
-id="toc-speed-comparison-of-mpv-upscalers">Speed comparison of mpv
-upscalers</a></li>
+<li><a href="#デフォルトのアップスケーラーを設定"
+id="toc-デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</a></li>
 </ul></li>
-<li><a href="#normalize-short-tracks"
-id="toc-normalize-short-tracks">Normalize short tracks</a></li>
+<li><a href="#アップスケーラーの速度を比較"
+id="toc-アップスケーラーの速度を比較">アップスケーラーの速度を比較</a></li>
+<li><a href="#短い曲の音量をノーマライズ"
+id="toc-短い曲の音量をノーマライズ">短い曲の音量をノーマライズ</a></li>
 </ul>
 </nav>
 <h2 id="mpv-の特徴">mpv の特徴</h2>
@@ -58,32 +65,6 @@ id="toc-normalize-short-tracks">Normalize short tracks</a></li>
 href="https://github.com/mpv-player/mpv/commits/master">開発中</a></li>
 </ul>
 <h2 id="基本設定">基本設定</h2>
-<h3
-id="アップスケーラーをインストール">アップスケーラーをインストール</h3>
-<h4 id="ravu">RAVU</h4>
-<p>Google の超解像技術から着想を得たアップスケーラー。<br />
-<a
-href="https://github.com/bjin/mpv-prescalers">https://github.com/bjin/mpv-prescalers</a></p>
-<p><a
-href="https://github.com/bjin/mpv-prescalers/tree/master/compute">compute</a>
-ディレクトリのものはコンピュートシェーダーで、最速。<br />
-<a
-href="https://github.com/bjin/mpv-prescalers/tree/master/gather">gather</a>
-ディレクトリのものは textureGather() 関数を使用する。<br />
-<a
-href="https://github.com/bjin/mpv-prescalers/tree/master">ルート</a>ディレクトリのものは上の2つが動作しない古いGPU用。<br />
-ファイル名に「-ar」が付いているものはアンチリンギングを行う。</p>
-<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
-mkdir -p ~/.config/mpv/shaders
-mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/</code></pre>
-<h4 id="artcnn">ArtCNN</h4>
-<p>アニメコンテンツを対象としたアップスケーラー。<br />
-<a
-href="https://github.com/Artoriuz/ArtCNN">https://github.com/Artoriuz/ArtCNN</a></p>
-<p>ファイル名に「_DS」が付いているものはデノイズ（ノイズ除去）とシャープニングを行う。</p>
-<pre><code>wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
-wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
-mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/</code></pre>
 <h3 id="mpv.conf-を設定">mpv.conf を設定</h3>
 <p>~/.config/mpv/mpv.conf に次の行を追加。</p>
 <pre><code># ビデオ出力ドライバー
@@ -98,48 +79,46 @@ gpu-api=auto
 # https://mpv.io/manual/stable/#options-hwdec
 hwdec=auto
 
-# av1 がサポートされていない場合は「av1,」を削除（Ryzen 5 5600G など）
+# ハードウェアデコードを行うコーデック
+# 「vainfo | grep AV1」を実行して、何も表示されない場合は「av1,」を削除。
 # https://mpv.io/manual/stable/#options-hwdec-codecs
-hwdec-codecs=h264,vc1,hevc,vp8,vp9,av1,prores,prores_raw,ffv1,dpx
-
-# アップスケーラー
-# https://mpv.io/manual/stable/#options-glsl-shaders
-# 「glsl-shader」はシェーダーリストにシェーダーを1個追加し、
-# 「glsl-shaders」はシェーダーリストを上書きする。
-# 「~~」は mpv の設定ディレクトリを表す。
-glsl-shader=&quot;~~/shaders/ravu-lite-ar-r3.hook&quot;
+hwdec-codecs=h264,vc1,hevc,vp8,vp9,prores,prores_raw,ffv1,dpx</code></pre>
+<pre><code># アップスケーラー
+# https://mpv.io/manual/stable/#options-scale
+scale=lanczos
 
 # ダウンスケーラー
 # https://mpv.io/manual/stable/#options-dscale
-dscale=lanczos
-
-# オーディオ出力ドライバー
+dscale=lanczos</code></pre>
+<pre><code># オーディオ出力ドライバー
 # https://mpv.io/manual/stable/#audio-output-drivers-ao
-ao=pipewire
-
-# 音声のみのファイルでもウィンドウを表示
+ao=pipewire</code></pre>
+<pre><code># 音声のみのファイルでもウィンドウを表示
 # https://mpv.io/manual/stable/#options-force-window
 force-window=yes
 
 # ウィンドウを最大化
+# https://mpv.io/manual/stable/#options-window-maximized
 window-maximized=yes
 
 # ターミナル出力の冗長性を減らす
+# https://mpv.io/manual/stable/#options-quiet
 quiet=yes
 
-# オンスクリーンコントローラー
+# ウィンドウ右下の「残り時間」を「全体時間」に変更
 # https://mpv.io/manual/stable/#on-screen-controller-timetotal
-# 右下の「残り時間」を「全体時間」に変更。
 script-opts=osc-timetotal=yes
 
 # ウィンドウのタイトルバーに動画タイトルではなくファイル名を表示
-title=&#39;${filename}&#39;
+# https://mpv.io/manual/stable/#options-title
+title=${filename}
 
 # プレイリストに動画タイトルではなくファイル名を表示
+# https://mpv.io/manual/stable/#options-osd-playlist-entry
 osd-playlist-entry=filename</code></pre>
 <h3 id="input.conf-を設定">input.conf を設定</h3>
 <p>~/.config/mpv/input.conf に次の行を追加。デフォルトは<a
-href="https://raw.githubusercontent.com/mpv-player/mpv/refs/heads/master/etc/input.conf">こちら</a>。</p>
+href="https://github.com/mpv-player/mpv/blob/master/etc/input.conf">こちら</a>。</p>
 <pre><code># 右クリックで一時停止しない
 MBTN_RIGHT ignore
 
@@ -153,21 +132,19 @@ WHEEL_RIGHT ignore
 
 # PGUP と PGDWN で10分移動
 PGUP seek 600
-PGDWN seek -600
-
-# マウスの進むボタンと戻るボタンでプレイリストを移動
+PGDWN seek -600</code></pre>
+<pre><code># マウスの進むボタンと戻るボタンで次/前のファイルに移動
 MBTN_FORWARD playlist-next;show-text ${playlist} 2000
 MBTN_BACK playlist-prev;show-text ${playlist} 2000
 
-# . と , でプレイリストを移動
+# . と , で次/前のファイルに移動
 . playlist-next;show-text ${playlist} 2000
 , playlist-prev;show-text ${playlist} 2000
 
-# \ と / でチャプターを移動
+# \ と / で次/前のチャプターに移動
 \ add chapter 1
-/ add chapter -1
-
-# i でファイル情報の表示をトグル
+/ add chapter -1</code></pre>
+<pre><code># i でファイル情報の表示をトグル
 # I でファイル情報を一時的に表示
 i script-binding stats/display-stats-toggle
 I script-binding stats/display-stats
@@ -176,13 +153,7 @@ I script-binding stats/display-stats
 Ctrl+d run gio trash &quot;${path}&quot;; playlist-remove current; show-text &quot;\&quot;${filename}\&quot; をゴミ箱に移動しました&quot; 5000
 
 # Esc で終了
-ESC quit
-
-# シェーダーの切り替え
-CTRL+1 no-osd change-list glsl-shaders set &quot;~~/shaders/ravu-lite-ar-r3.hook&quot;; show-text &quot;ravu-lite-ar-r3.hook&quot;
-CTRL+2 no-osd change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;; show-text &quot;ArtCNN_C4F16_DS.glsl&quot;
-CTRL+3 no-osd change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16.glsl&quot;; show-text &quot;ArtCNN_C4F16.glsl&quot;
-CTRL+0 no-osd change-list glsl-shaders clr &quot;&quot;; set scale lanczos; show-text &quot;lanczos&quot;</code></pre>
+ESC quit</code></pre>
 <h3
 id="モニターに超解像技術が搭載されている場合">モニターに超解像技術が搭載されている場合</h3>
 <p>モニターに超解像技術が搭載されている場合はオフにする。アップスケーラーの効果がわかりづらくなるので。<br />
@@ -193,7 +164,61 @@ REGZA を使用している場合は次のようにする。</p>
 <li>ヒストグラムバックライト制御: オン</li>
 <li>質感リアライザー: オート (オフだと全体が白っぽくなる)</li>
 </ul>
-<h2 id="アップスケーラーの比較">アップスケーラーの比較</h2>
+<h2
+id="アップスケーラーをインストール">アップスケーラーをインストール</h2>
+<p>負荷が軽めのものを選んだ。</p>
+<h3 id="ravu">RAVU</h3>
+<p>Google の超解像技術から着想を得たアップスケーラー。<br />
+<a
+href="https://github.com/bjin/mpv-prescalers">https://github.com/bjin/mpv-prescalers</a><br />
+ファイル名に「-ar」が付くものは、anti-ringing（リンギングを減らす。リンギング:
+輪郭まわりの<a
+href="https://en.wikipedia.org/wiki/Ringing_artifacts">リング状のゴースト</a>）処理が行われる。RAVU
+の作者が使用を<a
+href="https://github.com/bjin/mpv-prescalers#about-ravu">推奨</a>している。</p>
+<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
+mkdir -p ~/.config/mpv/shaders
+mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/</code></pre>
+<p><a
+href="https://github.com/bjin/mpv-prescalers/tree/master/compute">compute</a>
+ディレクトリのものが高速。動作しない場合は <a
+href="https://github.com/bjin/mpv-prescalers/tree/master/gather">gather</a>
+か<a
+href="https://github.com/bjin/mpv-prescalers/tree/master">ルート</a>のものを使用する。</p>
+<h3 id="anime4k">Anime4K</h3>
+<p>1080pアニメのアップスケールに最適化されたアップスケーラー。<br />
+720p以下のアニメには最適化されていない。<br />
+<a
+href="https://github.com/bloc97/Anime4K">https://github.com/bloc97/Anime4K</a><br />
+ここでは「Anime4K_Upscale_Denoise_CNN_x2_M.glsl」を使用する。</p>
+<pre><code>wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
+mv Anime4K_Upscale_Denoise_CNN_x2_M.glsl ~/.config/mpv/shaders/</code></pre>
+<h3 id="fsrcnnx">FSRCNNX</h3>
+<p>FSRCNN（高速超解像畳み込みニューラルネットワーク）を使用したアップスケーラー。<br />
+<a
+href="https://github.com/igv/FSRCNN-TensorFlow">https://github.com/igv/FSRCNN-TensorFlow</a></p>
+<pre><code>wget https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_8-0-4-1.glsl
+mv FSRCNNX_x2_8-0-4-1.glsl ~/.config/mpv/shaders/</code></pre>
+<h3 id="artcnn">ArtCNN</h3>
+<p>アニメコンテンツを対象としたアップスケーラー。<br />
+<a
+href="https://github.com/Artoriuz/ArtCNN">https://github.com/Artoriuz/ArtCNN</a><br />
+ファイル名に「_DS」が付いているものは、denoise（ノイズ除去）と
+sharpen（シャープ化）を行う。</p>
+<pre><code>wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
+mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/</code></pre>
+<h3
+id="アップスケーラーにショートカットを割り当てる">アップスケーラーにショートカットを割り当てる</h3>
+<p>~/.config/mpv/input.conf に次の行を追加。</p>
+<pre><code># アップスケーラーの切り替え
+Ctrl+1 change-list glsl-shaders set &quot;~~/shaders/ravu-lite-ar-r3.hook&quot;
+Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl&quot;
+Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
+Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
+Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16.glsl&quot;
+Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
+<h2 id="アップスケーラーを比較">アップスケーラーを比較</h2>
 <h3 id="人物写真で比較">人物写真で比較</h3>
 <p><img
 src="images/mpv/pexels-liam-anderson-411198-1458332_480.jpg" /></p>
@@ -202,12 +227,12 @@ href="https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/">
 Focus Photography of Woman</a>” by Liam Anderson<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
-<p>元画像を縦480にリサイズしたものを全画面で表示する。<br />
-縦1080の画像を縦1080のモニターで表示しても、1倍なのでアップスケーラーのテストにならない。2倍以上にアップスケールしないと効果が分かりづらい。</p>
+<p>縦480にリサイズした画像を全画面で表示する。<br />
+縦1080の画像を縦1080のモニターで表示しても、1倍なのでアップスケーラーのテストにならない。</p>
 <pre><code>mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --fs --pause</code></pre>
-<p>「Ctrl」を押したまま 0 から 3 まで押していき、違いを比較する。</p>
-<p>シャープネスが強いアップスケーラーは髪がごわつく。<br />
-アニメ特化のアップスケーラーは髪が平面的になる。</p>
+<p>「Ctrl」を押したまま 0 1 2 3 と押していき、違いを比較する。<br />
+シャープ化が強すぎるアップスケーラーは、髪がごわつく。<br />
+アニメ向けのアップスケーラーは、髪が平面的になる。</p>
 <p>縦480へのリサイズは次のように行った。</p>
 <pre><code>for file in *.jpg
 do
@@ -223,9 +248,9 @@ href="https://www.ghibli.jp/works/chihiro/#frame">千と千尋の神隠し
 作品静止画</a>” by STUDIO GHIBLI<br />
 License: <a
 href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご自由にお使いください。</a></p>
-<p>元画像を縦480にリサイズしたものを全画面で表示する。</p>
+<p>縦480にリサイズした画像を全画面で表示する。</p>
 <pre><code>mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --fs --pause</code></pre>
-<p>「Ctrl」を押したまま 0 から 3 まで押していき、違いを比較する。</p>
+<p>「Ctrl」を押したまま 0 1 2 3 と押していき、違いを比較する。</p>
 <h3 id="コマ落ちしないか確認">コマ落ちしないか確認</h3>
 <p><img src="images/mpv/12393381_3840_2160_60fps_480_01.jpg" /></p>
 <p>Source: “<a
@@ -233,25 +258,23 @@ href="https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-2847
 view of a boat sailing in the sea</a>” by Burak Evlivan<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
-<p>縦480の動画をノーウェイトで全画面再生して、終了までの時間を計測する。</p>
+<p>縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測する。<br />
+動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。</p>
+<p>「ravu-lite-ar-r3.hook」をテストする場合は次を実行。</p>
 <pre><code>wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
 
-time mpv --audio=no --untimed=yes --load-scripts=no --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --wayland-internal-vsync=no --glsl-shaders=&quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot; --fs 12393381_3840_2160_60fps_480.mp4</code></pre>
-<p>結果が「real 0m18.08s」のように表示される。<br />
-動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。</p>
+time mpv --audio=no --untimed=yes --load-scripts=no --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --wayland-internal-vsync=no --glsl-shaders=&quot;~~/shaders/ravu-lite-ar-r3.hook&quot; --fs 12393381_3840_2160_60fps_480.mp4</code></pre>
+<p>結果が「real 0m6.390s」のように表示される。</p>
 <p>縦480へのリサイズは次のように行った。</p>
 <pre><code>ffmpeg -i 12393381_3840_2160_60fps.mp4 -vf scale=854:480:flags=lanczos 12393381_3840_2160_60fps_480.mp4</code></pre>
 <h3
-id="デフォルトのアップスケーラーを変更">デフォルトのアップスケーラーを変更</h3>
-<p>比較した結果「ArtCNN_C4F16_DS.glsl」をデフォルトにする場合は、<br />
-~/.config/mpv/mpv.conf を次のように変更。</p>
+id="デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</h3>
+<p>比較した結果「ravu-lite-ar-r3.hook」をデフォルトにする場合は、~/.config/mpv/mpv.conf
+に次の行を追加。</p>
 <pre><code># アップスケーラー
-glsl-shader=&quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;</code></pre>
-<p>「lanczos」をデフォルトにする場合は次のように変更。</p>
-<pre><code># アップスケーラー
-scale=lanczos</code></pre>
-<h3 id="speed-comparison-of-mpv-upscalers">Speed comparison of mpv
-upscalers</h3>
+# https://mpv.io/manual/stable/#options-glsl-shaders
+glsl-shader=&quot;~~/shaders/ravu-lite-ar-r3.hook&quot;</code></pre>
+<h2 id="アップスケーラーの速度を比較">アップスケーラーの速度を比較</h2>
 <p><a
 href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_benchmark.py">mpv_shader_benchmark.py</a></p>
 <pre><code>python mpv_shader_benchmark.py ~/.config/mpv/shaders/*</code></pre>
@@ -265,39 +288,31 @@ href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_
 <tbody>
 <tr>
 <td>Lanczos</td>
-<td>3.34</td>
+<td>3.33</td>
 </tr>
 <tr>
-<td>ravu-lite-ar-r3 (compute)</td>
-<td>6.31</td>
-</tr>
-<tr>
-<td>ravu-lite-ar-r3 (gather)</td>
-<td>6.84</td>
-</tr>
-<tr>
-<td>ravu-lite-ar-r3 (root)</td>
-<td>6.96</td>
+<td>ravu-lite-ar-r3</td>
+<td>6.32</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_Denoise_CNN_x2_M</td>
-<td>9.48</td>
+<td>9.22</td>
 </tr>
 <tr>
-<td>ravu-zoom-ar-r3 (compute)</td>
-<td>10.67</td>
-</tr>
-<tr>
-<td>ArtCNN_C4F16</td>
-<td>18.08</td>
+<td>FSRCNNX_x2_8-0-4-1</td>
+<td>12.57</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>18.08</td>
+<td>17.0</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16</td>
+<td>17.01</td>
 </tr>
 </tbody>
 </table>
-<p>Test system:</p>
+<p>使用したシステム:</p>
 <table>
 <tbody>
 <tr>
@@ -314,16 +329,16 @@ href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_
 </tr>
 </tbody>
 </table>
-<h2 id="normalize-short-tracks">Normalize short tracks</h2>
+<h2 id="短い曲の音量をノーマライズ">短い曲の音量をノーマライズ</h2>
 <p><a
 href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/normalize-short-tracks.lua">normalize-short-tracks.lua</a></p>
-<pre><code>mkdir -p ~/.config/mpv/scripts
+<pre><code>wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/normalize-short-tracks.lua
+mkdir -p ~/.config/mpv/scripts
 mv normalize-short-tracks.lua ~/.config/mpv/scripts/</code></pre>
-<p>For tracks up to 480 seconds, the peak volume is determined and
-normalized before playback begins. It covers most singles.<br />
-Calculating the peak volume takes time, so the time limit is set.</p>
-<p>When the video starts playing, the normalization result is displayed
-in the top-left of the screen.</p>
+<p>6分以内のファイルであれば、再生前に最大音量を検出して、ノーマライズを行う。元のファイルには何も書き込まない。<br />
+最大音量の検出には時間がかかるので、6分以内のファイルに限定している。6分あればほとんどのシングル曲をカバーできる。<br />
+mpv
+でファイルを再生すると、ノーマライズの結果が画面左上に表示される。</p>
 <p><a href="index.html">HOME</a></p>
 </body>
 </html>
