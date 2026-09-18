@@ -50,8 +50,8 @@ id="toc-デフォルトのアップスケーラーを設定">デフォルトの�
 </ul></li>
 <li><a href="#アップスケーラーの速度を比較"
 id="toc-アップスケーラーの速度を比較">アップスケーラーの速度を比較</a></li>
-<li><a href="#短い曲の音量をノーマライズ"
-id="toc-短い曲の音量をノーマライズ">短い曲の音量をノーマライズ</a></li>
+<li><a href="#シングル曲の音量をノーマライズ"
+id="toc-シングル曲の音量をノーマライズ">シングル曲の音量をノーマライズ</a></li>
 </ul>
 </nav>
 <h2 id="mpv-の特徴">mpv の特徴</h2>
@@ -329,13 +329,14 @@ href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_
 </tr>
 </tbody>
 </table>
-<h2 id="短い曲の音量をノーマライズ">短い曲の音量をノーマライズ</h2>
+<h2
+id="シングル曲の音量をノーマライズ">シングル曲の音量をノーマライズ</h2>
 <p><a
 href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/normalize-short-tracks.lua">normalize-short-tracks.lua</a></p>
 <pre><code>wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/normalize-short-tracks.lua
 mkdir -p ~/.config/mpv/scripts
 mv normalize-short-tracks.lua ~/.config/mpv/scripts/</code></pre>
-<p>6分以内のファイルであれば、再生前に最大音量を検出して、ノーマライズを行う。元のファイルには何も書き込まない。<br />
+<p>6分以内のファイルであれば、再生前に最大音量を検出して、ノーマライズを行う。元のファイルは何も変更しない。<br />
 最大音量の検出には時間がかかるので、6分以内のファイルに限定している。6分あればほとんどのシングル曲をカバーできる。<br />
 mpv
 でファイルを再生すると、ノーマライズの結果が画面左上に表示される。</p>

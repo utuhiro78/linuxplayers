@@ -311,7 +311,7 @@ python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
 | GPU | Integrated graphics |
 | Monitor | 1920x1080 |
 
-## 短い曲の音量をノーマライズ
+## シングル曲の音量をノーマライズ
 
 [normalize-short-tracks.lua](https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/normalize-short-tracks.lua)
 
@@ -321,7 +321,7 @@ mkdir -p ~/.config/mpv/scripts
 mv normalize-short-tracks.lua ~/.config/mpv/scripts/
 ```
 
-6分以内のファイルであれば、再生前に最大音量を検出して、ノーマライズを行う。元のファイルには何も書き込まない。
+6分以内のファイルであれば、再生前に最大音量を検出して、ノーマライズを行う。元のファイルは何も変更しない。
 最大音量の検出には時間がかかるので、6分以内のファイルに限定している。6分あればほとんどのシングル曲をカバーできる。
 mpv でファイルを再生すると、ノーマライズの結果が画面左上に表示される。
 
