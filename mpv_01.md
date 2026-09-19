@@ -16,7 +16,7 @@ date: 2026-09-18
 
 ### mpv.conf を設定
 
-~/.config/mpv/mpv.conf に次の行を追加。
+~/.config/mpv/mpv.conf を作成して次の行を追加。
 
 ```
 # ビデオ出力ドライバー
@@ -81,7 +81,7 @@ osd-playlist-entry=filename
 
 ### input.conf を設定
 
-~/.config/mpv/input.conf に次の行を追加。デフォルトは[こちら](https://github.com/mpv-player/mpv/blob/master/etc/input.conf)。
+~/.config/mpv/input.conf を作成して次の行を追加。デフォルトは[こちら](https://github.com/mpv-player/mpv/blob/master/etc/input.conf)。
 
 ```
 # 右クリックで一時停止しない
@@ -137,7 +137,7 @@ REGZA を使用している場合は次のようにする。
 - ヒストグラムバックライト制御: オン
 - 質感リアライザー: オート (オフだと全体が白っぽくなる)
 
-## アップスケーラーをインストール
+## 外部のアップスケーラーをインストール
 
 負荷が軽めのものを選んだ。
 
@@ -145,7 +145,7 @@ REGZA を使用している場合は次のようにする。
 
 Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
-ファイル名に「-ar」が付くものは、anti-ringing（リンギングを減らす。リンギング: 輪郭まわりの[リング状のゴースト](https://en.wikipedia.org/wiki/Ringing_artifacts)）処理が行われる。
+[compute](https://github.com/bjin/mpv-prescalers/tree/master/compute) ディレクトリのものが高速。動作しない場合は [gather](https://github.com/bjin/mpv-prescalers/tree/master/gather) か[ルート](https://github.com/bjin/mpv-prescalers/tree/master)のものを使用する。
 
 ```
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
@@ -153,7 +153,8 @@ mkdir -p ~/.config/mpv/shaders
 mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
 ```
 
-[compute](https://github.com/bjin/mpv-prescalers/tree/master/compute) ディレクトリのものが高速。動作しない場合は [gather](https://github.com/bjin/mpv-prescalers/tree/master/gather) か[ルート](https://github.com/bjin/mpv-prescalers/tree/master)のものを使用する。
+ファイル名に「-ar」が付くものは、アンチリンギングフィルター（リンギング低減。リンギング: 輪郭まわりの[リング状のゴースト](https://en.wikipedia.org/wiki/Ringing_artifacts)）が加えられている。
+RAVU には多くのバリアントがあるが、「-ar」付きのものが[推奨](https://github.com/bjin/mpv-prescalers#about-ravu)されている。
 
 ### Anime4K
 
@@ -166,6 +167,22 @@ mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
 wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
 mv Anime4K_Upscale_Denoise_CNN_x2_M.glsl ~/.config/mpv/shaders/
 ```
+
+### ACNetGLSL
+
+Anime4KCPP プロジェクトで使用されている深層学習モデルを GLSL で実装したもの。
+[https://github.com/TianZerL/ACNetGLSL](https://github.com/TianZerL/ACNetGLSL)
+
+```
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4.glsl
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4_box_hdn.glsl
+mv acnet_f8b4*.glsl ~/.config/mpv/shaders/
+```
+
+ファイル名に「-hdn」が付くものは、軽度のノイズ除去を行うようトレーニングされている。
+ファイル名に「-box」が付くものは、ボックスフィルターで劣化させた画像を用いてトレーニングされている。線の復元に適しているが、若干ぼやけて見える場合がある。
+ファイル名に「-box-hdn」が付くものは、「-box」をベースとして軽度のノイズ除去を行うようトレーニングされている。
+無印のものはニュートラルにトレーニングされている。
 
 ### FSRCNNX
 
@@ -181,7 +198,7 @@ mv FSRCNNX_x2_8-0-4-1.glsl ~/.config/mpv/shaders/
 
 アニメコンテンツを対象としたアップスケーラー。
 [https://github.com/Artoriuz/ArtCNN](https://github.com/Artoriuz/ArtCNN)
-ファイル名に「_DS」が付いているものは、denoise（ノイズ除去）と sharpen（シャープ化）を行う。
+ファイル名に「_DS」が付くものは、denoise（ノイズ除去）と sharpen（シャープ化）を行うようトレーニングされている。
 
 ```
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
@@ -198,8 +215,10 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 Ctrl+1 change-list glsl-shaders set "~~/shaders/ravu-lite-ar-r3.hook"
 Ctrl+2 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
 Ctrl+3 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
-Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
-Ctrl+5 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"
+Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"
+Ctrl+5 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
+Ctrl+6 change-list glsl-shaders set "~~/shaders/acnet_f8b4.glsl"
+Ctrl+7 change-list glsl-shaders set "~~/shaders/acnet_f8b4_box_hdn.glsl"
 Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 ```
 
@@ -273,15 +292,19 @@ time mpv --audio=no --untimed=yes --load-scripts=no --video-sync=display-desync 
 縦480へのリサイズは次のように行った。
 
 ```
-ffmpeg -i 12393381_3840_2160_60fps.mp4 -vf scale=854:480:flags=lanczos 12393381_3840_2160_60fps_480.mp4
+for file in *.mp4
+do
+  ffmpeg -i "$file" -vf scale=854:480:flags=lanczos "${file%.mp4}_480.mp4"
+done
 ```
 
 ### デフォルトのアップスケーラーを設定
 
-比較した結果「ravu-lite-ar-r3.hook」をデフォルトにする場合は、~/.config/mpv/mpv.conf に次の行を追加。
+「ravu-lite-ar-r3.hook」をデフォルトにする場合は、~/.config/mpv/mpv.conf に次の行を追加。
+内蔵アップスケーラーのみを使用する場合は何も書かない。
 
 ```
-# アップスケーラー
+# 外部アップスケーラー
 # https://mpv.io/manual/stable/#options-glsl-shaders
 glsl-shader="~~/shaders/ravu-lite-ar-r3.hook"
 ```
@@ -299,6 +322,8 @@ python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
 | Lanczos | 3.33 |
 | ravu-lite-ar-r3 | 6.32 |
 | Anime4K_Upscale_Denoise_CNN_x2_M | 9.22 |
+| acnet_f8b4_box_hdn | 12.14 |
+| acnet_f8b4 | 12.35 |
 | FSRCNNX_x2_8-0-4-1 | 12.57 |
 | ArtCNN_C4F16_DS | 17.0 |
 | ArtCNN_C4F16 | 17.01 |
