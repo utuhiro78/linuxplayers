@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-09-18
+date: 2026-09-21
 ---
 
 ## mpv の特徴
@@ -139,13 +139,12 @@ REGZA を使用している場合は次のようにする。
 
 ## 外部のアップスケーラーをインストール
 
-負荷が軽めのものを選んだ。
+複数のバリアントがある場合は、内蔵GPUでもコマ落ちしないよう、負荷が軽めのものを選んだ。
 
 ### RAVU
 
 Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
-[compute](https://github.com/bjin/mpv-prescalers/tree/master/compute) ディレクトリのものが高速。動作しない場合は [gather](https://github.com/bjin/mpv-prescalers/tree/master/gather) か[ルート](https://github.com/bjin/mpv-prescalers/tree/master)のものを使用する。
 
 ```
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
@@ -153,20 +152,20 @@ mkdir -p ~/.config/mpv/shaders
 mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
 ```
 
-ファイル名に「-ar」が付くものは、アンチリンギングフィルター（リンギング低減。リンギング: 輪郭まわりの[リング状のゴースト](https://en.wikipedia.org/wiki/Ringing_artifacts)）が加えられている。
-RAVU には多くのバリアントがあるが、「-ar」付きのものが[推奨](https://github.com/bjin/mpv-prescalers#about-ravu)されている。
+[compute](https://github.com/bjin/mpv-prescalers/tree/master/compute) ディレクトリのものが高速。動作しない場合は [gather](https://github.com/bjin/mpv-prescalers/tree/master/gather) か[ルート](https://github.com/bjin/mpv-prescalers/tree/master)のものを使用する。
+ファイル名に「-ar」が付くものは、アンチリンギングフィルターが加えられている。リンギングとは、輪郭まわりなどに発生する[リング状のゴースト](https://en.wikipedia.org/wiki/Ringing_artifacts)のこと。
 
 ### Anime4K
 
 1080pアニメのアップスケールに最適化されたアップスケーラー。
-720p以下のアニメには最適化されていない。
 [https://github.com/bloc97/Anime4K](https://github.com/bloc97/Anime4K)
-ここでは「Anime4K_Upscale_Denoise_CNN_x2_M.glsl」を使用する。
 
 ```
 wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
 mv Anime4K_Upscale_Denoise_CNN_x2_M.glsl ~/.config/mpv/shaders/
 ```
+
+通常は複数のシェーダーを[組み合わせて](https://github.com/bloc97/Anime4K/tree/master/md/Template/GLSL_Mac_Linux_Low-end)使用するが、アニメに寄せ切ると実写映像が不自然になるので、ここでは「Anime4K_Upscale_Denoise_CNN_x2_M.glsl」のみを使用する。
 
 ### ACNetGLSL
 
@@ -198,12 +197,156 @@ mv FSRCNNX_x2_8-0-4-1.glsl ~/.config/mpv/shaders/
 
 アニメコンテンツを対象としたアップスケーラー。
 [https://github.com/Artoriuz/ArtCNN](https://github.com/Artoriuz/ArtCNN)
-ファイル名に「_DS」が付くものは、denoise（ノイズ除去）と sharpen（シャープ化）を行うようトレーニングされている。
 
 ```
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DN.glsl
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
 mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
+```
+
+ファイル名に「_DS」が付くものは、ノイズ除去とシャープ化を行うようトレーニングしている。
+ファイル名に「_DN」が付くものは、ノイズ除去とソフト化を行うようを行うようトレーニングしている。
+無印のものはニュートラル。
+
+## アップスケーラーの品質を測定
+
+### 人物写真の場合
+
+![](images/mpv/pexels-liam-anderson-411198-1458332_480.jpg)
+
+Source: "[Shallow Focus Photography of Woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" by Liam Anderson
+License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
+
+"[Shallow Focus Photography of Woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" をクリックして右上の「Free download」をクリック。
+
+ダウンロードした画像を mpv でフルスクリーン表示。
+縦長画像の場合は中央部分を最大限に使用する。余白が多いと品質の差が出にくい。
+
+```
+image_base="pexels-liam-anderson-411198-1458332"
+mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
+
+mpv ${mpv_options} "${image_base}.jpg" --panscan=1.0 --glsl-shaders="" --screenshot-template="${image_base}_fullscreen"
+```
+
+画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
+できた画像を「画像A」とする。
+
+「画像A」を縦480にリサイズ。
+
+```
+image_base="pexels-liam-anderson-411198-1458332"
+
+magick ${image_base}_fullscreen.png -resize x480 -quality 92 "${image_base}_480.jpg"
+```
+
+できた画像を「画像B」とする。
+「画像B」は JPEG 形式にする。PNG 形式だとアップスケーラーが効かない場合があった。
+
+「画像B」を mpv でフルスクリーンにアップスケール。縦横それぞれ2倍以上にしないと、アップスケーラーの違いが分かりづらい。
+
+```
+image_base="pexels-liam-anderson-411198-1458332"
+mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
+
+for shader_file in ~/.config/mpv/shaders/*
+do
+  shader_base=$(basename "${shader_file}")
+  shader_base=${shader_base%.*}
+  mpv ${mpv_options} "${image_base}_480.jpg" --glsl-shaders="${shader_file}" --screenshot-template="${image_base}_480-${shader_base}"
+done
+
+mpv ${mpv_options} "${image_base}_480.jpg" --glsl-shaders="" --screenshot-template="${image_base}_480-lanczos"
+```
+
+画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
+自動的に次の画像が表示されるので、同じことを繰り返す。
+できた画像を「画像C」とする。
+
+「画像A」と「画像C」の類似度を測定する。
+
+```
+image_base="pexels-liam-anderson-411198-1458332"
+
+printf "File | Score\n"
+printf "%s\n" "-- | --"
+
+printf "${image_base}_fullscreen.png | "
+magick compare -metric SSIM ${image_base}_fullscreen.png ${image_base}_fullscreen.png null:
+printf "\n"
+
+for image_file in ${image_base}_480-*.png
+do
+  score=$(magick compare -metric SSIM "${image_base}_fullscreen.png" "${image_file}" null: 2>&1)
+  printf "%s | %s\n" "${image_file}" "${score}"
+done | sort -t '|' -k 2 -g
+```
+
+### 結果
+
+スコアが小さいほど類似度が高い。ただし、100程度の差ならあまり変わらない。
+人物写真の場合は全体のスコア差が小さく、デフォルトの lanczos も十分きれい。
+負荷の軽いバリアントを選んでテストしているので、各アップスケーラー本来の品質ではない。
+スコアは使用する写真や比較方法によっても変わる。
+
+File | Score
+-- | --
+pexels-liam-anderson-411198-1458332_fullscreen.png | 0 (0)
+pexels-liam-anderson-411198-1458332_480-FSRCNNX_x2_8-0-4-1.png | 1940.95 (0.029617)
+pexels-liam-anderson-411198-1458332_480-acnet_f8b4.png | 1950.33 (0.0297601)
+pexels-liam-anderson-411198-1458332_480-acnet_f8b4_box.png | 1953.98 (0.0298159)
+pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F16.png | 1968.67 (0.0300399)
+pexels-liam-anderson-411198-1458332_480-acnet_f8b4_hdn.png | 1984.15 (0.0302762)
+pexels-liam-anderson-411198-1458332_480-SSimSuperRes.png | 2005.16 (0.0305968)
+pexels-liam-anderson-411198-1458332_480-acnet_f8b4_box_hdn.png | 2005.66 (0.0306044)
+pexels-liam-anderson-411198-1458332_480-ravu-lite-ar-r3.png | 2016.78 (0.0307741)
+pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F16_DS.png | 2024.89 (0.0308979)
+pexels-liam-anderson-411198-1458332_480-lanczos.png | 2025.92 (0.0309136)
+pexels-liam-anderson-411198-1458332_480-Anime4K_Upscale_Denoise_CNN_x2_M.png | 2122.38 (0.0323854)
+pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F16_DN.png | 2189.47 (0.0334092)
+
+### アニメ画像の場合
+
+![](images/mpv/chihiro030_480.jpg)
+
+Source: "[千と千尋の神隠し 作品静止画](https://www.ghibli.jp/works/chihiro/#frame)" by STUDIO GHIBLI
+License: [画像は常識の範囲でご自由にお使いください。](https://www.ghibli.jp/works/chihiro/#frame)
+
+人物写真のときと同じ方法で測定する。
+
+### 結果
+
+スコアが小さいほど類似度が高い。ただし、100程度の差ならあまり変わらない。
+人物写真のときよりアップスケーラーによる差が大きい。
+負荷の軽いバリアントを選んでテストしているので、各アップスケーラー本来の品質ではない。
+スコアは使用する写真や比較方法によっても変わる。
+
+File | Score
+-- | --
+chihiro030_fullscreen.png | 0 (0)
+chihiro030_480-ArtCNN_C4F16_DS.png | 2377.32 (0.0362755)
+chihiro030_480-acnet_f8b4_hdn.png | 2490.31 (0.0379996)
+chihiro030_480-Anime4K_Upscale_Denoise_CNN_x2_M.png | 2565.68 (0.0391498)
+chihiro030_480-acnet_f8b4_box_hdn.png | 2616.02 (0.0399179)
+chihiro030_480-acnet_f8b4.png | 2812.43 (0.042915)
+chihiro030_480-FSRCNNX_x2_8-0-4-1.png | 2856.32 (0.0435847)
+chihiro030_480-acnet_f8b4_box.png | 2902.71 (0.0442925)
+chihiro030_480-ArtCNN_C4F16.png | 2953.2 (0.045063)
+chihiro030_480-ArtCNN_C4F16_DN.png | 2971.24 (0.0453383)
+chihiro030_480-ravu-lite-ar-r3.png | 3197.6 (0.0487923)
+chihiro030_480-SSimSuperRes.png | 3292.46 (0.0502398)
+chihiro030_480-lanczos.png | 3631.37 (0.0554111)
+
+### デフォルトのアップスケーラーを設定
+
+「acnet_f8b4_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf に次の行を追加。
+内蔵アップスケーラーのみを使用する場合は何も書かない。
+
+```
+# 外部アップスケーラー
+# https://mpv.io/manual/stable/#options-glsl-shaders
+glsl-shader="~~/shaders/acnet_f8b4_hdn.glsl"
 ```
 
 ### アップスケーラーにショートカットを割り当てる
@@ -213,63 +356,16 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 ```
 # アップスケーラーの切り替え
 Ctrl+1 change-list glsl-shaders set "~~/shaders/ravu-lite-ar-r3.hook"
-Ctrl+2 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
-Ctrl+3 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
-Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"
+Ctrl+2 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
+Ctrl+3 change-list glsl-shaders set "~~/shaders/acnet_f8b4_box_hdn.glsl"
+Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DN.glsl"
 Ctrl+5 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
-Ctrl+6 change-list glsl-shaders set "~~/shaders/acnet_f8b4.glsl"
-Ctrl+7 change-list glsl-shaders set "~~/shaders/acnet_f8b4_box_hdn.glsl"
+Ctrl+6 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
+Ctrl+7 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
 Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 ```
 
-## アップスケーラーを比較
-
-### 人物写真で比較
-
-![](images/mpv/pexels-liam-anderson-411198-1458332_480.jpg)
-
-Source: "[Shallow Focus Photography of Woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" by Liam Anderson
-License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
-
-縦480にリサイズした画像を全画面で表示する。
-縦1080の画像を縦1080のモニターで表示しても、1倍なのでアップスケーラーのテストにならない。
-
-```
-mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --fs --pause
-```
-
-「Ctrl」を押したまま 0 1 2 3 と押していき、違いを比較する。
-シャープ化が強すぎるアップスケーラーは、髪がごわつく。
-アニメ向けのアップスケーラーは、髪が平面的になる。
-
-縦480へのリサイズは次のように行った。
-
-```
-for file in *.jpg
-do
-  magick "$file" -resize x480 -quality 90 "${file%.jpg}_480.jpg"
-done
-
-# Quality の確認方法
-# magick identify -verbose *.jpg | grep Quality
-```
-
-### アニメ画像で比較
-
-![](images/mpv/chihiro030_480.jpg)
-
-Source: "[千と千尋の神隠し 作品静止画](https://www.ghibli.jp/works/chihiro/#frame)" by STUDIO GHIBLI
-License: [画像は常識の範囲でご自由にお使いください。](https://www.ghibli.jp/works/chihiro/#frame)
-
-縦480にリサイズした画像を全画面で表示する。
-
-```
-mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --fs --pause
-```
-
-「Ctrl」を押したまま 0 1 2 3 と押していき、違いを比較する。
-
-### コマ落ちしないか確認
+## アップスケーラーの速度を比較
 
 ![](images/mpv/12393381_3840_2160_60fps_480_01.jpg)
 
@@ -277,56 +373,41 @@ Source: "[Aerial view of a boat sailing in the sea](https://www.pexels.com/video
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
 縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測する。
-動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。
-
-「ravu-lite-ar-r3.hook」をテストする場合は次を実行。
 
 ```
-wget -N https://utuhiro78.github.io/linuxplayers/images/mpv/12393381_3840_2160_60fps_480.mp4
+wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/mpv_shader_benchmark.py
 
-time mpv --audio=no --untimed=yes --load-scripts=no --video-sync=display-desync --vulkan-swap-mode=immediate --opengl-swapinterval=0 --wayland-internal-vsync=no --glsl-shaders="~~/shaders/ravu-lite-ar-r3.hook" --fs 12393381_3840_2160_60fps_480.mp4
+python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
 ```
-
-結果が「real 0m6.390s」のように表示される。
 
 縦480へのリサイズは次のように行った。
 
 ```
 for file in *.mp4
 do
-  ffmpeg -i "$file" -vf scale=854:480:flags=lanczos "${file%.mp4}_480.mp4"
+  ffmpeg -i "${file}" -vf scale=854:480:flags=lanczos "${file%.mp4}_480.mp4"
 done
 ```
 
-### デフォルトのアップスケーラーを設定
+### 結果
 
-「ravu-lite-ar-r3.hook」をデフォルトにする場合は、~/.config/mpv/mpv.conf に次の行を追加。
-内蔵アップスケーラーのみを使用する場合は何も書かない。
-
-```
-# 外部アップスケーラー
-# https://mpv.io/manual/stable/#options-glsl-shaders
-glsl-shader="~~/shaders/ravu-lite-ar-r3.hook"
-```
-
-## アップスケーラーの速度を比較
-
-[mpv_shader_benchmark.py](https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_benchmark.py)
-
-```
-python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
-```
+GPUによって速度は変わる。
+動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。
 
 | Upscaler | Time (sec) |
 | --- | --- |
-| Lanczos | 3.33 |
-| ravu-lite-ar-r3 | 6.32 |
+| lanczos | 3.32 |
+| ravu-lite-ar-r3 | 6.31 |
 | Anime4K_Upscale_Denoise_CNN_x2_M | 9.22 |
-| acnet_f8b4_box_hdn | 12.14 |
-| acnet_f8b4 | 12.35 |
-| FSRCNNX_x2_8-0-4-1 | 12.57 |
-| ArtCNN_C4F16_DS | 17.0 |
-| ArtCNN_C4F16 | 17.01 |
+| SSimSuperRes | 9.7 |
+| acnet_f8b4_hdn | 11.32 |
+| acnet_f8b4 | 11.34 |
+| acnet_f8b4_box_hdn | 11.34 |
+| acnet_f8b4_box | 11.36 |
+| FSRCNNX_x2_8-0-4-1 | 12.52 |
+| ArtCNN_C4F16 | 16.97 |
+| ArtCNN_C4F16_DS | 17.01 |
+| ArtCNN_C4F16_DN | 17.37 |
 
 使用したシステム:
 
@@ -338,7 +419,7 @@ python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
 
 ## シングル曲のピーク音量を 0 dB に揃える（ノーマライズ）
 
-再生前にファイルのピーク音量を検出して、そこが 0 dB になるよう [volume-gain](https://mpv.io/manual/stable/#options-volume-gain) を設定してから再生を開始する。元のファイルは一切変更しない。
+6分以内のファイルであれば自動的にノーマライズする。元のファイルは一切変更しない。
 [normalize-short-tracks.lua](https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/normalize-short-tracks.lua)
 
 ```
@@ -347,7 +428,8 @@ mkdir -p ~/.config/mpv/scripts
 mv normalize-short-tracks.lua ~/.config/mpv/scripts/
 ```
 
-ピーク音量の検出には時間がかかるので、これを行うのは6分以内のファイルに限定している。6分あればほとんどのシングル曲をカバーできる。
+事前にファイルのピーク音量を検出し、そこが 0 dB になるよう [volume-gain](https://mpv.io/manual/stable/#options-volume-gain) を調整してから再生する。
+ピーク音量の検出には時間がかかるので、実行するのは6分以内のファイルのみ。6分あればほとんどのシングル曲をカバーできる。
 ノーマライズの結果は画面左上に表示される。
 
 [HOME](index.html)
