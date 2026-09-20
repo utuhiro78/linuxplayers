@@ -283,12 +283,10 @@ do
 done | sort -t '|' -k 2 -g
 ```
 
-### 結果
+### 結果 (低負荷バリアント)
 
-スコアが小さいほど類似度が高い。ただし、100程度の差ならあまり変わらない。
+スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
 人物写真の場合は全体のスコア差が小さく、デフォルトの lanczos も十分きれい。
-負荷の軽いバリアントを選んでテストしているので、各アップスケーラー本来の品質ではない。
-スコアは使用する写真や比較方法によっても変わる。
 
 File | Score
 -- | --
@@ -306,6 +304,21 @@ pexels-liam-anderson-411198-1458332_480-lanczos.png | 2025.92 (0.0309136)
 pexels-liam-anderson-411198-1458332_480-Anime4K_Upscale_Denoise_CNN_x2_M.png | 2122.38 (0.0323854)
 pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F16_DN.png | 2189.47 (0.0334092)
 
+### 結果 (高負荷バリアント)
+
+スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
+
+File | Score
+-- | --
+pexels-liam-anderson-411198-1458332_fullscreen.png | 0 (0)
+pexels-liam-anderson-411198-1458332_480-acnet_f8b18_hdn.png | 1905.7 (0.0290791)
+pexels-liam-anderson-411198-1458332_480-FSRCNNX_x2_16-0-4-1.png | 1927.04 (0.0294047)
+pexels-liam-anderson-411198-1458332_480-acnet_f8b18.png | 1939.93 (0.0296014)
+pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F32.png | 1943.88 (0.0296618)
+pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F32_DS.png | 2004.32 (0.0305839)
+pexels-liam-anderson-411198-1458332_480-Anime4K_Upscale_Denoise_CNN_x2_UL.png | 2017.19 (0.0307804)
+pexels-liam-anderson-411198-1458332_480-lanczos.png | 2025.92 (0.0309136)
+
 ### アニメ画像の場合
 
 ![](images/mpv/chihiro030_480.jpg)
@@ -315,12 +328,10 @@ License: [画像は常識の範囲でご自由にお使いください。](https
 
 人物写真のときと同じ方法で測定する。
 
-### 結果
+### 結果 (低負荷バリアント)
 
-スコアが小さいほど類似度が高い。ただし、100程度の差ならあまり変わらない。
+スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
 人物写真のときよりアップスケーラーによる差が大きい。
-負荷の軽いバリアントを選んでテストしているので、各アップスケーラー本来の品質ではない。
-スコアは使用する写真や比較方法によっても変わる。
 
 File | Score
 -- | --
@@ -336,6 +347,21 @@ chihiro030_480-ArtCNN_C4F16.png | 2953.2 (0.045063)
 chihiro030_480-ArtCNN_C4F16_DN.png | 2971.24 (0.0453383)
 chihiro030_480-ravu-lite-ar-r3.png | 3197.6 (0.0487923)
 chihiro030_480-SSimSuperRes.png | 3292.46 (0.0502398)
+chihiro030_480-lanczos.png | 3631.37 (0.0554111)
+
+### 結果 (高負荷バリアント)
+
+スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
+
+File | Score
+-- | --
+chihiro030_fullscreen.png | 0 (0)
+chihiro030_480-ArtCNN_C4F32_DS.png | 2321.88 (0.0354297)
+chihiro030_480-acnet_f8b18_hdn.png | 2424.86 (0.037001)
+chihiro030_480-Anime4K_Upscale_Denoise_CNN_x2_UL.png | 2533.07 (0.0386522)
+chihiro030_480-FSRCNNX_x2_16-0-4-1.png | 2698.8 (0.041181)
+chihiro030_480-acnet_f8b18.png | 2837.28 (0.0432941)
+chihiro030_480-ArtCNN_C4F32.png | 2914.45 (0.0444717)
 chihiro030_480-lanczos.png | 3631.37 (0.0554111)
 
 ### デフォルトのアップスケーラーを設定

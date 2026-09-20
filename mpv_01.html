@@ -40,10 +40,16 @@ id="toc-アップスケーラーの品質を測定">アップスケーラーの�
 <ul>
 <li><a href="#人物写真の場合"
 id="toc-人物写真の場合">人物写真の場合</a></li>
-<li><a href="#結果" id="toc-結果">結果</a></li>
+<li><a href="#結果-低負荷バリアント" id="toc-結果-低負荷バリアント">結果
+(低負荷バリアント)</a></li>
+<li><a href="#結果-高負荷バリアント" id="toc-結果-高負荷バリアント">結果
+(高負荷バリアント)</a></li>
 <li><a href="#アニメ画像の場合"
 id="toc-アニメ画像の場合">アニメ画像の場合</a></li>
-<li><a href="#結果-1" id="toc-結果-1">結果</a></li>
+<li><a href="#結果-低負荷バリアント-1"
+id="toc-結果-低負荷バリアント-1">結果 (低負荷バリアント)</a></li>
+<li><a href="#結果-高負荷バリアント-1"
+id="toc-結果-高負荷バリアント-1">結果 (高負荷バリアント)</a></li>
 <li><a href="#デフォルトのアップスケーラーを設定"
 id="toc-デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</a></li>
 <li><a href="#アップスケーラーにショートカットを割り当てる"
@@ -52,7 +58,7 @@ id="toc-アップスケーラーにショートカットを割り当てる">ア�
 <li><a href="#アップスケーラーの速度を比較"
 id="toc-アップスケーラーの速度を比較">アップスケーラーの速度を比較</a>
 <ul>
-<li><a href="#結果-2" id="toc-結果-2">結果</a></li>
+<li><a href="#結果" id="toc-結果">結果</a></li>
 </ul></li>
 <li><a href="#シングル曲のピーク音量を-0-db-に揃えるノーマライズ"
 id="toc-シングル曲のピーク音量を-0-db-に揃えるノーマライズ">シングル曲のピーク音量を
@@ -283,12 +289,10 @@ do
   score=$(magick compare -metric SSIM &quot;${image_base}_fullscreen.png&quot; &quot;${image_file}&quot; null: 2&gt;&amp;1)
   printf &quot;%s | %s\n&quot; &quot;${image_file}&quot; &quot;${score}&quot;
 done | sort -t &#39;|&#39; -k 2 -g</code></pre>
-<h3 id="結果">結果</h3>
-<p>スコアが小さいほど類似度が高い。ただし、100程度の差ならあまり変わらない。<br />
+<h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
+<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。<br />
 人物写真の場合は全体のスコア差が小さく、デフォルトの lanczos
-も十分きれい。<br />
-負荷の軽いバリアントを選んでテストしているので、各アップスケーラー本来の品質ではない。<br />
-スコアは使用する写真や比較方法によっても変わる。</p>
+も十分きれい。</p>
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -355,6 +359,54 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 </tr>
 </tbody>
 </table>
+<h3 id="結果-高負荷バリアント">結果 (高負荷バリアント)</h3>
+<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pexels-liam-anderson-411198-1458332_fullscreen.png</td>
+<td>0 (0)</td>
+</tr>
+<tr>
+<td>pexels-liam-anderson-411198-1458332_480-acnet_f8b18_hdn.png</td>
+<td>1905.7 (0.0290791)</td>
+</tr>
+<tr>
+<td>pexels-liam-anderson-411198-1458332_480-FSRCNNX_x2_16-0-4-1.png</td>
+<td>1927.04 (0.0294047)</td>
+</tr>
+<tr>
+<td>pexels-liam-anderson-411198-1458332_480-acnet_f8b18.png</td>
+<td>1939.93 (0.0296014)</td>
+</tr>
+<tr>
+<td>pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F32.png</td>
+<td>1943.88 (0.0296618)</td>
+</tr>
+<tr>
+<td>pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F32_DS.png</td>
+<td>2004.32 (0.0305839)</td>
+</tr>
+<tr>
+<td>pexels-liam-anderson-411198-1458332_480-Anime4K_Upscale_Denoise_CNN_x2_UL.png</td>
+<td>2017.19 (0.0307804)</td>
+</tr>
+<tr>
+<td>pexels-liam-anderson-411198-1458332_480-lanczos.png</td>
+<td>2025.92 (0.0309136)</td>
+</tr>
+</tbody>
+</table>
 <h3 id="アニメ画像の場合">アニメ画像の場合</h3>
 <p><img src="images/mpv/chihiro030_480.jpg" /></p>
 <p>Source: “<a
@@ -363,11 +415,9 @@ href="https://www.ghibli.jp/works/chihiro/#frame">千と千尋の神隠し
 License: <a
 href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご自由にお使いください。</a></p>
 <p>人物写真のときと同じ方法で測定する。</p>
-<h3 id="結果-1">結果</h3>
-<p>スコアが小さいほど類似度が高い。ただし、100程度の差ならあまり変わらない。<br />
-人物写真のときよりアップスケーラーによる差が大きい。<br />
-負荷の軽いバリアントを選んでテストしているので、各アップスケーラー本来の品質ではない。<br />
-スコアは使用する写真や比較方法によっても変わる。</p>
+<h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
+<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。<br />
+人物写真のときよりアップスケーラーによる差が大きい。</p>
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -434,6 +484,54 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </tr>
 </tbody>
 </table>
+<h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
+<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chihiro030_fullscreen.png</td>
+<td>0 (0)</td>
+</tr>
+<tr>
+<td>chihiro030_480-ArtCNN_C4F32_DS.png</td>
+<td>2321.88 (0.0354297)</td>
+</tr>
+<tr>
+<td>chihiro030_480-acnet_f8b18_hdn.png</td>
+<td>2424.86 (0.037001)</td>
+</tr>
+<tr>
+<td>chihiro030_480-Anime4K_Upscale_Denoise_CNN_x2_UL.png</td>
+<td>2533.07 (0.0386522)</td>
+</tr>
+<tr>
+<td>chihiro030_480-FSRCNNX_x2_16-0-4-1.png</td>
+<td>2698.8 (0.041181)</td>
+</tr>
+<tr>
+<td>chihiro030_480-acnet_f8b18.png</td>
+<td>2837.28 (0.0432941)</td>
+</tr>
+<tr>
+<td>chihiro030_480-ArtCNN_C4F32.png</td>
+<td>2914.45 (0.0444717)</td>
+</tr>
+<tr>
+<td>chihiro030_480-lanczos.png</td>
+<td>3631.37 (0.0554111)</td>
+</tr>
+</tbody>
+</table>
 <h3
 id="デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</h3>
 <p>「acnet_f8b4_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf
@@ -470,7 +568,7 @@ python mpv_shader_benchmark.py ~/.config/mpv/shaders/*</code></pre>
 do
   ffmpeg -i &quot;${file}&quot; -vf scale=854:480:flags=lanczos &quot;${file%.mp4}_480.mp4&quot;
 done</code></pre>
-<h3 id="結果-2">結果</h3>
+<h3 id="結果">結果</h3>
 <p>GPUによって速度は変わる。<br />
 動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。</p>
 <table>
