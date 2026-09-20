@@ -29,7 +29,7 @@ def main():
 
     results = {}
     result = run_mpv('')
-    results['Lanczos'] = result[1]
+    results['lanczos'] = result[1]
 
     shaders = sys.argv[1:]
 
@@ -51,10 +51,10 @@ def run_mpv(shader):
     start_time = time.time()
 
     subprocess.run(
-        ['mpv', '--audio=no', '--untimed=yes',
+        ['mpv', '--audio=no', '--untimed=yes', '--load-scripts=no',
             '--video-sync=display-desync', '--vulkan-swap-mode=immediate',
             '--opengl-swapinterval=0', '--wayland-internal-vsync=no',
-            f'--glsl-shaders={shader}', '--fs',
+            f'--glsl-shaders={shader}', '--no-osc', '--fs',
             '12393381_3840_2160_60fps_480.mp4'],
         check=True)
 
