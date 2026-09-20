@@ -272,14 +272,14 @@ image_base="pexels-liam-anderson-411198-1458332"
 printf "File | Score\n"
 printf "%s\n" "-- | --"
 
-printf "${image_base}_fullscreen.png | "
+printf "fullscreen.png | "
 magick compare -metric SSIM ${image_base}_fullscreen.png ${image_base}_fullscreen.png null:
 printf "\n"
 
 for image_file in ${image_base}_480-*.png
 do
   score=$(magick compare -metric SSIM "${image_base}_fullscreen.png" "${image_file}" null: 2>&1)
-  printf "%s | %s\n" "${image_file}" "${score}"
+  printf "%s | %s\n" "${image_file#${image_base}_480-}" "${score}"
 done | sort -t '|' -k 2 -g
 ```
 
@@ -290,19 +290,19 @@ done | sort -t '|' -k 2 -g
 
 File | Score
 -- | --
-pexels-liam-anderson-411198-1458332_fullscreen.png | 0 (0)
-pexels-liam-anderson-411198-1458332_480-FSRCNNX_x2_8-0-4-1.png | 1940.95 (0.029617)
-pexels-liam-anderson-411198-1458332_480-acnet_f8b4.png | 1950.33 (0.0297601)
-pexels-liam-anderson-411198-1458332_480-acnet_f8b4_box.png | 1953.98 (0.0298159)
-pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F16.png | 1968.67 (0.0300399)
-pexels-liam-anderson-411198-1458332_480-acnet_f8b4_hdn.png | 1984.15 (0.0302762)
-pexels-liam-anderson-411198-1458332_480-SSimSuperRes.png | 2005.16 (0.0305968)
-pexels-liam-anderson-411198-1458332_480-acnet_f8b4_box_hdn.png | 2005.66 (0.0306044)
-pexels-liam-anderson-411198-1458332_480-ravu-lite-ar-r3.png | 2016.78 (0.0307741)
-pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F16_DS.png | 2024.89 (0.0308979)
-pexels-liam-anderson-411198-1458332_480-lanczos.png | 2025.92 (0.0309136)
-pexels-liam-anderson-411198-1458332_480-Anime4K_Upscale_Denoise_CNN_x2_M.png | 2122.38 (0.0323854)
-pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F16_DN.png | 2189.47 (0.0334092)
+fullscreen.png | 0 (0)
+FSRCNNX_x2_8-0-4-1.png | 1940.95 (0.029617)
+acnet_f8b4.png | 1950.33 (0.0297601)
+acnet_f8b4_box.png | 1953.98 (0.0298159)
+ArtCNN_C4F16.png | 1968.67 (0.0300399)
+acnet_f8b4_hdn.png | 1984.15 (0.0302762)
+SSimSuperRes.png | 2005.16 (0.0305968)
+acnet_f8b4_box_hdn.png | 2005.66 (0.0306044)
+ravu-lite-ar-r3.png | 2016.78 (0.0307741)
+ArtCNN_C4F16_DS.png | 2024.89 (0.0308979)
+lanczos.png | 2025.92 (0.0309136)
+Anime4K_Upscale_Denoise_CNN_x2_M.png | 2122.38 (0.0323854)
+ArtCNN_C4F16_DN.png | 2189.47 (0.0334092)
 
 ### 結果 (高負荷バリアント)
 
@@ -310,14 +310,14 @@ pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F16_DN.png | 2189.47 (0.0334092
 
 File | Score
 -- | --
-pexels-liam-anderson-411198-1458332_fullscreen.png | 0 (0)
-pexels-liam-anderson-411198-1458332_480-acnet_f8b18_hdn.png | 1905.7 (0.0290791)
-pexels-liam-anderson-411198-1458332_480-FSRCNNX_x2_16-0-4-1.png | 1927.04 (0.0294047)
-pexels-liam-anderson-411198-1458332_480-acnet_f8b18.png | 1939.93 (0.0296014)
-pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F32.png | 1943.88 (0.0296618)
-pexels-liam-anderson-411198-1458332_480-ArtCNN_C4F32_DS.png | 2004.32 (0.0305839)
-pexels-liam-anderson-411198-1458332_480-Anime4K_Upscale_Denoise_CNN_x2_UL.png | 2017.19 (0.0307804)
-pexels-liam-anderson-411198-1458332_480-lanczos.png | 2025.92 (0.0309136)
+fullscreen.png | 0 (0)
+acnet_f8b18_hdn.png | 1905.7 (0.0290791)
+FSRCNNX_x2_16-0-4-1.png | 1927.04 (0.0294047)
+acnet_f8b18.png | 1939.93 (0.0296014)
+ArtCNN_C4F32.png | 1943.88 (0.0296618)
+ArtCNN_C4F32_DS.png | 2004.32 (0.0305839)
+Anime4K_Upscale_Denoise_CNN_x2_UL.png | 2017.19 (0.0307804)
+lanczos.png | 2025.92 (0.0309136)
 
 ### アニメ画像の場合
 
@@ -335,19 +335,19 @@ License: [画像は常識の範囲でご自由にお使いください。](https
 
 File | Score
 -- | --
-chihiro030_fullscreen.png | 0 (0)
-chihiro030_480-ArtCNN_C4F16_DS.png | 2377.32 (0.0362755)
-chihiro030_480-acnet_f8b4_hdn.png | 2490.31 (0.0379996)
-chihiro030_480-Anime4K_Upscale_Denoise_CNN_x2_M.png | 2565.68 (0.0391498)
-chihiro030_480-acnet_f8b4_box_hdn.png | 2616.02 (0.0399179)
-chihiro030_480-acnet_f8b4.png | 2812.43 (0.042915)
-chihiro030_480-FSRCNNX_x2_8-0-4-1.png | 2856.32 (0.0435847)
-chihiro030_480-acnet_f8b4_box.png | 2902.71 (0.0442925)
-chihiro030_480-ArtCNN_C4F16.png | 2953.2 (0.045063)
-chihiro030_480-ArtCNN_C4F16_DN.png | 2971.24 (0.0453383)
-chihiro030_480-ravu-lite-ar-r3.png | 3197.6 (0.0487923)
-chihiro030_480-SSimSuperRes.png | 3292.46 (0.0502398)
-chihiro030_480-lanczos.png | 3631.37 (0.0554111)
+fullscreen.png | 0 (0)
+ArtCNN_C4F16_DS.png | 2377.32 (0.0362755)
+acnet_f8b4_hdn.png | 2490.31 (0.0379996)
+Anime4K_Upscale_Denoise_CNN_x2_M.png | 2565.68 (0.0391498)
+acnet_f8b4_box_hdn.png | 2616.02 (0.0399179)
+acnet_f8b4.png | 2812.43 (0.042915)
+FSRCNNX_x2_8-0-4-1.png | 2856.32 (0.0435847)
+acnet_f8b4_box.png | 2902.71 (0.0442925)
+ArtCNN_C4F16.png | 2953.2 (0.045063)
+ArtCNN_C4F16_DN.png | 2971.24 (0.0453383)
+ravu-lite-ar-r3.png | 3197.6 (0.0487923)
+SSimSuperRes.png | 3292.46 (0.0502398)
+lanczos.png | 3631.37 (0.0554111)
 
 ### 結果 (高負荷バリアント)
 
@@ -355,14 +355,14 @@ chihiro030_480-lanczos.png | 3631.37 (0.0554111)
 
 File | Score
 -- | --
-chihiro030_fullscreen.png | 0 (0)
-chihiro030_480-ArtCNN_C4F32_DS.png | 2321.88 (0.0354297)
-chihiro030_480-acnet_f8b18_hdn.png | 2424.86 (0.037001)
-chihiro030_480-Anime4K_Upscale_Denoise_CNN_x2_UL.png | 2533.07 (0.0386522)
-chihiro030_480-FSRCNNX_x2_16-0-4-1.png | 2698.8 (0.041181)
-chihiro030_480-acnet_f8b18.png | 2837.28 (0.0432941)
-chihiro030_480-ArtCNN_C4F32.png | 2914.45 (0.0444717)
-chihiro030_480-lanczos.png | 3631.37 (0.0554111)
+fullscreen.png | 0 (0)
+ArtCNN_C4F32_DS.png | 2321.88 (0.0354297)
+acnet_f8b18_hdn.png | 2424.86 (0.037001)
+Anime4K_Upscale_Denoise_CNN_x2_UL.png | 2533.07 (0.0386522)
+FSRCNNX_x2_16-0-4-1.png | 2698.8 (0.041181)
+acnet_f8b18.png | 2837.28 (0.0432941)
+ArtCNN_C4F32.png | 2914.45 (0.0444717)
+lanczos.png | 3631.37 (0.0554111)
 
 ### デフォルトのアップスケーラーを設定
 
