@@ -161,8 +161,9 @@ mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
 [https://github.com/bloc97/Anime4K](https://github.com/bloc97/Anime4K)
 
 ```
-wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
-mv Anime4K_Upscale_Denoise_CNN_x2_M.glsl ~/.config/mpv/shaders/
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_M.glsl
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_S.glsl
+mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders/
 ```
 
 通常は複数のシェーダーを[組み合わせて](https://github.com/bloc97/Anime4K/tree/master/md/Template/GLSL_Mac_Linux_Low-end)使用するが、アニメに寄せ切ると実写映像が不自然になるので、ここでは「Anime4K_Upscale_Denoise_CNN_x2_M.glsl」のみを使用する。
@@ -224,7 +225,9 @@ License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/li
 縦長画像の場合は中央部分を最大限に使用する。余白が多いと品質の差が出にくい。
 
 ```
-image_base="pexels-liam-anderson-411198-1458332"
+image_orig="pexels-liam-anderson-411198-1458332.jpg"
+image_base="${image_orig%.*}"
+
 mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
 
 mpv ${mpv_options} "${image_base}.jpg" --panscan=1.0 --glsl-shaders="" --screenshot-template="${image_base}_fullscreen"
@@ -236,7 +239,8 @@ mpv ${mpv_options} "${image_base}.jpg" --panscan=1.0 --glsl-shaders="" --screens
 「画像A」を縦480にリサイズ。
 
 ```
-image_base="pexels-liam-anderson-411198-1458332"
+image_orig="pexels-liam-anderson-411198-1458332.jpg"
+image_base="${image_orig%.*}"
 
 magick ${image_base}_fullscreen.png -resize x480 -quality 92 "${image_base}_480.jpg"
 ```
@@ -247,7 +251,9 @@ magick ${image_base}_fullscreen.png -resize x480 -quality 92 "${image_base}_480.
 「画像B」を mpv でフルスクリーンにアップスケール。縦横それぞれ2倍以上にしないと、アップスケーラーの違いが分かりづらい。
 
 ```
-image_base="pexels-liam-anderson-411198-1458332"
+image_orig="pexels-liam-anderson-411198-1458332.jpg"
+image_base="${image_orig%.*}"
+
 mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
 
 for shader_file in ~/.config/mpv/shaders/*
@@ -267,19 +273,25 @@ mpv ${mpv_options} "${image_base}_480.jpg" --glsl-shaders="" --screenshot-templa
 「画像A」と「画像C」の類似度を測定する。
 
 ```
-image_base="pexels-liam-anderson-411198-1458332"
+image_orig="pexels-liam-anderson-411198-1458332.jpg"
+image_base="${image_orig%.*}"
 
+printf "\n"
+printf "${image_base}\n"
+printf "\n"
 printf "File | Score\n"
 printf "%s\n" "-- | --"
 
-printf "fullscreen.png | "
-magick compare -metric SSIM ${image_base}_fullscreen.png ${image_base}_fullscreen.png null:
+printf "fullscreen | "
+magick compare -metric SSIM "${image_base}_fullscreen.png" "${image_base}_fullscreen.png" null:
 printf "\n"
 
 for image_file in ${image_base}_480-*.png
 do
   score=$(magick compare -metric SSIM "${image_base}_fullscreen.png" "${image_file}" null: 2>&1)
-  printf "%s | %s\n" "${image_file#${image_base}_480-}" "${score}"
+  shader_name=${image_file#${image_base}_480-}
+  shader_name=${shader_name%.*}
+  printf "%s | %s\n" "${shader_name}" "${score}"
 done | sort -t '|' -k 2 -g
 ```
 
@@ -290,19 +302,20 @@ done | sort -t '|' -k 2 -g
 
 File | Score
 -- | --
-fullscreen.png | 0 (0)
-FSRCNNX_x2_8-0-4-1.png | 1940.95 (0.029617)
-acnet_f8b4.png | 1950.33 (0.0297601)
-acnet_f8b4_box.png | 1953.98 (0.0298159)
-ArtCNN_C4F16.png | 1968.67 (0.0300399)
-acnet_f8b4_hdn.png | 1984.15 (0.0302762)
-SSimSuperRes.png | 2005.16 (0.0305968)
-acnet_f8b4_box_hdn.png | 2005.66 (0.0306044)
-ravu-lite-ar-r3.png | 2016.78 (0.0307741)
-ArtCNN_C4F16_DS.png | 2024.89 (0.0308979)
-lanczos.png | 2025.92 (0.0309136)
-Anime4K_Upscale_Denoise_CNN_x2_M.png | 2122.38 (0.0323854)
-ArtCNN_C4F16_DN.png | 2189.47 (0.0334092)
+fullscreen | 0 (0)
+FSRCNNX_x2_8-0-4-1 | 1940.95 (0.029617)
+acnet_f8b4 | 1950.33 (0.0297601)
+acnet_f8b4_box | 1953.98 (0.0298159)
+ArtCNN_C4F16 | 1968.67 (0.0300399)
+Anime4K_Upscale_CNN_x2_S | 1977.57 (0.0301757)
+acnet_f8b4_hdn | 1984.15 (0.0302762)
+Anime4K_Upscale_CNN_x2_M | 2004.8 (0.0305913)
+SSimSuperRes | 2005.16 (0.0305968)
+acnet_f8b4_box_hdn | 2005.66 (0.0306044)
+ravu-lite-ar-r3 | 2016.78 (0.0307741)
+ArtCNN_C4F16_DS | 2024.89 (0.0308979)
+lanczos | 2025.92 (0.0309136)
+ArtCNN_C4F16_DN | 2189.47 (0.0334092)
 
 ### 結果 (高負荷バリアント)
 
@@ -310,14 +323,14 @@ ArtCNN_C4F16_DN.png | 2189.47 (0.0334092)
 
 File | Score
 -- | --
-fullscreen.png | 0 (0)
-acnet_f8b18_hdn.png | 1905.7 (0.0290791)
-FSRCNNX_x2_16-0-4-1.png | 1927.04 (0.0294047)
-acnet_f8b18.png | 1939.93 (0.0296014)
-ArtCNN_C4F32.png | 1943.88 (0.0296618)
-ArtCNN_C4F32_DS.png | 2004.32 (0.0305839)
-Anime4K_Upscale_Denoise_CNN_x2_UL.png | 2017.19 (0.0307804)
-lanczos.png | 2025.92 (0.0309136)
+fullscreen | 0 (0)
+acnet_f8b18_hdn | 1905.7 (0.0290791)
+FSRCNNX_x2_16-0-4-1 | 1927.04 (0.0294047)
+acnet_f8b18 | 1939.93 (0.0296014)
+ArtCNN_C4F32 | 1943.88 (0.0296618)
+Anime4K_Upscale_CNN_x2_UL | 1989.07 (0.0303513)
+ArtCNN_C4F32_DS | 2004.32 (0.0305839)
+lanczos | 2025.92 (0.0309136)
 
 ### アニメ画像の場合
 
@@ -335,19 +348,20 @@ License: [画像は常識の範囲でご自由にお使いください。](https
 
 File | Score
 -- | --
-fullscreen.png | 0 (0)
-ArtCNN_C4F16_DS.png | 2377.32 (0.0362755)
-acnet_f8b4_hdn.png | 2490.31 (0.0379996)
-Anime4K_Upscale_Denoise_CNN_x2_M.png | 2565.68 (0.0391498)
-acnet_f8b4_box_hdn.png | 2616.02 (0.0399179)
-acnet_f8b4.png | 2812.43 (0.042915)
-FSRCNNX_x2_8-0-4-1.png | 2856.32 (0.0435847)
-acnet_f8b4_box.png | 2902.71 (0.0442925)
-ArtCNN_C4F16.png | 2953.2 (0.045063)
-ArtCNN_C4F16_DN.png | 2971.24 (0.0453383)
-ravu-lite-ar-r3.png | 3197.6 (0.0487923)
-SSimSuperRes.png | 3292.46 (0.0502398)
-lanczos.png | 3631.37 (0.0554111)
+fullscreen | 0 (0)
+ArtCNN_C4F16_DS | 2377.32 (0.0362755)
+acnet_f8b4_hdn | 2490.31 (0.0379996)
+Anime4K_Upscale_CNN_x2_M | 2572.14 (0.0392484)
+acnet_f8b4_box_hdn | 2616.02 (0.0399179)
+Anime4K_Upscale_CNN_x2_S | 2745.35 (0.0418913)
+acnet_f8b4 | 2812.43 (0.042915)
+FSRCNNX_x2_8-0-4-1 | 2856.32 (0.0435847)
+acnet_f8b4_box | 2902.71 (0.0442925)
+ArtCNN_C4F16 | 2953.2 (0.045063)
+ArtCNN_C4F16_DN | 2971.24 (0.0453383)
+ravu-lite-ar-r3 | 3197.6 (0.0487923)
+SSimSuperRes | 3292.46 (0.0502398)
+lanczos | 3631.37 (0.0554111)
 
 ### 結果 (高負荷バリアント)
 
@@ -355,24 +369,24 @@ lanczos.png | 3631.37 (0.0554111)
 
 File | Score
 -- | --
-fullscreen.png | 0 (0)
-ArtCNN_C4F32_DS.png | 2321.88 (0.0354297)
-acnet_f8b18_hdn.png | 2424.86 (0.037001)
-Anime4K_Upscale_Denoise_CNN_x2_UL.png | 2533.07 (0.0386522)
-FSRCNNX_x2_16-0-4-1.png | 2698.8 (0.041181)
-acnet_f8b18.png | 2837.28 (0.0432941)
-ArtCNN_C4F32.png | 2914.45 (0.0444717)
-lanczos.png | 3631.37 (0.0554111)
+fullscreen | 0 (0)
+ArtCNN_C4F32_DS | 2321.88 (0.0354297)
+acnet_f8b18_hdn | 2424.86 (0.037001)
+Anime4K_Upscale_CNN_x2_UL | 2464.49 (0.0376057)
+FSRCNNX_x2_16-0-4-1 | 2698.8 (0.041181)
+acnet_f8b18 | 2837.28 (0.0432941)
+ArtCNN_C4F32 | 2914.45 (0.0444717)
+lanczos | 3631.37 (0.0554111)
 
 ### デフォルトのアップスケーラーを設定
 
-「acnet_f8b4_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf に次の行を追加。
+「acnet_f8b4_box_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf に次の行を追加。
 内蔵アップスケーラーのみを使用する場合は何も書かない。
 
 ```
 # 外部アップスケーラー
 # https://mpv.io/manual/stable/#options-glsl-shaders
-glsl-shader="~~/shaders/acnet_f8b4_hdn.glsl"
+glsl-shader="~~/shaders/acnet_f8b4_box_hdn.glsl"
 ```
 
 ### アップスケーラーにショートカットを割り当てる
@@ -386,10 +400,29 @@ Ctrl+2 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
 Ctrl+3 change-list glsl-shaders set "~~/shaders/acnet_f8b4_box_hdn.glsl"
 Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DN.glsl"
 Ctrl+5 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
-Ctrl+6 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
-Ctrl+7 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
+Ctrl+6 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl"
+Ctrl+7 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl"
+Ctrl+8 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
 Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 ```
+
+### アップスケーラーの違いを目視で確認する
+
+人物写真を表示。
+
+```
+mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --no-osc --fs --pause
+```
+
+Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。画像の違いが見えやすくなる。
+
+アニメ画像を表示。
+
+```
+mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --no-osc --fs --pause
+```
+
+同様にアップスケーラーをパラパラ漫画のように切り替える。
 
 ## アップスケーラーの速度を比較
 
@@ -424,7 +457,8 @@ GPUによって速度は変わる。
 | --- | --- |
 | lanczos | 3.32 |
 | ravu-lite-ar-r3 | 6.31 |
-| Anime4K_Upscale_Denoise_CNN_x2_M | 9.22 |
+| Anime4K_Upscale_CNN_x2_S | 7.52 |
+| Anime4K_Upscale_CNN_x2_M | 9.22 |
 | SSimSuperRes | 9.7 |
 | acnet_f8b4_hdn | 11.32 |
 | acnet_f8b4 | 11.34 |

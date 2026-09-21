@@ -54,6 +54,8 @@ id="toc-結果-高負荷バリアント-1">結果 (高負荷バリアント)</a>
 id="toc-デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</a></li>
 <li><a href="#アップスケーラーにショートカットを割り当てる"
 id="toc-アップスケーラーにショートカットを割り当てる">アップスケーラーにショートカットを割り当てる</a></li>
+<li><a href="#アップスケーラーの違いを目視で確認する"
+id="toc-アップスケーラーの違いを目視で確認する">アップスケーラーの違いを目視で確認する</a></li>
 </ul></li>
 <li><a href="#アップスケーラーの速度を比較"
 id="toc-アップスケーラーの速度を比較">アップスケーラーの速度を比較</a>
@@ -197,8 +199,9 @@ href="https://en.wikipedia.org/wiki/Ringing_artifacts">リング状のゴース�
 <p>1080pアニメのアップスケールに最適化されたアップスケーラー。<br />
 <a
 href="https://github.com/bloc97/Anime4K">https://github.com/bloc97/Anime4K</a></p>
-<pre><code>wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
-mv Anime4K_Upscale_Denoise_CNN_x2_M.glsl ~/.config/mpv/shaders/</code></pre>
+<pre><code>wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_M.glsl
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_S.glsl
+mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders/</code></pre>
 <p>通常は複数のシェーダーを<a
 href="https://github.com/bloc97/Anime4K/tree/master/md/Template/GLSL_Mac_Linux_Low-end">組み合わせて</a>使用するが、アニメに寄せ切ると実写映像が不自然になるので、ここでは「Anime4K_Upscale_Denoise_CNN_x2_M.glsl」のみを使用する。</p>
 <h3 id="acnetglsl">ACNetGLSL</h3>
@@ -245,14 +248,17 @@ Focus Photography of Woman</a>” をクリックして右上の「Free
 download」をクリック。</p>
 <p>ダウンロードした画像を mpv でフルスクリーン表示。<br />
 縦長画像の場合は中央部分を最大限に使用する。余白が多いと品質の差が出にくい。</p>
-<pre><code>image_base=&quot;pexels-liam-anderson-411198-1458332&quot;
+<pre><code>image_orig=&quot;pexels-liam-anderson-411198-1458332.jpg&quot;
+image_base=&quot;${image_orig%.*}&quot;
+
 mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause&quot;
 
 mpv ${mpv_options} &quot;${image_base}.jpg&quot; --panscan=1.0 --glsl-shaders=&quot;&quot; --screenshot-template=&quot;${image_base}_fullscreen&quot;</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
 できた画像を「画像A」とする。</p>
 <p>「画像A」を縦480にリサイズ。</p>
-<pre><code>image_base=&quot;pexels-liam-anderson-411198-1458332&quot;
+<pre><code>image_orig=&quot;pexels-liam-anderson-411198-1458332.jpg&quot;
+image_base=&quot;${image_orig%.*}&quot;
 
 magick ${image_base}_fullscreen.png -resize x480 -quality 92 &quot;${image_base}_480.jpg&quot;</code></pre>
 <p>できた画像を「画像B」とする。<br />
@@ -260,7 +266,9 @@ magick ${image_base}_fullscreen.png -resize x480 -quality 92 &quot;${image_base}
 形式だとアップスケーラーが効かない場合があった。</p>
 <p>「画像B」を mpv
 でフルスクリーンにアップスケール。縦横それぞれ2倍以上にしないと、アップスケーラーの違いが分かりづらい。</p>
-<pre><code>image_base=&quot;pexels-liam-anderson-411198-1458332&quot;
+<pre><code>image_orig=&quot;pexels-liam-anderson-411198-1458332.jpg&quot;
+image_base=&quot;${image_orig%.*}&quot;
+
 mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause&quot;
 
 for shader_file in ~/.config/mpv/shaders/*
@@ -275,19 +283,25 @@ mpv ${mpv_options} &quot;${image_base}_480.jpg&quot; --glsl-shaders=&quot;&quot;
 自動的に次の画像が表示されるので、同じことを繰り返す。<br />
 できた画像を「画像C」とする。</p>
 <p>「画像A」と「画像C」の類似度を測定する。</p>
-<pre><code>image_base=&quot;pexels-liam-anderson-411198-1458332&quot;
+<pre><code>image_orig=&quot;pexels-liam-anderson-411198-1458332.jpg&quot;
+image_base=&quot;${image_orig%.*}&quot;
 
+printf &quot;\n&quot;
+printf &quot;${image_base}\n&quot;
+printf &quot;\n&quot;
 printf &quot;File | Score\n&quot;
 printf &quot;%s\n&quot; &quot;-- | --&quot;
 
-printf &quot;fullscreen.png | &quot;
-magick compare -metric SSIM ${image_base}_fullscreen.png ${image_base}_fullscreen.png null:
+printf &quot;fullscreen | &quot;
+magick compare -metric SSIM &quot;${image_base}_fullscreen.png&quot; &quot;${image_base}_fullscreen.png&quot; null:
 printf &quot;\n&quot;
 
 for image_file in ${image_base}_480-*.png
 do
   score=$(magick compare -metric SSIM &quot;${image_base}_fullscreen.png&quot; &quot;${image_file}&quot; null: 2&gt;&amp;1)
-  printf &quot;%s | %s\n&quot; &quot;${image_file#${image_base}_480-}&quot; &quot;${score}&quot;
+  shader_name=${image_file#${image_base}_480-}
+  shader_name=${shader_name%.*}
+  printf &quot;%s | %s\n&quot; &quot;${shader_name}&quot; &quot;${score}&quot;
 done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。<br />
@@ -302,55 +316,59 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 </thead>
 <tbody>
 <tr>
-<td>fullscreen.png</td>
+<td>fullscreen</td>
 <td>0 (0)</td>
 </tr>
 <tr>
-<td>FSRCNNX_x2_8-0-4-1.png</td>
+<td>FSRCNNX_x2_8-0-4-1</td>
 <td>1940.95 (0.029617)</td>
 </tr>
 <tr>
-<td>acnet_f8b4.png</td>
+<td>acnet_f8b4</td>
 <td>1950.33 (0.0297601)</td>
 </tr>
 <tr>
-<td>acnet_f8b4_box.png</td>
+<td>acnet_f8b4_box</td>
 <td>1953.98 (0.0298159)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F16.png</td>
+<td>ArtCNN_C4F16</td>
 <td>1968.67 (0.0300399)</td>
 </tr>
 <tr>
-<td>acnet_f8b4_hdn.png</td>
+<td>Anime4K_Upscale_CNN_x2_S</td>
+<td>1977.57 (0.0301757)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_hdn</td>
 <td>1984.15 (0.0302762)</td>
 </tr>
 <tr>
-<td>SSimSuperRes.png</td>
+<td>Anime4K_Upscale_CNN_x2_M</td>
+<td>2004.8 (0.0305913)</td>
+</tr>
+<tr>
+<td>SSimSuperRes</td>
 <td>2005.16 (0.0305968)</td>
 </tr>
 <tr>
-<td>acnet_f8b4_box_hdn.png</td>
+<td>acnet_f8b4_box_hdn</td>
 <td>2005.66 (0.0306044)</td>
 </tr>
 <tr>
-<td>ravu-lite-ar-r3.png</td>
+<td>ravu-lite-ar-r3</td>
 <td>2016.78 (0.0307741)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F16_DS.png</td>
+<td>ArtCNN_C4F16_DS</td>
 <td>2024.89 (0.0308979)</td>
 </tr>
 <tr>
-<td>lanczos.png</td>
+<td>lanczos</td>
 <td>2025.92 (0.0309136)</td>
 </tr>
 <tr>
-<td>Anime4K_Upscale_Denoise_CNN_x2_M.png</td>
-<td>2122.38 (0.0323854)</td>
-</tr>
-<tr>
-<td>ArtCNN_C4F16_DN.png</td>
+<td>ArtCNN_C4F16_DN</td>
 <td>2189.47 (0.0334092)</td>
 </tr>
 </tbody>
@@ -366,35 +384,35 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 </thead>
 <tbody>
 <tr>
-<td>fullscreen.png</td>
+<td>fullscreen</td>
 <td>0 (0)</td>
 </tr>
 <tr>
-<td>acnet_f8b18_hdn.png</td>
+<td>acnet_f8b18_hdn</td>
 <td>1905.7 (0.0290791)</td>
 </tr>
 <tr>
-<td>FSRCNNX_x2_16-0-4-1.png</td>
+<td>FSRCNNX_x2_16-0-4-1</td>
 <td>1927.04 (0.0294047)</td>
 </tr>
 <tr>
-<td>acnet_f8b18.png</td>
+<td>acnet_f8b18</td>
 <td>1939.93 (0.0296014)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F32.png</td>
+<td>ArtCNN_C4F32</td>
 <td>1943.88 (0.0296618)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F32_DS.png</td>
+<td>Anime4K_Upscale_CNN_x2_UL</td>
+<td>1989.07 (0.0303513)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F32_DS</td>
 <td>2004.32 (0.0305839)</td>
 </tr>
 <tr>
-<td>Anime4K_Upscale_Denoise_CNN_x2_UL.png</td>
-<td>2017.19 (0.0307804)</td>
-</tr>
-<tr>
-<td>lanczos.png</td>
+<td>lanczos</td>
 <td>2025.92 (0.0309136)</td>
 </tr>
 </tbody>
@@ -419,55 +437,59 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </thead>
 <tbody>
 <tr>
-<td>fullscreen.png</td>
+<td>fullscreen</td>
 <td>0 (0)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F16_DS.png</td>
+<td>ArtCNN_C4F16_DS</td>
 <td>2377.32 (0.0362755)</td>
 </tr>
 <tr>
-<td>acnet_f8b4_hdn.png</td>
+<td>acnet_f8b4_hdn</td>
 <td>2490.31 (0.0379996)</td>
 </tr>
 <tr>
-<td>Anime4K_Upscale_Denoise_CNN_x2_M.png</td>
-<td>2565.68 (0.0391498)</td>
+<td>Anime4K_Upscale_CNN_x2_M</td>
+<td>2572.14 (0.0392484)</td>
 </tr>
 <tr>
-<td>acnet_f8b4_box_hdn.png</td>
+<td>acnet_f8b4_box_hdn</td>
 <td>2616.02 (0.0399179)</td>
 </tr>
 <tr>
-<td>acnet_f8b4.png</td>
+<td>Anime4K_Upscale_CNN_x2_S</td>
+<td>2745.35 (0.0418913)</td>
+</tr>
+<tr>
+<td>acnet_f8b4</td>
 <td>2812.43 (0.042915)</td>
 </tr>
 <tr>
-<td>FSRCNNX_x2_8-0-4-1.png</td>
+<td>FSRCNNX_x2_8-0-4-1</td>
 <td>2856.32 (0.0435847)</td>
 </tr>
 <tr>
-<td>acnet_f8b4_box.png</td>
+<td>acnet_f8b4_box</td>
 <td>2902.71 (0.0442925)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F16.png</td>
+<td>ArtCNN_C4F16</td>
 <td>2953.2 (0.045063)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F16_DN.png</td>
+<td>ArtCNN_C4F16_DN</td>
 <td>2971.24 (0.0453383)</td>
 </tr>
 <tr>
-<td>ravu-lite-ar-r3.png</td>
+<td>ravu-lite-ar-r3</td>
 <td>3197.6 (0.0487923)</td>
 </tr>
 <tr>
-<td>SSimSuperRes.png</td>
+<td>SSimSuperRes</td>
 <td>3292.46 (0.0502398)</td>
 </tr>
 <tr>
-<td>lanczos.png</td>
+<td>lanczos</td>
 <td>3631.37 (0.0554111)</td>
 </tr>
 </tbody>
@@ -483,47 +505,47 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </thead>
 <tbody>
 <tr>
-<td>fullscreen.png</td>
+<td>fullscreen</td>
 <td>0 (0)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F32_DS.png</td>
+<td>ArtCNN_C4F32_DS</td>
 <td>2321.88 (0.0354297)</td>
 </tr>
 <tr>
-<td>acnet_f8b18_hdn.png</td>
+<td>acnet_f8b18_hdn</td>
 <td>2424.86 (0.037001)</td>
 </tr>
 <tr>
-<td>Anime4K_Upscale_Denoise_CNN_x2_UL.png</td>
-<td>2533.07 (0.0386522)</td>
+<td>Anime4K_Upscale_CNN_x2_UL</td>
+<td>2464.49 (0.0376057)</td>
 </tr>
 <tr>
-<td>FSRCNNX_x2_16-0-4-1.png</td>
+<td>FSRCNNX_x2_16-0-4-1</td>
 <td>2698.8 (0.041181)</td>
 </tr>
 <tr>
-<td>acnet_f8b18.png</td>
+<td>acnet_f8b18</td>
 <td>2837.28 (0.0432941)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F32.png</td>
+<td>ArtCNN_C4F32</td>
 <td>2914.45 (0.0444717)</td>
 </tr>
 <tr>
-<td>lanczos.png</td>
+<td>lanczos</td>
 <td>3631.37 (0.0554111)</td>
 </tr>
 </tbody>
 </table>
 <h3
 id="デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</h3>
-<p>「acnet_f8b4_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf
+<p>「acnet_f8b4_box_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf
 に次の行を追加。<br />
 内蔵アップスケーラーのみを使用する場合は何も書かない。</p>
 <pre><code># 外部アップスケーラー
 # https://mpv.io/manual/stable/#options-glsl-shaders
-glsl-shader=&quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;</code></pre>
+glsl-shader=&quot;~~/shaders/acnet_f8b4_box_hdn.glsl&quot;</code></pre>
 <h3
 id="アップスケーラーにショートカットを割り当てる">アップスケーラーにショートカットを割り当てる</h3>
 <p>~/.config/mpv/input.conf に次の行を追加。</p>
@@ -533,9 +555,19 @@ Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
 Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_box_hdn.glsl&quot;
 Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DN.glsl&quot;
 Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
-Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl&quot;
-Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
+Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl&quot;
+Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl&quot;
+Ctrl+8 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
 Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
+<h3
+id="アップスケーラーの違いを目視で確認する">アップスケーラーの違いを目視で確認する</h3>
+<p>人物写真を表示。</p>
+<pre><code>mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --no-osc --fs --pause</code></pre>
+<p>Ctrl
+キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。画像の違いが見えやすくなる。</p>
+<p>アニメ画像を表示。</p>
+<pre><code>mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --no-osc --fs --pause</code></pre>
+<p>同様にアップスケーラーをパラパラ漫画のように切り替える。</p>
 <h2 id="アップスケーラーの速度を比較">アップスケーラーの速度を比較</h2>
 <p><img src="images/mpv/12393381_3840_2160_60fps_480_01.jpg" /></p>
 <p>Source: “<a
@@ -572,7 +604,11 @@ done</code></pre>
 <td>6.31</td>
 </tr>
 <tr>
-<td>Anime4K_Upscale_Denoise_CNN_x2_M</td>
+<td>Anime4K_Upscale_CNN_x2_S</td>
+<td>7.52</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_CNN_x2_M</td>
 <td>9.22</td>
 </tr>
 <tr>
