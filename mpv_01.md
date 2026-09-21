@@ -147,9 +147,7 @@ Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
 
 ```
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r4.hook
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-*.hook ~/.config/mpv/shaders/
 ```
@@ -202,31 +200,31 @@ mv FSRCNNX_x2_8-0-4-1.glsl ~/.config/mpv/shaders/
 
 ```
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
-wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DN.glsl
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
 mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 ```
 
 ファイル名に「_DS」が付くものは、ノイズ除去とシャープ化を行うようトレーニングされている。
-ファイル名に「_DN」が付くものは、ノイズ除去とソフト化を行うようを行うようトレーニングされている。
 無印のものはニュートラル。
 
 ## アップスケーラーの品質を測定
 
-### 人物写真の場合
+### 風景写真の場合
 
-![](images/mpv/pexels-liam-anderson-411198-1458332_480.jpg)
+![](images/mpv/pexels-mehmetkaraca-27684806_480.jpg)
 
-Source: "[Shallow focus photography of woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" by Liam Anderson
+Source: "[Yedigoller daglari](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" by Mehmet Karaca
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-"[Shallow Focus Photography of Woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" をクリックして右上の「Free download」をクリック。
+品質測定に使用する画像は、複雑な模様があり、余白が少ないものを使用する。
+単純な模様だったり余白が多いと、品質の差が出にくい。
+縦長画像の場合は中央部分を最大限に使用する。
 
+"[Yedigoller daglari](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" をクリックして右上の「Free download」をクリック。
 ダウンロードした画像を mpv でフルスクリーン表示。
-縦長画像の場合は中央部分を最大限に使用する。余白が多いと品質の差が出にくい。
 
 ```
-image_orig="pexels-liam-anderson-411198-1458332.jpg"
+image_orig="pexels-mehmetkaraca-27684806.jpg"
 image_base="${image_orig%.*}"
 
 mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
@@ -240,7 +238,7 @@ mpv ${mpv_options} "${image_base}.jpg" --panscan=1.0 --glsl-shaders="" --screens
 「画像A」を縦480にリサイズ。
 
 ```
-image_orig="pexels-liam-anderson-411198-1458332.jpg"
+image_orig="pexels-mehmetkaraca-27684806.jpg"
 image_base="${image_orig%.*}"
 
 magick ${image_base}_fullscreen.png -resize x480 -quality 92 "${image_base}_480.jpg"
@@ -252,7 +250,7 @@ magick ${image_base}_fullscreen.png -resize x480 -quality 92 "${image_base}_480.
 「画像B」を mpv でフルスクリーンにアップスケール。縦横それぞれ2倍以上にしないと、アップスケーラーの違いが分かりづらい。
 
 ```
-image_orig="pexels-liam-anderson-411198-1458332.jpg"
+image_orig="pexels-mehmetkaraca-27684806.jpg"
 image_base="${image_orig%.*}"
 
 mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
@@ -274,7 +272,7 @@ mpv ${mpv_options} "${image_base}_480.jpg" --glsl-shaders="" --screenshot-templa
 「画像A」と「画像C」の類似度を測定する。
 
 ```
-image_orig="pexels-liam-anderson-411198-1458332.jpg"
+image_orig="pexels-mehmetkaraca-27684806.jpg"
 image_base="${image_orig%.*}"
 
 printf "File | Score\n"
@@ -290,92 +288,40 @@ do
 done | sort -t '|' -k 2 -g
 ```
 
-### 結果 (低負荷バリアント)
+### → 結果 (低負荷バリアント)
 
-スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
-人物写真の場合は全体のスコア差が小さく、デフォルトの lanczos も十分きれい。
-
-File | Score
--- | --
-fullscreen | 0 (0)
-ravu-zoom-r3 | 1931.07 (0.0294662)
-FSRCNNX_x2_8-0-4-1 | 1940.95 (0.029617)
-acnet_f8b4 | 1950.33 (0.0297601)
-acnet_f8b4_box | 1953.98 (0.0298159)
-ravu-lite-r4 | 1955.72 (0.0298424)
-ArtCNN_C4F16 | 1968.67 (0.0300399)
-ravu-lite-r3 | 1969.9 (0.0300588)
-Anime4K_Upscale_CNN_x2_S | 1977.57 (0.0301757)
-acnet_f8b4_hdn | 1984.15 (0.0302762)
-Anime4K_Upscale_CNN_x2_M | 2004.8 (0.0305913)
-SSimSuperRes | 2005.16 (0.0305968)
-acnet_f8b4_box_hdn | 2005.66 (0.0306044)
-ArtCNN_C4F16_DS | 2024.89 (0.0308979)
-lanczos | 2025.92 (0.0309136)
-ArtCNN_C4F16_DN | 2189.47 (0.0334092)
-
-### 結果 (高負荷バリアント)
-
-スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
+スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
 
 File | Score
 -- | --
 fullscreen | 0 (0)
-acnet_f8b18_hdn | 1905.7 (0.0290791)
-FSRCNNX_x2_16-0-4-1 | 1927.04 (0.0294047)
-acnet_f8b18 | 1939.93 (0.0296014)
-ArtCNN_C4F32 | 1943.88 (0.0296618)
-Anime4K_Upscale_CNN_x2_UL | 1989.07 (0.0303513)
-ArtCNN_C4F32_DS | 2004.32 (0.0305839)
-lanczos | 2025.92 (0.0309136)
+FSRCNNX_x2_8-0-4-1 | 5467.92 (0.083435)
+acnet_f8b4 | 5478.52 (0.0835969)
+ArtCNN_C4F16_DS | 5492.09 (0.0838039)
+SSimSuperRes | 5556.15 (0.0847814)
+ravu-lite-r4 | 5624.97 (0.0858315)
+ArtCNN_C4F16 | 5663.09 (0.0864133)
+acnet_f8b4_box | 5673.56 (0.0865729)
+acnet_f8b4_hdn | 5690.65 (0.0868338)
+Anime4K_Upscale_CNN_x2_M | 5851.66 (0.0892906)
+acnet_f8b4_box_hdn | 5873.4 (0.0896223)
+Anime4K_Upscale_CNN_x2_S | 5993.31 (0.091452)
+lanczos | 6262.4 (0.0955581)
 
-### 風景写真の場合
+### → 結果 (高負荷バリアント)
 
-![](images/mpv/pexels-brian-de-karma-806590-1677344_480.jpg)
-
-Source: "[Grey and green mountain](https://www.pexels.com/photo/grey-and-green-mountain-1677344/)" by Brian de Karma
-License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
-
-人物写真のときと同じ方法で測定する。
-
-### 結果 (低負荷バリアント)
-
-スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
-人物写真のときよりアップスケーラーごとの差が大きくなっている。
+スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
 
 File | Score
 -- | --
 fullscreen | 0 (0)
-acnet_f8b4 | 4388.49 (0.0669641)
-FSRCNNX_x2_8-0-4-1 | 4418.34 (0.0674196)
-ArtCNN_C4F16_DS | 4481.51 (0.0683834)
-ravu-lite-r4 | 4491.25 (0.068532)
-SSimSuperRes | 4493.47 (0.068566)
-ravu-lite-r3 | 4515.36 (0.0688999)
-acnet_f8b4_box | 4533.32 (0.069174)
-ArtCNN_C4F16 | 4538.39 (0.0692515)
-acnet_f8b4_hdn | 4589.56 (0.0700322)
-ravu-zoom-r3 | 4627.91 (0.0706174)
-Anime4K_Upscale_CNN_x2_M | 4720.38 (0.0720284)
-acnet_f8b4_box_hdn | 4735.05 (0.0722522)
-Anime4K_Upscale_CNN_x2_S | 4788.54 (0.0730685)
-lanczos | 5067.87 (0.0773308)
-ArtCNN_C4F16_DN | 5293.42 (0.0807724)
-
-### 結果 (高負荷バリアント)
-
-スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
-
-File | Score
--- | --
-fullscreen | 0 (0)
-acnet_f8b18 | 4350.74 (0.066388)
-FSRCNNX_x2_16-0-4-1 | 4391.97 (0.0670171)
-ArtCNN_C4F32_DS | 4426.39 (0.0675424)
-acnet_f8b18_hdn | 4432.27 (0.0676321)
-ArtCNN_C4F32 | 4507.74 (0.0687837)
-Anime4K_Upscale_CNN_x2_UL | 4719.96 (0.072022)
-lanczos | 5067.87 (0.0773308)
+acnet_f8b18 | 5402.44 (0.082436)
+FSRCNNX_x2_16-0-4-1 | 5424.86 (0.0827781)
+ArtCNN_C4F32_DS | 5433.53 (0.0829104)
+acnet_f8b18_hdn | 5502.03 (0.0839557)
+ArtCNN_C4F32 | 5612.65 (0.0856436)
+Anime4K_Upscale_CNN_x2_UL | 5809.67 (0.0886499)
+lanczos | 6262.4 (0.0955581)
 
 ### アニメ画像の場合
 
@@ -386,10 +332,9 @@ License: [画像は常識の範囲でご自由にお使いください。](https
 
 人物写真のときと同じ方法で測定する。
 
-### 結果 (低負荷バリアント)
+### → 結果 (低負荷バリアント)
 
-スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
-風景写真のときよりアップスケーラーごとの差が大きくなっている。
+スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
 
 File | Score
 -- | --
@@ -403,16 +348,13 @@ acnet_f8b4 | 2812.43 (0.042915)
 FSRCNNX_x2_8-0-4-1 | 2856.32 (0.0435847)
 acnet_f8b4_box | 2902.71 (0.0442925)
 ArtCNN_C4F16 | 2953.2 (0.045063)
-ArtCNN_C4F16_DN | 2971.24 (0.0453383)
-ravu-zoom-r3 | 3204.45 (0.0488968)
-ravu-lite-r3 | 3208.48 (0.0489582)
 ravu-lite-r4 | 3213.34 (0.0490325)
 SSimSuperRes | 3292.46 (0.0502398)
 lanczos | 3631.37 (0.0554111)
 
-### 結果 (高負荷バリアント)
+### → 結果 (高負荷バリアント)
 
-スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
+スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
 
 File | Score
 -- | --
@@ -444,10 +386,10 @@ Ctrl+9 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
 Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 ```
 
-人物写真を表示。
+風景写真を表示。
 
 ```
-mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --no-osc --fs --pause
+mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-mehmetkaraca-27684806_480.jpg --no-osc --fs --pause
 ```
 
 Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーの違いが見えやすくなる。
@@ -504,10 +446,8 @@ GPUによって速度は変わる。
 | Upscaler | Time (sec) |
 | --- | --- |
 | lanczos | 3.32 |
-| ravu-lite-r3 | 6.3 |
 | ravu-lite-r4 | 6.58 |
 | Anime4K_Upscale_CNN_x2_S | 7.52 |
-| ravu-zoom-r3 | 8.67 |
 | Anime4K_Upscale_CNN_x2_M | 9.22 |
 | SSimSuperRes | 9.7 |
 | acnet_f8b4_hdn | 11.32 |
@@ -517,7 +457,6 @@ GPUによって速度は変わる。
 | FSRCNNX_x2_8-0-4-1 | 12.52 |
 | ArtCNN_C4F16 | 16.97 |
 | ArtCNN_C4F16_DS | 17.01 |
-| ArtCNN_C4F16_DN | 17.37 |
 
 使用したシステム:
 
