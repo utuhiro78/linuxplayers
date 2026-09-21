@@ -286,20 +286,14 @@ mpv ${mpv_options} &quot;${image_base}_480.jpg&quot; --glsl-shaders=&quot;&quot;
 <pre><code>image_orig=&quot;pexels-liam-anderson-411198-1458332.jpg&quot;
 image_base=&quot;${image_orig%.*}&quot;
 
-printf &quot;\n&quot;
-printf &quot;${image_base}\n&quot;
-printf &quot;\n&quot;
 printf &quot;File | Score\n&quot;
 printf &quot;%s\n&quot; &quot;-- | --&quot;
 
-printf &quot;fullscreen | &quot;
-magick compare -metric SSIM &quot;${image_base}_fullscreen.png&quot; &quot;${image_base}_fullscreen.png&quot; null:
-printf &quot;\n&quot;
-
-for image_file in ${image_base}_480-*.png
+for image_file in ${image_base}_fullscreen.png ${image_base}_480-*.png
 do
   score=$(magick compare -metric SSIM &quot;${image_base}_fullscreen.png&quot; &quot;${image_file}&quot; null: 2&gt;&amp;1)
-  shader_name=${image_file#${image_base}_480-}
+  shader_name=${image_file#${image_base}_}
+  shader_name=${shader_name#480-}
   shader_name=${shader_name%.*}
   printf &quot;%s | %s\n&quot; &quot;${shader_name}&quot; &quot;${score}&quot;
 done | sort -t &#39;|&#39; -k 2 -g</code></pre>
