@@ -193,7 +193,8 @@ href="https://github.com/bjin/mpv-prescalers/tree/master/compute">compute</a>
 href="https://github.com/bjin/mpv-prescalers/tree/master/gather">gather</a>
 か<a
 href="https://github.com/bjin/mpv-prescalers/tree/master">ルート</a>のものを使用する。<br />
-ファイル名に「-ar」が付くものは、アンチリンギングフィルターが加えられている。リンギングとは、輪郭まわりなどに発生する<a
+ファイル名に「-ar」が付くものは、アンチリンギングフィルターが加えられている。<br />
+リンギングとは、輪郭まわりなどに発生する<a
 href="https://en.wikipedia.org/wiki/Ringing_artifacts">リング状のゴースト</a>のこと。</p>
 <h3 id="anime4k">Anime4K</h3>
 <p>1080pアニメのアップスケールに最適化されたアップスケーラー。<br />
@@ -203,7 +204,7 @@ href="https://github.com/bloc97/Anime4K">https://github.com/bloc97/Anime4K</a></
 wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_S.glsl
 mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders/</code></pre>
 <p>通常は複数のシェーダーを<a
-href="https://github.com/bloc97/Anime4K/tree/master/md/Template/GLSL_Mac_Linux_Low-end">組み合わせて</a>使用するが、アニメに寄せ切ると実写映像が不自然になるので、ここでは「Anime4K_Upscale_Denoise_CNN_x2_M.glsl」のみを使用する。</p>
+href="https://github.com/bloc97/Anime4K/tree/master/md/Template/GLSL_Mac_Linux_Low-end">組み合わせて</a>使用するが、そうすると実写映像が不自然になる。</p>
 <h3 id="acnetglsl">ACNetGLSL</h3>
 <p>Anime4KCPP プロジェクトで使用されている深層学習モデルを GLSL
 で実装したもの。<br />
@@ -230,8 +231,8 @@ href="https://github.com/Artoriuz/ArtCNN">https://github.com/Artoriuz/ArtCNN</a>
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DN.glsl
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
 mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/</code></pre>
-<p>ファイル名に「_DS」が付くものは、ノイズ除去とシャープ化を行うようトレーニングしている。<br />
-ファイル名に「_DN」が付くものは、ノイズ除去とソフト化を行うようを行うようトレーニングしている。<br />
+<p>ファイル名に「_DS」が付くものは、ノイズ除去とシャープ化を行うようトレーニングされている。<br />
+ファイル名に「_DN」が付くものは、ノイズ除去とソフト化を行うようを行うようトレーニングされている。<br />
 無印のものはニュートラル。</p>
 <h2 id="アップスケーラーの品質を測定">アップスケーラーの品質を測定</h2>
 <h3 id="人物写真の場合">人物写真の場合</h3>

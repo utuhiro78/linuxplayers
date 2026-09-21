@@ -153,7 +153,8 @@ mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
 ```
 
 [compute](https://github.com/bjin/mpv-prescalers/tree/master/compute) ディレクトリのものが高速。動作しない場合は [gather](https://github.com/bjin/mpv-prescalers/tree/master/gather) か[ルート](https://github.com/bjin/mpv-prescalers/tree/master)のものを使用する。
-ファイル名に「-ar」が付くものは、アンチリンギングフィルターが加えられている。リンギングとは、輪郭まわりなどに発生する[リング状のゴースト](https://en.wikipedia.org/wiki/Ringing_artifacts)のこと。
+ファイル名に「-ar」が付くものは、アンチリンギングフィルターが加えられている。
+リンギングとは、輪郭まわりなどに発生する[リング状のゴースト](https://en.wikipedia.org/wiki/Ringing_artifacts)のこと。
 
 ### Anime4K
 
@@ -166,7 +167,7 @@ wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Ups
 mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders/
 ```
 
-通常は複数のシェーダーを[組み合わせて](https://github.com/bloc97/Anime4K/tree/master/md/Template/GLSL_Mac_Linux_Low-end)使用するが、アニメに寄せ切ると実写映像が不自然になるので、ここでは「Anime4K_Upscale_Denoise_CNN_x2_M.glsl」のみを使用する。
+通常は複数のシェーダーを[組み合わせて](https://github.com/bloc97/Anime4K/tree/master/md/Template/GLSL_Mac_Linux_Low-end)使用するが、そうすると実写映像が不自然になる。
 
 ### ACNetGLSL
 
@@ -206,8 +207,8 @@ wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtC
 mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 ```
 
-ファイル名に「_DS」が付くものは、ノイズ除去とシャープ化を行うようトレーニングしている。
-ファイル名に「_DN」が付くものは、ノイズ除去とソフト化を行うようを行うようトレーニングしている。
+ファイル名に「_DS」が付くものは、ノイズ除去とシャープ化を行うようトレーニングされている。
+ファイル名に「_DN」が付くものは、ノイズ除去とソフト化を行うようを行うようトレーニングされている。
 無印のものはニュートラル。
 
 ## アップスケーラーの品質を測定
