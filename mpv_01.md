@@ -216,8 +216,7 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 Source: "[Yedigoller daglari](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" by Mehmet Karaca
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-品質測定に使用する画像は、複雑な模様があり、余白が少ないものを使用する。
-単純な模様だったり余白が多いと、品質の差が出にくい。
+模様が単純だったり余白が多い画像は避ける。アップスケーラーの差が出にくい。
 縦長画像の場合は中央部分を最大限に使用する。
 
 "[Yedigoller daglari](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" をクリックして右上の「Free download」をクリック。
