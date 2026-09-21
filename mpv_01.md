@@ -217,7 +217,7 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 
 ![](images/mpv/pexels-liam-anderson-411198-1458332_480.jpg)
 
-Source: "[Shallow Focus Photography of Woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" by Liam Anderson
+Source: "[Shallow focus photography of woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" by Liam Anderson
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
 "[Shallow Focus Photography of Woman](https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/)" をクリックして右上の「Free download」をクリック。
@@ -329,6 +329,54 @@ Anime4K_Upscale_CNN_x2_UL | 1989.07 (0.0303513)
 ArtCNN_C4F32_DS | 2004.32 (0.0305839)
 lanczos | 2025.92 (0.0309136)
 
+### 風景写真の場合
+
+![](images/mpv/pexels-brian-de-karma-806590-1677344_480.jpg)
+
+Source: "[Grey and green mountain](https://www.pexels.com/photo/grey-and-green-mountain-1677344/)" by Brian de Karma
+License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
+
+人物写真のときと同じ方法で測定する。
+
+### 結果 (低負荷バリアント)
+
+スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
+人物写真のときよりアップスケーラーごとの差が大きくなっている。
+
+File | Score
+-- | --
+fullscreen | 0 (0)
+acnet_f8b4 | 4388.49 (0.0669641)
+FSRCNNX_x2_8-0-4-1 | 4418.34 (0.0674196)
+ArtCNN_C4F16_DS | 4481.51 (0.0683834)
+ravu-lite-r4 | 4491.25 (0.068532)
+SSimSuperRes | 4493.47 (0.068566)
+ravu-lite-r3 | 4515.36 (0.0688999)
+acnet_f8b4_box | 4533.32 (0.069174)
+ArtCNN_C4F16 | 4538.39 (0.0692515)
+acnet_f8b4_hdn | 4589.56 (0.0700322)
+ravu-zoom-r3 | 4627.91 (0.0706174)
+Anime4K_Upscale_CNN_x2_M | 4720.38 (0.0720284)
+acnet_f8b4_box_hdn | 4735.05 (0.0722522)
+Anime4K_Upscale_CNN_x2_S | 4788.54 (0.0730685)
+lanczos | 5067.87 (0.0773308)
+ArtCNN_C4F16_DN | 5293.42 (0.0807724)
+
+### 結果 (高負荷バリアント)
+
+スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
+
+File | Score
+-- | --
+fullscreen | 0 (0)
+acnet_f8b18 | 4350.74 (0.066388)
+FSRCNNX_x2_16-0-4-1 | 4391.97 (0.0670171)
+ArtCNN_C4F32_DS | 4426.39 (0.0675424)
+acnet_f8b18_hdn | 4432.27 (0.0676321)
+ArtCNN_C4F32 | 4507.74 (0.0687837)
+Anime4K_Upscale_CNN_x2_UL | 4719.96 (0.072022)
+lanczos | 5067.87 (0.0773308)
+
 ### アニメ画像の場合
 
 ![](images/mpv/chihiro030_480.jpg)
@@ -341,7 +389,7 @@ License: [画像は常識の範囲でご自由にお使いください。](https
 ### 結果 (低負荷バリアント)
 
 スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。
-人物写真のときよりアップスケーラーによる差が大きい。
+風景写真のときよりアップスケーラーごとの差が大きくなっている。
 
 File | Score
 -- | --

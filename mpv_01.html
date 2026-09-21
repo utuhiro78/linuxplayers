@@ -44,12 +44,18 @@ id="toc-人物写真の場合">人物写真の場合</a></li>
 (低負荷バリアント)</a></li>
 <li><a href="#結果-高負荷バリアント" id="toc-結果-高負荷バリアント">結果
 (高負荷バリアント)</a></li>
-<li><a href="#アニメ画像の場合"
-id="toc-アニメ画像の場合">アニメ画像の場合</a></li>
+<li><a href="#風景写真の場合"
+id="toc-風景写真の場合">風景写真の場合</a></li>
 <li><a href="#結果-低負荷バリアント-1"
 id="toc-結果-低負荷バリアント-1">結果 (低負荷バリアント)</a></li>
 <li><a href="#結果-高負荷バリアント-1"
 id="toc-結果-高負荷バリアント-1">結果 (高負荷バリアント)</a></li>
+<li><a href="#アニメ画像の場合"
+id="toc-アニメ画像の場合">アニメ画像の場合</a></li>
+<li><a href="#結果-低負荷バリアント-2"
+id="toc-結果-低負荷バリアント-2">結果 (低負荷バリアント)</a></li>
+<li><a href="#結果-高負荷バリアント-2"
+id="toc-結果-高負荷バリアント-2">結果 (高負荷バリアント)</a></li>
 <li><a href="#アップスケーラーの違いを目視で確認"
 id="toc-アップスケーラーの違いを目視で確認">アップスケーラーの違いを目視で確認</a></li>
 <li><a href="#デフォルトのアップスケーラーを設定"
@@ -237,7 +243,7 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/</code></pre>
 src="images/mpv/pexels-liam-anderson-411198-1458332_480.jpg" /></p>
 <p>Source: “<a
 href="https://www.pexels.com/photo/shallow-focus-photography-of-woman-1458332/">Shallow
-Focus Photography of Woman</a>” by Liam Anderson<br />
+focus photography of woman</a>” by Liam Anderson<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
 <p>“<a
@@ -417,6 +423,136 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 </tr>
 </tbody>
 </table>
+<h3 id="風景写真の場合">風景写真の場合</h3>
+<p><img
+src="images/mpv/pexels-brian-de-karma-806590-1677344_480.jpg" /></p>
+<p>Source: “<a
+href="https://www.pexels.com/photo/grey-and-green-mountain-1677344/">Grey
+and green mountain</a>” by Brian de Karma<br />
+License: <a
+href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
+<p>人物写真のときと同じ方法で測定する。</p>
+<h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
+<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。<br />
+人物写真のときよりアップスケーラーごとの差が大きくなっている。</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fullscreen</td>
+<td>0 (0)</td>
+</tr>
+<tr>
+<td>acnet_f8b4</td>
+<td>4388.49 (0.0669641)</td>
+</tr>
+<tr>
+<td>FSRCNNX_x2_8-0-4-1</td>
+<td>4418.34 (0.0674196)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16_DS</td>
+<td>4481.51 (0.0683834)</td>
+</tr>
+<tr>
+<td>ravu-lite-r4</td>
+<td>4491.25 (0.068532)</td>
+</tr>
+<tr>
+<td>SSimSuperRes</td>
+<td>4493.47 (0.068566)</td>
+</tr>
+<tr>
+<td>ravu-lite-r3</td>
+<td>4515.36 (0.0688999)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box</td>
+<td>4533.32 (0.069174)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16</td>
+<td>4538.39 (0.0692515)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_hdn</td>
+<td>4589.56 (0.0700322)</td>
+</tr>
+<tr>
+<td>ravu-zoom-r3</td>
+<td>4627.91 (0.0706174)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_CNN_x2_M</td>
+<td>4720.38 (0.0720284)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box_hdn</td>
+<td>4735.05 (0.0722522)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_CNN_x2_S</td>
+<td>4788.54 (0.0730685)</td>
+</tr>
+<tr>
+<td>lanczos</td>
+<td>5067.87 (0.0773308)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16_DN</td>
+<td>5293.42 (0.0807724)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
+<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fullscreen</td>
+<td>0 (0)</td>
+</tr>
+<tr>
+<td>acnet_f8b18</td>
+<td>4350.74 (0.066388)</td>
+</tr>
+<tr>
+<td>FSRCNNX_x2_16-0-4-1</td>
+<td>4391.97 (0.0670171)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F32_DS</td>
+<td>4426.39 (0.0675424)</td>
+</tr>
+<tr>
+<td>acnet_f8b18_hdn</td>
+<td>4432.27 (0.0676321)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F32</td>
+<td>4507.74 (0.0687837)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_CNN_x2_UL</td>
+<td>4719.96 (0.072022)</td>
+</tr>
+<tr>
+<td>lanczos</td>
+<td>5067.87 (0.0773308)</td>
+</tr>
+</tbody>
+</table>
 <h3 id="アニメ画像の場合">アニメ画像の場合</h3>
 <p><img src="images/mpv/chihiro030_480.jpg" /></p>
 <p>Source: “<a
@@ -425,9 +561,9 @@ href="https://www.ghibli.jp/works/chihiro/#frame">千と千尋の神隠し
 License: <a
 href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご自由にお使いください。</a></p>
 <p>人物写真のときと同じ方法で測定する。</p>
-<h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
+<h3 id="結果-低負荷バリアント-2">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。<br />
-人物写真のときよりアップスケーラーによる差が大きい。</p>
+風景写真のときよりアップスケーラーごとの差が大きくなっている。</p>
 <table>
 <thead>
 <tr>
@@ -502,7 +638,7 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </tr>
 </tbody>
 </table>
-<h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
+<h3 id="結果-高負荷バリアント-2">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほど類似度が高い。ただし、100程度の差だと見た目はあまり変わらない。</p>
 <table>
 <thead>
