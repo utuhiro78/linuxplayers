@@ -147,14 +147,14 @@ Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
 
 ```
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r4.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-r3.hook
 mkdir -p ~/.config/mpv/shaders
-mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/
+mv ravu-*.hook ~/.config/mpv/shaders/
 ```
 
 [compute](https://github.com/bjin/mpv-prescalers/tree/master/compute) ディレクトリのものが高速。動作しない場合は [gather](https://github.com/bjin/mpv-prescalers/tree/master/gather) か[ルート](https://github.com/bjin/mpv-prescalers/tree/master)のものを使用する。
-ファイル名に「-ar」が付くものは、アンチリンギングフィルターが加えられている。
-リンギングとは、輪郭まわりなどに発生する[リング状のゴースト](https://en.wikipedia.org/wiki/Ringing_artifacts)のこと。
 
 ### Anime4K
 
@@ -298,16 +298,18 @@ done | sort -t '|' -k 2 -g
 File | Score
 -- | --
 fullscreen | 0 (0)
+ravu-zoom-r3 | 1931.07 (0.0294662)
 FSRCNNX_x2_8-0-4-1 | 1940.95 (0.029617)
 acnet_f8b4 | 1950.33 (0.0297601)
 acnet_f8b4_box | 1953.98 (0.0298159)
+ravu-lite-r4 | 1955.72 (0.0298424)
 ArtCNN_C4F16 | 1968.67 (0.0300399)
+ravu-lite-r3 | 1969.9 (0.0300588)
 Anime4K_Upscale_CNN_x2_S | 1977.57 (0.0301757)
 acnet_f8b4_hdn | 1984.15 (0.0302762)
 Anime4K_Upscale_CNN_x2_M | 2004.8 (0.0305913)
 SSimSuperRes | 2005.16 (0.0305968)
 acnet_f8b4_box_hdn | 2005.66 (0.0306044)
-ravu-lite-ar-r3 | 2016.78 (0.0307741)
 ArtCNN_C4F16_DS | 2024.89 (0.0308979)
 lanczos | 2025.92 (0.0309136)
 ArtCNN_C4F16_DN | 2189.47 (0.0334092)
@@ -354,7 +356,9 @@ FSRCNNX_x2_8-0-4-1 | 2856.32 (0.0435847)
 acnet_f8b4_box | 2902.71 (0.0442925)
 ArtCNN_C4F16 | 2953.2 (0.045063)
 ArtCNN_C4F16_DN | 2971.24 (0.0453383)
-ravu-lite-ar-r3 | 3197.6 (0.0487923)
+ravu-zoom-r3 | 3204.45 (0.0488968)
+ravu-lite-r3 | 3208.48 (0.0489582)
+ravu-lite-r4 | 3213.34 (0.0490325)
 SSimSuperRes | 3292.46 (0.0502398)
 lanczos | 3631.37 (0.0554111)
 
@@ -373,6 +377,41 @@ acnet_f8b18 | 2837.28 (0.0432941)
 ArtCNN_C4F32 | 2914.45 (0.0444717)
 lanczos | 3631.37 (0.0554111)
 
+### アップスケーラーの違いを目視で確認
+
+アップスケーラーにショートカットを割り当てる。
+~/.config/mpv/input.conf に次の行を追加。
+
+```
+# アップスケーラーの切り替え
+Ctrl+1 change-list glsl-shaders set "~~/shaders/ravu-lite-r4.hook"
+Ctrl+2 change-list glsl-shaders set "~~/shaders/ravu-zoom-r3.hook"
+Ctrl+3 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
+Ctrl+4 change-list glsl-shaders set "~~/shaders/acnet_f8b4_box_hdn.glsl"
+Ctrl+5 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DN.glsl"
+Ctrl+6 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
+Ctrl+7 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl"
+Ctrl+8 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl"
+Ctrl+9 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
+Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
+```
+
+人物写真を表示。
+
+```
+mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --no-osc --fs --pause
+```
+
+Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーの違いが見えやすくなる。
+
+アニメ画像を表示。
+
+```
+mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_480.jpg --no-osc --fs --pause
+```
+
+同様に入力して違いを確認。
+
 ### デフォルトのアップスケーラーを設定
 
 「acnet_f8b4_box_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf に次の行を追加。
@@ -384,41 +423,6 @@ lanczos | 3631.37 (0.0554111)
 glsl-shader="~~/shaders/acnet_f8b4_box_hdn.glsl"
 ```
 
-### アップスケーラーにショートカットを割り当てる
-
-~/.config/mpv/input.conf に次の行を追加。
-
-```
-# アップスケーラーの切り替え
-Ctrl+1 change-list glsl-shaders set "~~/shaders/ravu-lite-ar-r3.hook"
-Ctrl+2 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
-Ctrl+3 change-list glsl-shaders set "~~/shaders/acnet_f8b4_box_hdn.glsl"
-Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DN.glsl"
-Ctrl+5 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
-Ctrl+6 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl"
-Ctrl+7 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl"
-Ctrl+8 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
-Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
-```
-
-### アップスケーラーの違いを目視で確認する
-
-人物写真を表示。
-
-```
-mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --no-osc --fs --pause
-```
-
-Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。画像の違いが見えやすくなる。
-
-アニメ画像を表示。
-
-```
-mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --no-osc --fs --pause
-```
-
-同様にアップスケーラーをパラパラ漫画のように切り替える。
-
 ## アップスケーラーの速度を比較
 
 ![](images/mpv/12393381_3840_2160_60fps_480_01.jpg)
@@ -427,6 +431,7 @@ Source: "[Aerial view of a boat sailing in the sea](https://www.pexels.com/video
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
 縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測する。
+[mpv_shader_benchmark.py](https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_benchmark.py)
 
 ```
 wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/mpv_shader_benchmark.py
@@ -451,8 +456,10 @@ GPUによって速度は変わる。
 | Upscaler | Time (sec) |
 | --- | --- |
 | lanczos | 3.32 |
-| ravu-lite-ar-r3 | 6.31 |
+| ravu-lite-r3 | 6.3 |
+| ravu-lite-r4 | 6.58 |
 | Anime4K_Upscale_CNN_x2_S | 7.52 |
+| ravu-zoom-r3 | 8.67 |
 | Anime4K_Upscale_CNN_x2_M | 9.22 |
 | SSimSuperRes | 9.7 |
 | acnet_f8b4_hdn | 11.32 |

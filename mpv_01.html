@@ -50,12 +50,10 @@ id="toc-アニメ画像の場合">アニメ画像の場合</a></li>
 id="toc-結果-低負荷バリアント-1">結果 (低負荷バリアント)</a></li>
 <li><a href="#結果-高負荷バリアント-1"
 id="toc-結果-高負荷バリアント-1">結果 (高負荷バリアント)</a></li>
+<li><a href="#アップスケーラーの違いを目視で確認"
+id="toc-アップスケーラーの違いを目視で確認">アップスケーラーの違いを目視で確認</a></li>
 <li><a href="#デフォルトのアップスケーラーを設定"
 id="toc-デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</a></li>
-<li><a href="#アップスケーラーにショートカットを割り当てる"
-id="toc-アップスケーラーにショートカットを割り当てる">アップスケーラーにショートカットを割り当てる</a></li>
-<li><a href="#アップスケーラーの違いを目視で確認する"
-id="toc-アップスケーラーの違いを目視で確認する">アップスケーラーの違いを目視で確認する</a></li>
 </ul></li>
 <li><a href="#アップスケーラーの速度を比較"
 id="toc-アップスケーラーの速度を比較">アップスケーラーの速度を比較</a>
@@ -184,18 +182,17 @@ id="外部のアップスケーラーをインストール">外部のアップ�
 <p>Google の超解像技術から着想を得たアップスケーラー。<br />
 <a
 href="https://github.com/bjin/mpv-prescalers">https://github.com/bjin/mpv-prescalers</a></p>
-<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r3.hook
+<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r4.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-r3.hook
 mkdir -p ~/.config/mpv/shaders
-mv ravu-lite-ar-r3.hook ~/.config/mpv/shaders/</code></pre>
+mv ravu-*.hook ~/.config/mpv/shaders/</code></pre>
 <p><a
 href="https://github.com/bjin/mpv-prescalers/tree/master/compute">compute</a>
 ディレクトリのものが高速。動作しない場合は <a
 href="https://github.com/bjin/mpv-prescalers/tree/master/gather">gather</a>
 か<a
-href="https://github.com/bjin/mpv-prescalers/tree/master">ルート</a>のものを使用する。<br />
-ファイル名に「-ar」が付くものは、アンチリンギングフィルターが加えられている。<br />
-リンギングとは、輪郭まわりなどに発生する<a
-href="https://en.wikipedia.org/wiki/Ringing_artifacts">リング状のゴースト</a>のこと。</p>
+href="https://github.com/bjin/mpv-prescalers/tree/master">ルート</a>のものを使用する。</p>
 <h3 id="anime4k">Anime4K</h3>
 <p>1080pアニメのアップスケールに最適化されたアップスケーラー。<br />
 <a
@@ -315,6 +312,10 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <td>0 (0)</td>
 </tr>
 <tr>
+<td>ravu-zoom-r3</td>
+<td>1931.07 (0.0294662)</td>
+</tr>
+<tr>
 <td>FSRCNNX_x2_8-0-4-1</td>
 <td>1940.95 (0.029617)</td>
 </tr>
@@ -327,8 +328,16 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <td>1953.98 (0.0298159)</td>
 </tr>
 <tr>
+<td>ravu-lite-r4</td>
+<td>1955.72 (0.0298424)</td>
+</tr>
+<tr>
 <td>ArtCNN_C4F16</td>
 <td>1968.67 (0.0300399)</td>
+</tr>
+<tr>
+<td>ravu-lite-r3</td>
+<td>1969.9 (0.0300588)</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_S</td>
@@ -349,10 +358,6 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <tr>
 <td>acnet_f8b4_box_hdn</td>
 <td>2005.66 (0.0306044)</td>
-</tr>
-<tr>
-<td>ravu-lite-ar-r3</td>
-<td>2016.78 (0.0307741)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
@@ -476,8 +481,16 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 <td>2971.24 (0.0453383)</td>
 </tr>
 <tr>
-<td>ravu-lite-ar-r3</td>
-<td>3197.6 (0.0487923)</td>
+<td>ravu-zoom-r3</td>
+<td>3204.45 (0.0488968)</td>
+</tr>
+<tr>
+<td>ravu-lite-r3</td>
+<td>3208.48 (0.0489582)</td>
+</tr>
+<tr>
+<td>ravu-lite-r4</td>
+<td>3213.34 (0.0490325)</td>
 </tr>
 <tr>
 <td>SSimSuperRes</td>
@@ -534,6 +547,28 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </tbody>
 </table>
 <h3
+id="アップスケーラーの違いを目視で確認">アップスケーラーの違いを目視で確認</h3>
+<p>アップスケーラーにショートカットを割り当てる。<br />
+~/.config/mpv/input.conf に次の行を追加。</p>
+<pre><code># アップスケーラーの切り替え
+Ctrl+1 change-list glsl-shaders set &quot;~~/shaders/ravu-lite-r4.hook&quot;
+Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/ravu-zoom-r3.hook&quot;
+Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
+Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_box_hdn.glsl&quot;
+Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DN.glsl&quot;
+Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
+Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl&quot;
+Ctrl+8 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl&quot;
+Ctrl+9 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
+Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
+<p>人物写真を表示。</p>
+<pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --no-osc --fs --pause</code></pre>
+<p>Ctrl
+キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーの違いが見えやすくなる。</p>
+<p>アニメ画像を表示。</p>
+<pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_480.jpg --no-osc --fs --pause</code></pre>
+<p>同様に入力して違いを確認。</p>
+<h3
 id="デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</h3>
 <p>「acnet_f8b4_box_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf
 に次の行を追加。<br />
@@ -541,28 +576,6 @@ id="デフォルトのアップスケーラーを設定">デフォルトのア�
 <pre><code># 外部アップスケーラー
 # https://mpv.io/manual/stable/#options-glsl-shaders
 glsl-shader=&quot;~~/shaders/acnet_f8b4_box_hdn.glsl&quot;</code></pre>
-<h3
-id="アップスケーラーにショートカットを割り当てる">アップスケーラーにショートカットを割り当てる</h3>
-<p>~/.config/mpv/input.conf に次の行を追加。</p>
-<pre><code># アップスケーラーの切り替え
-Ctrl+1 change-list glsl-shaders set &quot;~~/shaders/ravu-lite-ar-r3.hook&quot;
-Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
-Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_box_hdn.glsl&quot;
-Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DN.glsl&quot;
-Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
-Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl&quot;
-Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl&quot;
-Ctrl+8 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
-Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
-<h3
-id="アップスケーラーの違いを目視で確認する">アップスケーラーの違いを目視で確認する</h3>
-<p>人物写真を表示。</p>
-<pre><code>mpv https://utuhiro78.github.io/linuxplayers/images/mpv/pexels-liam-anderson-411198-1458332_480.jpg --no-osc --fs --pause</code></pre>
-<p>Ctrl
-キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。画像の違いが見えやすくなる。</p>
-<p>アニメ画像を表示。</p>
-<pre><code>mpv https://utuhiro78.github.io/linuxplayers/images/mpv/chihiro030_480.jpg --no-osc --fs --pause</code></pre>
-<p>同様にアップスケーラーをパラパラ漫画のように切り替える。</p>
 <h2 id="アップスケーラーの速度を比較">アップスケーラーの速度を比較</h2>
 <p><img src="images/mpv/12393381_3840_2160_60fps_480_01.jpg" /></p>
 <p>Source: “<a
@@ -570,7 +583,9 @@ href="https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-2847
 view of a boat sailing in the sea</a>” by Burak Evlivan<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
-<p>縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測する。</p>
+<p>縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測する。<br />
+<a
+href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_benchmark.py">mpv_shader_benchmark.py</a></p>
 <pre><code>wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/mpv_shader_benchmark.py
 
 python mpv_shader_benchmark.py ~/.config/mpv/shaders/*</code></pre>
@@ -595,12 +610,20 @@ done</code></pre>
 <td>3.32</td>
 </tr>
 <tr>
-<td>ravu-lite-ar-r3</td>
-<td>6.31</td>
+<td>ravu-lite-r3</td>
+<td>6.3</td>
+</tr>
+<tr>
+<td>ravu-lite-r4</td>
+<td>6.58</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_S</td>
 <td>7.52</td>
+</tr>
+<tr>
+<td>ravu-zoom-r3</td>
+<td>8.67</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_M</td>
