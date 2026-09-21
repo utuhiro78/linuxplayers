@@ -288,7 +288,7 @@ do
 done | sort -t '|' -k 2 -g
 ```
 
-### → 結果 (低負荷バリアント)
+### 結果 (低負荷バリアント)
 
 スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
 
@@ -308,7 +308,7 @@ acnet_f8b4_box_hdn | 5873.4 (0.0896223)
 Anime4K_Upscale_CNN_x2_S | 5993.31 (0.091452)
 lanczos | 6262.4 (0.0955581)
 
-### → 結果 (高負荷バリアント)
+### 結果 (高負荷バリアント)
 
 スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
 
@@ -330,9 +330,9 @@ lanczos | 6262.4 (0.0955581)
 Source: "[千と千尋の神隠し 作品静止画](https://www.ghibli.jp/works/chihiro/#frame)" by STUDIO GHIBLI
 License: [画像は常識の範囲でご自由にお使いください。](https://www.ghibli.jp/works/chihiro/#frame)
 
-人物写真のときと同じ方法で測定する。
+風景写真のときと同じ方法で測定する。
 
-### → 結果 (低負荷バリアント)
+### 結果 (低負荷バリアント)
 
 スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
 
@@ -352,7 +352,7 @@ ravu-lite-r4 | 3213.34 (0.0490325)
 SSimSuperRes | 3292.46 (0.0502398)
 lanczos | 3631.37 (0.0554111)
 
-### → 結果 (高負荷バリアント)
+### 結果 (高負荷バリアント)
 
 スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
 
@@ -375,14 +375,12 @@ lanczos | 3631.37 (0.0554111)
 ```
 # アップスケーラーの切り替え
 Ctrl+1 change-list glsl-shaders set "~~/shaders/ravu-lite-r4.hook"
-Ctrl+2 change-list glsl-shaders set "~~/shaders/ravu-zoom-r3.hook"
-Ctrl+3 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
-Ctrl+4 change-list glsl-shaders set "~~/shaders/acnet_f8b4_box_hdn.glsl"
-Ctrl+5 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DN.glsl"
-Ctrl+6 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
-Ctrl+7 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl"
-Ctrl+8 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl"
-Ctrl+9 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
+Ctrl+2 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
+Ctrl+3 change-list glsl-shaders set "~~/shaders/acnet_f8b4_box_hdn.glsl"
+Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
+Ctrl+5 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl"
+Ctrl+6 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl"
+Ctrl+7 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
 Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 ```
 

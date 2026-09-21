@@ -40,16 +40,16 @@ id="toc-アップスケーラーの品質を測定">アップスケーラーの�
 <ul>
 <li><a href="#風景写真の場合"
 id="toc-風景写真の場合">風景写真の場合</a></li>
-<li><a href="#結果-低負荷バリアント" id="toc-結果-低負荷バリアント">→
-結果 (低負荷バリアント)</a></li>
-<li><a href="#結果-高負荷バリアント" id="toc-結果-高負荷バリアント">→
-結果 (高負荷バリアント)</a></li>
+<li><a href="#結果-低負荷バリアント" id="toc-結果-低負荷バリアント">結果
+(低負荷バリアント)</a></li>
+<li><a href="#結果-高負荷バリアント" id="toc-結果-高負荷バリアント">結果
+(高負荷バリアント)</a></li>
 <li><a href="#アニメ画像の場合"
 id="toc-アニメ画像の場合">アニメ画像の場合</a></li>
 <li><a href="#結果-低負荷バリアント-1"
-id="toc-結果-低負荷バリアント-1">→ 結果 (低負荷バリアント)</a></li>
+id="toc-結果-低負荷バリアント-1">結果 (低負荷バリアント)</a></li>
 <li><a href="#結果-高負荷バリアント-1"
-id="toc-結果-高負荷バリアント-1">→ 結果 (高負荷バリアント)</a></li>
+id="toc-結果-高負荷バリアント-1">結果 (高負荷バリアント)</a></li>
 <li><a href="#アップスケーラーの違いを目視で確認"
 id="toc-アップスケーラーの違いを目視で確認">アップスケーラーの違いを目視で確認</a></li>
 <li><a href="#デフォルトのアップスケーラーを設定"
@@ -291,7 +291,7 @@ do
   shader_name=${shader_name%.*}
   printf &quot;%s | %s\n&quot; &quot;${shader_name}&quot; &quot;${score}&quot;
 done | sort -t &#39;|&#39; -k 2 -g</code></pre>
-<h3 id="結果-低負荷バリアント">→ 結果 (低負荷バリアント)</h3>
+<h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。</p>
 <table>
 <thead>
@@ -355,7 +355,7 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 </tr>
 </tbody>
 </table>
-<h3 id="結果-高負荷バリアント">→ 結果 (高負荷バリアント)</h3>
+<h3 id="結果-高負荷バリアント">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。</p>
 <table>
 <thead>
@@ -406,8 +406,8 @@ href="https://www.ghibli.jp/works/chihiro/#frame">千と千尋の神隠し
 作品静止画</a>” by STUDIO GHIBLI<br />
 License: <a
 href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご自由にお使いください。</a></p>
-<p>人物写真のときと同じ方法で測定する。</p>
-<h3 id="結果-低負荷バリアント-1">→ 結果 (低負荷バリアント)</h3>
+<p>風景写真のときと同じ方法で測定する。</p>
+<h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。</p>
 <table>
 <thead>
@@ -471,7 +471,7 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </tr>
 </tbody>
 </table>
-<h3 id="結果-高負荷バリアント-1">→ 結果 (高負荷バリアント)</h3>
+<h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。</p>
 <table>
 <thead>
@@ -521,14 +521,12 @@ id="アップスケーラーの違いを目視で確認">アップスケーラ�
 ~/.config/mpv/input.conf に次の行を追加。</p>
 <pre><code># アップスケーラーの切り替え
 Ctrl+1 change-list glsl-shaders set &quot;~~/shaders/ravu-lite-r4.hook&quot;
-Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/ravu-zoom-r3.hook&quot;
-Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
-Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_box_hdn.glsl&quot;
-Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DN.glsl&quot;
-Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
-Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl&quot;
-Ctrl+8 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl&quot;
-Ctrl+9 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
+Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
+Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_box_hdn.glsl&quot;
+Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
+Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl&quot;
+Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl&quot;
+Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
 Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
 <p>風景写真を表示。</p>
 <pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-mehmetkaraca-27684806_480.jpg --no-osc --fs --pause</code></pre>
