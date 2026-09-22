@@ -40,11 +40,11 @@ def main():
     # Convert to list sorted by value
     results = sorted(results.items(), key=lambda x: x[1])
 
-    print('| Upscaler | Time (sec) |')
-    print('| --- | --- |')
+    print('Upscaler | Time (sec)')
+    print('-- | --')
 
     for result in results:
-        print(f'| {result[0]} | {result[1]} |')
+        print(f'{result[0]} | {result[1]}')
 
 
 def run_mpv(shader):
