@@ -147,7 +147,12 @@ Google の超解像技術から着想を得たアップスケーラー。
 [https://github.com/bjin/mpv-prescalers](https://github.com/bjin/mpv-prescalers)
 
 ```
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r4.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r4.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-r4.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-ar-r3.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-*.hook ~/.config/mpv/shaders/
 ```
@@ -162,10 +167,13 @@ mv ravu-*.hook ~/.config/mpv/shaders/
 ```
 wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_M.glsl
 wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_S.glsl
+mkdir -p ~/.config/mpv/shaders
 mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders/
-```
 
-通常は複数のシェーダーを[組み合わせて](https://github.com/bloc97/Anime4K/tree/master/md/Template/GLSL_Mac_Linux_Low-end)使用するが、そうすると実写映像が不自然になる。
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_UL.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders_high/
+```
 
 ### ACNetGLSL
 
@@ -174,14 +182,19 @@ Anime4KCPP プロジェクトで使用されている深層学習モデルを GL
 
 ```
 wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4.glsl
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4_box.glsl
 wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4_box_hdn.glsl
-mv acnet_f8b4*.glsl ~/.config/mpv/shaders/
-```
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4_hdn.glsl
+mkdir -p ~/.config/mpv/shaders
+mv acnet_f8*.glsl ~/.config/mpv/shaders/
 
-ファイル名に「-hdn」が付くものは、軽度のノイズ除去を行うようトレーニングされている。
-ファイル名に「-box」が付くものは、ボックスフィルターで劣化させた画像を用いてトレーニングされている。線の復元に適しているが、若干ぼやけて見える場合がある。
-ファイル名に「-box-hdn」が付くものは、「-box」をベースとして軽度のノイズ除去を行うようトレーニングされている。
-無印のものはニュートラルにトレーニングされている。
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b18.glsl
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b18_box.glsl
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b18_box_hdn.glsl
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b18_hdn.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv acnet_f8*.glsl ~/.config/mpv/shaders_high/
+```
 
 ### FSRCNNX
 
@@ -190,7 +203,12 @@ FSRCNN（高速超解像畳み込みニューラルネットワーク）を使�
 
 ```
 wget https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_8-0-4-1.glsl
-mv FSRCNNX_x2_8-0-4-1.glsl ~/.config/mpv/shaders/
+mkdir -p ~/.config/mpv/shaders
+mv FSRCNNX_x2_*.glsl ~/.config/mpv/shaders/
+
+wget https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_16-0-4-1.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv FSRCNNX_x2_*.glsl ~/.config/mpv/shaders_high/
 ```
 
 ### ArtCNN
@@ -200,12 +218,17 @@ mv FSRCNNX_x2_8-0-4-1.glsl ~/.config/mpv/shaders/
 
 ```
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DN.glsl
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
+mkdir -p ~/.config/mpv/shaders
 mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
-```
 
-ファイル名に「_DS」が付くものは、ノイズ除去とシャープ化を行うようトレーニングされている。
-無印のものはニュートラル。
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F32.glsl
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F32_DN.glsl
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F32_DS.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders_high/
+```
 
 ## アップスケーラーの品質を測定
 
@@ -213,13 +236,13 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
 
 ![](images/mpv/pexels-mehmetkaraca-27684806_480.jpg)
 
-Source: "[Yedigoller daglari](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" by Mehmet Karaca
+Source: "[Yedigöller dağları](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" by Mehmet Karaca
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-模様が単純だったり余白が多い画像は避ける。アップスケーラーの差が出にくい。
-縦長画像の場合は中央部分を最大限に使用する。
+模様が複雑で余白が少ない画像を使用すると、アップスケーラーの差異が出やすい。
+縦長画像の場合は中央部分を画面いっぱいに表示する（`--panscan=1.0`）。
 
-"[Yedigoller daglari](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" をクリックして右上の「Free download」をクリック。
+"[Yedigöller dağları](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" をクリックして右上の「Free download」をクリック。
 ダウンロードした画像を mpv でフルスクリーン表示。
 
 ```
@@ -246,7 +269,7 @@ magick ${image_base}_fullscreen.png -resize x480 -quality 92 "${image_base}_480.
 できた画像を「画像B」とする。
 「画像B」は JPEG 形式にする。PNG 形式だとアップスケーラーが効かない場合があった。
 
-「画像B」を mpv でフルスクリーンにアップスケール。縦横それぞれ2倍以上にしないと、アップスケーラーの違いが分かりづらい。
+「画像B」を mpv でフルスクリーンにアップスケール。縦横それぞれ2倍以上にしないと、アップスケーラーによる差異が見えづらい。
 
 ```
 image_orig="pexels-mehmetkaraca-27684806.jpg"
@@ -268,7 +291,7 @@ mpv ${mpv_options} "${image_base}_480.jpg" --glsl-shaders="" --screenshot-templa
 自動的に次の画像が表示されるので、同じことを繰り返す。
 できた画像を「画像C」とする。
 
-「画像A」と「画像C」の類似度を測定する。
+「画像A」と「画像C」の差異を測定する。
 
 ```
 image_orig="pexels-mehmetkaraca-27684806.jpg"
@@ -277,7 +300,7 @@ image_base="${image_orig%.*}"
 printf "File | Score\n"
 printf "%s\n" "-- | --"
 
-for image_file in ${image_base}_fullscreen.png ${image_base}_480-*.png
+for image_file in ${image_base}_480-*.png
 do
   score=$(magick compare -metric SSIM "${image_base}_fullscreen.png" "${image_file}" null: 2>&1)
   shader_name=${image_file#${image_base}_}
@@ -289,38 +312,48 @@ done | sort -t '|' -k 2 -g
 
 ### 結果 (低負荷バリアント)
 
-スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
+スコアが小さいほどオリジナルに近い。
+順位は使用する画像によって変わるので、絶対的なものではない。
+100以下の差は目視だとほとんどわからない。
 
 File | Score
 -- | --
-fullscreen | 0 (0)
 FSRCNNX_x2_8-0-4-1 | 5467.92 (0.083435)
 acnet_f8b4 | 5478.52 (0.0835969)
 ArtCNN_C4F16_DS | 5492.09 (0.0838039)
-SSimSuperRes | 5556.15 (0.0847814)
 ravu-lite-r4 | 5624.97 (0.0858315)
+ravu-lite-r3 | 5636.77 (0.0860116)
 ArtCNN_C4F16 | 5663.09 (0.0864133)
 acnet_f8b4_box | 5673.56 (0.0865729)
 acnet_f8b4_hdn | 5690.65 (0.0868338)
+ravu-zoom-r3 | 5788.55 (0.0883277)
 Anime4K_Upscale_CNN_x2_M | 5851.66 (0.0892906)
+ravu-lite-ar-r4 | 5853.24 (0.0893148)
 acnet_f8b4_box_hdn | 5873.4 (0.0896223)
 Anime4K_Upscale_CNN_x2_S | 5993.31 (0.091452)
+ravu-zoom-ar-r3 | 6052.71 (0.0923585)
 lanczos | 6262.4 (0.0955581)
+ravu-r4 | 6374.43 (0.0972676)
+ArtCNN_C4F16_DN | 6501.01 (0.0991991)
 
 ### 結果 (高負荷バリアント)
 
-スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
+スコアが小さいほどオリジナルに近い。
+順位は使用する画像によって変わるので、絶対的なものではない。
+100以下の差は目視だとほとんどわからない。
 
 File | Score
 -- | --
-fullscreen | 0 (0)
 acnet_f8b18 | 5402.44 (0.082436)
 FSRCNNX_x2_16-0-4-1 | 5424.86 (0.0827781)
 ArtCNN_C4F32_DS | 5433.53 (0.0829104)
 acnet_f8b18_hdn | 5502.03 (0.0839557)
+acnet_f8b18_box | 5581.1 (0.0851622)
 ArtCNN_C4F32 | 5612.65 (0.0856436)
+acnet_f8b18_box_hdn | 5749.02 (0.0877244)
 Anime4K_Upscale_CNN_x2_UL | 5809.67 (0.0886499)
 lanczos | 6262.4 (0.0955581)
+ArtCNN_C4F32_DN | 6495.45 (0.0991142)
 
 ### アニメ画像の場合
 
@@ -333,11 +366,12 @@ License: [画像は常識の範囲でご自由にお使いください。](https
 
 ### 結果 (低負荷バリアント)
 
-スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
+スコアが小さいほどオリジナルに近い。
+順位は使用する画像によって変わるので、絶対的なものではない。
+100以下の差は目視だとほとんどわからない。
 
 File | Score
 -- | --
-fullscreen | 0 (0)
 ArtCNN_C4F16_DS | 2377.32 (0.0362755)
 acnet_f8b4_hdn | 2490.31 (0.0379996)
 Anime4K_Upscale_CNN_x2_M | 2572.14 (0.0392484)
@@ -347,26 +381,35 @@ acnet_f8b4 | 2812.43 (0.042915)
 FSRCNNX_x2_8-0-4-1 | 2856.32 (0.0435847)
 acnet_f8b4_box | 2902.71 (0.0442925)
 ArtCNN_C4F16 | 2953.2 (0.045063)
+ArtCNN_C4F16_DN | 2971.24 (0.0453383)
+ravu-lite-ar-r4 | 3181.88 (0.0485524)
+ravu-zoom-ar-r3 | 3196.44 (0.0487746)
+ravu-zoom-r3 | 3204.45 (0.0488968)
+ravu-lite-r3 | 3208.48 (0.0489582)
 ravu-lite-r4 | 3213.34 (0.0490325)
-SSimSuperRes | 3292.46 (0.0502398)
+ravu-r4 | 3359.2 (0.0512582)
 lanczos | 3631.37 (0.0554111)
 
 ### 結果 (高負荷バリアント)
 
-スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。
+スコアが小さいほどオリジナルに近い。
+順位は使用する画像によって変わるので、絶対的なものではない。
+100以下の差は目視だとほとんどわからない。
 
 File | Score
 -- | --
-fullscreen | 0 (0)
 ArtCNN_C4F32_DS | 2321.88 (0.0354297)
 acnet_f8b18_hdn | 2424.86 (0.037001)
 Anime4K_Upscale_CNN_x2_UL | 2464.49 (0.0376057)
+acnet_f8b18_box_hdn | 2528.04 (0.0385754)
 FSRCNNX_x2_16-0-4-1 | 2698.8 (0.041181)
 acnet_f8b18 | 2837.28 (0.0432941)
+acnet_f8b18_box | 2875.56 (0.0438783)
 ArtCNN_C4F32 | 2914.45 (0.0444717)
+ArtCNN_C4F32_DN | 2934.9 (0.0447837)
 lanczos | 3631.37 (0.0554111)
 
-### アップスケーラーの違いを目視で確認
+### アップスケーラーによる差異を目視で確認
 
 アップスケーラーにショートカットを割り当てる。
 ~/.config/mpv/input.conf に次の行を追加。
@@ -389,7 +432,7 @@ Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-mehmetkaraca-27684806_480.jpg --no-osc --fs --pause
 ```
 
-Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーの違いが見えやすくなる。
+Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーによる差異が見えやすくなる。
 
 アニメ画像を表示。
 
@@ -412,7 +455,7 @@ glsl-shader="~~/shaders/acnet_f8b4_box_hdn.glsl"
 
 ## アップスケーラーの速度を比較
 
-![](images/mpv/12393381_3840_2160_60fps_480_01.jpg)
+![](images/mpv/12393381_3840_2160_60fps_480.jpg)
 
 Source: "[Aerial view of a boat sailing in the sea](https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/)" by Burak Evlivan
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
@@ -435,33 +478,38 @@ do
 done
 ```
 
-### 結果
+### 結果 (低負荷バリアント)
 
 GPUによって速度は変わる。
 動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。
 
-| Upscaler | Time (sec) |
-| --- | --- |
-| lanczos | 3.32 |
-| ravu-lite-r4 | 6.58 |
-| Anime4K_Upscale_CNN_x2_S | 7.52 |
-| Anime4K_Upscale_CNN_x2_M | 9.22 |
-| SSimSuperRes | 9.7 |
-| acnet_f8b4_hdn | 11.32 |
-| acnet_f8b4 | 11.34 |
-| acnet_f8b4_box_hdn | 11.34 |
-| acnet_f8b4_box | 11.36 |
-| FSRCNNX_x2_8-0-4-1 | 12.52 |
-| ArtCNN_C4F16 | 16.97 |
-| ArtCNN_C4F16_DS | 17.01 |
+Upscaler | Time (sec)
+-- | --
+lanczos | 3.32
+ravu-lite-r3 | 6.17
+ravu-lite-r4 | 6.44
+ravu-lite-ar-r4 | 6.67
+Anime4K_Upscale_CNN_x2_S | 7.39
+ravu-r4 | 8.38
+ravu-zoom-r3 | 8.55
+Anime4K_Upscale_CNN_x2_M | 9.28
+ravu-zoom-ar-r3 | 10.65
+acnet_f8b4_hdn | 11.4
+acnet_f8b4 | 11.41
+acnet_f8b4_box | 11.41
+acnet_f8b4_box_hdn | 11.43
+FSRCNNX_x2_8-0-4-1 | 12.62
+ArtCNN_C4F16_DN | 17.07
+ArtCNN_C4F16 | 17.09
+ArtCNN_C4F16_DS | 17.09
 
 使用したシステム:
 
-|||
-| --- | --- |
-| CPU | Ryzen 5 5600G |
-| GPU | Integrated graphics |
-| Monitor | 1920x1080 |
+ | 
+-- | --
+CPU | Ryzen 5 5600G
+GPU | 内蔵GPU
+解像度 | 1920x1080
 
 ## シングル曲のピーク音量を 0 dB に揃える（ノーマライズ）
 

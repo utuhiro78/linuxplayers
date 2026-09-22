@@ -50,15 +50,16 @@ id="toc-アニメ画像の場合">アニメ画像の場合</a></li>
 id="toc-結果-低負荷バリアント-1">結果 (低負荷バリアント)</a></li>
 <li><a href="#結果-高負荷バリアント-1"
 id="toc-結果-高負荷バリアント-1">結果 (高負荷バリアント)</a></li>
-<li><a href="#アップスケーラーの違いを目視で確認"
-id="toc-アップスケーラーの違いを目視で確認">アップスケーラーの違いを目視で確認</a></li>
+<li><a href="#アップスケーラーによる差異を目視で確認"
+id="toc-アップスケーラーによる差異を目視で確認">アップスケーラーによる差異を目視で確認</a></li>
 <li><a href="#デフォルトのアップスケーラーを設定"
 id="toc-デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</a></li>
 </ul></li>
 <li><a href="#アップスケーラーの速度を比較"
 id="toc-アップスケーラーの速度を比較">アップスケーラーの速度を比較</a>
 <ul>
-<li><a href="#結果" id="toc-結果">結果</a></li>
+<li><a href="#結果-低負荷バリアント-2"
+id="toc-結果-低負荷バリアント-2">結果 (低負荷バリアント)</a></li>
 </ul></li>
 <li><a href="#シングル曲のピーク音量を-0-db-に揃えるノーマライズ"
 id="toc-シングル曲のピーク音量を-0-db-に揃えるノーマライズ">シングル曲のピーク音量を
@@ -182,7 +183,12 @@ id="外部のアップスケーラーをインストール">外部のアップ�
 <p>Google の超解像技術から着想を得たアップスケーラー。<br />
 <a
 href="https://github.com/bjin/mpv-prescalers">https://github.com/bjin/mpv-prescalers</a></p>
-<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r4.hook
+<pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r4.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r4.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-r4.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-ar-r3.hook
+wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-*.hook ~/.config/mpv/shaders/</code></pre>
 <p><a
@@ -197,49 +203,69 @@ href="https://github.com/bjin/mpv-prescalers/tree/master">ルート</a>のもの
 href="https://github.com/bloc97/Anime4K">https://github.com/bloc97/Anime4K</a></p>
 <pre><code>wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_M.glsl
 wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_S.glsl
-mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders/</code></pre>
-<p>通常は複数のシェーダーを<a
-href="https://github.com/bloc97/Anime4K/tree/master/md/Template/GLSL_Mac_Linux_Low-end">組み合わせて</a>使用するが、そうすると実写映像が不自然になる。</p>
+mkdir -p ~/.config/mpv/shaders
+mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders/
+
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_UL.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders_high/</code></pre>
 <h3 id="acnetglsl">ACNetGLSL</h3>
 <p>Anime4KCPP プロジェクトで使用されている深層学習モデルを GLSL
 で実装したもの。<br />
 <a
 href="https://github.com/TianZerL/ACNetGLSL">https://github.com/TianZerL/ACNetGLSL</a></p>
 <pre><code>wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4.glsl
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4_box.glsl
 wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4_box_hdn.glsl
-mv acnet_f8b4*.glsl ~/.config/mpv/shaders/</code></pre>
-<p>ファイル名に「-hdn」が付くものは、軽度のノイズ除去を行うようトレーニングされている。<br />
-ファイル名に「-box」が付くものは、ボックスフィルターで劣化させた画像を用いてトレーニングされている。線の復元に適しているが、若干ぼやけて見える場合がある。<br />
-ファイル名に「-box-hdn」が付くものは、「-box」をベースとして軽度のノイズ除去を行うようトレーニングされている。<br />
-無印のものはニュートラルにトレーニングされている。</p>
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b4_hdn.glsl
+mkdir -p ~/.config/mpv/shaders
+mv acnet_f8*.glsl ~/.config/mpv/shaders/
+
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b18.glsl
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b18_box.glsl
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b18_box_hdn.glsl
+wget https://raw.githubusercontent.com/TianZerL/ACNetGLSL/refs/heads/master/glsl/acnet/acnet_f8b18_hdn.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv acnet_f8*.glsl ~/.config/mpv/shaders_high/</code></pre>
 <h3 id="fsrcnnx">FSRCNNX</h3>
 <p>FSRCNN（高速超解像畳み込みニューラルネットワーク）を使用したアップスケーラー。<br />
 <a
 href="https://github.com/igv/FSRCNN-TensorFlow">https://github.com/igv/FSRCNN-TensorFlow</a></p>
 <pre><code>wget https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_8-0-4-1.glsl
-mv FSRCNNX_x2_8-0-4-1.glsl ~/.config/mpv/shaders/</code></pre>
+mkdir -p ~/.config/mpv/shaders
+mv FSRCNNX_x2_*.glsl ~/.config/mpv/shaders/
+
+wget https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_16-0-4-1.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv FSRCNNX_x2_*.glsl ~/.config/mpv/shaders_high/</code></pre>
 <h3 id="artcnn">ArtCNN</h3>
 <p>アニメコンテンツを対象としたアップスケーラー。<br />
 <a
 href="https://github.com/Artoriuz/ArtCNN">https://github.com/Artoriuz/ArtCNN</a></p>
 <pre><code>wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16.glsl
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DN.glsl
 wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F16_DS.glsl
-mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/</code></pre>
-<p>ファイル名に「_DS」が付くものは、ノイズ除去とシャープ化を行うようトレーニングされている。<br />
-無印のものはニュートラル。</p>
+mkdir -p ~/.config/mpv/shaders
+mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders/
+
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F32.glsl
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F32_DN.glsl
+wget https://raw.githubusercontent.com/Artoriuz/ArtCNN/refs/heads/main/GLSL/ArtCNN_C4F32_DS.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders_high/</code></pre>
 <h2 id="アップスケーラーの品質を測定">アップスケーラーの品質を測定</h2>
 <h3 id="風景写真の場合">風景写真の場合</h3>
 <p><img src="images/mpv/pexels-mehmetkaraca-27684806_480.jpg" /></p>
 <p>Source: “<a
-href="https://www.pexels.com/photo/yedigoller-daglari-27684806/">Yedigoller
-daglari</a>” by Mehmet Karaca<br />
+href="https://www.pexels.com/photo/yedigoller-daglari-27684806/">Yedigöller
+dağları</a>” by Mehmet Karaca<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
-<p>模様が単純だったり余白が多い画像は避ける。アップスケーラーの差が出にくい。<br />
-縦長画像の場合は中央部分を最大限に使用する。</p>
+<p>模様が複雑で余白が少ない画像を使用すると、アップスケーラーの差異が出やすい。<br />
+縦長画像の場合は中央部分を画面いっぱいに表示する（<code>--panscan=1.0</code>）。</p>
 <p>“<a
-href="https://www.pexels.com/photo/yedigoller-daglari-27684806/">Yedigoller
-daglari</a>” をクリックして右上の「Free download」をクリック。<br />
+href="https://www.pexels.com/photo/yedigoller-daglari-27684806/">Yedigöller
+dağları</a>” をクリックして右上の「Free download」をクリック。<br />
 ダウンロードした画像を mpv でフルスクリーン表示。</p>
 <pre><code>image_orig=&quot;pexels-mehmetkaraca-27684806.jpg&quot;
 image_base=&quot;${image_orig%.*}&quot;
@@ -258,7 +284,7 @@ magick ${image_base}_fullscreen.png -resize x480 -quality 92 &quot;${image_base}
 「画像B」は JPEG 形式にする。PNG
 形式だとアップスケーラーが効かない場合があった。</p>
 <p>「画像B」を mpv
-でフルスクリーンにアップスケール。縦横それぞれ2倍以上にしないと、アップスケーラーの違いが分かりづらい。</p>
+でフルスクリーンにアップスケール。縦横それぞれ2倍以上にしないと、アップスケーラーによる差異が見えづらい。</p>
 <pre><code>image_orig=&quot;pexels-mehmetkaraca-27684806.jpg&quot;
 image_base=&quot;${image_orig%.*}&quot;
 
@@ -275,14 +301,14 @@ mpv ${mpv_options} &quot;${image_base}_480.jpg&quot; --glsl-shaders=&quot;&quot;
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
 自動的に次の画像が表示されるので、同じことを繰り返す。<br />
 できた画像を「画像C」とする。</p>
-<p>「画像A」と「画像C」の類似度を測定する。</p>
+<p>「画像A」と「画像C」の差異を測定する。</p>
 <pre><code>image_orig=&quot;pexels-mehmetkaraca-27684806.jpg&quot;
 image_base=&quot;${image_orig%.*}&quot;
 
 printf &quot;File | Score\n&quot;
 printf &quot;%s\n&quot; &quot;-- | --&quot;
 
-for image_file in ${image_base}_fullscreen.png ${image_base}_480-*.png
+for image_file in ${image_base}_480-*.png
 do
   score=$(magick compare -metric SSIM &quot;${image_base}_fullscreen.png&quot; &quot;${image_file}&quot; null: 2&gt;&amp;1)
   shader_name=${image_file#${image_base}_}
@@ -291,7 +317,9 @@ do
   printf &quot;%s | %s\n&quot; &quot;${shader_name}&quot; &quot;${score}&quot;
 done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
-<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。</p>
+<p>スコアが小さいほどオリジナルに近い。<br />
+順位は使用する画像によって変わるので、絶対的なものではない。<br />
+100以下の差は目視だとほとんどわからない。</p>
 <table>
 <thead>
 <tr>
@@ -300,10 +328,6 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>fullscreen</td>
-<td>0 (0)</td>
-</tr>
 <tr>
 <td>FSRCNNX_x2_8-0-4-1</td>
 <td>5467.92 (0.083435)</td>
@@ -317,12 +341,12 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <td>5492.09 (0.0838039)</td>
 </tr>
 <tr>
-<td>SSimSuperRes</td>
-<td>5556.15 (0.0847814)</td>
-</tr>
-<tr>
 <td>ravu-lite-r4</td>
 <td>5624.97 (0.0858315)</td>
+</tr>
+<tr>
+<td>ravu-lite-r3</td>
+<td>5636.77 (0.0860116)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16</td>
@@ -337,8 +361,16 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <td>5690.65 (0.0868338)</td>
 </tr>
 <tr>
+<td>ravu-zoom-r3</td>
+<td>5788.55 (0.0883277)</td>
+</tr>
+<tr>
 <td>Anime4K_Upscale_CNN_x2_M</td>
 <td>5851.66 (0.0892906)</td>
+</tr>
+<tr>
+<td>ravu-lite-ar-r4</td>
+<td>5853.24 (0.0893148)</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box_hdn</td>
@@ -349,13 +381,27 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <td>5993.31 (0.091452)</td>
 </tr>
 <tr>
+<td>ravu-zoom-ar-r3</td>
+<td>6052.71 (0.0923585)</td>
+</tr>
+<tr>
 <td>lanczos</td>
 <td>6262.4 (0.0955581)</td>
+</tr>
+<tr>
+<td>ravu-r4</td>
+<td>6374.43 (0.0972676)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16_DN</td>
+<td>6501.01 (0.0991991)</td>
 </tr>
 </tbody>
 </table>
 <h3 id="結果-高負荷バリアント">結果 (高負荷バリアント)</h3>
-<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。</p>
+<p>スコアが小さいほどオリジナルに近い。<br />
+順位は使用する画像によって変わるので、絶対的なものではない。<br />
+100以下の差は目視だとほとんどわからない。</p>
 <table>
 <thead>
 <tr>
@@ -364,10 +410,6 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>fullscreen</td>
-<td>0 (0)</td>
-</tr>
 <tr>
 <td>acnet_f8b18</td>
 <td>5402.44 (0.082436)</td>
@@ -385,8 +427,16 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <td>5502.03 (0.0839557)</td>
 </tr>
 <tr>
+<td>acnet_f8b18_box</td>
+<td>5581.1 (0.0851622)</td>
+</tr>
+<tr>
 <td>ArtCNN_C4F32</td>
 <td>5612.65 (0.0856436)</td>
+</tr>
+<tr>
+<td>acnet_f8b18_box_hdn</td>
+<td>5749.02 (0.0877244)</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_UL</td>
@@ -395,6 +445,10 @@ done | sort -t &#39;|&#39; -k 2 -g</code></pre>
 <tr>
 <td>lanczos</td>
 <td>6262.4 (0.0955581)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F32_DN</td>
+<td>6495.45 (0.0991142)</td>
 </tr>
 </tbody>
 </table>
@@ -407,7 +461,9 @@ License: <a
 href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご自由にお使いください。</a></p>
 <p>風景写真のときと同じ方法で測定する。</p>
 <h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
-<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。</p>
+<p>スコアが小さいほどオリジナルに近い。<br />
+順位は使用する画像によって変わるので、絶対的なものではない。<br />
+100以下の差は目視だとほとんどわからない。</p>
 <table>
 <thead>
 <tr>
@@ -416,10 +472,6 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>fullscreen</td>
-<td>0 (0)</td>
-</tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
 <td>2377.32 (0.0362755)</td>
@@ -457,12 +509,32 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 <td>2953.2 (0.045063)</td>
 </tr>
 <tr>
+<td>ArtCNN_C4F16_DN</td>
+<td>2971.24 (0.0453383)</td>
+</tr>
+<tr>
+<td>ravu-lite-ar-r4</td>
+<td>3181.88 (0.0485524)</td>
+</tr>
+<tr>
+<td>ravu-zoom-ar-r3</td>
+<td>3196.44 (0.0487746)</td>
+</tr>
+<tr>
+<td>ravu-zoom-r3</td>
+<td>3204.45 (0.0488968)</td>
+</tr>
+<tr>
+<td>ravu-lite-r3</td>
+<td>3208.48 (0.0489582)</td>
+</tr>
+<tr>
 <td>ravu-lite-r4</td>
 <td>3213.34 (0.0490325)</td>
 </tr>
 <tr>
-<td>SSimSuperRes</td>
-<td>3292.46 (0.0502398)</td>
+<td>ravu-r4</td>
+<td>3359.2 (0.0512582)</td>
 </tr>
 <tr>
 <td>lanczos</td>
@@ -471,7 +543,9 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </tbody>
 </table>
 <h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
-<p>スコアが小さいほど類似度が高い。ただし、100程度の差だと目視ではあまり変わらない。</p>
+<p>スコアが小さいほどオリジナルに近い。<br />
+順位は使用する画像によって変わるので、絶対的なものではない。<br />
+100以下の差は目視だとほとんどわからない。</p>
 <table>
 <thead>
 <tr>
@@ -480,10 +554,6 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>fullscreen</td>
-<td>0 (0)</td>
-</tr>
 <tr>
 <td>ArtCNN_C4F32_DS</td>
 <td>2321.88 (0.0354297)</td>
@@ -497,6 +567,10 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 <td>2464.49 (0.0376057)</td>
 </tr>
 <tr>
+<td>acnet_f8b18_box_hdn</td>
+<td>2528.04 (0.0385754)</td>
+</tr>
+<tr>
 <td>FSRCNNX_x2_16-0-4-1</td>
 <td>2698.8 (0.041181)</td>
 </tr>
@@ -505,8 +579,16 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 <td>2837.28 (0.0432941)</td>
 </tr>
 <tr>
+<td>acnet_f8b18_box</td>
+<td>2875.56 (0.0438783)</td>
+</tr>
+<tr>
 <td>ArtCNN_C4F32</td>
 <td>2914.45 (0.0444717)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F32_DN</td>
+<td>2934.9 (0.0447837)</td>
 </tr>
 <tr>
 <td>lanczos</td>
@@ -515,7 +597,7 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </tbody>
 </table>
 <h3
-id="アップスケーラーの違いを目視で確認">アップスケーラーの違いを目視で確認</h3>
+id="アップスケーラーによる差異を目視で確認">アップスケーラーによる差異を目視で確認</h3>
 <p>アップスケーラーにショートカットを割り当てる。<br />
 ~/.config/mpv/input.conf に次の行を追加。</p>
 <pre><code># アップスケーラーの切り替え
@@ -530,7 +612,7 @@ Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
 <p>風景写真を表示。</p>
 <pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-mehmetkaraca-27684806_480.jpg --no-osc --fs --pause</code></pre>
 <p>Ctrl
-キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーの違いが見えやすくなる。</p>
+キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーによる差異が見えやすくなる。</p>
 <p>アニメ画像を表示。</p>
 <pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_480.jpg --no-osc --fs --pause</code></pre>
 <p>同様に入力して違いを確認。</p>
@@ -543,7 +625,7 @@ id="デフォルトのアップスケーラーを設定">デフォルトのア�
 # https://mpv.io/manual/stable/#options-glsl-shaders
 glsl-shader=&quot;~~/shaders/acnet_f8b4_box_hdn.glsl&quot;</code></pre>
 <h2 id="アップスケーラーの速度を比較">アップスケーラーの速度を比較</h2>
-<p><img src="images/mpv/12393381_3840_2160_60fps_480_01.jpg" /></p>
+<p><img src="images/mpv/12393381_3840_2160_60fps_480.jpg" /></p>
 <p>Source: “<a
 href="https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/">Aerial
 view of a boat sailing in the sea</a>” by Burak Evlivan<br />
@@ -560,7 +642,7 @@ python mpv_shader_benchmark.py ~/.config/mpv/shaders/*</code></pre>
 do
   ffmpeg -i &quot;${file}&quot; -vf scale=854:480:flags=lanczos &quot;${file%.mp4}_480.mp4&quot;
 done</code></pre>
-<h3 id="結果">結果</h3>
+<h3 id="結果-低負荷バリアント-2">結果 (低負荷バリアント)</h3>
 <p>GPUによって速度は変わる。<br />
 動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。</p>
 <table>
@@ -576,48 +658,68 @@ done</code></pre>
 <td>3.32</td>
 </tr>
 <tr>
+<td>ravu-lite-r3</td>
+<td>6.17</td>
+</tr>
+<tr>
 <td>ravu-lite-r4</td>
-<td>6.58</td>
+<td>6.44</td>
+</tr>
+<tr>
+<td>ravu-lite-ar-r4</td>
+<td>6.67</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_S</td>
-<td>7.52</td>
+<td>7.39</td>
+</tr>
+<tr>
+<td>ravu-r4</td>
+<td>8.38</td>
+</tr>
+<tr>
+<td>ravu-zoom-r3</td>
+<td>8.55</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_M</td>
-<td>9.22</td>
+<td>9.28</td>
 </tr>
 <tr>
-<td>SSimSuperRes</td>
-<td>9.7</td>
+<td>ravu-zoom-ar-r3</td>
+<td>10.65</td>
 </tr>
 <tr>
 <td>acnet_f8b4_hdn</td>
-<td>11.32</td>
+<td>11.4</td>
 </tr>
 <tr>
 <td>acnet_f8b4</td>
-<td>11.34</td>
-</tr>
-<tr>
-<td>acnet_f8b4_box_hdn</td>
-<td>11.34</td>
+<td>11.41</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box</td>
-<td>11.36</td>
+<td>11.41</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box_hdn</td>
+<td>11.43</td>
 </tr>
 <tr>
 <td>FSRCNNX_x2_8-0-4-1</td>
-<td>12.52</td>
+<td>12.62</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16_DN</td>
+<td>17.07</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16</td>
-<td>16.97</td>
+<td>17.09</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>17.01</td>
+<td>17.09</td>
 </tr>
 </tbody>
 </table>
@@ -630,10 +732,10 @@ done</code></pre>
 </tr>
 <tr>
 <td>GPU</td>
-<td>Integrated graphics</td>
+<td>内蔵GPU</td>
 </tr>
 <tr>
-<td>Monitor</td>
+<td>解像度</td>
 <td>1920x1080</td>
 </tr>
 </tbody>
