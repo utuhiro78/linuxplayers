@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-09-22" />
+  <meta name="dcterms.date" content="2026-09-23" />
   <title>mpv の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">mpv の設定</h1>
-<p class="date">2026-09-22</p>
+<p class="date">2026-09-23</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -50,8 +50,8 @@ id="toc-アニメ画像の場合">アニメ画像の場合</a></li>
 id="toc-結果-低負荷バリアント-1">結果 (低負荷バリアント)</a></li>
 <li><a href="#結果-高負荷バリアント-1"
 id="toc-結果-高負荷バリアント-1">結果 (高負荷バリアント)</a></li>
-<li><a href="#アップスケーラーごとの差異を目視で確認"
-id="toc-アップスケーラーごとの差異を目視で確認">アップスケーラーごとの差異を目視で確認</a></li>
+<li><a href="#アップスケーラーごとの差を目視で確認"
+id="toc-アップスケーラーごとの差を目視で確認">アップスケーラーごとの差を目視で確認</a></li>
 <li><a href="#デフォルトのアップスケーラーを設定"
 id="toc-デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</a></li>
 </ul></li>
@@ -263,10 +263,10 @@ href="https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-d
 Alleyway in Osaka</a>” by Catarina Duarte<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
-<p>日常で表示しそうな画像を使用して測定する。<br />
-森林のように細かい模様で埋め尽くされている画像だと、どのアップスケーラーを使用してもオリジナルとの差異が大きくなる。<br />
-顔のアップのように模様が少ない画像だと、どのアップスケーラーを使用してもオリジナルとの差異が小さくなる。<br />
-余白が多いと適切な測定結果を得られないので、縦長画像の場合は中央部分を画面いっぱいに表示する（<code>--panscan=1.0</code>）。</p>
+<p>ベンチマーク用の特殊な画像を使用するのではなく、普段表示するような日常の画像を使用する。<br />
+森林のように細かい模様で埋め尽くされている画像は、どのアップスケーラーを使用しても補間効果が限られる。顔のアップのように模様が少なすぎる画像は、どのアップスケーラーを使用しても似たようなスコアになる。<br />
+画像に文字が入っていると、鮮明さを目視で確認しやすい。<br />
+余白があると適切な測定結果を得られないので、縦長画像の場合は中央部分を画面いっぱいに表示する（<code>--panscan=1.0</code>）。</p>
 <p>“<a
 href="https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/">Bustling
 Alleyway in Osaka</a>” をクリックして右上の「Free
@@ -332,7 +332,7 @@ EOF</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、メッセージが表示されたら「q」で終了する。<br />
 自動的に次の画像が表示されるので、同じことを繰り返す。<br />
 できた画像を「画像C」とする。</p>
-<p>「画像A」と「画像C」の差異を測定する。</p>
+<p>「画像A」と「画像C」の差を測定する。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; compare-upscaled-images.sh
 #!/bin/sh
 
@@ -651,7 +651,7 @@ mpv のデフォルトは lanczos。それより 200
 </tbody>
 </table>
 <h3
-id="アップスケーラーごとの差異を目視で確認">アップスケーラーごとの差異を目視で確認</h3>
+id="アップスケーラーごとの差を目視で確認">アップスケーラーごとの差を目視で確認</h3>
 <p>アップスケーラーにショートカットを割り当てる。<br />
 ~/.config/mpv/input.conf に次の行を追加。</p>
 <pre><code># アップスケーラーの切り替え
@@ -666,7 +666,7 @@ Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
 <p>風景写真を表示。</p>
 <pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_480.jpg --no-osc --fs --pause</code></pre>
 <p>Ctrl
-キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差異が見えやすくなる。</p>
+キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差が見えやすくなる。</p>
 <p>アニメ画像を表示。</p>
 <pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_480.jpg --no-osc --fs --pause</code></pre>
 <p>同様に入力して違いを確認。</p>

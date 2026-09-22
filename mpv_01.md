@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-09-22
+date: 2026-09-23
 ---
 
 ## mpv の特徴
@@ -239,10 +239,10 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders_high/
 Source: "[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" by Catarina Duarte
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-日常で表示しそうな画像を使用して測定する。
-森林のように細かい模様で埋め尽くされている画像だと、どのアップスケーラーを使用してもオリジナルとの差異が大きくなる。
-顔のアップのように模様が少ない画像だと、どのアップスケーラーを使用してもオリジナルとの差異が小さくなる。
-余白が多いと適切な測定結果を得られないので、縦長画像の場合は中央部分を画面いっぱいに表示する（`--panscan=1.0`）。
+ベンチマーク用の特殊な画像を使用するのではなく、普段表示するような日常の画像を使用する。
+森林のように細かい模様で埋め尽くされている画像は、どのアップスケーラーを使用しても補間効果が限られる。顔のアップのように模様が少なすぎる画像は、どのアップスケーラーを使用しても似たようなスコアになる。
+画像に文字が入っていると、鮮明さを目視で確認しやすい。
+余白があると適切な測定結果を得られないので、縦長画像の場合は中央部分を画面いっぱいに表示する（`--panscan=1.0`）。
 
 "[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" をクリックして右上の「Free download」をクリック。
 ダウンロードした画像を mpv でフルスクリーン表示。
@@ -326,7 +326,7 @@ sh make-upscaled-images.sh pexels-cateduart-38580804_480.jpg ~/.config/mpv/shade
 自動的に次の画像が表示されるので、同じことを繰り返す。
 できた画像を「画像C」とする。
 
-「画像A」と「画像C」の差異を測定する。
+「画像A」と「画像C」の差を測定する。
 
 ```
 cat << 'EOF' > compare-upscaled-images.sh
@@ -470,7 +470,7 @@ ArtCNN_C4F32_DS | 2869.11 (0.0437799)
 ArtCNN_C4F32_DN | 2948.4 (0.0449897)
 lanczos | 3470.92 (0.0529628)
 
-### アップスケーラーごとの差異を目視で確認
+### アップスケーラーごとの差を目視で確認
 
 アップスケーラーにショートカットを割り当てる。
 ~/.config/mpv/input.conf に次の行を追加。
@@ -493,7 +493,7 @@ Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_480.jpg --no-osc --fs --pause
 ```
 
-Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差異が見えやすくなる。
+Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差が見えやすくなる。
 
 アニメ画像を表示。
 
