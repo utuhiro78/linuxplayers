@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-09-21
+date: 2026-09-22
 ---
 
 ## mpv の特徴
@@ -309,6 +309,30 @@ do
   printf "%s | %s\n" "${shader_name}" "${score}"
 done | sort -t '|' -k 2 -g
 ```
+
+続いて高負荷バリアントを測定。
+
+```
+image_orig="pexels-mehmetkaraca-27684806.jpg"
+image_base="${image_orig%.*}"
+
+mkdir -p gpu_low
+mv ${image_base}_480-*.png gpu_low/
+
+mv ~/.config/mpv/shaders ~/.config/mpv/shaders_low
+mv ~/.config/mpv/shaders_high ~/.config/mpv/shaders
+```
+
+`「画像B」を mpv でフルスクリーンにアップスケール` に戻って、同じ処理を行う。
+
+終わったらシェーダーディレクトリを元に戻す。
+
+```
+mv ~/.config/mpv/shaders ~/.config/mpv/shaders_high
+mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders
+```
+
+アニメ画像の測定を行うときは、`image_orig="chihiro030.jpg"` にする。
 
 ### 結果 (低負荷バリアント)
 

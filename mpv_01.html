@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-09-21" />
+  <meta name="dcterms.date" content="2026-09-22" />
   <title>mpv の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">mpv の設定</h1>
-<p class="date">2026-09-21</p>
+<p class="date">2026-09-22</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -316,6 +316,22 @@ do
   shader_name=${shader_name%.*}
   printf &quot;%s | %s\n&quot; &quot;${shader_name}&quot; &quot;${score}&quot;
 done | sort -t &#39;|&#39; -k 2 -g</code></pre>
+<p>続いて高負荷バリアントを測定。</p>
+<pre><code>image_orig=&quot;pexels-mehmetkaraca-27684806.jpg&quot;
+image_base=&quot;${image_orig%.*}&quot;
+
+mkdir -p gpu_low
+mv ${image_base}_480-*.png gpu_low/
+
+mv ~/.config/mpv/shaders ~/.config/mpv/shaders_low
+mv ~/.config/mpv/shaders_high ~/.config/mpv/shaders</code></pre>
+<p><code>「画像B」を mpv でフルスクリーンにアップスケール</code>
+に戻って、同じ処理を行う。</p>
+<p>終わったらシェーダーディレクトリを元に戻す。</p>
+<pre><code>mv ~/.config/mpv/shaders ~/.config/mpv/shaders_high
+mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders</code></pre>
+<p>アニメ画像の測定を行うときは、<code>image_orig="chihiro030.jpg"</code>
+にする。</p>
 <h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
 順位は使用する画像によって変わるので、絶対的なものではない。<br />
