@@ -280,30 +280,35 @@ image_base=&quot;${image_orig%.*}&quot;
 
 mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause&quot;
 
-mpv ${mpv_options} &quot;${image_base}.jpg&quot; --panscan=1.0 --glsl-shaders=&quot;&quot; --screenshot-template=&quot;${image_base}_fullscreen&quot;
+mpv ${mpv_options} &quot;${image_base}.jpg&quot; --panscan=1.0 --screenshot-template=&quot;${image_base}_fullscreen&quot;
 EOF</code></pre>
 <pre><code>sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
 できた画像を「画像A」とする。</p>
-<p>「画像A」を縦480にリサイズ。</p>
-<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-854x480-images.sh
+<p>「画像A」を mpv で縦480にして表示。<br />
+「mpv
+で見たときどれぐらい差があるか」を知りたいので、フルスクリーンへのリサイズも含めて
+imagemagick は使用しなかった。</p>
+<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-480-images.sh
 #!/bin/sh
 
 image_orig=${1}
 image_base=&quot;${image_orig%_fullscreen.png}&quot;
 
-magick ${image_orig} -resize 854x480 -quality 92 &quot;${image_base}_480.jpg&quot;
+mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=jpg --screenshot-jpeg-quality=96 --screenshot-dir=${PWD} --pause&quot;
+
+mpv ${mpv_options} &quot;${image_orig}&quot; --vf=scale=-2:480 --screenshot-template=&quot;${image_base}_480&quot;
 EOF</code></pre>
-<pre><code>sh make-854x480-images.sh pexels-cateduart-38580804_fullscreen.png</code></pre>
-<p>できた画像を「画像B」とする。<br />
-「画像B」は JPEG 形式にする。PNG
+<pre><code>sh make-480-images.sh pexels-cateduart-38580804_fullscreen.png</code></pre>
+<p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
+できた画像を「画像B」とする。</p>
+<p>「画像B」は JPEG 形式にする。PNG
 形式だとアップスケーラーが動作しない場合があった。<br />
 アップスケーラーが動作しているかどうかは、mpv
 の実行中に「i2」と入力すれば確認できる。<br />
-「画像A」と、後に出てくる「画像C」は、ロスレスである PNG
-形式にする。</p>
+「画像A」と、後に出てくる「画像C」は、ロスレスの PNG 形式にする。</p>
 <p>「画像B」を mpv
-でフルスクリーンにアップスケール。縦横それぞれ2倍以上にすると、アップスケーラーごとの差異が出やすい。</p>
+でフルスクリーンにアップスケール。ふだん動画を再生するときはフルスクリーンで表示しているので、倍数での指定は行わなかった。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-upscaled-images.sh
 #!/bin/sh
 
@@ -359,7 +364,7 @@ mkdir -p gpu_high
 mv pexels-cateduart-38580804_480-*.png gpu_high/</code></pre>
 <h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位は使用する画像によって変わるので、絶対的なものではない。<br />
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さくなるものを選ぶと、効果がわかりやすい。<br />
 100以下の差しかないものは、目視だと効果がわかりにくい。</p>
@@ -372,78 +377,78 @@ mpv のデフォルトは lanczos。それより 200
 </thead>
 <tbody>
 <tr>
-<td>ArtCNN_C4F16_DS</td>
-<td>2103.06 (0.0320906)</td>
-</tr>
-<tr>
 <td>acnet_f8b4_hdn</td>
-<td>2246.13 (0.0342738)</td>
-</tr>
-<tr>
-<td>FSRCNNX_x2_8-0-4-1</td>
-<td>2367.07 (0.0361192)</td>
-</tr>
-<tr>
-<td>acnet_f8b4_box_hdn</td>
-<td>2384.47 (0.0363847)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_M</td>
-<td>2391.31 (0.036489)</td>
+<td>2455.02 (0.0374612)</td>
 </tr>
 <tr>
 <td>acnet_f8b4</td>
-<td>2423.19 (0.0369755)</td>
+<td>2516.32 (0.0383966)</td>
+</tr>
+<tr>
+<td>FSRCNNX_x2_8-0-4-1</td>
+<td>2516.7 (0.0384024)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_CNN_x2_M</td>
+<td>2526.74 (0.0385557)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box_hdn</td>
+<td>2528.34 (0.03858)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16_DS</td>
+<td>2538.36 (0.0387329)</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box</td>
-<td>2538.9 (0.0387411)</td>
+<td>2590.16 (0.0395234)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16</td>
-<td>2550.92 (0.0389246)</td>
+<td>2618.44 (0.0399548)</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_S</td>
-<td>2560.63 (0.0390727)</td>
+<td>2677.15 (0.0408507)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DN</td>
-<td>2737.8 (0.0417761)</td>
-</tr>
-<tr>
-<td>ravu-lite-ar-r4</td>
-<td>2920.72 (0.0445673)</td>
-</tr>
-<tr>
-<td>ravu-lite-r4</td>
-<td>2942.55 (0.0449004)</td>
+<td>2774.97 (0.0423434)</td>
 </tr>
 <tr>
 <td>ravu-zoom-ar-r3</td>
-<td>2944.99 (0.0449376)</td>
+<td>2913.24 (0.0444532)</td>
+</tr>
+<tr>
+<td>ravu-lite-ar-r4</td>
+<td>2913.33 (0.0444545)</td>
+</tr>
+<tr>
+<td>ravu-lite-r4</td>
+<td>3025.7 (0.0461693)</td>
 </tr>
 <tr>
 <td>ravu-zoom-r3</td>
-<td>2951.69 (0.0450398)</td>
+<td>3031.56 (0.0462587)</td>
 </tr>
 <tr>
 <td>ravu-lite-r3</td>
-<td>2962.29 (0.0452016)</td>
+<td>3052.87 (0.0465838)</td>
 </tr>
 <tr>
 <td>ravu-r4</td>
-<td>3184.08 (0.0485859)</td>
+<td>3080.21 (0.0470011)</td>
 </tr>
 <tr>
 <td>lanczos</td>
-<td>3381.1 (0.0515922)</td>
+<td>3329.41 (0.0508035)</td>
 </tr>
 </tbody>
 </table>
 <h3 id="結果-高負荷バリアント">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位は使用する画像によって変わるので、絶対的なものではない。<br />
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さくなるものを選ぶと、効果がわかりやすい。<br />
 100以下の差しかないものは、目視だと効果がわかりにくい。</p>
@@ -456,44 +461,44 @@ mpv のデフォルトは lanczos。それより 200
 </thead>
 <tbody>
 <tr>
-<td>ArtCNN_C4F32_DS</td>
-<td>1995.42 (0.0304481)</td>
-</tr>
-<tr>
 <td>acnet_f8b18_hdn</td>
-<td>2085.35 (0.0318204)</td>
+<td>2351.31 (0.0358786)</td>
 </tr>
 <tr>
 <td>FSRCNNX_x2_16-0-4-1</td>
-<td>2240.12 (0.034182)</td>
-</tr>
-<tr>
-<td>acnet_f8b18_box_hdn</td>
-<td>2243.5 (0.0342336)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_UL</td>
-<td>2268.34 (0.0346127)</td>
+<td>2394.58 (0.036539)</td>
 </tr>
 <tr>
 <td>acnet_f8b18</td>
-<td>2352.72 (0.0359001)</td>
+<td>2409.25 (0.0367628)</td>
+</tr>
+<tr>
+<td>acnet_f8b18_box_hdn</td>
+<td>2430.97 (0.0370942)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_CNN_x2_UL</td>
+<td>2458.4 (0.0375127)</td>
 </tr>
 <tr>
 <td>acnet_f8b18_box</td>
-<td>2444.16 (0.0372955)</td>
+<td>2493.66 (0.0380508)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F32_DS</td>
+<td>2501.02 (0.0381631)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32</td>
-<td>2484.14 (0.0379055)</td>
+<td>2535.77 (0.0386934)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DN</td>
-<td>2660.26 (0.040593)</td>
+<td>2716.45 (0.0414503)</td>
 </tr>
 <tr>
 <td>lanczos</td>
-<td>3381.1 (0.0515922)</td>
+<td>3329.41 (0.0508035)</td>
 </tr>
 </tbody>
 </table>
@@ -507,7 +512,7 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 <p>風景写真のときと同じ方法で測定する。</p>
 <h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位は使用する画像によって変わるので、絶対的なものではない。<br />
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さくなるものを選ぶと、効果がわかりやすい。<br />
 100以下の差しかないものは、目視だと効果がわかりにくい。</p>
@@ -520,78 +525,78 @@ mpv のデフォルトは lanczos。それより 200
 </thead>
 <tbody>
 <tr>
-<td>ArtCNN_C4F16_DS</td>
-<td>2377.32 (0.0362755)</td>
-</tr>
-<tr>
 <td>acnet_f8b4_hdn</td>
-<td>2490.31 (0.0379996)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_M</td>
-<td>2572.14 (0.0392484)</td>
+<td>2705.98 (0.0412907)</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box_hdn</td>
-<td>2616.02 (0.0399179)</td>
+<td>2719.32 (0.0414942)</td>
 </tr>
 <tr>
-<td>Anime4K_Upscale_CNN_x2_S</td>
-<td>2745.35 (0.0418913)</td>
+<td>Anime4K_Upscale_CNN_x2_M</td>
+<td>2731.38 (0.0416781)</td>
 </tr>
 <tr>
 <td>acnet_f8b4</td>
-<td>2812.43 (0.042915)</td>
-</tr>
-<tr>
-<td>FSRCNNX_x2_8-0-4-1</td>
-<td>2856.32 (0.0435847)</td>
+<td>2824.91 (0.0431053)</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box</td>
-<td>2902.71 (0.0442925)</td>
+<td>2835.6 (0.0432685)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_CNN_x2_S</td>
+<td>2841.98 (0.0433658)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16_DS</td>
+<td>2852.62 (0.0435282)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16</td>
-<td>2953.2 (0.045063)</td>
+<td>2895.01 (0.044175)</td>
+</tr>
+<tr>
+<td>FSRCNNX_x2_8-0-4-1</td>
+<td>2909.16 (0.044391)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DN</td>
-<td>2971.24 (0.0453383)</td>
-</tr>
-<tr>
-<td>ravu-lite-ar-r4</td>
-<td>3181.88 (0.0485524)</td>
+<td>2974.15 (0.0453826)</td>
 </tr>
 <tr>
 <td>ravu-zoom-ar-r3</td>
-<td>3196.44 (0.0487746)</td>
+<td>3059.61 (0.0466867)</td>
+</tr>
+<tr>
+<td>ravu-lite-ar-r4</td>
+<td>3080.82 (0.0470102)</td>
 </tr>
 <tr>
 <td>ravu-zoom-r3</td>
-<td>3204.45 (0.0488968)</td>
-</tr>
-<tr>
-<td>ravu-lite-r3</td>
-<td>3208.48 (0.0489582)</td>
-</tr>
-<tr>
-<td>ravu-lite-r4</td>
-<td>3213.34 (0.0490325)</td>
+<td>3155.03 (0.0481427)</td>
 </tr>
 <tr>
 <td>ravu-r4</td>
-<td>3359.2 (0.0512582)</td>
+<td>3174.46 (0.0484391)</td>
+</tr>
+<tr>
+<td>ravu-lite-r3</td>
+<td>3208.5 (0.0489585)</td>
+</tr>
+<tr>
+<td>ravu-lite-r4</td>
+<td>3208.89 (0.0489645)</td>
 </tr>
 <tr>
 <td>lanczos</td>
-<td>3631.37 (0.0554111)</td>
+<td>3470.92 (0.0529628)</td>
 </tr>
 </tbody>
 </table>
 <h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位は使用する画像によって変わるので、絶対的なものではない。<br />
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さくなるものを選ぶと、効果がわかりやすい。<br />
 100以下の差しかないものは、目視だと効果がわかりにくい。</p>
@@ -604,44 +609,44 @@ mpv のデフォルトは lanczos。それより 200
 </thead>
 <tbody>
 <tr>
-<td>ArtCNN_C4F32_DS</td>
-<td>2321.88 (0.0354297)</td>
-</tr>
-<tr>
 <td>acnet_f8b18_hdn</td>
-<td>2424.86 (0.037001)</td>
+<td>2677.81 (0.0408607)</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_UL</td>
-<td>2464.49 (0.0376057)</td>
+<td>2687.13 (0.041003)</td>
 </tr>
 <tr>
 <td>acnet_f8b18_box_hdn</td>
-<td>2528.04 (0.0385754)</td>
-</tr>
-<tr>
-<td>FSRCNNX_x2_16-0-4-1</td>
-<td>2698.8 (0.041181)</td>
+<td>2688.79 (0.0410282)</td>
 </tr>
 <tr>
 <td>acnet_f8b18</td>
-<td>2837.28 (0.0432941)</td>
+<td>2760.47 (0.042122)</td>
+</tr>
+<tr>
+<td>FSRCNNX_x2_16-0-4-1</td>
+<td>2780.06 (0.0424211)</td>
 </tr>
 <tr>
 <td>acnet_f8b18_box</td>
-<td>2875.56 (0.0438783)</td>
+<td>2800.66 (0.0427353)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32</td>
-<td>2914.45 (0.0444717)</td>
+<td>2853.43 (0.0435405)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F32_DS</td>
+<td>2869.11 (0.0437799)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DN</td>
-<td>2934.9 (0.0447837)</td>
+<td>2948.4 (0.0449897)</td>
 </tr>
 <tr>
 <td>lanczos</td>
-<td>3631.37 (0.0554111)</td>
+<td>3470.92 (0.0529628)</td>
 </tr>
 </tbody>
 </table>

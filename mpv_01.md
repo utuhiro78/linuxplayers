@@ -256,7 +256,7 @@ image_base="${image_orig%.*}"
 
 mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
 
-mpv ${mpv_options} "${image_base}.jpg" --panscan=1.0 --glsl-shaders="" --screenshot-template="${image_base}_fullscreen"
+mpv ${mpv_options} "${image_base}.jpg" --panscan=1.0 --screenshot-template="${image_base}_fullscreen"
 EOF
 ```
 
@@ -267,29 +267,34 @@ sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
 できた画像を「画像A」とする。
 
-「画像A」を縦480にリサイズ。
+「画像A」を mpv で縦480にして表示。
+「mpv で見たときどれぐらい差があるか」を知りたいので、フルスクリーンへのリサイズも含めて imagemagick は使用しなかった。
 
 ```
-cat << 'EOF' > make-854x480-images.sh
+cat << 'EOF' > make-480-images.sh
 #!/bin/sh
 
 image_orig=${1}
 image_base="${image_orig%_fullscreen.png}"
 
-magick ${image_orig} -resize 854x480 -quality 92 "${image_base}_480.jpg"
+mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=jpg --screenshot-jpeg-quality=96 --screenshot-dir=${PWD} --pause"
+
+mpv ${mpv_options} "${image_orig}" --vf=scale=-2:480 --screenshot-template="${image_base}_480"
 EOF
 ```
 
 ```
-sh make-854x480-images.sh pexels-cateduart-38580804_fullscreen.png
+sh make-480-images.sh pexels-cateduart-38580804_fullscreen.png
 ```
 
+画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
 できた画像を「画像B」とする。
+
 「画像B」は JPEG 形式にする。PNG 形式だとアップスケーラーが動作しない場合があった。
 アップスケーラーが動作しているかどうかは、mpv の実行中に「i2」と入力すれば確認できる。
-「画像A」と、後に出てくる「画像C」は、ロスレスである PNG 形式にする。
+「画像A」と、後に出てくる「画像C」は、ロスレスの PNG 形式にする。
 
-「画像B」を mpv でフルスクリーンにアップスケール。縦横それぞれ2倍以上にすると、アップスケーラーごとの差異が出やすい。
+「画像B」を mpv でフルスクリーンにアップスケール。ふだん動画を再生するときはフルスクリーンで表示しているので、倍数での指定は行わなかった。
 
 ```
 cat << 'EOF' > make-upscaled-images.sh
@@ -365,49 +370,49 @@ mv pexels-cateduart-38580804_480-*.png gpu_high/
 ### 結果 (低負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位は使用する画像によって変わるので、絶対的なものではない。
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。
 mpv のデフォルトは lanczos。それより 200 以上スコアが小さくなるものを選ぶと、効果がわかりやすい。
 100以下の差しかないものは、目視だと効果がわかりにくい。
 
 File | Score
 -- | --
-ArtCNN_C4F16_DS | 2103.06 (0.0320906)
-acnet_f8b4_hdn | 2246.13 (0.0342738)
-FSRCNNX_x2_8-0-4-1 | 2367.07 (0.0361192)
-acnet_f8b4_box_hdn | 2384.47 (0.0363847)
-Anime4K_Upscale_CNN_x2_M | 2391.31 (0.036489)
-acnet_f8b4 | 2423.19 (0.0369755)
-acnet_f8b4_box | 2538.9 (0.0387411)
-ArtCNN_C4F16 | 2550.92 (0.0389246)
-Anime4K_Upscale_CNN_x2_S | 2560.63 (0.0390727)
-ArtCNN_C4F16_DN | 2737.8 (0.0417761)
-ravu-lite-ar-r4 | 2920.72 (0.0445673)
-ravu-lite-r4 | 2942.55 (0.0449004)
-ravu-zoom-ar-r3 | 2944.99 (0.0449376)
-ravu-zoom-r3 | 2951.69 (0.0450398)
-ravu-lite-r3 | 2962.29 (0.0452016)
-ravu-r4 | 3184.08 (0.0485859)
-lanczos | 3381.1 (0.0515922)
+acnet_f8b4_hdn | 2455.02 (0.0374612)
+acnet_f8b4 | 2516.32 (0.0383966)
+FSRCNNX_x2_8-0-4-1 | 2516.7 (0.0384024)
+Anime4K_Upscale_CNN_x2_M | 2526.74 (0.0385557)
+acnet_f8b4_box_hdn | 2528.34 (0.03858)
+ArtCNN_C4F16_DS | 2538.36 (0.0387329)
+acnet_f8b4_box | 2590.16 (0.0395234)
+ArtCNN_C4F16 | 2618.44 (0.0399548)
+Anime4K_Upscale_CNN_x2_S | 2677.15 (0.0408507)
+ArtCNN_C4F16_DN | 2774.97 (0.0423434)
+ravu-zoom-ar-r3 | 2913.24 (0.0444532)
+ravu-lite-ar-r4 | 2913.33 (0.0444545)
+ravu-lite-r4 | 3025.7 (0.0461693)
+ravu-zoom-r3 | 3031.56 (0.0462587)
+ravu-lite-r3 | 3052.87 (0.0465838)
+ravu-r4 | 3080.21 (0.0470011)
+lanczos | 3329.41 (0.0508035)
 
 ### 結果 (高負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位は使用する画像によって変わるので、絶対的なものではない。
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。
 mpv のデフォルトは lanczos。それより 200 以上スコアが小さくなるものを選ぶと、効果がわかりやすい。
 100以下の差しかないものは、目視だと効果がわかりにくい。
 
 File | Score
 -- | --
-ArtCNN_C4F32_DS | 1995.42 (0.0304481)
-acnet_f8b18_hdn | 2085.35 (0.0318204)
-FSRCNNX_x2_16-0-4-1 | 2240.12 (0.034182)
-acnet_f8b18_box_hdn | 2243.5 (0.0342336)
-Anime4K_Upscale_CNN_x2_UL | 2268.34 (0.0346127)
-acnet_f8b18 | 2352.72 (0.0359001)
-acnet_f8b18_box | 2444.16 (0.0372955)
-ArtCNN_C4F32 | 2484.14 (0.0379055)
-ArtCNN_C4F32_DN | 2660.26 (0.040593)
-lanczos | 3381.1 (0.0515922)
+acnet_f8b18_hdn | 2351.31 (0.0358786)
+FSRCNNX_x2_16-0-4-1 | 2394.58 (0.036539)
+acnet_f8b18 | 2409.25 (0.0367628)
+acnet_f8b18_box_hdn | 2430.97 (0.0370942)
+Anime4K_Upscale_CNN_x2_UL | 2458.4 (0.0375127)
+acnet_f8b18_box | 2493.66 (0.0380508)
+ArtCNN_C4F32_DS | 2501.02 (0.0381631)
+ArtCNN_C4F32 | 2535.77 (0.0386934)
+ArtCNN_C4F32_DN | 2716.45 (0.0414503)
+lanczos | 3329.41 (0.0508035)
 
 ### アニメ画像の場合
 
@@ -421,49 +426,49 @@ License: [画像は常識の範囲でご自由にお使いください。](https
 ### 結果 (低負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位は使用する画像によって変わるので、絶対的なものではない。
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。
 mpv のデフォルトは lanczos。それより 200 以上スコアが小さくなるものを選ぶと、効果がわかりやすい。
 100以下の差しかないものは、目視だと効果がわかりにくい。
 
 File | Score
 -- | --
-ArtCNN_C4F16_DS | 2377.32 (0.0362755)
-acnet_f8b4_hdn | 2490.31 (0.0379996)
-Anime4K_Upscale_CNN_x2_M | 2572.14 (0.0392484)
-acnet_f8b4_box_hdn | 2616.02 (0.0399179)
-Anime4K_Upscale_CNN_x2_S | 2745.35 (0.0418913)
-acnet_f8b4 | 2812.43 (0.042915)
-FSRCNNX_x2_8-0-4-1 | 2856.32 (0.0435847)
-acnet_f8b4_box | 2902.71 (0.0442925)
-ArtCNN_C4F16 | 2953.2 (0.045063)
-ArtCNN_C4F16_DN | 2971.24 (0.0453383)
-ravu-lite-ar-r4 | 3181.88 (0.0485524)
-ravu-zoom-ar-r3 | 3196.44 (0.0487746)
-ravu-zoom-r3 | 3204.45 (0.0488968)
-ravu-lite-r3 | 3208.48 (0.0489582)
-ravu-lite-r4 | 3213.34 (0.0490325)
-ravu-r4 | 3359.2 (0.0512582)
-lanczos | 3631.37 (0.0554111)
+acnet_f8b4_hdn | 2705.98 (0.0412907)
+acnet_f8b4_box_hdn | 2719.32 (0.0414942)
+Anime4K_Upscale_CNN_x2_M | 2731.38 (0.0416781)
+acnet_f8b4 | 2824.91 (0.0431053)
+acnet_f8b4_box | 2835.6 (0.0432685)
+Anime4K_Upscale_CNN_x2_S | 2841.98 (0.0433658)
+ArtCNN_C4F16_DS | 2852.62 (0.0435282)
+ArtCNN_C4F16 | 2895.01 (0.044175)
+FSRCNNX_x2_8-0-4-1 | 2909.16 (0.044391)
+ArtCNN_C4F16_DN | 2974.15 (0.0453826)
+ravu-zoom-ar-r3 | 3059.61 (0.0466867)
+ravu-lite-ar-r4 | 3080.82 (0.0470102)
+ravu-zoom-r3 | 3155.03 (0.0481427)
+ravu-r4 | 3174.46 (0.0484391)
+ravu-lite-r3 | 3208.5 (0.0489585)
+ravu-lite-r4 | 3208.89 (0.0489645)
+lanczos | 3470.92 (0.0529628)
 
 ### 結果 (高負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位は使用する画像によって変わるので、絶対的なものではない。
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。
 mpv のデフォルトは lanczos。それより 200 以上スコアが小さくなるものを選ぶと、効果がわかりやすい。
 100以下の差しかないものは、目視だと効果がわかりにくい。
 
 File | Score
 -- | --
-ArtCNN_C4F32_DS | 2321.88 (0.0354297)
-acnet_f8b18_hdn | 2424.86 (0.037001)
-Anime4K_Upscale_CNN_x2_UL | 2464.49 (0.0376057)
-acnet_f8b18_box_hdn | 2528.04 (0.0385754)
-FSRCNNX_x2_16-0-4-1 | 2698.8 (0.041181)
-acnet_f8b18 | 2837.28 (0.0432941)
-acnet_f8b18_box | 2875.56 (0.0438783)
-ArtCNN_C4F32 | 2914.45 (0.0444717)
-ArtCNN_C4F32_DN | 2934.9 (0.0447837)
-lanczos | 3631.37 (0.0554111)
+acnet_f8b18_hdn | 2677.81 (0.0408607)
+Anime4K_Upscale_CNN_x2_UL | 2687.13 (0.041003)
+acnet_f8b18_box_hdn | 2688.79 (0.0410282)
+acnet_f8b18 | 2760.47 (0.042122)
+FSRCNNX_x2_16-0-4-1 | 2780.06 (0.0424211)
+acnet_f8b18_box | 2800.66 (0.0427353)
+ArtCNN_C4F32 | 2853.43 (0.0435405)
+ArtCNN_C4F32_DS | 2869.11 (0.0437799)
+ArtCNN_C4F32_DN | 2948.4 (0.0449897)
+lanczos | 3470.92 (0.0529628)
 
 ### アップスケーラーごとの差異を目視で確認
 
