@@ -50,8 +50,8 @@ id="toc-アニメ画像の場合">アニメ画像の場合</a></li>
 id="toc-結果-低負荷バリアント-1">結果 (低負荷バリアント)</a></li>
 <li><a href="#結果-高負荷バリアント-1"
 id="toc-結果-高負荷バリアント-1">結果 (高負荷バリアント)</a></li>
-<li><a href="#アップスケーラーによる差異を目視で確認"
-id="toc-アップスケーラーによる差異を目視で確認">アップスケーラーによる差異を目視で確認</a></li>
+<li><a href="#アップスケーラーごとの差異を目視で確認"
+id="toc-アップスケーラーごとの差異を目視で確認">アップスケーラーごとの差異を目視で確認</a></li>
 <li><a href="#デフォルトのアップスケーラーを設定"
 id="toc-デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</a></li>
 </ul></li>
@@ -178,7 +178,6 @@ REGZA を使用している場合は次のようにする。</p>
 </ul>
 <h2
 id="外部のアップスケーラーをインストール">外部のアップスケーラーをインストール</h2>
-<p>複数のバリアントがある場合は、内蔵GPUでもコマ落ちしないよう、負荷が軽いものを選んだ。</p>
 <h3 id="ravu">RAVU</h3>
 <p>Google の超解像技術から着想を得たアップスケーラー。<br />
 <a
@@ -209,8 +208,11 @@ mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders/
 wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_UL.glsl
 mkdir -p ~/.config/mpv/shaders_high
 mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders_high/</code></pre>
+<p>通常は複数のシェーダーを<a
+href="https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf">組み合わせて</a>使用するが、アニメに最適化されて実写画像だと表示が崩れる場合があるので、Upscale_CNN_x2
+を単体で使用する。</p>
 <h3 id="acnetglsl">ACNetGLSL</h3>
-<p>Anime4KCPP プロジェクトで使用されている深層学習モデルを GLSL
+<p>Anime4KCPP プロジェクトで使用されている深層学習モデルを、GLSL
 で実装したもの。<br />
 <a
 href="https://github.com/TianZerL/ACNetGLSL">https://github.com/TianZerL/ACNetGLSL</a></p>
@@ -261,49 +263,73 @@ href="https://www.pexels.com/photo/yedigoller-daglari-27684806/">Yedigöller
 dağları</a>” by Mehmet Karaca<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
-<p>模様が複雑で余白が少ない画像を使用すると、アップスケーラーの差異が出やすい。<br />
+<p>模様が複雑で余白が少ない画像を使用すると、アップスケーラーごとの差異が出やすい。<br />
 縦長画像の場合は中央部分を画面いっぱいに表示する（<code>--panscan=1.0</code>）。</p>
 <p>“<a
 href="https://www.pexels.com/photo/yedigoller-daglari-27684806/">Yedigöller
 dağları</a>” をクリックして右上の「Free download」をクリック。<br />
 ダウンロードした画像を mpv でフルスクリーン表示。</p>
-<pre><code>image_orig=&quot;pexels-mehmetkaraca-27684806.jpg&quot;
+<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-fullscreen-images.sh
+#!/bin/sh
+
+image_orig=${1}
 image_base=&quot;${image_orig%.*}&quot;
 
 mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause&quot;
 
-mpv ${mpv_options} &quot;${image_base}.jpg&quot; --panscan=1.0 --glsl-shaders=&quot;&quot; --screenshot-template=&quot;${image_base}_fullscreen&quot;</code></pre>
+mpv ${mpv_options} &quot;${image_base}.jpg&quot; --panscan=1.0 --glsl-shaders=&quot;&quot; --screenshot-template=&quot;${image_base}_fullscreen&quot;
+EOF</code></pre>
+<pre><code>sh make-fullscreen-images.sh pexels-mehmetkaraca-27684806.jpg</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
 できた画像を「画像A」とする。</p>
 <p>「画像A」を縦480にリサイズ。</p>
-<pre><code>image_orig=&quot;pexels-mehmetkaraca-27684806.jpg&quot;
-image_base=&quot;${image_orig%.*}&quot;
+<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-854x480-images.sh
+#!/bin/sh
 
-magick ${image_base}_fullscreen.png -resize x480 -quality 92 &quot;${image_base}_480.jpg&quot;</code></pre>
+image_orig=${1}
+image_base=&quot;${image_orig%_fullscreen.png}&quot;
+
+magick ${image_orig} -resize 854x480 -quality 92 &quot;${image_base}_480.jpg&quot;
+EOF</code></pre>
+<pre><code>sh make-854x480-images.sh pexels-mehmetkaraca-27684806_fullscreen.png</code></pre>
 <p>できた画像を「画像B」とする。<br />
 「画像B」は JPEG 形式にする。PNG
-形式だとアップスケーラーが効かない場合があった。</p>
+形式だとアップスケーラーが動作しない場合があった。<br />
+アップスケーラーが動作しているかどうかは、mpv
+の実行中に「i2」と入力すれば確認できる。<br />
+「画像A」と、後に出てくる「画像C」は、ロスレスである PNG
+形式にする。</p>
 <p>「画像B」を mpv
-でフルスクリーンにアップスケール。縦横それぞれ2倍以上にしないと、アップスケーラーによる差異が見えづらい。</p>
-<pre><code>image_orig=&quot;pexels-mehmetkaraca-27684806.jpg&quot;
-image_base=&quot;${image_orig%.*}&quot;
+でフルスクリーンにアップスケール。縦横それぞれ2倍以上にすると、アップスケーラーごとの差異が出やすい。</p>
+<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-upscaled-images.sh
+#!/bin/sh
+
+image_orig=${1}
+image_base=&quot;${image_orig%_480.jpg}&quot;
+
+shader_dir=${2}
 
 mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause&quot;
 
-for shader_file in ~/.config/mpv/shaders/*
+for shader_file in ${shader_dir}/*
 do
   shader_base=$(basename &quot;${shader_file}&quot;)
   shader_base=${shader_base%.*}
-  mpv ${mpv_options} &quot;${image_base}_480.jpg&quot; --glsl-shaders=&quot;${shader_file}&quot; --screenshot-template=&quot;${image_base}_480-${shader_base}&quot;
+  mpv ${mpv_options} &quot;${image_orig}&quot; --glsl-shaders=&quot;${shader_file}&quot; --screenshot-template=&quot;${image_base}_480-${shader_base}&quot;
 done
 
-mpv ${mpv_options} &quot;${image_base}_480.jpg&quot; --glsl-shaders=&quot;&quot; --screenshot-template=&quot;${image_base}_480-lanczos&quot;</code></pre>
-<p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
+mpv ${mpv_options} &quot;${image_orig}&quot; --glsl-shaders=&quot;&quot; --screenshot-template=&quot;${image_base}_480-lanczos&quot;
+EOF</code></pre>
+<pre><code>sh make-upscaled-images.sh pexels-mehmetkaraca-27684806_480.jpg ~/.config/mpv/shaders</code></pre>
+<p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、メッセージが表示されたら「q」で終了する。<br />
 自動的に次の画像が表示されるので、同じことを繰り返す。<br />
 できた画像を「画像C」とする。</p>
 <p>「画像A」と「画像C」の差異を測定する。</p>
-<pre><code>image_orig=&quot;pexels-mehmetkaraca-27684806.jpg&quot;
-image_base=&quot;${image_orig%.*}&quot;
+<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; compare-upscaled-images.sh
+#!/bin/sh
+
+image_orig=${1}
+image_base=&quot;${image_orig%_fullscreen.png}&quot;
 
 printf &quot;File | Score\n&quot;
 printf &quot;%s\n&quot; &quot;-- | --&quot;
@@ -315,27 +341,25 @@ do
   shader_name=${shader_name#480-}
   shader_name=${shader_name%.*}
   printf &quot;%s | %s\n&quot; &quot;${shader_name}&quot; &quot;${score}&quot;
-done | sort -t &#39;|&#39; -k 2 -g</code></pre>
-<p>続いて高負荷バリアントを測定。</p>
-<pre><code>image_orig=&quot;pexels-mehmetkaraca-27684806.jpg&quot;
-image_base=&quot;${image_orig%.*}&quot;
+done | sort -t &#39;|&#39; -k 2 -g
+EOF</code></pre>
+<pre><code>sh compare-upscaled-images.sh pexels-mehmetkaraca-27684806_fullscreen.png</code></pre>
+<p>続いて高負荷なアップスケーラーを測定。</p>
+<pre><code>mkdir -p gpu_low
+mv pexels-mehmetkaraca-27684806_480-*.png gpu_low/
 
-mkdir -p gpu_low
-mv ${image_base}_480-*.png gpu_low/
+sh make-upscaled-images.sh pexels-mehmetkaraca-27684806_480.jpg ~/.config/mpv/shaders_high
 
-mv ~/.config/mpv/shaders ~/.config/mpv/shaders_low
-mv ~/.config/mpv/shaders_high ~/.config/mpv/shaders</code></pre>
-<p><code>「画像B」を mpv でフルスクリーンにアップスケール</code>
-に戻って、同じ処理を行う。</p>
-<p>終わったらシェーダーディレクトリを元に戻す。</p>
-<pre><code>mv ~/.config/mpv/shaders ~/.config/mpv/shaders_high
-mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders</code></pre>
-<p>アニメ画像の測定を行うときは、<code>image_orig="chihiro030.jpg"</code>
-にする。</p>
+sh compare-upscaled-images.sh pexels-mehmetkaraca-27684806_fullscreen.png
+
+mkdir -p gpu_high
+mv pexels-mehmetkaraca-27684806_480-*.png gpu_high/</code></pre>
 <h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
 順位は使用する画像によって変わるので、絶対的なものではない。<br />
-100以下の差は目視だとほとんどわからない。</p>
+mpv のデフォルトは lanczos。それより 200
+以上スコアが小さくなるものを選ぶと、効果がわかりやすい。<br />
+100以下の差しかないものは、目視だと効果がわかりにくい。</p>
 <table>
 <thead>
 <tr>
@@ -417,7 +441,9 @@ mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders</code></pre>
 <h3 id="結果-高負荷バリアント">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
 順位は使用する画像によって変わるので、絶対的なものではない。<br />
-100以下の差は目視だとほとんどわからない。</p>
+mpv のデフォルトは lanczos。それより 200
+以上スコアが小さくなるものを選ぶと、効果がわかりやすい。<br />
+100以下の差しかないものは、目視だと効果がわかりにくい。</p>
 <table>
 <thead>
 <tr>
@@ -479,7 +505,9 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 <h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
 順位は使用する画像によって変わるので、絶対的なものではない。<br />
-100以下の差は目視だとほとんどわからない。</p>
+mpv のデフォルトは lanczos。それより 200
+以上スコアが小さくなるものを選ぶと、効果がわかりやすい。<br />
+100以下の差しかないものは、目視だと効果がわかりにくい。</p>
 <table>
 <thead>
 <tr>
@@ -561,7 +589,9 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 <h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
 順位は使用する画像によって変わるので、絶対的なものではない。<br />
-100以下の差は目視だとほとんどわからない。</p>
+mpv のデフォルトは lanczos。それより 200
+以上スコアが小さくなるものを選ぶと、効果がわかりやすい。<br />
+100以下の差しかないものは、目視だと効果がわかりにくい。</p>
 <table>
 <thead>
 <tr>
@@ -613,7 +643,7 @@ href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご
 </tbody>
 </table>
 <h3
-id="アップスケーラーによる差異を目視で確認">アップスケーラーによる差異を目視で確認</h3>
+id="アップスケーラーごとの差異を目視で確認">アップスケーラーごとの差異を目視で確認</h3>
 <p>アップスケーラーにショートカットを割り当てる。<br />
 ~/.config/mpv/input.conf に次の行を追加。</p>
 <pre><code># アップスケーラーの切り替え
@@ -628,7 +658,7 @@ Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
 <p>風景写真を表示。</p>
 <pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-mehmetkaraca-27684806_480.jpg --no-osc --fs --pause</code></pre>
 <p>Ctrl
-キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーによる差異が見えやすくなる。</p>
+キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差異が見えやすくなる。</p>
 <p>アニメ画像を表示。</p>
 <pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_480.jpg --no-osc --fs --pause</code></pre>
 <p>同様に入力して違いを確認。</p>
