@@ -257,17 +257,20 @@ mkdir -p ~/.config/mpv/shaders_high
 mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders_high/</code></pre>
 <h2 id="アップスケーラーの品質を測定">アップスケーラーの品質を測定</h2>
 <h3 id="風景写真の場合">風景写真の場合</h3>
-<p><img src="images/mpv/pexels-mehmetkaraca-27684806_480.jpg" /></p>
+<p><img src="images/mpv/pexels-cateduart-38580804_480.jpg" /></p>
 <p>Source: “<a
-href="https://www.pexels.com/photo/yedigoller-daglari-27684806/">Yedigöller
-dağları</a>” by Mehmet Karaca<br />
+href="https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/">Bustling
+Alleyway in Osaka</a>” by Catarina Duarte<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
-<p>模様が複雑で余白が少ない画像を使用すると、アップスケーラーごとの差異が出やすい。<br />
-縦長画像の場合は中央部分を画面いっぱいに表示する（<code>--panscan=1.0</code>）。</p>
+<p>日常で表示しそうな画像を使用して測定する。<br />
+森林のように細かい模様で埋め尽くされている画像だと、どのアップスケーラーを使用してもオリジナルとの差異が大きくなる。<br />
+顔のアップのように模様が少ない画像だと、どのアップスケーラーを使用してもオリジナルとの差異が小さくなる。<br />
+余白が多いと適切な測定結果を得られないので、縦長画像の場合は中央部分を画面いっぱいに表示する（<code>--panscan=1.0</code>）。</p>
 <p>“<a
-href="https://www.pexels.com/photo/yedigoller-daglari-27684806/">Yedigöller
-dağları</a>” をクリックして右上の「Free download」をクリック。<br />
+href="https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/">Bustling
+Alleyway in Osaka</a>” をクリックして右上の「Free
+download」をクリック。<br />
 ダウンロードした画像を mpv でフルスクリーン表示。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-fullscreen-images.sh
 #!/bin/sh
@@ -279,7 +282,7 @@ mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --scree
 
 mpv ${mpv_options} &quot;${image_base}.jpg&quot; --panscan=1.0 --glsl-shaders=&quot;&quot; --screenshot-template=&quot;${image_base}_fullscreen&quot;
 EOF</code></pre>
-<pre><code>sh make-fullscreen-images.sh pexels-mehmetkaraca-27684806.jpg</code></pre>
+<pre><code>sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
 できた画像を「画像A」とする。</p>
 <p>「画像A」を縦480にリサイズ。</p>
@@ -291,7 +294,7 @@ image_base=&quot;${image_orig%_fullscreen.png}&quot;
 
 magick ${image_orig} -resize 854x480 -quality 92 &quot;${image_base}_480.jpg&quot;
 EOF</code></pre>
-<pre><code>sh make-854x480-images.sh pexels-mehmetkaraca-27684806_fullscreen.png</code></pre>
+<pre><code>sh make-854x480-images.sh pexels-cateduart-38580804_fullscreen.png</code></pre>
 <p>できた画像を「画像B」とする。<br />
 「画像B」は JPEG 形式にする。PNG
 形式だとアップスケーラーが動作しない場合があった。<br />
@@ -320,7 +323,7 @@ done
 
 mpv ${mpv_options} &quot;${image_orig}&quot; --glsl-shaders=&quot;&quot; --screenshot-template=&quot;${image_base}_480-lanczos&quot;
 EOF</code></pre>
-<pre><code>sh make-upscaled-images.sh pexels-mehmetkaraca-27684806_480.jpg ~/.config/mpv/shaders</code></pre>
+<pre><code>sh make-upscaled-images.sh pexels-cateduart-38580804_480.jpg ~/.config/mpv/shaders</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、メッセージが表示されたら「q」で終了する。<br />
 自動的に次の画像が表示されるので、同じことを繰り返す。<br />
 できた画像を「画像C」とする。</p>
@@ -343,17 +346,17 @@ do
   printf &quot;%s | %s\n&quot; &quot;${shader_name}&quot; &quot;${score}&quot;
 done | sort -t &#39;|&#39; -k 2 -g
 EOF</code></pre>
-<pre><code>sh compare-upscaled-images.sh pexels-mehmetkaraca-27684806_fullscreen.png</code></pre>
+<pre><code>sh compare-upscaled-images.sh pexels-cateduart-38580804_fullscreen.png</code></pre>
 <p>続いて高負荷なアップスケーラーを測定。</p>
 <pre><code>mkdir -p gpu_low
-mv pexels-mehmetkaraca-27684806_480-*.png gpu_low/
+mv pexels-cateduart-38580804_480-*.png gpu_low/
 
-sh make-upscaled-images.sh pexels-mehmetkaraca-27684806_480.jpg ~/.config/mpv/shaders_high
+sh make-upscaled-images.sh pexels-cateduart-38580804_480.jpg ~/.config/mpv/shaders_high
 
-sh compare-upscaled-images.sh pexels-mehmetkaraca-27684806_fullscreen.png
+sh compare-upscaled-images.sh pexels-cateduart-38580804_fullscreen.png
 
 mkdir -p gpu_high
-mv pexels-mehmetkaraca-27684806_480-*.png gpu_high/</code></pre>
+mv pexels-cateduart-38580804_480-*.png gpu_high/</code></pre>
 <h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
 順位は使用する画像によって変わるので、絶対的なものではない。<br />
@@ -369,72 +372,72 @@ mpv のデフォルトは lanczos。それより 200
 </thead>
 <tbody>
 <tr>
-<td>FSRCNNX_x2_8-0-4-1</td>
-<td>5467.92 (0.083435)</td>
-</tr>
-<tr>
-<td>acnet_f8b4</td>
-<td>5478.52 (0.0835969)</td>
-</tr>
-<tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>5492.09 (0.0838039)</td>
-</tr>
-<tr>
-<td>ravu-lite-r4</td>
-<td>5624.97 (0.0858315)</td>
-</tr>
-<tr>
-<td>ravu-lite-r3</td>
-<td>5636.77 (0.0860116)</td>
-</tr>
-<tr>
-<td>ArtCNN_C4F16</td>
-<td>5663.09 (0.0864133)</td>
-</tr>
-<tr>
-<td>acnet_f8b4_box</td>
-<td>5673.56 (0.0865729)</td>
+<td>2103.06 (0.0320906)</td>
 </tr>
 <tr>
 <td>acnet_f8b4_hdn</td>
-<td>5690.65 (0.0868338)</td>
+<td>2246.13 (0.0342738)</td>
 </tr>
 <tr>
-<td>ravu-zoom-r3</td>
-<td>5788.55 (0.0883277)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_M</td>
-<td>5851.66 (0.0892906)</td>
-</tr>
-<tr>
-<td>ravu-lite-ar-r4</td>
-<td>5853.24 (0.0893148)</td>
+<td>FSRCNNX_x2_8-0-4-1</td>
+<td>2367.07 (0.0361192)</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box_hdn</td>
-<td>5873.4 (0.0896223)</td>
+<td>2384.47 (0.0363847)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_CNN_x2_M</td>
+<td>2391.31 (0.036489)</td>
+</tr>
+<tr>
+<td>acnet_f8b4</td>
+<td>2423.19 (0.0369755)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box</td>
+<td>2538.9 (0.0387411)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16</td>
+<td>2550.92 (0.0389246)</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_S</td>
-<td>5993.31 (0.091452)</td>
-</tr>
-<tr>
-<td>ravu-zoom-ar-r3</td>
-<td>6052.71 (0.0923585)</td>
-</tr>
-<tr>
-<td>lanczos</td>
-<td>6262.4 (0.0955581)</td>
-</tr>
-<tr>
-<td>ravu-r4</td>
-<td>6374.43 (0.0972676)</td>
+<td>2560.63 (0.0390727)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DN</td>
-<td>6501.01 (0.0991991)</td>
+<td>2737.8 (0.0417761)</td>
+</tr>
+<tr>
+<td>ravu-lite-ar-r4</td>
+<td>2920.72 (0.0445673)</td>
+</tr>
+<tr>
+<td>ravu-lite-r4</td>
+<td>2942.55 (0.0449004)</td>
+</tr>
+<tr>
+<td>ravu-zoom-ar-r3</td>
+<td>2944.99 (0.0449376)</td>
+</tr>
+<tr>
+<td>ravu-zoom-r3</td>
+<td>2951.69 (0.0450398)</td>
+</tr>
+<tr>
+<td>ravu-lite-r3</td>
+<td>2962.29 (0.0452016)</td>
+</tr>
+<tr>
+<td>ravu-r4</td>
+<td>3184.08 (0.0485859)</td>
+</tr>
+<tr>
+<td>lanczos</td>
+<td>3381.1 (0.0515922)</td>
 </tr>
 </tbody>
 </table>
@@ -453,44 +456,44 @@ mpv のデフォルトは lanczos。それより 200
 </thead>
 <tbody>
 <tr>
-<td>acnet_f8b18</td>
-<td>5402.44 (0.082436)</td>
-</tr>
-<tr>
-<td>FSRCNNX_x2_16-0-4-1</td>
-<td>5424.86 (0.0827781)</td>
-</tr>
-<tr>
 <td>ArtCNN_C4F32_DS</td>
-<td>5433.53 (0.0829104)</td>
+<td>1995.42 (0.0304481)</td>
 </tr>
 <tr>
 <td>acnet_f8b18_hdn</td>
-<td>5502.03 (0.0839557)</td>
+<td>2085.35 (0.0318204)</td>
 </tr>
 <tr>
-<td>acnet_f8b18_box</td>
-<td>5581.1 (0.0851622)</td>
-</tr>
-<tr>
-<td>ArtCNN_C4F32</td>
-<td>5612.65 (0.0856436)</td>
+<td>FSRCNNX_x2_16-0-4-1</td>
+<td>2240.12 (0.034182)</td>
 </tr>
 <tr>
 <td>acnet_f8b18_box_hdn</td>
-<td>5749.02 (0.0877244)</td>
+<td>2243.5 (0.0342336)</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_UL</td>
-<td>5809.67 (0.0886499)</td>
+<td>2268.34 (0.0346127)</td>
 </tr>
 <tr>
-<td>lanczos</td>
-<td>6262.4 (0.0955581)</td>
+<td>acnet_f8b18</td>
+<td>2352.72 (0.0359001)</td>
+</tr>
+<tr>
+<td>acnet_f8b18_box</td>
+<td>2444.16 (0.0372955)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F32</td>
+<td>2484.14 (0.0379055)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DN</td>
-<td>6495.45 (0.0991142)</td>
+<td>2660.26 (0.040593)</td>
+</tr>
+<tr>
+<td>lanczos</td>
+<td>3381.1 (0.0515922)</td>
 </tr>
 </tbody>
 </table>
@@ -656,7 +659,7 @@ Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_M.gl
 Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
 Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
 <p>風景写真を表示。</p>
-<pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-mehmetkaraca-27684806_480.jpg --no-osc --fs --pause</code></pre>
+<pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_480.jpg --no-osc --fs --pause</code></pre>
 <p>Ctrl
 キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差異が見えやすくなる。</p>
 <p>アニメ画像を表示。</p>

@@ -234,15 +234,17 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders_high/
 
 ### 風景写真の場合
 
-![](images/mpv/pexels-mehmetkaraca-27684806_480.jpg)
+![](images/mpv/pexels-cateduart-38580804_480.jpg)
 
-Source: "[Yedigöller dağları](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" by Mehmet Karaca
+Source: "[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" by Catarina Duarte
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-模様が複雑で余白が少ない画像を使用すると、アップスケーラーごとの差異が出やすい。
-縦長画像の場合は中央部分を画面いっぱいに表示する（`--panscan=1.0`）。
+日常で表示しそうな画像を使用して測定する。
+森林のように細かい模様で埋め尽くされている画像だと、どのアップスケーラーを使用してもオリジナルとの差異が大きくなる。
+顔のアップのように模様が少ない画像だと、どのアップスケーラーを使用してもオリジナルとの差異が小さくなる。
+余白が多いと適切な測定結果を得られないので、縦長画像の場合は中央部分を画面いっぱいに表示する（`--panscan=1.0`）。
 
-"[Yedigöller dağları](https://www.pexels.com/photo/yedigoller-daglari-27684806/)" をクリックして右上の「Free download」をクリック。
+"[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" をクリックして右上の「Free download」をクリック。
 ダウンロードした画像を mpv でフルスクリーン表示。
 
 ```
@@ -259,7 +261,7 @@ EOF
 ```
 
 ```
-sh make-fullscreen-images.sh pexels-mehmetkaraca-27684806.jpg
+sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg
 ```
 
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
@@ -279,7 +281,7 @@ EOF
 ```
 
 ```
-sh make-854x480-images.sh pexels-mehmetkaraca-27684806_fullscreen.png
+sh make-854x480-images.sh pexels-cateduart-38580804_fullscreen.png
 ```
 
 できた画像を「画像B」とする。
@@ -312,7 +314,7 @@ EOF
 ```
 
 ```
-sh make-upscaled-images.sh pexels-mehmetkaraca-27684806_480.jpg ~/.config/mpv/shaders
+sh make-upscaled-images.sh pexels-cateduart-38580804_480.jpg ~/.config/mpv/shaders
 ```
 
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、メッセージが表示されたら「q」で終了する。
@@ -343,21 +345,21 @@ EOF
 ```
 
 ```
-sh compare-upscaled-images.sh pexels-mehmetkaraca-27684806_fullscreen.png
+sh compare-upscaled-images.sh pexels-cateduart-38580804_fullscreen.png
 ```
 
 続いて高負荷なアップスケーラーを測定。
 
 ```
 mkdir -p gpu_low
-mv pexels-mehmetkaraca-27684806_480-*.png gpu_low/
+mv pexels-cateduart-38580804_480-*.png gpu_low/
 
-sh make-upscaled-images.sh pexels-mehmetkaraca-27684806_480.jpg ~/.config/mpv/shaders_high
+sh make-upscaled-images.sh pexels-cateduart-38580804_480.jpg ~/.config/mpv/shaders_high
 
-sh compare-upscaled-images.sh pexels-mehmetkaraca-27684806_fullscreen.png
+sh compare-upscaled-images.sh pexels-cateduart-38580804_fullscreen.png
 
 mkdir -p gpu_high
-mv pexels-mehmetkaraca-27684806_480-*.png gpu_high/
+mv pexels-cateduart-38580804_480-*.png gpu_high/
 ```
 
 ### 結果 (低負荷バリアント)
@@ -369,23 +371,23 @@ mpv のデフォルトは lanczos。それより 200 以上スコアが小さく
 
 File | Score
 -- | --
-FSRCNNX_x2_8-0-4-1 | 5467.92 (0.083435)
-acnet_f8b4 | 5478.52 (0.0835969)
-ArtCNN_C4F16_DS | 5492.09 (0.0838039)
-ravu-lite-r4 | 5624.97 (0.0858315)
-ravu-lite-r3 | 5636.77 (0.0860116)
-ArtCNN_C4F16 | 5663.09 (0.0864133)
-acnet_f8b4_box | 5673.56 (0.0865729)
-acnet_f8b4_hdn | 5690.65 (0.0868338)
-ravu-zoom-r3 | 5788.55 (0.0883277)
-Anime4K_Upscale_CNN_x2_M | 5851.66 (0.0892906)
-ravu-lite-ar-r4 | 5853.24 (0.0893148)
-acnet_f8b4_box_hdn | 5873.4 (0.0896223)
-Anime4K_Upscale_CNN_x2_S | 5993.31 (0.091452)
-ravu-zoom-ar-r3 | 6052.71 (0.0923585)
-lanczos | 6262.4 (0.0955581)
-ravu-r4 | 6374.43 (0.0972676)
-ArtCNN_C4F16_DN | 6501.01 (0.0991991)
+ArtCNN_C4F16_DS | 2103.06 (0.0320906)
+acnet_f8b4_hdn | 2246.13 (0.0342738)
+FSRCNNX_x2_8-0-4-1 | 2367.07 (0.0361192)
+acnet_f8b4_box_hdn | 2384.47 (0.0363847)
+Anime4K_Upscale_CNN_x2_M | 2391.31 (0.036489)
+acnet_f8b4 | 2423.19 (0.0369755)
+acnet_f8b4_box | 2538.9 (0.0387411)
+ArtCNN_C4F16 | 2550.92 (0.0389246)
+Anime4K_Upscale_CNN_x2_S | 2560.63 (0.0390727)
+ArtCNN_C4F16_DN | 2737.8 (0.0417761)
+ravu-lite-ar-r4 | 2920.72 (0.0445673)
+ravu-lite-r4 | 2942.55 (0.0449004)
+ravu-zoom-ar-r3 | 2944.99 (0.0449376)
+ravu-zoom-r3 | 2951.69 (0.0450398)
+ravu-lite-r3 | 2962.29 (0.0452016)
+ravu-r4 | 3184.08 (0.0485859)
+lanczos | 3381.1 (0.0515922)
 
 ### 結果 (高負荷バリアント)
 
@@ -396,16 +398,16 @@ mpv のデフォルトは lanczos。それより 200 以上スコアが小さく
 
 File | Score
 -- | --
-acnet_f8b18 | 5402.44 (0.082436)
-FSRCNNX_x2_16-0-4-1 | 5424.86 (0.0827781)
-ArtCNN_C4F32_DS | 5433.53 (0.0829104)
-acnet_f8b18_hdn | 5502.03 (0.0839557)
-acnet_f8b18_box | 5581.1 (0.0851622)
-ArtCNN_C4F32 | 5612.65 (0.0856436)
-acnet_f8b18_box_hdn | 5749.02 (0.0877244)
-Anime4K_Upscale_CNN_x2_UL | 5809.67 (0.0886499)
-lanczos | 6262.4 (0.0955581)
-ArtCNN_C4F32_DN | 6495.45 (0.0991142)
+ArtCNN_C4F32_DS | 1995.42 (0.0304481)
+acnet_f8b18_hdn | 2085.35 (0.0318204)
+FSRCNNX_x2_16-0-4-1 | 2240.12 (0.034182)
+acnet_f8b18_box_hdn | 2243.5 (0.0342336)
+Anime4K_Upscale_CNN_x2_UL | 2268.34 (0.0346127)
+acnet_f8b18 | 2352.72 (0.0359001)
+acnet_f8b18_box | 2444.16 (0.0372955)
+ArtCNN_C4F32 | 2484.14 (0.0379055)
+ArtCNN_C4F32_DN | 2660.26 (0.040593)
+lanczos | 3381.1 (0.0515922)
 
 ### アニメ画像の場合
 
@@ -483,7 +485,7 @@ Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 風景写真を表示。
 
 ```
-mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-mehmetkaraca-27684806_480.jpg --no-osc --fs --pause
+mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_480.jpg --no-osc --fs --pause
 ```
 
 Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差異が見えやすくなる。
