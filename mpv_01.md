@@ -239,8 +239,8 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders_high/
 Source: "[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" by Catarina Duarte
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-特殊な画像で高スコアが出ても仕方ないので、日常の画像でスコアを測定する。
-山肌のように細かい模様で埋め尽くされている画像は、どのアップスケーラーを使用しても補間効果が限られる。顔のアップのように変化が少ない画像は、どのアップスケーラーを使用してもスコアに差がつかない。
+街の風景写真でスコアを測定する。
+山肌のように細かい模様で埋め尽くされている画像は、どのアップスケーラーを使用しても補間効果が限られる。顔のアップのように変化が少ない画像は、どのアップスケーラーを使用してもスコアに差がつきにくい。
 画像に文字が入っていると、鮮明さを目視で確認しやすい。
 余白があると変化する領域が少なくなるので、縦長画像の場合は中央部分を画面いっぱいに表示する（`--panscan=1.0`）。
 
