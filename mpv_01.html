@@ -263,10 +263,9 @@ href="https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-d
 Alleyway in Osaka</a>” by Catarina Duarte<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
-<p>街の風景写真でスコアを測定する。<br />
-山肌のように細かい模様で埋め尽くされている画像は、どのアップスケーラーを使用しても補間効果が限られる。顔のアップのように変化が少ない画像は、どのアップスケーラーを使用してもスコアに差がつきにくい。<br />
-画像に文字が入っていると、鮮明さを目視で確認しやすい。<br />
-余白があると変化する領域が少なくなるので、縦長画像の場合は中央部分を画面いっぱいに表示する（<code>--panscan=1.0</code>）。</p>
+<p>街の風景写真でスコアを測定する。画像に文字が入っていると、鮮明さを目視で確認しやすい。<br />
+森林のような細かい画像は、どのアップスケーラーを使用してもオリジナルに近づきにくい。顔のアップのような変化が乏しい画像は、どのアップスケーラーを使用しても似たようなスコアになる。<br />
+余白が多いと差が出る領域が少なくなるので、縦長画像の場合は中央部分を画面いっぱいに表示する（<code>--panscan=1.0</code>）。</p>
 <p>“<a
 href="https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/">Bustling
 Alleyway in Osaka</a>” をクリックして右上の「Free
@@ -285,9 +284,7 @@ EOF</code></pre>
 <pre><code>sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
 できた画像を「画像A」とする。</p>
-<p>「画像A」を mpv で縦480にして表示。<br />
-「mpv で見たときどれぐらい差があるか」を知りたいので、リサイズはすべて
-mpv で行う。</p>
+<p>「画像A」を mpv で縦480に縮小して表示。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-480-images.sh
 #!/bin/sh
 
@@ -307,7 +304,7 @@ EOF</code></pre>
 の実行中に「i2」と入力すれば確認できる。<br />
 「画像A」と、後に出てくる「画像C」は、ロスレスの PNG 形式にする。</p>
 <p>「画像B」を mpv
-でフルスクリーンにアップスケール。ふだん動画を再生するときはフルスクリーンで表示しているので、倍数での指定は行わなかった。</p>
+でフルスクリーンにアップスケール。ふだん動画はフルスクリーンで再生しているので、倍数での指定は行わなかった。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-upscaled-images.sh
 #!/bin/sh
 

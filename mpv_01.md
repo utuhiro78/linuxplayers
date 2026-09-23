@@ -239,10 +239,9 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders_high/
 Source: "[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" by Catarina Duarte
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-街の風景写真でスコアを測定する。
-山肌のように細かい模様で埋め尽くされている画像は、どのアップスケーラーを使用しても補間効果が限られる。顔のアップのように変化が少ない画像は、どのアップスケーラーを使用してもスコアに差がつきにくい。
-画像に文字が入っていると、鮮明さを目視で確認しやすい。
-余白があると変化する領域が少なくなるので、縦長画像の場合は中央部分を画面いっぱいに表示する（`--panscan=1.0`）。
+街の風景写真でスコアを測定する。画像に文字が入っていると、鮮明さを目視で確認しやすい。
+森林のような細かい画像は、どのアップスケーラーを使用してもオリジナルに近づきにくい。顔のアップのような変化が乏しい画像は、どのアップスケーラーを使用しても似たようなスコアになる。
+余白が多いと差が出る領域が少なくなるので、縦長画像の場合は中央部分を画面いっぱいに表示する（`--panscan=1.0`）。
 
 "[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" をクリックして右上の「Free download」をクリック。
 ダウンロードした画像を mpv でフルスクリーン表示。
@@ -267,8 +266,7 @@ sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
 できた画像を「画像A」とする。
 
-「画像A」を mpv で縦480にして表示。
-「mpv で見たときどれぐらい差があるか」を知りたいので、リサイズはすべて mpv で行う。
+「画像A」を mpv で縦480に縮小して表示。
 
 ```
 cat << 'EOF' > make-480-images.sh
@@ -294,7 +292,7 @@ sh make-480-images.sh pexels-cateduart-38580804_fullscreen.png
 アップスケーラーが動作しているかどうかは、mpv の実行中に「i2」と入力すれば確認できる。
 「画像A」と、後に出てくる「画像C」は、ロスレスの PNG 形式にする。
 
-「画像B」を mpv でフルスクリーンにアップスケール。ふだん動画を再生するときはフルスクリーンで表示しているので、倍数での指定は行わなかった。
+「画像B」を mpv でフルスクリーンにアップスケール。ふだん動画はフルスクリーンで再生しているので、倍数での指定は行わなかった。
 
 ```
 cat << 'EOF' > make-upscaled-images.sh
