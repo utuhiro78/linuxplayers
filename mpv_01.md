@@ -266,10 +266,10 @@ sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
 できた画像を「画像A」とする。
 
-「画像A」を mpv で縦480に縮小して表示。
+「画像A」を mpv で 480p に縮小して表示。
 
 ```
-cat << 'EOF' > make-480-images.sh
+cat << 'EOF' > make-480p-images.sh
 #!/bin/sh
 
 image_orig=${1}
@@ -282,7 +282,7 @@ EOF
 ```
 
 ```
-sh make-480-images.sh pexels-cateduart-38580804_fullscreen.png
+sh make-480p-images.sh pexels-cateduart-38580804_fullscreen.png
 ```
 
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
@@ -290,7 +290,6 @@ sh make-480-images.sh pexels-cateduart-38580804_fullscreen.png
 
 「画像B」は JPEG 形式にする。PNG 形式だとアップスケーラーが動作しない場合があった。
 アップスケーラーが動作しているかどうかは、mpv の実行中に「i2」と入力すれば確認できる。
-「画像A」と、後に出てくる「画像C」は、ロスレスの PNG 形式にする。
 
 「画像B」を mpv でフルスクリーンにアップスケール。ふだん動画はフルスクリーンで再生しているので、倍数での指定は行わなかった。
 
@@ -323,6 +322,7 @@ sh make-upscaled-images.sh pexels-cateduart-38580804_480.jpg ~/.config/mpv/shade
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、メッセージが表示されたら「q」で終了する。
 自動的に次の画像が表示されるので、同じことを繰り返す。
 できた画像を「画像C」とする。
+「画像C」は PNG 形式にする。JPG 形式だとスコアが 1000 ほど増える。
 
 「画像A」と「画像C」の差を測定する。
 
@@ -368,7 +368,7 @@ mv pexels-cateduart-38580804_480-*.png gpu_high/
 ### 結果 (低負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位はモニターの解像度や使用する画像との相性によって変わるので、絶対的なものではない。
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。
 mpv のデフォルトは lanczos。それより 200 以上スコアが小さいものを選ぶと、効果がわかりやすい。
 100以下の差しかないものは、目視だと効果がわかりにくい。
 
@@ -395,7 +395,7 @@ lanczos | 3329.41 (0.0508035)
 ### 結果 (高負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位はモニターの解像度や使用する画像との相性によって変わるので、絶対的なものではない。
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。
 mpv のデフォルトは lanczos。それより 200 以上スコアが小さいものを選ぶと、効果がわかりやすい。
 100以下の差しかないものは、目視だと効果がわかりにくい。
 
@@ -419,12 +419,13 @@ lanczos | 3329.41 (0.0508035)
 Source: "[千と千尋の神隠し 作品静止画](https://www.ghibli.jp/works/chihiro/#frame)" by STUDIO GHIBLI
 License: [画像は常識の範囲でご自由にお使いください。](https://www.ghibli.jp/works/chihiro/#frame)
 
-風景写真のときと同じ方法で測定する。
+30番目の画像を右クリックして、「名前を付けてリンク先を保存」を選択。
+あとは風景写真のときと同じ方法で測定する。
 
 ### 結果 (低負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位はモニターの解像度や使用する画像との相性によって変わるので、絶対的なものではない。
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。
 mpv のデフォルトは lanczos。それより 200 以上スコアが小さいものを選ぶと、効果がわかりやすい。
 100以下の差しかないものは、目視だと効果がわかりにくい。
 
@@ -451,7 +452,7 @@ lanczos | 3470.92 (0.0529628)
 ### 結果 (高負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位はモニターの解像度や使用する画像との相性によって変わるので、絶対的なものではない。
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。
 mpv のデフォルトは lanczos。それより 200 以上スコアが小さいものを選ぶと、効果がわかりやすい。
 100以下の差しかないものは、目視だと効果がわかりにくい。
 
@@ -519,22 +520,32 @@ glsl-shader="~~/shaders/acnet_f8b4_box_hdn.glsl"
 Source: "[Aerial view of a boat sailing in the sea](https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/)" by Burak Evlivan
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測する。
+"[Aerial view of a boat sailing in the sea](https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/)" をクリックして右上の「Free download」をクリック。
+ダウンロードした動画を 480p に縮小。
+
+```
+cat << 'EOF' > make-480p-movies.sh
+#!/bin/sh
+
+movie_file="${1}"
+movie_base="${movie_file%.*}"
+
+ffmpeg -i "${movie_file}" -vf "scale=-2:480:flags=lanczos" -c:v libx264 -crf 23 -c:a copy "${movie_base}_480.mp4"
+EOF
+```
+
+```
+sh make-480p-movies.sh 12393381_3840_2160_60fps.mp4
+```
+
+できた動画をノーウェイトで全画面再生して、終了までの時間を計測する。
 [mpv_shader_benchmark.py](https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_benchmark.py)
 
 ```
 wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/mpv_shader_benchmark.py
+wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/12393381_3840_2160_60fps_480.mp4
 
-python mpv_shader_benchmark.py ~/.config/mpv/shaders/*
-```
-
-縦480へのリサイズは次のように行った。
-
-```
-for file in *.mp4
-do
-  ffmpeg -i "${file}" -vf scale=854:480:flags=lanczos "${file%.mp4}_480.mp4"
-done
+python mpv_shader_benchmark.py 12393381_3840_2160_60fps_480.mp4 ~/.config/mpv/shaders/*
 ```
 
 ### 結果 (低負荷バリアント)

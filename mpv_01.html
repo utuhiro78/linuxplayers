@@ -284,8 +284,8 @@ EOF</code></pre>
 <pre><code>sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
 できた画像を「画像A」とする。</p>
-<p>「画像A」を mpv で縦480に縮小して表示。</p>
-<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-480-images.sh
+<p>「画像A」を mpv で 480p に縮小して表示。</p>
+<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-480p-images.sh
 #!/bin/sh
 
 image_orig=${1}
@@ -295,14 +295,13 @@ mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --scree
 
 mpv ${mpv_options} &quot;${image_orig}&quot; --vf=scale=-2:480 --screenshot-template=&quot;${image_base}_480&quot;
 EOF</code></pre>
-<pre><code>sh make-480-images.sh pexels-cateduart-38580804_fullscreen.png</code></pre>
+<pre><code>sh make-480p-images.sh pexels-cateduart-38580804_fullscreen.png</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
 できた画像を「画像B」とする。</p>
 <p>「画像B」は JPEG 形式にする。PNG
 形式だとアップスケーラーが動作しない場合があった。<br />
 アップスケーラーが動作しているかどうかは、mpv
-の実行中に「i2」と入力すれば確認できる。<br />
-「画像A」と、後に出てくる「画像C」は、ロスレスの PNG 形式にする。</p>
+の実行中に「i2」と入力すれば確認できる。</p>
 <p>「画像B」を mpv
 でフルスクリーンにアップスケール。ふだん動画はフルスクリーンで再生しているので、倍数での指定は行わなかった。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-upscaled-images.sh
@@ -327,7 +326,8 @@ EOF</code></pre>
 <pre><code>sh make-upscaled-images.sh pexels-cateduart-38580804_480.jpg ~/.config/mpv/shaders</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、メッセージが表示されたら「q」で終了する。<br />
 自動的に次の画像が表示されるので、同じことを繰り返す。<br />
-できた画像を「画像C」とする。</p>
+できた画像を「画像C」とする。<br />
+「画像C」は PNG 形式にする。JPG 形式だとスコアが 1000 ほど増える。</p>
 <p>「画像A」と「画像C」の差を測定する。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; compare-upscaled-images.sh
 #!/bin/sh
@@ -360,7 +360,7 @@ mkdir -p gpu_high
 mv pexels-cateduart-38580804_480-*.png gpu_high/</code></pre>
 <h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位はモニターの解像度や使用する画像との相性によって変わるので、絶対的なものではない。<br />
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
 100以下の差しかないものは、目視だと効果がわかりにくい。</p>
@@ -444,7 +444,7 @@ mpv のデフォルトは lanczos。それより 200
 </table>
 <h3 id="結果-高負荷バリアント">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位はモニターの解像度や使用する画像との相性によって変わるので、絶対的なものではない。<br />
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
 100以下の差しかないものは、目視だと効果がわかりにくい。</p>
@@ -505,10 +505,11 @@ href="https://www.ghibli.jp/works/chihiro/#frame">千と千尋の神隠し
 作品静止画</a>” by STUDIO GHIBLI<br />
 License: <a
 href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご自由にお使いください。</a></p>
-<p>風景写真のときと同じ方法で測定する。</p>
+<p>30番目の画像を右クリックして、「名前を付けてリンク先を保存」を選択。<br />
+あとは風景写真のときと同じ方法で測定する。</p>
 <h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位はモニターの解像度や使用する画像との相性によって変わるので、絶対的なものではない。<br />
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
 100以下の差しかないものは、目視だと効果がわかりにくい。</p>
@@ -592,7 +593,7 @@ mpv のデフォルトは lanczos。それより 200
 </table>
 <h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位はモニターの解像度や使用する画像との相性によって変わるので、絶対的なものではない。<br />
+順位はモニターの解像度や使用する画像によって変わるので、絶対的なものではない。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
 100以下の差しかないものは、目視だと効果がわかりにくい。</p>
@@ -681,17 +682,27 @@ href="https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-2847
 view of a boat sailing in the sea</a>” by Burak Evlivan<br />
 License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
-<p>縦480にリサイズした動画をノーウェイトで全画面再生して、終了までの時間を計測する。<br />
+<p>“<a
+href="https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/">Aerial
+view of a boat sailing in the sea</a>” をクリックして右上の「Free
+download」をクリック。<br />
+ダウンロードした動画を 480p に縮小。</p>
+<pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-480p-movies.sh
+#!/bin/sh
+
+movie_file=&quot;${1}&quot;
+movie_base=&quot;${movie_file%.*}&quot;
+
+ffmpeg -i &quot;${movie_file}&quot; -vf &quot;scale=-2:480:flags=lanczos&quot; -c:v libx264 -crf 23 -c:a copy &quot;${movie_base}_480.mp4&quot;
+EOF</code></pre>
+<pre><code>sh make-480p-movies.sh 12393381_3840_2160_60fps.mp4</code></pre>
+<p>できた動画をノーウェイトで全画面再生して、終了までの時間を計測する。<br />
 <a
 href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_benchmark.py">mpv_shader_benchmark.py</a></p>
 <pre><code>wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/mpv_shader_benchmark.py
+wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/12393381_3840_2160_60fps_480.mp4
 
-python mpv_shader_benchmark.py ~/.config/mpv/shaders/*</code></pre>
-<p>縦480へのリサイズは次のように行った。</p>
-<pre><code>for file in *.mp4
-do
-  ffmpeg -i &quot;${file}&quot; -vf scale=854:480:flags=lanczos &quot;${file%.mp4}_480.mp4&quot;
-done</code></pre>
+python mpv_shader_benchmark.py 12393381_3840_2160_60fps_480.mp4 ~/.config/mpv/shaders/*</code></pre>
 <h3 id="結果-低負荷バリアント-2">結果 (低負荷バリアント)</h3>
 <p>GPUによって速度は変わる。<br />
 動画の収録時間は25秒なので、25秒以上かかるものはコマ落ちする。</p>
