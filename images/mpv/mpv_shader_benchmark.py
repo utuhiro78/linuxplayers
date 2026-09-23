@@ -4,76 +4,60 @@
 # Author: UTUMI Hirosi (utuhiro78 at yahoo dot co dot jp)
 # License: BSD-3-Clause
 
-import os
 import subprocess
 import sys
 import time
-from urllib.request import urlretrieve
+from pathlib import Path
 
 
 def main():
-    if len(sys.argv) == 1 or \
-            sys.argv[1][-4:] == 'help' or \
-            sys.argv[1] == '-h':
-        print('Usage: python mpv_shader_benchmark.py <shaders>')
+    if len(sys.argv) < 3:
+        print('Usage: python mpv_shader_benchmark.py <movie> <shaders>')
         sys.exit()
 
-    # "Aerial view of a boat sailing in the sea" by Burak Evlivan
-    # https://www.pexels.com/video/aerial-view-of-a-boat-sailing-in-the-sea-28478483/
-    # "12393381_3840_2160_60fps_480.mp4" is resized to 854:480.
-    if os.path.exists('12393381_3840_2160_60fps_480.mp4') is False:
-        download_file(
-            'https://utuhiro78.github.io/linuxplayers/images/mpv/' +
-            '12393381_3840_2160_60fps_480.mp4',
-            '12393381_3840_2160_60fps_480.mp4')
-
+    movie_file = sys.argv[1]
+    shader_files = sys.argv[2:]
     results = {}
-    result = run_mpv('')
+
+    shader_file = ""
+    result = run_mpv(shader_file, movie_file)
     results['lanczos'] = result[1]
 
-    shaders = sys.argv[1:]
+    for shader_file in shader_files:
+        shader_name, elapsed_time = run_mpv(shader_file, movie_file)
+        results[shader_name] = elapsed_time
 
-    for shader in shaders:
-        result = run_mpv(shader)
-        results[result[0]] = result[1]
-
-    # Convert to list sorted by value
+    # Sort by elapsed_time
     results = sorted(results.items(), key=lambda x: x[1])
 
     print('Upscaler | Time (sec)')
     print('-- | --')
 
     for result in results:
-        print(f'{result[0]} | {result[1]}')
+        shader_name, elapsed_time = result
+        print(f'{shader_name} | {elapsed_time}')
 
 
-def run_mpv(shader):
+def run_mpv(shader_file, movie_file):
     start_time = time.time()
 
+    mpv_options = '--audio=no --untimed=yes --load-scripts=no ' + \
+        '--video-sync=display-desync --vulkan-swap-mode=immediate ' + \
+        '--opengl-swapinterval=0 --wayland-internal-vsync=no --no-osc --fs'
+
+    mpv_options = mpv_options.split()
+
     subprocess.run(
-        ['mpv', '--audio=no', '--untimed=yes', '--load-scripts=no',
-            '--video-sync=display-desync', '--vulkan-swap-mode=immediate',
-            '--opengl-swapinterval=0', '--wayland-internal-vsync=no',
-            f'--glsl-shaders={shader}', '--no-osc', '--fs',
-            '12393381_3840_2160_60fps_480.mp4'],
+        ['mpv', *mpv_options, f'--glsl-shaders={shader_file}',
+            movie_file],
         check=True)
 
     end_time = time.time()
+
     elapsed_time = round(end_time - start_time, 2)
+    shader_name = Path(shader_file).stem
 
-    shader = shader.split('/')[-1]
-    shader = '.'.join(shader.split('.')[:-1])
-
-    return (shader, elapsed_time)
-
-
-def download_file(url, save_path):
-    try:
-        urlretrieve(url, save_path)
-        print(f"File downloaded successfully to {save_path}")
-    except Exception as exception:
-        print(f"Error downloading file: {exception}")
-        sys.exit()
+    return (shader_name, elapsed_time)
 
 
 if __name__ == '__main__':
