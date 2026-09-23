@@ -504,13 +504,13 @@ mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/ima
 
 ### デフォルトのアップスケーラーを設定
 
-「acnet_f8b4_box_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf に次の行を追加。
+「acnet_f8b4_hdn」をデフォルトにする場合は、~/.config/mpv/mpv.conf に次の行を追加。
 内蔵アップスケーラーのみを使用する場合は何も書かない。
 
 ```
 # 外部アップスケーラー
 # https://mpv.io/manual/stable/#options-glsl-shaders
-glsl-shader="~~/shaders/acnet_f8b4_box_hdn.glsl"
+glsl-shader="~~/shaders/acnet_f8b4_hdn.glsl"
 ```
 
 ## アップスケーラーの速度を比較
