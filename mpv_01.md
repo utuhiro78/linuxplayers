@@ -146,11 +146,8 @@ Google の超解像技術から着想を得たアップスケーラー。
 
 ```
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r4.hook
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r4.hook
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-r4.hook
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-ar-r3.hook
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-*.hook ~/.config/mpv/shaders/
 ```
@@ -384,11 +381,8 @@ acnet_f8b4_box | 2590.16 (0.0395234)
 ArtCNN_C4F16 | 2618.44 (0.0399548)
 Anime4K_Upscale_CNN_x2_S | 2677.15 (0.0408507)
 ArtCNN_C4F16_DN | 2774.97 (0.0423434)
-ravu-zoom-ar-r3 | 2913.24 (0.0444532)
 ravu-lite-ar-r4 | 2913.33 (0.0444545)
 ravu-lite-r4 | 3025.7 (0.0461693)
-ravu-zoom-r3 | 3031.56 (0.0462587)
-ravu-lite-r3 | 3052.87 (0.0465838)
 ravu-r4 | 3080.21 (0.0470011)
 lanczos | 3329.41 (0.0508035)
 
@@ -441,12 +435,10 @@ ArtCNN_C4F16_DS | 2852.62 (0.0435282)
 ArtCNN_C4F16 | 2895.01 (0.044175)
 FSRCNNX_x2_8-0-4-1 | 2909.16 (0.044391)
 ArtCNN_C4F16_DN | 2974.15 (0.0453826)
-ravu-zoom-ar-r3 | 3059.61 (0.0466867)
 ravu-lite-ar-r4 | 3080.82 (0.0470102)
-ravu-zoom-r3 | 3155.03 (0.0481427)
 ravu-r4 | 3174.46 (0.0484391)
-ravu-lite-r3 | 3208.5 (0.0489585)
 ravu-lite-r4 | 3208.89 (0.0489645)
+SSimSuperRes | 3292.46 (0.0502398)
 lanczos | 3470.92 (0.0529628)
 
 ### 結果 (高負荷バリアント)
@@ -476,13 +468,14 @@ lanczos | 3470.92 (0.0529628)
 
 ```
 # アップスケーラーの切り替え
-Ctrl+1 change-list glsl-shaders set "~~/shaders/ravu-lite-r4.hook"
-Ctrl+2 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
-Ctrl+3 change-list glsl-shaders set "~~/shaders/acnet_f8b4_box_hdn.glsl"
-Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
-Ctrl+5 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl"
-Ctrl+6 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl"
-Ctrl+7 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
+Ctrl+1 change-list glsl-shaders set "~~/shaders/ravu-lite-ar-r4.hook"
+Ctrl+2 change-list glsl-shaders set "~~/shaders/acnet_f8b4.glsl"
+Ctrl+3 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
+Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"
+Ctrl+5 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
+Ctrl+6 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl"
+Ctrl+7 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl"
+Ctrl+8 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
 Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 ```
 
@@ -556,14 +549,11 @@ GPUによって速度は変わる。
 Upscaler | Time (sec)
 -- | --
 lanczos | 3.32
-ravu-lite-r3 | 6.17
 ravu-lite-r4 | 6.44
 ravu-lite-ar-r4 | 6.67
 Anime4K_Upscale_CNN_x2_S | 7.39
 ravu-r4 | 8.38
-ravu-zoom-r3 | 8.55
 Anime4K_Upscale_CNN_x2_M | 9.28
-ravu-zoom-ar-r3 | 10.65
 acnet_f8b4_hdn | 11.4
 acnet_f8b4 | 11.41
 acnet_f8b4_box | 11.41

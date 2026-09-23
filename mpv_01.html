@@ -183,11 +183,8 @@ id="外部のアップスケーラーをインストール">外部のアップ�
 <a
 href="https://github.com/bjin/mpv-prescalers">https://github.com/bjin/mpv-prescalers</a></p>
 <pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r4.hook
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r3.hook
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r4.hook
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-r4.hook
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-ar-r3.hook
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-zoom-r3.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-*.hook ~/.config/mpv/shaders/</code></pre>
 <p><a
@@ -413,24 +410,12 @@ mpv のデフォルトは lanczos。それより 200
 <td>2774.97 (0.0423434)</td>
 </tr>
 <tr>
-<td>ravu-zoom-ar-r3</td>
-<td>2913.24 (0.0444532)</td>
-</tr>
-<tr>
 <td>ravu-lite-ar-r4</td>
 <td>2913.33 (0.0444545)</td>
 </tr>
 <tr>
 <td>ravu-lite-r4</td>
 <td>3025.7 (0.0461693)</td>
-</tr>
-<tr>
-<td>ravu-zoom-r3</td>
-<td>3031.56 (0.0462587)</td>
-</tr>
-<tr>
-<td>ravu-lite-r3</td>
-<td>3052.87 (0.0465838)</td>
 </tr>
 <tr>
 <td>ravu-r4</td>
@@ -562,28 +547,20 @@ mpv のデフォルトは lanczos。それより 200
 <td>2974.15 (0.0453826)</td>
 </tr>
 <tr>
-<td>ravu-zoom-ar-r3</td>
-<td>3059.61 (0.0466867)</td>
-</tr>
-<tr>
 <td>ravu-lite-ar-r4</td>
 <td>3080.82 (0.0470102)</td>
-</tr>
-<tr>
-<td>ravu-zoom-r3</td>
-<td>3155.03 (0.0481427)</td>
 </tr>
 <tr>
 <td>ravu-r4</td>
 <td>3174.46 (0.0484391)</td>
 </tr>
 <tr>
-<td>ravu-lite-r3</td>
-<td>3208.5 (0.0489585)</td>
-</tr>
-<tr>
 <td>ravu-lite-r4</td>
 <td>3208.89 (0.0489645)</td>
+</tr>
+<tr>
+<td>SSimSuperRes</td>
+<td>3292.46 (0.0502398)</td>
 </tr>
 <tr>
 <td>lanczos</td>
@@ -652,13 +629,14 @@ id="アップスケーラーごとの差を目視で確認">アップスケー�
 <p>アップスケーラーにショートカットを割り当てる。<br />
 ~/.config/mpv/input.conf に次の行を追加。</p>
 <pre><code># アップスケーラーの切り替え
-Ctrl+1 change-list glsl-shaders set &quot;~~/shaders/ravu-lite-r4.hook&quot;
-Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
-Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_box_hdn.glsl&quot;
-Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
-Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl&quot;
-Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl&quot;
-Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
+Ctrl+1 change-list glsl-shaders set &quot;~~/shaders/ravu-lite-ar-r4.hook&quot;
+Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4.glsl&quot;
+Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
+Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16.glsl&quot;
+Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
+Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl&quot;
+Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl&quot;
+Ctrl+8 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
 Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
 <p>風景写真を表示。</p>
 <pre><code>mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_480.jpg --no-osc --fs --pause</code></pre>
@@ -719,10 +697,6 @@ python mpv_shader_benchmark.py 12393381_3840_2160_60fps_480.mp4 ~/.config/mpv/sh
 <td>3.32</td>
 </tr>
 <tr>
-<td>ravu-lite-r3</td>
-<td>6.17</td>
-</tr>
-<tr>
 <td>ravu-lite-r4</td>
 <td>6.44</td>
 </tr>
@@ -739,16 +713,8 @@ python mpv_shader_benchmark.py 12393381_3840_2160_60fps_480.mp4 ~/.config/mpv/sh
 <td>8.38</td>
 </tr>
 <tr>
-<td>ravu-zoom-r3</td>
-<td>8.55</td>
-</tr>
-<tr>
 <td>Anime4K_Upscale_CNN_x2_M</td>
 <td>9.28</td>
-</tr>
-<tr>
-<td>ravu-zoom-ar-r3</td>
-<td>10.65</td>
 </tr>
 <tr>
 <td>acnet_f8b4_hdn</td>
