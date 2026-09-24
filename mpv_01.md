@@ -141,8 +141,7 @@ REGZA を使用している場合は次のようにする。
 
 ### 注意
 
-1倍以下で表示する場合、これらのアップスケーラーは起動しない。
-FHD 動画を FHD モニターで表示する場合、以前と何も変わらない。
+FHD モニターで FHD 動画を表示するときは、1倍以下での表示なので、これらのアップスケーラーは動作しない。動作しているアップスケーラーを確認するには、mpv で表示しているときに「i2」と入力する。
 
 ### RAVU
 
@@ -161,7 +160,7 @@ mv ravu-*.hook ~/.config/mpv/shaders/
 
 ### Anime4K
 
-1080pアニメのアップスケールに最適化されたアップスケーラー。
+1080pアニメの拡大に最適化されたアップスケーラー。
 [https://github.com/bloc97/Anime4K](https://github.com/bloc97/Anime4K)
 
 ```
@@ -246,7 +245,7 @@ License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/li
 余白が多いと変化する領域が少なくなるので、縦長画像の場合は中央部分を画面いっぱいに表示する（`--panscan=1.0`）。
 
 "[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" をクリックして右上の「Free download」をクリック。
-ダウンロードした画像を mpv でフルスクリーンサイズに縮小して表示。
+ダウンロードした画像を mpv で全画面サイズに縮小して表示。
 
 ```
 cat << 'EOF' > make-fullscreen-images.sh
@@ -255,9 +254,9 @@ cat << 'EOF' > make-fullscreen-images.sh
 image_orig=${1}
 image_base="${image_orig%.*}"
 
-mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
+mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-dir=${PWD} --pause"
 
-mpv ${mpv_options} "${image_base}.jpg" --panscan=1.0 --screenshot-template="${image_base}_fullscreen"
+mpv ${mpv_options} --panscan=1.0 --fs --screenshot-format=png --screenshot-template="${image_base}_fullscreen" "${image_base}.jpg"
 EOF
 ```
 
@@ -277,9 +276,9 @@ cat << 'EOF' > make-480p-images.sh
 image_orig=${1}
 image_base="${image_orig%_fullscreen.png}"
 
-mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-format=jpg --screenshot-jpeg-quality=96 --screenshot-dir=${PWD} --pause"
+mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-dir=${PWD} --pause"
 
-mpv ${mpv_options} "${image_orig}" --vf=scale=-2:480 --screenshot-template="${image_base}_480"
+mpv ${mpv_options} --vf=scale=-2:480 --screenshot-format=jpg --screenshot-jpeg-quality=96 --screenshot-template="${image_base}_480" "${image_orig}"
 EOF
 ```
 
@@ -289,10 +288,9 @@ sh make-480p-images.sh pexels-cateduart-38580804_fullscreen.png
 
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
 できた画像を「画像B」とする。
-「画像B」は JPEG 形式にする。PNG 形式だと起動しないアップスケーラーがある。
-アップスケーラーが動作しているかどうかは、画像表示中に「i2」と入力すれば確認できる。
+「画像B」は JPEG 形式にする。PNG 形式だと動作しないアップスケーラーがある。動作しているアップスケーラーを確認するには、mpv で表示しているときに「i2」と入力する。
 
-「画像B」を mpv でフルスクリーンサイズにアップスケール。
+「画像B」を mpv で全画面サイズに拡大。
 
 ```
 cat << 'EOF' > make-upscaled-images.sh
@@ -303,16 +301,16 @@ image_base="${image_orig%_480.jpg}"
 
 shader_dir=${2}
 
-mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
+mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-dir=${PWD} --pause"
 
 for shader_file in ${shader_dir}/*
 do
   shader_base=$(basename "${shader_file}")
   shader_base=${shader_base%.*}
-  mpv ${mpv_options} "${image_orig}" --glsl-shaders="${shader_file}" --screenshot-template="${image_base}_480-${shader_base}"
+  mpv ${mpv_options} --glsl-shaders="${shader_file}" --fs --screenshot-format=png --screenshot-template="${image_base}_480-${shader_base}" "${image_orig}"
 done
 
-mpv ${mpv_options} "${image_orig}" --glsl-shaders="" --screenshot-template="${image_base}_480-lanczos"
+mpv ${mpv_options} --glsl-shaders="" --fs --screenshot-format=png --screenshot-template="${image_base}_480-lanczos" "${image_orig}"
 EOF
 ```
 
@@ -485,7 +483,7 @@ Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 風景写真を表示。
 
 ```
-mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_480.jpg --no-osc --fs --pause
+mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_480.jpg
 ```
 
 Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差が見えやすくなる。
@@ -493,7 +491,7 @@ Ctrl キーを押したまま「0101」「0202」「1212」のように入力し
 アニメ画像を表示。
 
 ```
-mpv https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_480.jpg --no-osc --fs --pause
+mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_480.jpg
 ```
 
 同様に入力して違いを確認。
