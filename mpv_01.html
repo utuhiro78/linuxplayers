@@ -29,6 +29,7 @@ id="toc-モニターに超解像技術が搭載されている場合">モニタ�
 <li><a href="#外部のアップスケーラーをインストール"
 id="toc-外部のアップスケーラーをインストール">外部のアップスケーラーをインストール</a>
 <ul>
+<li><a href="#注意" id="toc-注意">注意</a></li>
 <li><a href="#ravu" id="toc-ravu">RAVU</a></li>
 <li><a href="#anime4k" id="toc-anime4k">Anime4K</a></li>
 <li><a href="#acnetglsl" id="toc-acnetglsl">ACNetGLSL</a></li>
@@ -178,6 +179,9 @@ REGZA を使用している場合は次のようにする。</p>
 </ul>
 <h2
 id="外部のアップスケーラーをインストール">外部のアップスケーラーをインストール</h2>
+<h3 id="注意">注意</h3>
+<p>1倍以下で表示する場合、これらのアップスケーラーは起動しない。<br />
+FHD 動画を FHD モニターで表示する場合、以前と何も変わらない。</p>
 <h3 id="ravu">RAVU</h3>
 <p>Google の超解像技術から着想を得たアップスケーラー。<br />
 <a
@@ -206,7 +210,7 @@ wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Ups
 mkdir -p ~/.config/mpv/shaders_high
 mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders_high/</code></pre>
 <p>通常は複数のシェーダーを<a
-href="https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf">組み合わせて</a>使用するが、アニメに最適化されて実写画像だと表示が崩れる場合があるので、Upscale_CNN_x2
+href="https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf">組み合わせて</a>使用するが、実写画像だと表示が崩れる場合があるので、Upscale_*
 を単体で使用する。</p>
 <h3 id="acnetglsl">ACNetGLSL</h3>
 <p>Anime4KCPP プロジェクトで使用されている深層学習モデルを、GLSL
@@ -274,13 +278,13 @@ download」をクリック。<br />
 image_orig=${1}
 image_base=&quot;${image_orig%.*}&quot;
 
-mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause&quot;
+mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause&quot;
 
 mpv ${mpv_options} &quot;${image_base}.jpg&quot; --panscan=1.0 --screenshot-template=&quot;${image_base}_fullscreen&quot;
 EOF</code></pre>
 <pre><code>sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
-できた画像を「画像A」とする。この画像が比較時のオリジナルとなる。</p>
+できた画像を「画像A」とする。</p>
 <p>「画像A」を mpv で 480p に縮小して表示。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-480p-images.sh
 #!/bin/sh
@@ -288,7 +292,7 @@ EOF</code></pre>
 image_orig=${1}
 image_base=&quot;${image_orig%_fullscreen.png}&quot;
 
-mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=jpg --screenshot-jpeg-quality=96 --screenshot-dir=${PWD} --pause&quot;
+mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-format=jpg --screenshot-jpeg-quality=96 --screenshot-dir=${PWD} --pause&quot;
 
 mpv ${mpv_options} &quot;${image_orig}&quot; --vf=scale=-2:480 --screenshot-template=&quot;${image_base}_480&quot;
 EOF</code></pre>
@@ -296,9 +300,8 @@ EOF</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
 できた画像を「画像B」とする。<br />
 「画像B」は JPEG 形式にする。PNG
-形式だと動作しないアップスケーラーがある。<br />
-アップスケーラーが動作しているかどうかは、mpv
-で画像を表示しているときに「i2」と入力すれば確認できる。</p>
+形式だと起動しないアップスケーラーがある。<br />
+アップスケーラーが動作しているかどうかは、画像表示中に「i2」と入力すれば確認できる。</p>
 <p>「画像B」を mpv でフルスクリーンサイズにアップスケール。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-upscaled-images.sh
 #!/bin/sh
@@ -308,7 +311,7 @@ image_base=&quot;${image_orig%_480.jpg}&quot;
 
 shader_dir=${2}
 
-mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause&quot;
+mpv_options=&quot;--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause&quot;
 
 for shader_file in ${shader_dir}/*
 do
@@ -370,59 +373,59 @@ mpv のデフォルトは lanczos。それより 200
 <tbody>
 <tr>
 <td>acnet_f8b4_hdn</td>
-<td>2455.02 (0.0374612)</td>
-</tr>
-<tr>
-<td>acnet_f8b4</td>
-<td>2516.32 (0.0383966)</td>
-</tr>
-<tr>
-<td>FSRCNNX_x2_8-0-4-1</td>
-<td>2516.7 (0.0384024)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_M</td>
-<td>2526.74 (0.0385557)</td>
-</tr>
-<tr>
-<td>acnet_f8b4_box_hdn</td>
-<td>2528.34 (0.03858)</td>
+<td>3178.99 (0.0485083)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>2538.36 (0.0387329)</td>
+<td>3185.18 (0.0486027)</td>
 </tr>
 <tr>
-<td>acnet_f8b4_box</td>
-<td>2590.16 (0.0395234)</td>
+<td>Anime4K_Upscale_CNN_x2_M</td>
+<td>3228.66 (0.0492661)</td>
+</tr>
+<tr>
+<td>acnet_f8b4</td>
+<td>3234.15 (0.04935)</td>
+</tr>
+<tr>
+<td>FSRCNNX_x2_8-0-4-1</td>
+<td>3244.82 (0.0495128)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box_hdn</td>
+<td>3267.85 (0.0498642)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16</td>
-<td>2618.44 (0.0399548)</td>
+<td>3333.49 (0.0508658)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box</td>
+<td>3333.84 (0.0508711)</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_S</td>
-<td>2677.15 (0.0408507)</td>
+<td>3414.51 (0.0521021)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DN</td>
-<td>2774.97 (0.0423434)</td>
+<td>3557.06 (0.0542773)</td>
 </tr>
 <tr>
 <td>ravu-lite-ar-r4</td>
-<td>2913.33 (0.0444545)</td>
+<td>3744.13 (0.0571318)</td>
 </tr>
 <tr>
 <td>ravu-lite-r4</td>
-<td>3025.7 (0.0461693)</td>
+<td>3856.32 (0.0588437)</td>
 </tr>
 <tr>
 <td>ravu-r4</td>
-<td>3080.21 (0.0470011)</td>
+<td>3969.94 (0.0605774)</td>
 </tr>
 <tr>
 <td>lanczos</td>
-<td>3329.41 (0.0508035)</td>
+<td>4246.75 (0.0648013)</td>
 </tr>
 </tbody>
 </table>
@@ -442,43 +445,43 @@ mpv のデフォルトは lanczos。それより 200
 <tbody>
 <tr>
 <td>acnet_f8b18_hdn</td>
-<td>2351.31 (0.0358786)</td>
+<td>3039.52 (0.0463801)</td>
 </tr>
 <tr>
 <td>FSRCNNX_x2_16-0-4-1</td>
-<td>2394.58 (0.036539)</td>
+<td>3055.51 (0.0466242)</td>
 </tr>
 <tr>
 <td>acnet_f8b18</td>
-<td>2409.25 (0.0367628)</td>
-</tr>
-<tr>
-<td>acnet_f8b18_box_hdn</td>
-<td>2430.97 (0.0370942)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_UL</td>
-<td>2458.4 (0.0375127)</td>
-</tr>
-<tr>
-<td>acnet_f8b18_box</td>
-<td>2493.66 (0.0380508)</td>
+<td>3093.78 (0.047208)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DS</td>
-<td>2501.02 (0.0381631)</td>
+<td>3118.55 (0.047586)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_CNN_x2_UL</td>
+<td>3133.75 (0.0478179)</td>
+</tr>
+<tr>
+<td>acnet_f8b18_box_hdn</td>
+<td>3144.86 (0.0479875)</td>
+</tr>
+<tr>
+<td>acnet_f8b18_box</td>
+<td>3200.07 (0.04883)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32</td>
-<td>2535.77 (0.0386934)</td>
+<td>3236 (0.0493781)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DN</td>
-<td>2716.45 (0.0414503)</td>
+<td>3486.97 (0.0532077)</td>
 </tr>
 <tr>
 <td>lanczos</td>
-<td>3329.41 (0.0508035)</td>
+<td>4246.75 (0.0648013)</td>
 </tr>
 </tbody>
 </table>
@@ -556,10 +559,6 @@ mpv のデフォルトは lanczos。それより 200
 <tr>
 <td>ravu-lite-r4</td>
 <td>3208.89 (0.0489645)</td>
-</tr>
-<tr>
-<td>SSimSuperRes</td>
-<td>3292.46 (0.0502398)</td>
 </tr>
 <tr>
 <td>lanczos</td>
@@ -693,59 +692,59 @@ python mpv_shader_benchmark.py 12393381_3840_2160_60fps_480.mp4 ~/.config/mpv/sh
 <tbody>
 <tr>
 <td>lanczos</td>
-<td>3.32</td>
+<td>3.56</td>
 </tr>
 <tr>
 <td>ravu-lite-r4</td>
-<td>6.44</td>
+<td>6.69</td>
 </tr>
 <tr>
 <td>ravu-lite-ar-r4</td>
-<td>6.67</td>
+<td>6.79</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_S</td>
-<td>7.39</td>
+<td>7.65</td>
 </tr>
 <tr>
 <td>ravu-r4</td>
-<td>8.38</td>
+<td>8.5</td>
 </tr>
 <tr>
 <td>Anime4K_Upscale_CNN_x2_M</td>
-<td>9.28</td>
-</tr>
-<tr>
-<td>acnet_f8b4_hdn</td>
-<td>11.4</td>
-</tr>
-<tr>
-<td>acnet_f8b4</td>
-<td>11.41</td>
+<td>9.49</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box</td>
-<td>11.41</td>
+<td>11.61</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box_hdn</td>
-<td>11.43</td>
+<td>11.61</td>
+</tr>
+<tr>
+<td>acnet_f8b4_hdn</td>
+<td>11.63</td>
+</tr>
+<tr>
+<td>acnet_f8b4</td>
+<td>11.64</td>
 </tr>
 <tr>
 <td>FSRCNNX_x2_8-0-4-1</td>
-<td>12.62</td>
-</tr>
-<tr>
-<td>ArtCNN_C4F16_DN</td>
-<td>17.07</td>
-</tr>
-<tr>
-<td>ArtCNN_C4F16</td>
-<td>17.09</td>
+<td>12.79</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>17.09</td>
+<td>17.38</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16</td>
+<td>17.4</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16_DN</td>
+<td>17.42</td>
 </tr>
 </tbody>
 </table>

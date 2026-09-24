@@ -139,6 +139,11 @@ REGZA を使用している場合は次のようにする。
 
 ## 外部のアップスケーラーをインストール
 
+### 注意
+
+1倍以下で表示する場合、これらのアップスケーラーは起動しない。
+FHD 動画を FHD モニターで表示する場合、以前と何も変わらない。
+
 ### RAVU
 
 Google の超解像技術から着想を得たアップスケーラー。
@@ -170,7 +175,7 @@ mkdir -p ~/.config/mpv/shaders_high
 mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders_high/
 ```
 
-通常は複数のシェーダーを[組み合わせて](https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf)使用するが、アニメに最適化されて実写画像だと表示が崩れる場合があるので、Upscale_CNN_x2 を単体で使用する。
+通常は複数のシェーダーを[組み合わせて](https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf)使用するが、実写画像だと表示が崩れる場合があるので、Upscale_* を単体で使用する。
 
 ### ACNetGLSL
 
@@ -250,7 +255,7 @@ cat << 'EOF' > make-fullscreen-images.sh
 image_orig=${1}
 image_base="${image_orig%.*}"
 
-mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
+mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
 
 mpv ${mpv_options} "${image_base}.jpg" --panscan=1.0 --screenshot-template="${image_base}_fullscreen"
 EOF
@@ -261,7 +266,7 @@ sh make-fullscreen-images.sh pexels-cateduart-38580804.jpg
 ```
 
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
-できた画像を「画像A」とする。この画像が比較時のオリジナルとなる。
+できた画像を「画像A」とする。
 
 「画像A」を mpv で 480p に縮小して表示。
 
@@ -272,7 +277,7 @@ cat << 'EOF' > make-480p-images.sh
 image_orig=${1}
 image_base="${image_orig%_fullscreen.png}"
 
-mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=jpg --screenshot-jpeg-quality=96 --screenshot-dir=${PWD} --pause"
+mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-format=jpg --screenshot-jpeg-quality=96 --screenshot-dir=${PWD} --pause"
 
 mpv ${mpv_options} "${image_orig}" --vf=scale=-2:480 --screenshot-template="${image_base}_480"
 EOF
@@ -284,8 +289,8 @@ sh make-480p-images.sh pexels-cateduart-38580804_fullscreen.png
 
 画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。
 できた画像を「画像B」とする。
-「画像B」は JPEG 形式にする。PNG 形式だと動作しないアップスケーラーがある。
-アップスケーラーが動作しているかどうかは、mpv で画像を表示しているときに「i2」と入力すれば確認できる。
+「画像B」は JPEG 形式にする。PNG 形式だと起動しないアップスケーラーがある。
+アップスケーラーが動作しているかどうかは、画像表示中に「i2」と入力すれば確認できる。
 
 「画像B」を mpv でフルスクリーンサイズにアップスケール。
 
@@ -298,7 +303,7 @@ image_base="${image_orig%_480.jpg}"
 
 shader_dir=${2}
 
-mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
+mpv_options="--no-config --load-scripts=no --no-osc --scale=lanczos --dscale=lanczos --screenshot-format=png --screenshot-dir=${PWD} -fs --pause"
 
 for shader_file in ${shader_dir}/*
 do
@@ -370,20 +375,20 @@ mpv のデフォルトは lanczos。それより 200 以上スコアが小さい
 
 File | Score
 -- | --
-acnet_f8b4_hdn | 2455.02 (0.0374612)
-acnet_f8b4 | 2516.32 (0.0383966)
-FSRCNNX_x2_8-0-4-1 | 2516.7 (0.0384024)
-Anime4K_Upscale_CNN_x2_M | 2526.74 (0.0385557)
-acnet_f8b4_box_hdn | 2528.34 (0.03858)
-ArtCNN_C4F16_DS | 2538.36 (0.0387329)
-acnet_f8b4_box | 2590.16 (0.0395234)
-ArtCNN_C4F16 | 2618.44 (0.0399548)
-Anime4K_Upscale_CNN_x2_S | 2677.15 (0.0408507)
-ArtCNN_C4F16_DN | 2774.97 (0.0423434)
-ravu-lite-ar-r4 | 2913.33 (0.0444545)
-ravu-lite-r4 | 3025.7 (0.0461693)
-ravu-r4 | 3080.21 (0.0470011)
-lanczos | 3329.41 (0.0508035)
+acnet_f8b4_hdn | 3178.99 (0.0485083)
+ArtCNN_C4F16_DS | 3185.18 (0.0486027)
+Anime4K_Upscale_CNN_x2_M | 3228.66 (0.0492661)
+acnet_f8b4 | 3234.15 (0.04935)
+FSRCNNX_x2_8-0-4-1 | 3244.82 (0.0495128)
+acnet_f8b4_box_hdn | 3267.85 (0.0498642)
+ArtCNN_C4F16 | 3333.49 (0.0508658)
+acnet_f8b4_box | 3333.84 (0.0508711)
+Anime4K_Upscale_CNN_x2_S | 3414.51 (0.0521021)
+ArtCNN_C4F16_DN | 3557.06 (0.0542773)
+ravu-lite-ar-r4 | 3744.13 (0.0571318)
+ravu-lite-r4 | 3856.32 (0.0588437)
+ravu-r4 | 3969.94 (0.0605774)
+lanczos | 4246.75 (0.0648013)
 
 ### 結果 (高負荷バリアント)
 
@@ -394,16 +399,16 @@ mpv のデフォルトは lanczos。それより 200 以上スコアが小さい
 
 File | Score
 -- | --
-acnet_f8b18_hdn | 2351.31 (0.0358786)
-FSRCNNX_x2_16-0-4-1 | 2394.58 (0.036539)
-acnet_f8b18 | 2409.25 (0.0367628)
-acnet_f8b18_box_hdn | 2430.97 (0.0370942)
-Anime4K_Upscale_CNN_x2_UL | 2458.4 (0.0375127)
-acnet_f8b18_box | 2493.66 (0.0380508)
-ArtCNN_C4F32_DS | 2501.02 (0.0381631)
-ArtCNN_C4F32 | 2535.77 (0.0386934)
-ArtCNN_C4F32_DN | 2716.45 (0.0414503)
-lanczos | 3329.41 (0.0508035)
+acnet_f8b18_hdn | 3039.52 (0.0463801)
+FSRCNNX_x2_16-0-4-1 | 3055.51 (0.0466242)
+acnet_f8b18 | 3093.78 (0.047208)
+ArtCNN_C4F32_DS | 3118.55 (0.047586)
+Anime4K_Upscale_CNN_x2_UL | 3133.75 (0.0478179)
+acnet_f8b18_box_hdn | 3144.86 (0.0479875)
+acnet_f8b18_box | 3200.07 (0.04883)
+ArtCNN_C4F32 | 3236 (0.0493781)
+ArtCNN_C4F32_DN | 3486.97 (0.0532077)
+lanczos | 4246.75 (0.0648013)
 
 ### アニメ画像の場合
 
@@ -437,7 +442,6 @@ ArtCNN_C4F16_DN | 2974.15 (0.0453826)
 ravu-lite-ar-r4 | 3080.82 (0.0470102)
 ravu-r4 | 3174.46 (0.0484391)
 ravu-lite-r4 | 3208.89 (0.0489645)
-SSimSuperRes | 3292.46 (0.0502398)
 lanczos | 3470.92 (0.0529628)
 
 ### 結果 (高負荷バリアント)
@@ -547,20 +551,20 @@ GPUによって速度は変わる。
 
 Upscaler | Time (sec)
 -- | --
-lanczos | 3.32
-ravu-lite-r4 | 6.44
-ravu-lite-ar-r4 | 6.67
-Anime4K_Upscale_CNN_x2_S | 7.39
-ravu-r4 | 8.38
-Anime4K_Upscale_CNN_x2_M | 9.28
-acnet_f8b4_hdn | 11.4
-acnet_f8b4 | 11.41
-acnet_f8b4_box | 11.41
-acnet_f8b4_box_hdn | 11.43
-FSRCNNX_x2_8-0-4-1 | 12.62
-ArtCNN_C4F16_DN | 17.07
-ArtCNN_C4F16 | 17.09
-ArtCNN_C4F16_DS | 17.09
+lanczos | 3.56
+ravu-lite-r4 | 6.69
+ravu-lite-ar-r4 | 6.79
+Anime4K_Upscale_CNN_x2_S | 7.65
+ravu-r4 | 8.5
+Anime4K_Upscale_CNN_x2_M | 9.49
+acnet_f8b4_box | 11.61
+acnet_f8b4_box_hdn | 11.61
+acnet_f8b4_hdn | 11.63
+acnet_f8b4 | 11.64
+FSRCNNX_x2_8-0-4-1 | 12.79
+ArtCNN_C4F16_DS | 17.38
+ArtCNN_C4F16 | 17.4
+ArtCNN_C4F16_DN | 17.42
 
 使用したシステム:
 
