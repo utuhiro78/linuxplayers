@@ -11,17 +11,19 @@ from pathlib import Path
 
 
 def main():
-    if len(sys.argv) < 3:
-        print('Usage: python mpv_shader_benchmark.py <movie> <shaders>')
+    if len(sys.argv) < 2:
+        print('Usage: python mpv_shader_benchmark.py <movie>')
         sys.exit()
 
     movie_file = sys.argv[1]
-    shader_files = sys.argv[2:]
     results = {}
 
     shader_file = ""
     result = run_mpv(shader_file, movie_file)
     results['lanczos'] = result[1]
+
+    shader_dir = Path("~/.config/mpv/shaders").expanduser()
+    shader_files = list(shader_dir.glob("*"))
 
     for shader_file in shader_files:
         shader_name, elapsed_time = run_mpv(shader_file, movie_file)
