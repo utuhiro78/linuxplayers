@@ -573,7 +573,7 @@ sh make-downscaled-movies.sh 12393381_3840_2160_60fps.mp4
 wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/mpv_shader_benchmark.py
 wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/12393381_3840_2160_60fps_downscaled.mp4
 
-python mpv_shader_benchmark.py 12393381_3840_2160_60fps_downscaled.mp4 ~/.config/mpv/shaders/*
+python mpv_shader_benchmark.py 12393381_3840_2160_60fps_downscaled.mp4
 ```
 
 ### 結果 (低負荷バリアント)
