@@ -41,8 +41,7 @@ def main():
 def run_mpv(shader_file, movie_file):
     start_time = time.time()
 
-    mpv_options = '--no-config --load-scripts=no --no-osc ' + \
-        '--scale=lanczos --dscale=lanczos --fs ' + \
+    mpv_options = '--no-config --load-scripts=no --no-osc --fs ' + \
         '--audio=no --untimed=yes ' + \
         '--video-sync=display-desync --vulkan-swap-mode=immediate ' + \
         '--opengl-swapinterval=0 --wayland-internal-vsync=no'
