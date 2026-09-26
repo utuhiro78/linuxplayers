@@ -489,7 +489,7 @@ Ctrl キーを押したまま「0101」「0202」「1212」のように入力し
 アニメ画像を表示。
 
 ```
-mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/sunset-dreamer-4k_downscaled.jpg
+mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_downscaled.jpg
 ```
 
 同様に入力して違いを確認。
