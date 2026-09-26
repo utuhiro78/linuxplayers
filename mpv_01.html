@@ -31,7 +31,6 @@ id="toc-外部のアップスケーラーをインストール">外部のアッ�
 <ul>
 <li><a href="#注意" id="toc-注意">注意</a></li>
 <li><a href="#ravu" id="toc-ravu">RAVU</a></li>
-<li><a href="#anime4k" id="toc-anime4k">Anime4K</a></li>
 <li><a href="#acnetglsl" id="toc-acnetglsl">ACNetGLSL</a></li>
 <li><a href="#fsrcnnx" id="toc-fsrcnnx">FSRCNNX</a></li>
 <li><a href="#artcnn" id="toc-artcnn">ArtCNN</a></li>
@@ -180,16 +179,15 @@ REGZA を使用している場合は次のようにする。</p>
 <h2
 id="外部のアップスケーラーをインストール">外部のアップスケーラーをインストール</h2>
 <h3 id="注意">注意</h3>
-<p>アップスケーラーは拡大時に動作するものなので、FHD モニターで FHD
-動画を再生する場合は何も変わらない。動作しているアップスケーラーを確認するには、mpv
-での表示時に「i2」と入力する。</p>
+<p>FHDモニターでFHD動画を表示する場合など、1倍以下のサイズで表示する場合は何も変わらない。<br />
+アップスケーラーが動作しているかどうかは、mpv
+での表示時に「i2」と入力すれば確認できる。</p>
 <h3 id="ravu">RAVU</h3>
 <p>Google の超解像技術から着想を得たアップスケーラー。<br />
 <a
 href="https://github.com/bjin/mpv-prescalers">https://github.com/bjin/mpv-prescalers</a></p>
 <pre><code>wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-ar-r4.hook
 wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-lite-r4.hook
-wget https://raw.githubusercontent.com/bjin/mpv-prescalers/refs/heads/master/compute/ravu-r4.hook
 mkdir -p ~/.config/mpv/shaders
 mv ravu-*.hook ~/.config/mpv/shaders/</code></pre>
 <p><a
@@ -198,21 +196,6 @@ href="https://github.com/bjin/mpv-prescalers/tree/master/compute">compute</a>
 href="https://github.com/bjin/mpv-prescalers/tree/master/gather">gather</a>
 か<a
 href="https://github.com/bjin/mpv-prescalers/tree/master">ルート</a>のものを使用する。</p>
-<h3 id="anime4k">Anime4K</h3>
-<p>1080pアニメの拡大に最適化されたアップスケーラー。<br />
-<a
-href="https://github.com/bloc97/Anime4K">https://github.com/bloc97/Anime4K</a></p>
-<pre><code>wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_M.glsl
-wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_S.glsl
-mkdir -p ~/.config/mpv/shaders
-mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders/
-
-wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale/Anime4K_Upscale_CNN_x2_UL.glsl
-mkdir -p ~/.config/mpv/shaders_high
-mv Anime4K_Upscale_CNN_x2_*.glsl ~/.config/mpv/shaders_high/</code></pre>
-<p>通常は複数のシェーダーを<a
-href="https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf">組み合わせて</a>使用するが、実写画像だと表示が崩れる場合があるので、Upscale_*
-を単体で使用する。</p>
 <h3 id="acnetglsl">ACNetGLSL</h3>
 <p>Anime4KCPP プロジェクトで使用されている深層学習モデルを、GLSL
 で実装したもの。<br />
@@ -267,44 +250,40 @@ License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
 <p>街の風景写真でスコアを測定する。画像に文字が入っていると、鮮明さを目視で確認しやすい。<br />
 森林のような細かい画像は、どのアップスケーラーを使用してもオリジナルに近づきにくい。顔のアップのような変化が乏しい画像は、どのアップスケーラーを使用しても似たようなスコアになる。<br />
-余白が多いと変化する領域が少なくなるので、縦長画像の場合は中央部分を画面いっぱいに表示する（<code>--panscan=1.0</code>）。</p>
+余白が多いと変化する領域が少なくなるので、縦長画像の場合は中央部分を切り取る。</p>
 <p>“<a
 href="https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/">Bustling
 Alleyway in Osaka</a>” をクリックして右上の「Free
 download」をクリック。<br />
-ダウンロードした画像を mpv で全画面サイズで表示。</p>
+ダウンロードした画像を横 1760 ピクセルに縮小して、中央から 1760x990
+のサイズで切り取る（FHD モニターでウィンドウ表示できるように、1080p
+より少し小さくする）。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-reference-images.sh
 #!/bin/sh
 
 image_orig=${1}
 image_base=&quot;${image_orig%.*}&quot;
 
-mpv_options=&quot;--no-config --load-scripts=no --no-osc --screenshot-dir=${PWD} --pause&quot;
-
-mpv ${mpv_options} --panscan=1.0 --fs --screenshot-format=png --screenshot-template=&quot;${image_base}_reference&quot; &quot;${image_base}.jpg&quot;
+magick &quot;${image_orig}&quot; -resize 1760x -gravity center -crop 1760x990+0+0 +repage &quot;${image_base}_reference.png&quot;
 EOF</code></pre>
 <pre><code>sh make-reference-images.sh pexels-cateduart-38580804.jpg</code></pre>
-<p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
-できた画像を「画像A」とする。</p>
-<p>「画像A」を mpv で 480p に縮小して表示。</p>
+<p>できた画像を「画像A」とする。<br />
+「画像A」を 50% に縮小。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-downscaled-images.sh
 #!/bin/sh
 
 image_orig=${1}
-image_base=&quot;${image_orig%_reference.png}&quot;
+image_base=&quot;${image_orig%_reference.*}&quot;
 
-mpv_options=&quot;--no-config --load-scripts=no --no-osc --screenshot-dir=${PWD} --pause&quot;
-
-mpv ${mpv_options} --vf=scale=-2:480 --screenshot-format=jpg --screenshot-jpeg-quality=96 --screenshot-template=&quot;${image_base}_downscaled&quot; &quot;${image_orig}&quot;
+magick &quot;${image_orig}&quot; -resize 50% &quot;${image_base}_downscaled.jpg&quot;
 EOF</code></pre>
 <pre><code>sh make-downscaled-images.sh pexels-cateduart-38580804_reference.png</code></pre>
-<p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、「q」で終了する。<br />
-できた画像を「画像B」とする。<br />
+<p>できた画像を「画像B」とする。<br />
 「画像B」は JPEG 形式にする。PNG
 形式だと動作しないアップスケーラーがある。<br />
-動作しているアップスケーラーを確認するには、mpv
-での表示時に「i2」と入力する。</p>
-<p>「画像B」を mpv で全画面サイズに拡大。</p>
+アップスケーラーが動作しているかどうかは、mpv
+での表示時に「i2」と入力すれば確認できる。</p>
+<p>「画像B」を mpv で 200% に拡大して表示。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-upscaled-images.sh
 #!/bin/sh
 
@@ -317,12 +296,12 @@ for shader_file in ${HOME}/.config/mpv/shaders/*
 do
   shader_base=$(basename &quot;${shader_file}&quot;)
   shader_base=${shader_base%.*}
-  mpv ${mpv_options} --glsl-shaders=&quot;${shader_file}&quot; --fs --screenshot-format=png --screenshot-template=&quot;${image_base}_upscaled-${shader_base}&quot; &quot;${image_orig}&quot;
+  mpv ${mpv_options} --window-scale=2.0 --glsl-shaders=&quot;${shader_file}&quot; --screenshot-format=png --screenshot-template=&quot;${image_base}_upscaled-${shader_base}&quot; &quot;${image_orig}&quot;
 done
 
-mpv ${mpv_options} --fs --screenshot-format=png --screenshot-template=&quot;${image_base}_upscaled-lanzcos&quot; &quot;${image_orig}&quot;
+mpv ${mpv_options} --window-scale=2.0 --glsl-shaders=&quot;&quot; --screenshot-format=png --screenshot-template=&quot;${image_base}_upscaled-lanczos&quot; &quot;${image_orig}&quot;
 EOF</code></pre>
-<pre><code>sh make-upscaled-images.sh pexels-cateduart-38580804_downscaled.jpg ~/.config/mpv/shaders</code></pre>
+<pre><code>sh make-upscaled-images.sh pexels-cateduart-38580804_downscaled.jpg</code></pre>
 <p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、メッセージが表示されたら「q」で終了する。<br />
 自動的に次の画像が表示されるので、同じことを繰り返す。<br />
 できた画像を「画像C」とする。「画像C」は PNG 形式にする。JPG
@@ -340,18 +319,17 @@ printf &quot;%s\n&quot; &quot;-- | --&quot;
 for image_file in ${image_base}_upscaled-*.png
 do
   score=$(magick compare -metric SSIM &quot;${image_base}_reference.png&quot; &quot;${image_file}&quot; null: 2&gt;&amp;1)
-  shader_name=${image_file#${image_base}_}
-  shader_name=${shader_name#upscaled-}
+  shader_name=${image_file#${image_base}_upscaled-}
   shader_name=${shader_name%.*}
   printf &quot;%s | %s\n&quot; &quot;${shader_name}&quot; &quot;${score}&quot;
 done | sort -t &#39;|&#39; -k 2 -g
 EOF</code></pre>
-<pre><code>sh compare-upscaled-images.sh pexels-cateduart-38580804_reference.png</code></pre>
-<p>続いて高負荷なアップスケーラーを測定。</p>
-<pre><code>mkdir -p gpu_low
-mv pexels-cateduart-38580804_upscaled-*.png gpu_low/
+<pre><code>sh compare-upscaled-images.sh pexels-cateduart-38580804_reference.png
 
-mv ~/.config/mpv/shaders ~/.config/mpv/shaders_low
+mkdir -p gpu_low
+mv pexels-cateduart-38580804_upscaled-*.png gpu_low/</code></pre>
+<p>続いて高負荷なアップスケーラーを測定。</p>
+<pre><code>mv ~/.config/mpv/shaders ~/.config/mpv/shaders_low
 mv ~/.config/mpv/shaders_high ~/.config/mpv/shaders
 
 sh make-upscaled-images.sh pexels-cateduart-38580804_downscaled.jpg
@@ -364,8 +342,8 @@ mv pexels-cateduart-38580804_upscaled-*.png gpu_high/
 mv ~/.config/mpv/shaders ~/.config/mpv/shaders_high
 mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders</code></pre>
 <h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
-<p>順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
-スコアが小さいほどオリジナルに近い。<br />
+<p>スコアが小さいほどオリジナルに近い。<br />
+順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
 スコアの差が 100 以下だと、目視では効果がわかりにくい。</p>
@@ -379,65 +357,53 @@ mpv のデフォルトは lanczos。それより 200
 <tbody>
 <tr>
 <td>acnet_f8b4_hdn</td>
-<td>2455.02 (0.0374612)</td>
-</tr>
-<tr>
-<td>acnet_f8b4</td>
-<td>2516.32 (0.0383966)</td>
-</tr>
-<tr>
-<td>FSRCNNX_x2_8-0-4-1</td>
-<td>2516.7 (0.0384024)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_M</td>
-<td>2526.74 (0.0385557)</td>
-</tr>
-<tr>
-<td>acnet_f8b4_box_hdn</td>
-<td>2528.34 (0.03858)</td>
+<td>2730.33 (0.0416621)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>2538.36 (0.0387329)</td>
+<td>2822.87 (0.0430742)</td>
 </tr>
 <tr>
-<td>acnet_f8b4_box</td>
-<td>2590.16 (0.0395234)</td>
+<td>acnet_f8b4_box_hdn</td>
+<td>2867.52 (0.0437555)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F16</td>
-<td>2618.44 (0.0399548)</td>
+<td>FSRCNNX_x2_8-0-4-1</td>
+<td>3065.22 (0.0467722)</td>
 </tr>
 <tr>
-<td>Anime4K_Upscale_CNN_x2_S</td>
-<td>2677.15 (0.0408507)</td>
+<td>acnet_f8b4</td>
+<td>3120.36 (0.0476137)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DN</td>
-<td>2774.97 (0.0423434)</td>
+<td>3185.57 (0.0486086)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box</td>
+<td>3197.69 (0.0487936)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16</td>
+<td>3232.16 (0.0493196)</td>
 </tr>
 <tr>
 <td>ravu-lite-ar-r4</td>
-<td>2913.33 (0.0444545)</td>
+<td>3750.49 (0.0572288)</td>
 </tr>
 <tr>
 <td>ravu-lite-r4</td>
-<td>3025.7 (0.0461693)</td>
+<td>3971.67 (0.0606039)</td>
 </tr>
 <tr>
-<td>ravu-r4</td>
-<td>3080.21 (0.0470011)</td>
-</tr>
-<tr>
-<td>lanzcos</td>
-<td>3329.41 (0.0508035)</td>
+<td>lanczos</td>
+<td>4313.61 (0.0658214)</td>
 </tr>
 </tbody>
 </table>
 <h3 id="結果-高負荷バリアント">結果 (高負荷バリアント)</h3>
-<p>順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
-スコアが小さいほどオリジナルに近い。<br />
+<p>スコアが小さいほどオリジナルに近い。<br />
+順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
 スコアの差が 100 以下だと、目視では効果がわかりにくい。</p>
@@ -451,43 +417,39 @@ mpv のデフォルトは lanczos。それより 200
 <tbody>
 <tr>
 <td>acnet_f8b18_hdn</td>
-<td>2351.31 (0.0358786)</td>
-</tr>
-<tr>
-<td>FSRCNNX_x2_16-0-4-1</td>
-<td>2394.58 (0.036539)</td>
-</tr>
-<tr>
-<td>acnet_f8b18</td>
-<td>2409.25 (0.0367628)</td>
+<td>2498.32 (0.0381219)</td>
 </tr>
 <tr>
 <td>acnet_f8b18_box_hdn</td>
-<td>2430.97 (0.0370942)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_UL</td>
-<td>2458.4 (0.0375127)</td>
-</tr>
-<tr>
-<td>acnet_f8b18_box</td>
-<td>2493.66 (0.0380508)</td>
+<td>2652.7 (0.0404776)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DS</td>
-<td>2501.02 (0.0381631)</td>
+<td>2748.12 (0.0419336)</td>
 </tr>
 <tr>
-<td>ArtCNN_C4F32</td>
-<td>2535.77 (0.0386934)</td>
+<td>FSRCNNX_x2_16-0-4-1</td>
+<td>2771.83 (0.0422954)</td>
+</tr>
+<tr>
+<td>acnet_f8b18</td>
+<td>2896.81 (0.0442025)</td>
+</tr>
+<tr>
+<td>acnet_f8b18_box</td>
+<td>3044.49 (0.0464559)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DN</td>
-<td>2716.45 (0.0414503)</td>
+<td>3080.26 (0.0470017)</td>
 </tr>
 <tr>
-<td>lanzcos</td>
-<td>3329.41 (0.0508035)</td>
+<td>ArtCNN_C4F32</td>
+<td>3116.61 (0.0475564)</td>
+</tr>
+<tr>
+<td>lanczos</td>
+<td>4313.61 (0.0658214)</td>
 </tr>
 </tbody>
 </table>
@@ -524,8 +486,8 @@ mv chihiro030_upscaled-*.png gpu_high/
 mv ~/.config/mpv/shaders ~/.config/mpv/shaders_high
 mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders</code></pre>
 <h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
-<p>順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
-スコアが小さいほどオリジナルに近い。<br />
+<p>スコアが小さいほどオリジナルに近い。<br />
+順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
 スコアの差が 100 以下だと、目視では効果がわかりにくい。</p>
@@ -539,65 +501,53 @@ mpv のデフォルトは lanczos。それより 200
 <tbody>
 <tr>
 <td>acnet_f8b4_hdn</td>
-<td>2705.98 (0.0412907)</td>
+<td>2674.38 (0.0408084)</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box_hdn</td>
-<td>2719.32 (0.0414942)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_M</td>
-<td>2731.38 (0.0416781)</td>
-</tr>
-<tr>
-<td>acnet_f8b4</td>
-<td>2824.91 (0.0431053)</td>
-</tr>
-<tr>
-<td>acnet_f8b4_box</td>
-<td>2835.6 (0.0432685)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_S</td>
-<td>2841.98 (0.0433658)</td>
+<td>2772.79 (0.04231)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>2852.62 (0.0435282)</td>
-</tr>
-<tr>
-<td>ArtCNN_C4F16</td>
-<td>2895.01 (0.044175)</td>
-</tr>
-<tr>
-<td>FSRCNNX_x2_8-0-4-1</td>
-<td>2909.16 (0.044391)</td>
+<td>2861.4 (0.0436621)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DN</td>
-<td>2974.15 (0.0453826)</td>
+<td>3042.65 (0.0464278)</td>
+</tr>
+<tr>
+<td>acnet_f8b4</td>
+<td>3305.4 (0.0504371)</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box</td>
+<td>3307.81 (0.0504739)</td>
+</tr>
+<tr>
+<td>FSRCNNX_x2_8-0-4-1</td>
+<td>3395.16 (0.0518068)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F16</td>
+<td>3404.14 (0.0519439)</td>
 </tr>
 <tr>
 <td>ravu-lite-ar-r4</td>
-<td>3080.82 (0.0470102)</td>
-</tr>
-<tr>
-<td>ravu-r4</td>
-<td>3174.46 (0.0484391)</td>
+<td>3638.33 (0.0555174)</td>
 </tr>
 <tr>
 <td>ravu-lite-r4</td>
-<td>3208.89 (0.0489645)</td>
+<td>3950.16 (0.0602755)</td>
 </tr>
 <tr>
-<td>lanzcos</td>
-<td>3470.92 (0.0529628)</td>
+<td>lanczos</td>
+<td>4045.02 (0.061723)</td>
 </tr>
 </tbody>
 </table>
 <h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
-<p>順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
-スコアが小さいほどオリジナルに近い。<br />
+<p>スコアが小さいほどオリジナルに近い。<br />
+順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
 mpv のデフォルトは lanczos。それより 200
 以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
 スコアの差が 100 以下だと、目視では効果がわかりにくい。</p>
@@ -611,43 +561,39 @@ mpv のデフォルトは lanczos。それより 200
 <tbody>
 <tr>
 <td>acnet_f8b18_hdn</td>
-<td>2677.81 (0.0408607)</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_UL</td>
-<td>2687.13 (0.041003)</td>
+<td>2574.67 (0.0392869)</td>
 </tr>
 <tr>
 <td>acnet_f8b18_box_hdn</td>
-<td>2688.79 (0.0410282)</td>
-</tr>
-<tr>
-<td>acnet_f8b18</td>
-<td>2760.47 (0.042122)</td>
-</tr>
-<tr>
-<td>FSRCNNX_x2_16-0-4-1</td>
-<td>2780.06 (0.0424211)</td>
-</tr>
-<tr>
-<td>acnet_f8b18_box</td>
-<td>2800.66 (0.0427353)</td>
-</tr>
-<tr>
-<td>ArtCNN_C4F32</td>
-<td>2853.43 (0.0435405)</td>
+<td>2655.75 (0.0405242)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DS</td>
-<td>2869.11 (0.0437799)</td>
+<td>2865.28 (0.0437214)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DN</td>
-<td>2948.4 (0.0449897)</td>
+<td>3001.11 (0.045794)</td>
 </tr>
 <tr>
-<td>lanzcos</td>
-<td>3470.92 (0.0529628)</td>
+<td>FSRCNNX_x2_16-0-4-1</td>
+<td>3115.45 (0.0475387)</td>
+</tr>
+<tr>
+<td>acnet_f8b18</td>
+<td>3136 (0.0478523)</td>
+</tr>
+<tr>
+<td>acnet_f8b18_box</td>
+<td>3267.88 (0.0498647)</td>
+</tr>
+<tr>
+<td>ArtCNN_C4F32</td>
+<td>3367.79 (0.0513891)</td>
+</tr>
+<tr>
+<td>lanczos</td>
+<td>4045.02 (0.061723)</td>
 </tr>
 </tbody>
 </table>
@@ -661,16 +607,14 @@ Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4.glsl&quot;
 Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
 Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16.glsl&quot;
 Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
-Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl&quot;
-Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl&quot;
-Ctrl+8 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
+Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
 Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
 <p>風景写真を表示。</p>
 <pre><code>mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_downscaled.jpg</code></pre>
 <p>Ctrl
 キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差が見えやすくなる。</p>
 <p>アニメ画像を表示。</p>
-<pre><code>mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_downscaled.jpg</code></pre>
+<pre><code>mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/sunset-dreamer-4k_downscaled.jpg</code></pre>
 <p>同様に入力して違いを確認。</p>
 <h3
 id="デフォルトのアップスケーラーを設定">デフォルトのアップスケーラーを設定</h3>
@@ -701,7 +645,8 @@ movie_base=&quot;${movie_file%.*}&quot;
 ffmpeg -i &quot;${movie_file}&quot; -vf &quot;scale=-2:480:flags=lanczos&quot; -c:v libx264 -crf 23 -c:a copy &quot;${movie_base}_downscaled.mp4&quot;
 EOF</code></pre>
 <pre><code>sh make-downscaled-movies.sh 12393381_3840_2160_60fps.mp4</code></pre>
-<p>できた動画をノーウェイトで全画面再生して、終了までの時間を計測する。<br />
+<p>できた動画を 200%
+に拡大してノーウェイトで再生。終了までの時間を計測する。<br />
 <a
 href="https://github.com/utuhiro78/linuxplayers/blob/main/images/mpv/mpv_shader_benchmark.py">mpv_shader_benchmark.py</a></p>
 <pre><code>wget https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/mpv_shader_benchmark.py
@@ -720,60 +665,48 @@ python mpv_shader_benchmark.py 12393381_3840_2160_60fps_downscaled.mp4</code></p
 </thead>
 <tbody>
 <tr>
-<td>lanczos</td>
-<td>3.56</td>
-</tr>
-<tr>
 <td>ravu-lite-r4</td>
-<td>6.69</td>
+<td>2.99</td>
 </tr>
 <tr>
 <td>ravu-lite-ar-r4</td>
-<td>6.79</td>
+<td>3.07</td>
 </tr>
 <tr>
-<td>Anime4K_Upscale_CNN_x2_S</td>
-<td>7.65</td>
-</tr>
-<tr>
-<td>ravu-r4</td>
-<td>8.5</td>
-</tr>
-<tr>
-<td>Anime4K_Upscale_CNN_x2_M</td>
-<td>9.49</td>
-</tr>
-<tr>
-<td>acnet_f8b4_box</td>
-<td>11.61</td>
-</tr>
-<tr>
-<td>acnet_f8b4_box_hdn</td>
-<td>11.61</td>
-</tr>
-<tr>
-<td>acnet_f8b4_hdn</td>
-<td>11.63</td>
+<td>lanczos</td>
+<td>3.11</td>
 </tr>
 <tr>
 <td>acnet_f8b4</td>
-<td>11.64</td>
+<td>7.95</td>
+</tr>
+<tr>
+<td>acnet_f8b4_hdn</td>
+<td>7.97</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box</td>
+<td>7.97</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box_hdn</td>
+<td>8.01</td>
 </tr>
 <tr>
 <td>FSRCNNX_x2_8-0-4-1</td>
-<td>12.79</td>
+<td>9.12</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>17.38</td>
+<td>13.87</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16</td>
-<td>17.4</td>
+<td>13.88</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DN</td>
-<td>17.42</td>
+<td>13.93</td>
 </tr>
 </tbody>
 </table>
@@ -787,10 +720,6 @@ python mpv_shader_benchmark.py 12393381_3840_2160_60fps_downscaled.mp4</code></p
 <tr>
 <td>GPU</td>
 <td>内蔵GPU</td>
-</tr>
-<tr>
-<td>解像度</td>
-<td>1920x1080</td>
 </tr>
 </tbody>
 </table>
