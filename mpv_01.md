@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-09-26
+date: 2026-09-27
 ---
 
 ## mpv の特徴
@@ -142,7 +142,7 @@ REGZA を使用している場合は次のようにする。
 ### 注意
 
 FHDモニターでFHD動画を表示する場合など、1倍以下のサイズで表示する場合は何も変わらない。
-アップスケーラーが動作しているかどうかは、mpv での表示時に「i2」と入力すれば確認できる。
+アップスケーラーが動作しているかどうかは、mpv での表示中に「i2」と入力すれば確認できる。
 
 ### RAVU
 
@@ -224,7 +224,7 @@ License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/li
 
 街の風景写真でスコアを測定する。画像に文字が入っていると、鮮明さを目視で確認しやすい。
 森林のような細かい画像は、どのアップスケーラーを使用してもオリジナルに近づきにくい。顔のアップのような変化が乏しい画像は、どのアップスケーラーを使用しても似たようなスコアになる。
-余白が多いと変化する領域が少なくなるので、縦長画像の場合は中央部分を切り取る。
+余白が多いと変化する部分が少なくなるので、縦長の画像は 16:9 に加工する。
 
 "[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" をクリックして右上の「Free download」をクリック。
 ダウンロードした画像を横 1760 ピクセルに縮小して、中央から 1760x990 のサイズで切り取る（FHD モニターでウィンドウ表示できるように、1080p より少し小さくする）。
@@ -245,6 +245,7 @@ sh make-reference-images.sh pexels-cateduart-38580804.jpg
 ```
 
 できた画像を「画像A」とする。
+
 「画像A」を 50% に縮小。
 
 ```
@@ -264,9 +265,10 @@ sh make-downscaled-images.sh pexels-cateduart-38580804_reference.png
 
 できた画像を「画像B」とする。
 「画像B」は JPEG 形式にする。PNG 形式だと動作しないアップスケーラーがある。
-アップスケーラーが動作しているかどうかは、mpv での表示時に「i2」と入力すれば確認できる。
+アップスケーラーが動作しているかどうかは、mpv での表示中に「i2」と入力すれば確認できる。
 
-「画像B」を mpv で 200% に拡大して表示。
+「画像B」を mpv で 200% に拡大。
+以下のコードは「画像を表示→スクリーンショットを撮影→終了→次の画像を表示→」を、アップスケーラーの数だけ自動的に繰り返す。
 
 ```
 cat << 'EOF' > make-upscaled-images.sh
@@ -281,10 +283,10 @@ for shader_file in ${HOME}/.config/mpv/shaders/*
 do
   shader_base=$(basename "${shader_file}")
   shader_base=${shader_base%.*}
-  mpv ${mpv_options} --window-scale=2.0 --glsl-shaders="${shader_file}" --screenshot-format=png --screenshot-template="${image_base}_upscaled-${shader_base}" "${image_orig}"
+  mpv ${mpv_options} --window-scale=2.0 --glsl-shaders="${shader_file}" --screenshot-format=png --screenshot-template="${image_base}_upscaled-${shader_base}" --input-commands="keypress Ctrl+s,quit" "${image_orig}"
 done
 
-mpv ${mpv_options} --window-scale=2.0 --glsl-shaders="" --screenshot-format=png --screenshot-template="${image_base}_upscaled-lanczos" "${image_orig}"
+mpv ${mpv_options} --window-scale=2.0 --glsl-shaders="" --screenshot-format=png --screenshot-template="${image_base}_upscaled-lanczos" --input-commands="keypress Ctrl+s,quit" "${image_orig}"
 EOF
 ```
 
@@ -292,9 +294,8 @@ EOF
 sh make-upscaled-images.sh pexels-cateduart-38580804_downscaled.jpg
 ```
 
-画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、メッセージが表示されたら「q」で終了する。
-自動的に次の画像が表示されるので、同じことを繰り返す。
-できた画像を「画像C」とする。「画像C」は PNG 形式にする。JPG 形式だとスコアが悪化する。
+できた画像を「画像C」とする。
+「画像C」は PNG 形式にする。JPG 形式だとスコアが悪化する。
 
 「画像A」と「画像C」の差を測定。
 
@@ -345,8 +346,8 @@ mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders
 ### 結果 (低負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。
-mpv のデフォルトは lanczos。それより 200 以上スコアが小さいものを選ぶと、効果がわかりやすい。
+順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。
+mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
 スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
 File | Score
@@ -366,8 +367,8 @@ lanczos | 4313.61 (0.0658214)
 ### 結果 (高負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。
-mpv のデフォルトは lanczos。それより 200 以上スコアが小さいものを選ぶと、効果がわかりやすい。
+順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。
+mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
 スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
 File | Score
@@ -389,7 +390,7 @@ lanczos | 4313.61 (0.0658214)
 Source: "[千と千尋の神隠し 作品静止画](https://www.ghibli.jp/works/chihiro/#frame)" by STUDIO GHIBLI
 License: [画像は常識の範囲でご自由にお使いください。](https://www.ghibli.jp/works/chihiro/#frame)
 
-30番目の画像を右クリックして、「名前を付けてリンク先を保存」を選択。
+30番目の画像をクリック。出てきた画像を右クリックして、「名前を付けて画像を保存」を選択。
 あとは風景写真のときと同じ方法で測定する。
 
 ```
@@ -425,8 +426,8 @@ mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders
 ### 結果 (低負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。
-mpv のデフォルトは lanczos。それより 200 以上スコアが小さいものを選ぶと、効果がわかりやすい。
+順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。
+mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
 スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
 File | Score
@@ -446,8 +447,8 @@ lanczos | 4045.02 (0.061723)
 ### 結果 (高負荷バリアント)
 
 スコアが小さいほどオリジナルに近い。
-順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。
-mpv のデフォルトは lanczos。それより 200 以上スコアが小さいものを選ぶと、効果がわかりやすい。
+順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。
+mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
 スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
 File | Score

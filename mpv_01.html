@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-09-26" />
+  <meta name="dcterms.date" content="2026-09-27" />
   <title>mpv の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">mpv の設定</h1>
-<p class="date">2026-09-26</p>
+<p class="date">2026-09-27</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -181,7 +181,7 @@ id="外部のアップスケーラーをインストール">外部のアップ�
 <h3 id="注意">注意</h3>
 <p>FHDモニターでFHD動画を表示する場合など、1倍以下のサイズで表示する場合は何も変わらない。<br />
 アップスケーラーが動作しているかどうかは、mpv
-での表示時に「i2」と入力すれば確認できる。</p>
+での表示中に「i2」と入力すれば確認できる。</p>
 <h3 id="ravu">RAVU</h3>
 <p>Google の超解像技術から着想を得たアップスケーラー。<br />
 <a
@@ -250,7 +250,8 @@ License: <a
 href="https://www.pexels.com/ja-JP/license/">https://www.pexels.com/ja-JP/license/</a></p>
 <p>街の風景写真でスコアを測定する。画像に文字が入っていると、鮮明さを目視で確認しやすい。<br />
 森林のような細かい画像は、どのアップスケーラーを使用してもオリジナルに近づきにくい。顔のアップのような変化が乏しい画像は、どのアップスケーラーを使用しても似たようなスコアになる。<br />
-余白が多いと変化する領域が少なくなるので、縦長画像の場合は中央部分を切り取る。</p>
+余白が多いと変化する部分が少なくなるので、縦長の画像は 16:9
+に加工する。</p>
 <p>“<a
 href="https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/">Bustling
 Alleyway in Osaka</a>” をクリックして右上の「Free
@@ -267,8 +268,8 @@ image_base=&quot;${image_orig%.*}&quot;
 magick &quot;${image_orig}&quot; -resize 1760x -gravity center -crop 1760x990+0+0 +repage &quot;${image_base}_reference.png&quot;
 EOF</code></pre>
 <pre><code>sh make-reference-images.sh pexels-cateduart-38580804.jpg</code></pre>
-<p>できた画像を「画像A」とする。<br />
-「画像A」を 50% に縮小。</p>
+<p>できた画像を「画像A」とする。</p>
+<p>「画像A」を 50% に縮小。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-downscaled-images.sh
 #!/bin/sh
 
@@ -282,8 +283,9 @@ EOF</code></pre>
 「画像B」は JPEG 形式にする。PNG
 形式だと動作しないアップスケーラーがある。<br />
 アップスケーラーが動作しているかどうかは、mpv
-での表示時に「i2」と入力すれば確認できる。</p>
-<p>「画像B」を mpv で 200% に拡大して表示。</p>
+での表示中に「i2」と入力すれば確認できる。</p>
+<p>「画像B」を mpv で 200% に拡大。<br />
+以下のコードは「画像を表示→スクリーンショットを撮影→終了→次の画像を表示→」を、アップスケーラーの数だけ自動的に繰り返す。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; make-upscaled-images.sh
 #!/bin/sh
 
@@ -296,16 +298,14 @@ for shader_file in ${HOME}/.config/mpv/shaders/*
 do
   shader_base=$(basename &quot;${shader_file}&quot;)
   shader_base=${shader_base%.*}
-  mpv ${mpv_options} --window-scale=2.0 --glsl-shaders=&quot;${shader_file}&quot; --screenshot-format=png --screenshot-template=&quot;${image_base}_upscaled-${shader_base}&quot; &quot;${image_orig}&quot;
+  mpv ${mpv_options} --window-scale=2.0 --glsl-shaders=&quot;${shader_file}&quot; --screenshot-format=png --screenshot-template=&quot;${image_base}_upscaled-${shader_base}&quot; --input-commands=&quot;keypress Ctrl+s,quit&quot; &quot;${image_orig}&quot;
 done
 
-mpv ${mpv_options} --window-scale=2.0 --glsl-shaders=&quot;&quot; --screenshot-format=png --screenshot-template=&quot;${image_base}_upscaled-lanczos&quot; &quot;${image_orig}&quot;
+mpv ${mpv_options} --window-scale=2.0 --glsl-shaders=&quot;&quot; --screenshot-format=png --screenshot-template=&quot;${image_base}_upscaled-lanczos&quot; --input-commands=&quot;keypress Ctrl+s,quit&quot; &quot;${image_orig}&quot;
 EOF</code></pre>
 <pre><code>sh make-upscaled-images.sh pexels-cateduart-38580804_downscaled.jpg</code></pre>
-<p>画像が表示されたら「Ctrl+s」でスクリーンショットを撮り、メッセージが表示されたら「q」で終了する。<br />
-自動的に次の画像が表示されるので、同じことを繰り返す。<br />
-できた画像を「画像C」とする。「画像C」は PNG 形式にする。JPG
-形式だとスコアが悪化する。</p>
+<p>できた画像を「画像C」とする。<br />
+「画像C」は PNG 形式にする。JPG 形式だとスコアが悪化する。</p>
 <p>「画像A」と「画像C」の差を測定。</p>
 <pre><code>cat &lt;&lt; &#39;EOF&#39; &gt; compare-upscaled-images.sh
 #!/bin/sh
@@ -343,9 +343,9 @@ mv ~/.config/mpv/shaders ~/.config/mpv/shaders_high
 mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders</code></pre>
 <h3 id="結果-低負荷バリアント">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
-mpv のデフォルトは lanczos。それより 200
-以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
+順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。<br />
+mpv のデフォルトは lanczos。それよりスコアが 200
+以上小さいものを選ぶと、効果がわかりやすい。<br />
 スコアの差が 100 以下だと、目視では効果がわかりにくい。</p>
 <table>
 <thead>
@@ -403,9 +403,9 @@ mpv のデフォルトは lanczos。それより 200
 </table>
 <h3 id="結果-高負荷バリアント">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
-mpv のデフォルトは lanczos。それより 200
-以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
+順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。<br />
+mpv のデフォルトは lanczos。それよりスコアが 200
+以上小さいものを選ぶと、効果がわかりやすい。<br />
 スコアの差が 100 以下だと、目視では効果がわかりにくい。</p>
 <table>
 <thead>
@@ -460,7 +460,7 @@ href="https://www.ghibli.jp/works/chihiro/#frame">千と千尋の神隠し
 作品静止画</a>” by STUDIO GHIBLI<br />
 License: <a
 href="https://www.ghibli.jp/works/chihiro/#frame">画像は常識の範囲でご自由にお使いください。</a></p>
-<p>30番目の画像を右クリックして、「名前を付けてリンク先を保存」を選択。<br />
+<p>30番目の画像をクリック。出てきた画像を右クリックして、「名前を付けて画像を保存」を選択。<br />
 あとは風景写真のときと同じ方法で測定する。</p>
 <pre><code>sh make-reference-images.sh chihiro030.jpg
 
@@ -487,9 +487,9 @@ mv ~/.config/mpv/shaders ~/.config/mpv/shaders_high
 mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders</code></pre>
 <h3 id="結果-低負荷バリアント-1">結果 (低負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
-mpv のデフォルトは lanczos。それより 200
-以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
+順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。<br />
+mpv のデフォルトは lanczos。それよりスコアが 200
+以上小さいものを選ぶと、効果がわかりやすい。<br />
 スコアの差が 100 以下だと、目視では効果がわかりにくい。</p>
 <table>
 <thead>
@@ -547,9 +547,9 @@ mpv のデフォルトは lanczos。それより 200
 </table>
 <h3 id="結果-高負荷バリアント-1">結果 (高負荷バリアント)</h3>
 <p>スコアが小さいほどオリジナルに近い。<br />
-順位は元画像との相性や、縮小画像の作成アルゴリズムなどによって大きく変わる。<br />
-mpv のデフォルトは lanczos。それより 200
-以上スコアが小さいものを選ぶと、効果がわかりやすい。<br />
+順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。<br />
+mpv のデフォルトは lanczos。それよりスコアが 200
+以上小さいものを選ぶと、効果がわかりやすい。<br />
 スコアの差が 100 以下だと、目視では効果がわかりにくい。</p>
 <table>
 <thead>
