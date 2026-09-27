@@ -34,7 +34,7 @@ hwdec=auto
 # ハードウェアデコードを行うコーデック
 # 「vainfo | grep AV1」を実行して、何も表示されない場合は「av1,」を削除。
 # https://mpv.io/manual/stable/#options-hwdec-codecs
-hwdec-codecs=h264,vc1,hevc,vp8,vp9,prores,prores_raw,ffv1,dpx
+hwdec-codecs=h264,vc1,hevc,vp8,vp9,av1,prores,prores_raw,ffv1,dpx
 ```
 
 ```
@@ -236,7 +236,8 @@ cat << 'EOF' > make-reference-images.sh
 image_orig=${1}
 image_base="${image_orig%.*}"
 
-magick "${image_orig}" -resize 1760x -gravity center -crop 1760x990+0+0 +repage "${image_base}_reference.png"
+magick "${image_orig}" -resize 1760x -gravity center -crop 1760x990+0+0 \
+  +repage "${image_base}_reference.png"
 EOF
 ```
 
@@ -277,16 +278,21 @@ cat << 'EOF' > make-upscaled-images.sh
 image_orig=${1}
 image_base="${image_orig%_downscaled.jpg}"
 
-mpv_options="--no-config --load-scripts=no --no-osc --screenshot-dir=${PWD} --pause"
+mpv_options="--no-config --load-scripts=no --no-osc --window-scale=2.0 \
+  --screenshot-format=png --screenshot-dir=${PWD} --pause"
 
 for shader_file in ${HOME}/.config/mpv/shaders/*
 do
   shader_base=$(basename "${shader_file}")
   shader_base=${shader_base%.*}
-  mpv ${mpv_options} --window-scale=2.0 --glsl-shaders="${shader_file}" --screenshot-format=png --screenshot-template="${image_base}_upscaled-${shader_base}" --input-commands="keypress Ctrl+s,quit" "${image_orig}"
+  mpv ${mpv_options} --glsl-shaders="${shader_file}" \
+    --screenshot-template="${image_base}_upscaled-${shader_base}" \
+    --input-commands="keypress Ctrl+s,quit" "${image_orig}"
 done
 
-mpv ${mpv_options} --window-scale=2.0 --glsl-shaders="" --screenshot-format=png --screenshot-template="${image_base}_upscaled-lanczos" --input-commands="keypress Ctrl+s,quit" "${image_orig}"
+mpv ${mpv_options} --glsl-shaders="" \
+  --screenshot-template="${image_base}_upscaled-lanczos" \
+  --input-commands="keypress Ctrl+s,quit" "${image_orig}"
 EOF
 ```
 
@@ -311,7 +317,8 @@ printf "%s\n" "-- | --"
 
 for image_file in ${image_base}_upscaled-*.png
 do
-  score=$(magick compare -metric SSIM "${image_base}_reference.png" "${image_file}" null: 2>&1)
+  score=$(magick compare -metric SSIM "${image_base}_reference.png" \
+    "${image_file}" null: 2>&1)
   shader_name=${image_file#${image_base}_upscaled-}
   shader_name=${shader_name%.*}
   printf "%s | %s\n" "${shader_name}" "${score}"
