@@ -31,6 +31,7 @@ id="toc-外部のアップスケーラーをインストール">外部のアッ�
 <ul>
 <li><a href="#注意" id="toc-注意">注意</a></li>
 <li><a href="#ravu" id="toc-ravu">RAVU</a></li>
+<li><a href="#anime4k" id="toc-anime4k">Anime4K</a></li>
 <li><a href="#acnetglsl" id="toc-acnetglsl">ACNetGLSL</a></li>
 <li><a href="#fsrcnnx" id="toc-fsrcnnx">FSRCNNX</a></li>
 <li><a href="#artcnn" id="toc-artcnn">ArtCNN</a></li>
@@ -196,6 +197,21 @@ href="https://github.com/bjin/mpv-prescalers/tree/master/compute">compute</a>
 href="https://github.com/bjin/mpv-prescalers/tree/master/gather">gather</a>
 か<a
 href="https://github.com/bjin/mpv-prescalers/tree/master">ルート</a>のものを使用する。</p>
+<h3 id="anime4k">Anime4K</h3>
+<p>1080p アニメのアップスケールに最適化されたアップスケーラー。<br />
+<a
+href="https://github.com/bloc97/anime4k">https://github.com/bloc97/anime4k</a></p>
+<pre><code>wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_S.glsl
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_L.glsl
+mkdir -p ~/.config/mpv/shaders
+mv Anime4K_*.glsl ~/.config/mpv/shaders/
+
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_UL.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv Anime4K_*.glsl ~/.config/mpv/shaders_high/</code></pre>
+<p>本来は複数のシェーダーを<a
+href="https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf">組み合わせて</a>使用するが、実写画像だと不自然になることがあるので、ここでは「Anime4K_Upscale_Denoise」を単体で使用した。</p>
 <h3 id="acnetglsl">ACNetGLSL</h3>
 <p>Anime4KCPP プロジェクトで使用されている深層学習モデルを、GLSL
 で実装したもの。<br />
@@ -319,7 +335,7 @@ EOF</code></pre>
 image_orig=${1}
 image_base=&quot;${image_orig%_reference.png}&quot;
 
-printf &quot;File | Score\n&quot;
+printf &quot;Upscaler | Score\n&quot;
 printf &quot;%s\n&quot; &quot;-- | --&quot;
 
 for image_file in ${image_base}_upscaled-*.png
@@ -357,7 +373,7 @@ mpv のデフォルトは lanczos。それよりスコアが 200
 <table>
 <thead>
 <tr>
-<th>File</th>
+<th>Upscaler</th>
 <th>Score</th>
 </tr>
 </thead>
@@ -371,12 +387,24 @@ mpv のデフォルトは lanczos。それよりスコアが 200
 <td>2822.87 (0.0430742)</td>
 </tr>
 <tr>
+<td>Anime4K_Upscale_Denoise_CNN_x2_M</td>
+<td>2855.68 (0.0435749)</td>
+</tr>
+<tr>
 <td>acnet_f8b4_box_hdn</td>
 <td>2867.52 (0.0437555)</td>
 </tr>
 <tr>
+<td>Anime4K_Upscale_Denoise_CNN_x2_L</td>
+<td>3001.74 (0.0458037)</td>
+</tr>
+<tr>
 <td>FSRCNNX_x2_8-0-4-1</td>
 <td>3065.22 (0.0467722)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_Denoise_CNN_x2_S</td>
+<td>3070.23 (0.0468488)</td>
 </tr>
 <tr>
 <td>acnet_f8b4</td>
@@ -417,7 +445,7 @@ mpv のデフォルトは lanczos。それよりスコアが 200
 <table>
 <thead>
 <tr>
-<th>File</th>
+<th>Upscaler</th>
 <th>Score</th>
 </tr>
 </thead>
@@ -437,6 +465,10 @@ mpv のデフォルトは lanczos。それよりスコアが 200
 <tr>
 <td>FSRCNNX_x2_16-0-4-1</td>
 <td>2771.83 (0.0422954)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_Denoise_CNN_x2_UL</td>
+<td>2797.99 (0.0426946)</td>
 </tr>
 <tr>
 <td>acnet_f8b18</td>
@@ -501,7 +533,7 @@ mpv のデフォルトは lanczos。それよりスコアが 200
 <table>
 <thead>
 <tr>
-<th>File</th>
+<th>Upscaler</th>
 <th>Score</th>
 </tr>
 </thead>
@@ -511,12 +543,24 @@ mpv のデフォルトは lanczos。それよりスコアが 200
 <td>2674.38 (0.0408084)</td>
 </tr>
 <tr>
+<td>Anime4K_Upscale_Denoise_CNN_x2_M</td>
+<td>2747.95 (0.041931)</td>
+</tr>
+<tr>
 <td>acnet_f8b4_box_hdn</td>
 <td>2772.79 (0.04231)</td>
 </tr>
 <tr>
+<td>Anime4K_Upscale_Denoise_CNN_x2_L</td>
+<td>2821.95 (0.0430602)</td>
+</tr>
+<tr>
 <td>ArtCNN_C4F16_DS</td>
 <td>2861.4 (0.0436621)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_Denoise_CNN_x2_S</td>
+<td>2921.71 (0.0445825)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DN</td>
@@ -561,7 +605,7 @@ mpv のデフォルトは lanczos。それよりスコアが 200
 <table>
 <thead>
 <tr>
-<th>File</th>
+<th>Upscaler</th>
 <th>Score</th>
 </tr>
 </thead>
@@ -573,6 +617,10 @@ mpv のデフォルトは lanczos。それよりスコアが 200
 <tr>
 <td>acnet_f8b18_box_hdn</td>
 <td>2655.75 (0.0405242)</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_Denoise_CNN_x2_UL</td>
+<td>2773.05 (0.042314)</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F32_DS</td>
@@ -610,11 +658,13 @@ id="アップスケーラーごとの差を目視で確認">アップスケー�
 ~/.config/mpv/input.conf に次の行を追加。</p>
 <pre><code># アップスケーラーの切り替え
 Ctrl+1 change-list glsl-shaders set &quot;~~/shaders/ravu-lite-ar-r4.hook&quot;
-Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4.glsl&quot;
-Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
-Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16.glsl&quot;
-Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
-Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
+Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_S.glsl&quot;
+Ctrl+3 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl&quot;
+Ctrl+4 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4.glsl&quot;
+Ctrl+5 change-list glsl-shaders set &quot;~~/shaders/acnet_f8b4_hdn.glsl&quot;
+Ctrl+6 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16.glsl&quot;
+Ctrl+7 change-list glsl-shaders set &quot;~~/shaders/ArtCNN_C4F16_DS.glsl&quot;
+Ctrl+8 change-list glsl-shaders set &quot;~~/shaders/FSRCNNX_x2_8-0-4-1.glsl&quot;
 Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
 <p>風景写真を表示。</p>
 <pre><code>mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_downscaled.jpg</code></pre>
@@ -673,47 +723,59 @@ python mpv_shader_benchmark.py 12393381_3840_2160_60fps_downscaled.mp4</code></p
 <tbody>
 <tr>
 <td>ravu-lite-r4</td>
-<td>2.99</td>
+<td>3.04</td>
 </tr>
 <tr>
 <td>ravu-lite-ar-r4</td>
-<td>3.07</td>
+<td>3.16</td>
 </tr>
 <tr>
 <td>lanczos</td>
-<td>3.11</td>
+<td>3.2</td>
 </tr>
 <tr>
-<td>acnet_f8b4</td>
-<td>7.95</td>
+<td>Anime4K_Upscale_Denoise_CNN_x2_S</td>
+<td>3.79</td>
 </tr>
 <tr>
-<td>acnet_f8b4_hdn</td>
-<td>7.97</td>
-</tr>
-<tr>
-<td>acnet_f8b4_box</td>
-<td>7.97</td>
+<td>Anime4K_Upscale_Denoise_CNN_x2_M</td>
+<td>5.77</td>
 </tr>
 <tr>
 <td>acnet_f8b4_box_hdn</td>
-<td>8.01</td>
+<td>8.04</td>
+</tr>
+<tr>
+<td>acnet_f8b4_hdn</td>
+<td>8.05</td>
+</tr>
+<tr>
+<td>acnet_f8b4_box</td>
+<td>8.06</td>
+</tr>
+<tr>
+<td>acnet_f8b4</td>
+<td>8.06</td>
+</tr>
+<tr>
+<td>Anime4K_Upscale_Denoise_CNN_x2_L</td>
+<td>8.37</td>
 </tr>
 <tr>
 <td>FSRCNNX_x2_8-0-4-1</td>
-<td>9.12</td>
+<td>9.25</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DS</td>
-<td>13.87</td>
+<td>13.96</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16</td>
-<td>13.88</td>
+<td>13.99</td>
 </tr>
 <tr>
 <td>ArtCNN_C4F16_DN</td>
-<td>13.93</td>
+<td>14.01</td>
 </tr>
 </tbody>
 </table>

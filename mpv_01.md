@@ -158,6 +158,25 @@ mv ravu-*.hook ~/.config/mpv/shaders/
 
 [compute](https://github.com/bjin/mpv-prescalers/tree/master/compute) ディレクトリのものが高速。動作しない場合は [gather](https://github.com/bjin/mpv-prescalers/tree/master/gather) か[ルート](https://github.com/bjin/mpv-prescalers/tree/master)のものを使用する。
 
+### Anime4K
+
+1080p アニメのアップスケールに最適化されたアップスケーラー。
+[https://github.com/bloc97/anime4k](https://github.com/bloc97/anime4k)
+
+```
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_S.glsl
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_M.glsl
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_L.glsl
+mkdir -p ~/.config/mpv/shaders
+mv Anime4K_*.glsl ~/.config/mpv/shaders/
+
+wget https://raw.githubusercontent.com/bloc97/Anime4K/refs/heads/master/glsl/Upscale%2BDenoise/Anime4K_Upscale_Denoise_CNN_x2_UL.glsl
+mkdir -p ~/.config/mpv/shaders_high
+mv Anime4K_*.glsl ~/.config/mpv/shaders_high/
+```
+
+本来は複数のシェーダーを[組み合わせて](https://github.com/bloc97/Anime4K/blob/master/md/Template/GLSL_Mac_Linux_Low-end/input.conf)使用するが、実写画像だと不自然になることがあるので、ここでは「Anime4K_Upscale_Denoise」を単体で使用した。
+
 ### ACNetGLSL
 
 Anime4KCPP プロジェクトで使用されている深層学習モデルを、GLSL で実装したもの。
@@ -312,7 +331,7 @@ cat << 'EOF' > compare-upscaled-images.sh
 image_orig=${1}
 image_base="${image_orig%_reference.png}"
 
-printf "File | Score\n"
+printf "Upscaler | Score\n"
 printf "%s\n" "-- | --"
 
 for image_file in ${image_base}_upscaled-*.png
@@ -357,12 +376,15 @@ mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders
 mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
 スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
-File | Score
+Upscaler | Score
 -- | --
 acnet_f8b4_hdn | 2730.33 (0.0416621)
 ArtCNN_C4F16_DS | 2822.87 (0.0430742)
+Anime4K_Upscale_Denoise_CNN_x2_M | 2855.68 (0.0435749)
 acnet_f8b4_box_hdn | 2867.52 (0.0437555)
+Anime4K_Upscale_Denoise_CNN_x2_L | 3001.74 (0.0458037)
 FSRCNNX_x2_8-0-4-1 | 3065.22 (0.0467722)
+Anime4K_Upscale_Denoise_CNN_x2_S | 3070.23 (0.0468488)
 acnet_f8b4 | 3120.36 (0.0476137)
 ArtCNN_C4F16_DN | 3185.57 (0.0486086)
 acnet_f8b4_box | 3197.69 (0.0487936)
@@ -378,12 +400,13 @@ lanczos | 4313.61 (0.0658214)
 mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
 スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
-File | Score
+Upscaler | Score
 -- | --
 acnet_f8b18_hdn | 2498.32 (0.0381219)
 acnet_f8b18_box_hdn | 2652.7 (0.0404776)
 ArtCNN_C4F32_DS | 2748.12 (0.0419336)
 FSRCNNX_x2_16-0-4-1 | 2771.83 (0.0422954)
+Anime4K_Upscale_Denoise_CNN_x2_UL | 2797.99 (0.0426946)
 acnet_f8b18 | 2896.81 (0.0442025)
 acnet_f8b18_box | 3044.49 (0.0464559)
 ArtCNN_C4F32_DN | 3080.26 (0.0470017)
@@ -437,11 +460,14 @@ mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders
 mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
 スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
-File | Score
+Upscaler | Score
 -- | --
 acnet_f8b4_hdn | 2674.38 (0.0408084)
+Anime4K_Upscale_Denoise_CNN_x2_M | 2747.95 (0.041931)
 acnet_f8b4_box_hdn | 2772.79 (0.04231)
+Anime4K_Upscale_Denoise_CNN_x2_L | 2821.95 (0.0430602)
 ArtCNN_C4F16_DS | 2861.4 (0.0436621)
+Anime4K_Upscale_Denoise_CNN_x2_S | 2921.71 (0.0445825)
 ArtCNN_C4F16_DN | 3042.65 (0.0464278)
 acnet_f8b4 | 3305.4 (0.0504371)
 acnet_f8b4_box | 3307.81 (0.0504739)
@@ -458,10 +484,11 @@ lanczos | 4045.02 (0.061723)
 mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
 スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
-File | Score
+Upscaler | Score
 -- | --
 acnet_f8b18_hdn | 2574.67 (0.0392869)
 acnet_f8b18_box_hdn | 2655.75 (0.0405242)
+Anime4K_Upscale_Denoise_CNN_x2_UL | 2773.05 (0.042314)
 ArtCNN_C4F32_DS | 2865.28 (0.0437214)
 ArtCNN_C4F32_DN | 3001.11 (0.045794)
 FSRCNNX_x2_16-0-4-1 | 3115.45 (0.0475387)
@@ -478,11 +505,13 @@ lanczos | 4045.02 (0.061723)
 ```
 # アップスケーラーの切り替え
 Ctrl+1 change-list glsl-shaders set "~~/shaders/ravu-lite-ar-r4.hook"
-Ctrl+2 change-list glsl-shaders set "~~/shaders/acnet_f8b4.glsl"
-Ctrl+3 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
-Ctrl+4 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"
-Ctrl+5 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
-Ctrl+6 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
+Ctrl+2 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_S.glsl"
+Ctrl+3 change-list glsl-shaders set "~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_M.glsl"
+Ctrl+4 change-list glsl-shaders set "~~/shaders/acnet_f8b4.glsl"
+Ctrl+5 change-list glsl-shaders set "~~/shaders/acnet_f8b4_hdn.glsl"
+Ctrl+6 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16.glsl"
+Ctrl+7 change-list glsl-shaders set "~~/shaders/ArtCNN_C4F16_DS.glsl"
+Ctrl+8 change-list glsl-shaders set "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl"
 Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 ```
 
@@ -555,17 +584,20 @@ GPUによって速度は変わる。
 
 Upscaler | Time (sec)
 -- | --
-ravu-lite-r4 | 2.99
-ravu-lite-ar-r4 | 3.07
-lanczos | 3.11
-acnet_f8b4 | 7.95
-acnet_f8b4_hdn | 7.97
-acnet_f8b4_box | 7.97
-acnet_f8b4_box_hdn | 8.01
-FSRCNNX_x2_8-0-4-1 | 9.12
-ArtCNN_C4F16_DS | 13.87
-ArtCNN_C4F16 | 13.88
-ArtCNN_C4F16_DN | 13.93
+ravu-lite-r4 | 3.04
+ravu-lite-ar-r4 | 3.16
+lanczos | 3.2
+Anime4K_Upscale_Denoise_CNN_x2_S | 3.79
+Anime4K_Upscale_Denoise_CNN_x2_M | 5.77
+acnet_f8b4_box_hdn | 8.04
+acnet_f8b4_hdn | 8.05
+acnet_f8b4_box | 8.06
+acnet_f8b4 | 8.06
+Anime4K_Upscale_Denoise_CNN_x2_L | 8.37
+FSRCNNX_x2_8-0-4-1 | 9.25
+ArtCNN_C4F16_DS | 13.96
+ArtCNN_C4F16 | 13.99
+ArtCNN_C4F16_DN | 14.01
 
 使用したシステム:
 
