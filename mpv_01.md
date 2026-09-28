@@ -98,7 +98,9 @@ WHEEL_RIGHT ignore
 # PGUP と PGDWN で10分移動
 PGUP seek 600
 PGDWN seek -600
+```
 
+```
 # マウスの進むボタンと戻るボタンで次/前のファイルに移動
 MBTN_FORWARD playlist-next;show-text ${playlist} 2000
 MBTN_BACK playlist-prev;show-text ${playlist} 2000
@@ -110,7 +112,9 @@ MBTN_BACK playlist-prev;show-text ${playlist} 2000
 # \ と / で次/前のチャプターに移動
 \ add chapter 1
 / add chapter -1
+```
 
+```
 # i でファイル情報の表示をトグル
 # I でファイル情報を一時的に表示
 i script-binding stats/display-stats-toggle
