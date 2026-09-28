@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-09-27" />
+  <meta name="dcterms.date" content="2026-09-28" />
   <title>mpv の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">mpv の設定</h1>
-<p class="date">2026-09-27</p>
+<p class="date">2026-09-28</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -114,7 +114,7 @@ force-window=yes
 # https://mpv.io/manual/stable/#options-window-maximized
 window-maximized=yes
 
-# ターミナル出力の冗長性を減らす
+# コンソール出力を簡潔にする
 # https://mpv.io/manual/stable/#options-quiet
 quiet=yes
 
@@ -122,7 +122,7 @@ quiet=yes
 # https://mpv.io/manual/stable/#on-screen-controller-timetotal
 script-opts=osc-timetotal=yes
 
-# ウィンドウのタイトルバーに動画タイトルではなくファイル名を表示
+# ウィンドウタイトルに動画タイトルではなくファイル名を表示
 # https://mpv.io/manual/stable/#options-title
 title=${filename}
 
@@ -145,8 +145,9 @@ WHEEL_RIGHT ignore
 
 # PGUP と PGDWN で10分移動
 PGUP seek 600
-PGDWN seek -600</code></pre>
-<pre><code># マウスの進むボタンと戻るボタンで次/前のファイルに移動
+PGDWN seek -600
+
+# マウスの進むボタンと戻るボタンで次/前のファイルに移動
 MBTN_FORWARD playlist-next;show-text ${playlist} 2000
 MBTN_BACK playlist-prev;show-text ${playlist} 2000
 
@@ -156,8 +157,9 @@ MBTN_BACK playlist-prev;show-text ${playlist} 2000
 
 # \ と / で次/前のチャプターに移動
 \ add chapter 1
-/ add chapter -1</code></pre>
-<pre><code># i でファイル情報の表示をトグル
+/ add chapter -1
+
+# i でファイル情報の表示をトグル
 # I でファイル情報を一時的に表示
 i script-binding stats/display-stats-toggle
 I script-binding stats/display-stats
@@ -654,8 +656,8 @@ mpv のデフォルトは lanczos。それよりスコアが 200
 </table>
 <h3
 id="アップスケーラーごとの差を目視で確認">アップスケーラーごとの差を目視で確認</h3>
-<p>アップスケーラーにショートカットを割り当てる。<br />
-~/.config/mpv/input.conf に次の行を追加。</p>
+<p>アップスケーラーにショートカットを割り当てて、パラパラ漫画のように切り替える。そうするとアップスケーラーの違いが目に留まりやすくなる。</p>
+<p>~/.config/mpv/input.conf に次の行を追加。</p>
 <pre><code># アップスケーラーの切り替え
 Ctrl+1 change-list glsl-shaders set &quot;~~/shaders/ravu-lite-ar-r4.hook&quot;
 Ctrl+2 change-list glsl-shaders set &quot;~~/shaders/Anime4K_Upscale_Denoise_CNN_x2_S.glsl&quot;
@@ -669,7 +671,7 @@ Ctrl+0 change-list glsl-shaders set &quot;&quot;; set scale lanczos</code></pre>
 <p>風景写真を表示。</p>
 <pre><code>mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_downscaled.jpg</code></pre>
 <p>Ctrl
-キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差が見えやすくなる。</p>
+キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーの違いを確認する。</p>
 <p>アニメ画像を表示。</p>
 <pre><code>mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/chihiro030_downscaled.jpg</code></pre>
 <p>同様に入力して違いを確認。</p>

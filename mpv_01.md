@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-09-27
+date: 2026-09-28
 ---
 
 ## mpv の特徴
@@ -62,7 +62,7 @@ force-window=yes
 # https://mpv.io/manual/stable/#options-window-maximized
 window-maximized=yes
 
-# ターミナル出力の冗長性を減らす
+# コンソール出力を簡潔にする
 # https://mpv.io/manual/stable/#options-quiet
 quiet=yes
 
@@ -70,7 +70,7 @@ quiet=yes
 # https://mpv.io/manual/stable/#on-screen-controller-timetotal
 script-opts=osc-timetotal=yes
 
-# ウィンドウのタイトルバーに動画タイトルではなくファイル名を表示
+# ウィンドウタイトルに動画タイトルではなくファイル名を表示
 # https://mpv.io/manual/stable/#options-title
 title=${filename}
 
@@ -98,9 +98,7 @@ WHEEL_RIGHT ignore
 # PGUP と PGDWN で10分移動
 PGUP seek 600
 PGDWN seek -600
-```
 
-```
 # マウスの進むボタンと戻るボタンで次/前のファイルに移動
 MBTN_FORWARD playlist-next;show-text ${playlist} 2000
 MBTN_BACK playlist-prev;show-text ${playlist} 2000
@@ -112,9 +110,7 @@ MBTN_BACK playlist-prev;show-text ${playlist} 2000
 # \ と / で次/前のチャプターに移動
 \ add chapter 1
 / add chapter -1
-```
 
-```
 # i でファイル情報の表示をトグル
 # I でファイル情報を一時的に表示
 i script-binding stats/display-stats-toggle
@@ -499,7 +495,8 @@ lanczos | 4045.02 (0.061723)
 
 ### アップスケーラーごとの差を目視で確認
 
-アップスケーラーにショートカットを割り当てる。
+アップスケーラーにショートカットを割り当てて、パラパラ漫画のように切り替える。そうするとアップスケーラーの違いが目に留まりやすくなる。
+
 ~/.config/mpv/input.conf に次の行を追加。
 
 ```
@@ -521,7 +518,7 @@ Ctrl+0 change-list glsl-shaders set ""; set scale lanczos
 mpv --no-osc --fs --pause https://raw.githubusercontent.com/utuhiro78/linuxplayers/refs/heads/main/images/mpv/pexels-cateduart-38580804_downscaled.jpg
 ```
 
-Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーをパラパラ漫画のように切り替える。こうするとアップスケーラーごとの差が見えやすくなる。
+Ctrl キーを押したまま「0101」「0202」「1212」のように入力して、アップスケーラーの違いを確認する。
 
 アニメ画像を表示。
 
