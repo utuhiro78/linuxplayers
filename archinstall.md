@@ -1,49 +1,95 @@
 ---
-title: archinstall で Arch Linux をインストール
-date: 2026-07-28
+title: Arch Linux のインストール
+date: 2026-09-29
 ---
 
-## archinstall とは
+## ダウンロード
 
-[archinstall](https://github.com/archlinux/archinstall) は Arch Linux のインストーラー。ガイドに沿って進めれば、簡単に Arch Linux をインストールできる。
+[こちら](https://archlinux.org/download/)からISOファイルをダウンロード。
 
-## archinstall を日本語で使用
+## Ventoy をUSBメモリにインストール
 
-Arch Linux のISOファイルでは日本語を表示できないので、[EndeavourOS](endeavour_01.html) を使用する。
+[こちら](https://github.com/ventoy/Ventoy/releases)から Ventoy をダウンロード。
 
-EndeavourOS を起動。
-
-ブラウザで今見ているページを開く。
-
-ターミナルを開いてウィンドウを最大化。ウィンドウが小さいと表示が崩れる。
-
-次のコマンドを貼り付けて実行。
+USBメモリを差し込んでデバイスのパスを確認。
 
 ```
-# Arch Linux の公式リポジトリのみを使用する
-wget https://gitlab.archlinux.org/archlinux/packaging/packages/pacman/-/raw/main/pacman.conf
-sudo mv pacman.conf /etc/
-sudo pacman -Sy
+lsblk -p | grep disk
 
-# keyring を更新
-sudo pacman -S --needed archlinux-keyring
-
-# 高速なダウンロードサーバを選択
-sudo pacman -S --needed reflector rsync
-sudo reflector -c jp -f 5 --save /etc/pacman.d/mirrorlist
-sudo pacman -Sy
-
-# archinstall をインストール
-sudo pacman -S --needed archinstall
-
-sudo archinstall
+# /dev/sda           8:0    1 28.7G  0 disk 
+# /dev/zram0       253:0    0    4G  0 disk [SWAP]
+# /dev/nvme0n1     259:0    0  1.8T  0 disk 
 ```
 
-## 実行時の動画
+ディスクのサイズから /dev/sda がUSBデバイスのパスだと判断。
+
+Ventoy を /dev/sda にインストール。
+Wayland ではGUI版を起動できないのでCUI版を使用する。
+以下のコマンドでは無確認でフォーマットすることがないよう、パスを /dev/sdX にしている。
+
+新規の場合（USBメモリがフォーマットされる）:
+
+```
+sudo sh Ventoy2Disk.sh -i /dev/sdX
+```
+
+アップデートの場合:
+
+```
+sudo sh Ventoy2Disk.sh -u /dev/sdX
+```
+
+## Arch Linux のISOファイルをUSBメモリにコピー
+
+USBメモリに Arch Linux のISOファイルをコピー。
+Arch Linux のインストールがうまくいかない場合に備えて、[Ubuntu](https://ubuntu.com/download/desktop) のISOファイルもコピーしておく。
+
+## Arch Linux をシステムにインストール
+
+PCの電源を入れ、ブートメニューキーを押す。
+ブートメニューキーは次のとおり。
+
+メーカー | ブートメニューキー
+-- | --
+ASUS | F8
+ASRock | F11
+GIGABYTE | F12
+MSI | F11
+
+ブートメニューキーを押したらUSBメモリを選択してEnter。
+UEFIで CSM サポートを無効にしておくと、UEFIブートに対応していないデバイスが非表示になるので、選択が楽になる。
+
+Ventoy のメニューが表示されたら Arch Linux のISOファイルを選択。
+
+### インストーラーの日本語が文字化けしないようにする
+
+Arch Linux が起動したら kmscon をインストール。Linux コンソールだと日本語が文字化けする。
+
+```
+localectl set-keymap jp106
+pacman -Sy kmscon
+kmscon
+```
+
+ログイン画面が表示されたら root と入力してEnter。
+インストーラーを起動。
+
+```
+archinstall
+```
+
+### インストール実行時の動画
 
 ![](images/archinstall/archinstall.mp4)
 
-パーティションのサイズは次のようにしています。
+動画は次のコマンドで作成した。
+
+```
+wf-recorder -c h264_vaapi -d /dev/dri/renderD128 -p pix_fmt=nv12 \
+  -r 30 -g "$(slurp)" -f archinstall.mp4
+```
+
+パーティションのサイズは次のようにしている。
 
 | パーティション  | サイズ    | フォーマット | ファイルシステム |
 | -------------- | --------- | ------------ | ---------------- |

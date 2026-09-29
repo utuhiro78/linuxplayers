@@ -4,57 +4,115 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-07-28" />
-  <title>archinstall で Arch Linux をインストール</title>
+  <meta name="dcterms.date" content="2026-09-29" />
+  <title>Arch Linux のインストール</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">archinstall で Arch Linux をインストール</h1>
-<p class="date">2026-07-28</p>
+<h1 class="title">Arch Linux のインストール</h1>
+<p class="date">2026-09-29</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#archinstall-とは" id="toc-archinstall-とは">archinstall
-とは</a></li>
-<li><a href="#archinstall-を日本語で使用"
-id="toc-archinstall-を日本語で使用">archinstall を日本語で使用</a></li>
-<li><a href="#実行時の動画" id="toc-実行時の動画">実行時の動画</a></li>
+<li><a href="#ダウンロード" id="toc-ダウンロード">ダウンロード</a></li>
+<li><a href="#ventoy-をusbメモリにインストール"
+id="toc-ventoy-をusbメモリにインストール">Ventoy
+をUSBメモリにインストール</a></li>
+<li><a href="#arch-linux-のisoファイルをusbメモリにコピー"
+id="toc-arch-linux-のisoファイルをusbメモリにコピー">Arch Linux
+のISOファイルをUSBメモリにコピー</a></li>
+<li><a href="#arch-linux-をシステムにインストール"
+id="toc-arch-linux-をシステムにインストール">Arch Linux
+をシステムにインストール</a>
+<ul>
+<li><a href="#インストーラーの日本語が文字化けしないようにする"
+id="toc-インストーラーの日本語が文字化けしないようにする">インストーラーの日本語が文字化けしないようにする</a></li>
+<li><a href="#インストール実行時の動画"
+id="toc-インストール実行時の動画">インストール実行時の動画</a></li>
+</ul></li>
 </ul>
 </nav>
-<h2 id="archinstall-とは">archinstall とは</h2>
-<p><a href="https://github.com/archlinux/archinstall">archinstall</a> は
-Arch Linux のインストーラー。ガイドに沿って進めれば、簡単に Arch Linux
-をインストールできる。</p>
-<h2 id="archinstall-を日本語で使用">archinstall を日本語で使用</h2>
-<p>Arch Linux のISOファイルでは日本語を表示できないので、<a
-href="endeavour_01.html">EndeavourOS</a> を使用する。</p>
-<p>EndeavourOS を起動。</p>
-<p>ブラウザで今見ているページを開く。</p>
-<p>ターミナルを開いてウィンドウを最大化。ウィンドウが小さいと表示が崩れる。</p>
-<p>次のコマンドを貼り付けて実行。</p>
-<pre><code># Arch Linux の公式リポジトリのみを使用する
-wget https://gitlab.archlinux.org/archlinux/packaging/packages/pacman/-/raw/main/pacman.conf
-sudo mv pacman.conf /etc/
-sudo pacman -Sy
+<h2 id="ダウンロード">ダウンロード</h2>
+<p><a
+href="https://archlinux.org/download/">こちら</a>からISOファイルをダウンロード。</p>
+<h2 id="ventoy-をusbメモリにインストール">Ventoy
+をUSBメモリにインストール</h2>
+<p><a href="https://github.com/ventoy/Ventoy/releases">こちら</a>から
+Ventoy をダウンロード。</p>
+<p>USBメモリを差し込んでデバイスのパスを確認。</p>
+<pre><code>lsblk -p | grep disk
 
-# keyring を更新
-sudo pacman -S --needed archlinux-keyring
-
-# 高速なダウンロードサーバを選択
-sudo pacman -S --needed reflector rsync
-sudo reflector -c jp -f 5 --save /etc/pacman.d/mirrorlist
-sudo pacman -Sy
-
-# archinstall をインストール
-sudo pacman -S --needed archinstall
-
-sudo archinstall</code></pre>
-<h2 id="実行時の動画">実行時の動画</h2>
+# /dev/sda           8:0    1 28.7G  0 disk 
+# /dev/zram0       253:0    0    4G  0 disk [SWAP]
+# /dev/nvme0n1     259:0    0  1.8T  0 disk </code></pre>
+<p>ディスクのサイズから /dev/sda がUSBデバイスのパスだと判断。</p>
+<p>Ventoy を /dev/sda にインストール。<br />
+Wayland ではGUI版を起動できないのでCUI版を使用する。<br />
+以下のコマンドでは無確認でフォーマットすることがないよう、パスを
+/dev/sdX にしている。</p>
+<p>新規の場合（USBメモリがフォーマットされる）:</p>
+<pre><code>sudo sh Ventoy2Disk.sh -i /dev/sdX</code></pre>
+<p>アップデートの場合:</p>
+<pre><code>sudo sh Ventoy2Disk.sh -u /dev/sdX</code></pre>
+<h2 id="arch-linux-のisoファイルをusbメモリにコピー">Arch Linux
+のISOファイルをUSBメモリにコピー</h2>
+<p>USBメモリに Arch Linux のISOファイルをコピー。<br />
+Arch Linux のインストールがうまくいかない場合に備えて、<a
+href="https://ubuntu.com/download/desktop">Ubuntu</a>
+のISOファイルもコピーしておく。</p>
+<h2 id="arch-linux-をシステムにインストール">Arch Linux
+をシステムにインストール</h2>
+<p>PCの電源を入れ、ブートメニューキーを押す。<br />
+ブートメニューキーは次のとおり。</p>
+<table>
+<thead>
+<tr>
+<th>メーカー</th>
+<th>ブートメニューキー</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASUS</td>
+<td>F8</td>
+</tr>
+<tr>
+<td>ASRock</td>
+<td>F11</td>
+</tr>
+<tr>
+<td>GIGABYTE</td>
+<td>F12</td>
+</tr>
+<tr>
+<td>MSI</td>
+<td>F11</td>
+</tr>
+</tbody>
+</table>
+<p>ブートメニューキーを押したらUSBメモリを選択してEnter。<br />
+UEFIで CSM
+サポートを無効にしておくと、UEFIブートに対応していないデバイスが非表示になるので、選択が楽になる。</p>
+<p>Ventoy のメニューが表示されたら Arch Linux のISOファイルを選択。</p>
+<h3
+id="インストーラーの日本語が文字化けしないようにする">インストーラーの日本語が文字化けしないようにする</h3>
+<p>Arch Linux が起動したら kmscon をインストール。Linux
+コンソールだと日本語が文字化けする。</p>
+<pre><code>localectl set-keymap jp106
+pacman -Sy kmscon
+kmscon</code></pre>
+<p>ログイン画面が表示されたら root と入力してEnter。<br />
+インストーラーを起動。</p>
+<pre><code>archinstall</code></pre>
+<h3 id="インストール実行時の動画">インストール実行時の動画</h3>
 <p><video src="images/archinstall/archinstall.mp4" controls=""><a
 href="images/archinstall/archinstall.mp4">Video</a></video></p>
-<p>パーティションのサイズは次のようにしています。</p>
+<p>動画は次のコマンドで作成した。</p>
+<pre><code>wf-recorder -c h264_vaapi -d /dev/dri/renderD128 -p pix_fmt=nv12 \
+  -r 30 -g &quot;$(slurp)&quot; -f archinstall.mp4</code></pre>
+<p>パーティションのサイズは次のようにしている。</p>
 <table>
 <thead>
 <tr>
