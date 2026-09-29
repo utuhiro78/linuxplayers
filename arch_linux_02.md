@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-08-31
+date: 2026-09-29
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -380,7 +380,12 @@ dash lxqt-wayland-session labwc qt6-tools gcc make pkgconf
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
 chmod a+x yt-dlp
 sudo mv yt-dlp /usr/bin/
-sudo yt-dlp -U
+# アップデート
+# sudo yt-dlp -U
+
+# yt-dlp で出力するファイルのタイトル部分を 200 バイト以下にする
+alias yt-dlp='yt-dlp -o "%(title).200B [%(id)s].%(ext)s"'
+alias yt-dlp-fhd='yt-dlp -S res:1080 -o "%(title).200B [%(id)s].%(ext)s"'
 
 # mousepad のカーソル位置を常に1行目にする
 mkdir -p ~/tmp_arch
@@ -389,7 +394,7 @@ cp -f /usr/share/applications/org.xfce.mousepad.desktop .
 sed -i -e 's,Exec=mousepad %U$,Exec=mousepad -l 1 %U,g' org.xfce.mousepad.desktop
 sudo cp org.xfce.mousepad.desktop /usr/share/applications/org.xfce.mousepad.desktop
 
-# アップデートが来ても無視するパッケージ
+# アップデートが来ても無視するパッケージを設定
 mkdir -p ~/tmp_arch
 cd ~/tmp_arch/
 cp /etc/pacman.conf .
@@ -415,12 +420,13 @@ sudo ufw status
 # sudo ufw delete allow qBittorrent
 
 # ripgrep を設定
-printf -- '--ignore-case
+cat << 'EOF' > ~/.ripgreprc
+--ignore-case
 --colors path:fg:0x34,0x83,0xE3
 --colors line:fg:0x34,0x83,0xE3
 --colors match:bg:0x34,0x83,0xE3
 --colors match:fg:white
-' > ~/.ripgreprc
+EOF
 
 # マウスカーソル
 mkdir -p ~/tmp_arch
@@ -455,9 +461,6 @@ alias duu="ncdu"
 
 # ファイルリストを縦に並べる
 alias ls="ls -1"
-
-alias yt-dlp='yt-dlp -o "%(title).200B [%(id)s].%(ext)s"'
-alias yt-dlp-fhd='yt-dlp -S res:1080 -o "%(title).200B [%(id)s].%(ext)s"'
 EOF
 ```
 

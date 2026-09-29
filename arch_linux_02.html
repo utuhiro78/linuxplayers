@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-08-31" />
+  <meta name="dcterms.date" content="2026-09-29" />
   <title>Arch Linux の設定2</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定2</h1>
-<p class="date">2026-08-31</p>
+<p class="date">2026-09-29</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -326,7 +326,12 @@ dash lxqt-wayland-session labwc qt6-tools gcc make pkgconf
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
 chmod a+x yt-dlp
 sudo mv yt-dlp /usr/bin/
-sudo yt-dlp -U
+# アップデート
+# sudo yt-dlp -U
+
+# yt-dlp で出力するファイルのタイトル部分を 200 バイト以下にする
+alias yt-dlp=&#39;yt-dlp -o &quot;%(title).200B [%(id)s].%(ext)s&quot;&#39;
+alias yt-dlp-fhd=&#39;yt-dlp -S res:1080 -o &quot;%(title).200B [%(id)s].%(ext)s&quot;&#39;
 
 # mousepad のカーソル位置を常に1行目にする
 mkdir -p ~/tmp_arch
@@ -335,7 +340,7 @@ cp -f /usr/share/applications/org.xfce.mousepad.desktop .
 sed -i -e &#39;s,Exec=mousepad %U$,Exec=mousepad -l 1 %U,g&#39; org.xfce.mousepad.desktop
 sudo cp org.xfce.mousepad.desktop /usr/share/applications/org.xfce.mousepad.desktop
 
-# アップデートが来ても無視するパッケージ
+# アップデートが来ても無視するパッケージを設定
 mkdir -p ~/tmp_arch
 cd ~/tmp_arch/
 cp /etc/pacman.conf .
@@ -361,12 +366,13 @@ sudo ufw status
 # sudo ufw delete allow qBittorrent
 
 # ripgrep を設定
-printf -- &#39;--ignore-case
+cat &lt;&lt; &#39;EOF&#39; &gt; ~/.ripgreprc
+--ignore-case
 --colors path:fg:0x34,0x83,0xE3
 --colors line:fg:0x34,0x83,0xE3
 --colors match:bg:0x34,0x83,0xE3
 --colors match:fg:white
-&#39; &gt; ~/.ripgreprc
+EOF
 
 # マウスカーソル
 mkdir -p ~/tmp_arch
@@ -401,9 +407,6 @@ alias duu=&quot;ncdu&quot;
 
 # ファイルリストを縦に並べる
 alias ls=&quot;ls -1&quot;
-
-alias yt-dlp=&#39;yt-dlp -o &quot;%(title).200B [%(id)s].%(ext)s&quot;&#39;
-alias yt-dlp-fhd=&#39;yt-dlp -S res:1080 -o &quot;%(title).200B [%(id)s].%(ext)s&quot;&#39;
 EOF</code></pre>
 <p><a href="index.html">HOME</a></p>
 </body>
