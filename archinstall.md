@@ -72,13 +72,12 @@ kmscon
 ```
 
 ログイン画面が表示されたら root と入力してEnter。
-インストーラーを起動。
+
+### インストーラーを実行
 
 ```
 archinstall
 ```
-
-### インストール実行時の動画
 
 ![](images/archinstall/archinstall.mp4)
 
@@ -89,17 +88,13 @@ wf-recorder -c h264_vaapi -d /dev/dri/renderD128 -p pix_fmt=nv12 \
   -r 30 -g "$(slurp)" -f archinstall.mp4
 ```
 
-パーティションのサイズは次のようにしている。
+デフォルトのパーティションレイアウトは次の通り（ext4 を選択した場合）。
 
 | パーティション  | サイズ    | フォーマット | ファイルシステム |
 | -------------- | --------- | ------------ | ---------------- |
-| /boot          |  1024 MiB     | する         | fat32            |
-| /              | 20480 MiB     | する         | ext4             |
-| /home          | 残り全部  | しない       | ext4             |
-
-「/boot」は基本的には [1024 MiB](https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition) で足りる。
-「/」は余裕をもたせるなら 30720 MiB にする。
-「/home」は初めて作成する場合のみフォーマット。
+| /boot          |  1 GiB    | する         | fat32            |
+| /              |  50 GiB   | する         | ext4             |
+| /home          | 残り全部  | する         | ext4             |
 
 インストールが終わったら再起動して[設定を行う](arch_linux_01.html)。
 

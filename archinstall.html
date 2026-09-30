@@ -29,8 +29,8 @@ id="toc-arch-linux-をシステムにインストール">Arch Linux
 <ul>
 <li><a href="#インストーラーの日本語が文字化けしないようにする"
 id="toc-インストーラーの日本語が文字化けしないようにする">インストーラーの日本語が文字化けしないようにする</a></li>
-<li><a href="#インストール実行時の動画"
-id="toc-インストール実行時の動画">インストール実行時の動画</a></li>
+<li><a href="#インストーラーを実行"
+id="toc-インストーラーを実行">インストーラーを実行</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -103,16 +103,16 @@ id="インストーラーの日本語が文字化けしないようにする">�
 <pre><code>localectl set-keymap jp106
 pacman -Sy kmscon
 kmscon</code></pre>
-<p>ログイン画面が表示されたら root と入力してEnter。<br />
-インストーラーを起動。</p>
+<p>ログイン画面が表示されたら root と入力してEnter。</p>
+<h3 id="インストーラーを実行">インストーラーを実行</h3>
 <pre><code>archinstall</code></pre>
-<h3 id="インストール実行時の動画">インストール実行時の動画</h3>
 <p><video src="images/archinstall/archinstall.mp4" controls=""><a
 href="images/archinstall/archinstall.mp4">Video</a></video></p>
 <p>動画は次のコマンドで作成した。</p>
 <pre><code>wf-recorder -c h264_vaapi -d /dev/dri/renderD128 -p pix_fmt=nv12 \
   -r 30 -g &quot;$(slurp)&quot; -f archinstall.mp4</code></pre>
-<p>パーティションのサイズは次のようにしている。</p>
+<p>デフォルトのパーティションレイアウトは次の通り（ext4
+を選択した場合）。</p>
 <table>
 <thead>
 <tr>
@@ -125,29 +125,24 @@ href="images/archinstall/archinstall.mp4">Video</a></video></p>
 <tbody>
 <tr>
 <td>/boot</td>
-<td>1024 MiB</td>
+<td>1 GiB</td>
 <td>する</td>
 <td>fat32</td>
 </tr>
 <tr>
 <td>/</td>
-<td>20480 MiB</td>
+<td>50 GiB</td>
 <td>する</td>
 <td>ext4</td>
 </tr>
 <tr>
 <td>/home</td>
 <td>残り全部</td>
-<td>しない</td>
+<td>する</td>
 <td>ext4</td>
 </tr>
 </tbody>
 </table>
-<p>「/boot」は基本的には <a
-href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">1024
-MiB</a> で足りる。<br />
-「/」は余裕をもたせるなら 30720 MiB にする。<br />
-「/home」は初めて作成する場合のみフォーマット。</p>
 <p>インストールが終わったら再起動して<a
 href="arch_linux_01.html">設定を行う</a>。</p>
 <p><a href="index.html">HOME</a></p>
