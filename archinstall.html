@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-09-29" />
+  <meta name="dcterms.date" content="2026-10-01" />
   <title>Arch Linux のインストール</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux のインストール</h1>
-<p class="date">2026-09-29</p>
+<p class="date">2026-10-01</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -32,6 +32,9 @@ id="toc-インストーラーの日本語が文字化けしないようにする
 <li><a href="#インストーラーを実行"
 id="toc-インストーラーを実行">インストーラーを実行</a></li>
 </ul></li>
+<li><a href="#参考-日本語表示に対応したisoファイルを作成"
+id="toc-参考-日本語表示に対応したisoファイルを作成">参考:
+日本語表示に対応したISOファイルを作成</a></li>
 </ul>
 </nav>
 <h2 id="ダウンロード">ダウンロード</h2>
@@ -145,6 +148,43 @@ href="images/archinstall/archinstall.mp4">Video</a></video></p>
 </table>
 <p>インストールが終わったら再起動して<a
 href="arch_linux_01.html">設定を行う</a>。</p>
+<h2 id="参考-日本語表示に対応したisoファイルを作成">参考:
+日本語表示に対応したISOファイルを作成</h2>
+<pre><code># archiso のプロファイル「releng」を「reljp」としてコピー
+rm -rf reljp/
+cp -r /usr/share/archiso/configs/releng/ reljp
+
+# ISOファイルに収録するパッケージを追加
+cat &lt;&lt; &#39;EOF&#39; &gt;&gt; reljp/packages.x86_64
+kmscon
+otf-ipaexfont
+pango
+EOF
+
+sort -u reljp/packages.x86_64 -o reljp/packages.x86_64
+
+# kmscon の設定ファイルを作成
+mkdir -p reljp/airootfs/etc/kmscon/
+cat &lt;&lt; &#39;EOF&#39; &gt; reljp/airootfs/etc/kmscon/kmscon.conf
+login=/usr/bin/bash --login
+xkb-layout=jp
+font-engine=pango
+font-name=&quot;IPAexGothic&quot;
+font-size=20
+EOF
+
+# getty@tty1 をマスクする
+ln -sf /dev/null reljp/airootfs/etc/systemd/system/getty@tty1.service
+
+# kmsconvt@tty1 を自動起動する
+mkdir -p reljp/airootfs/etc/systemd/system/getty.target.wants/
+ln -sf /usr/lib/systemd/system/kmsconvt@.service \
+  reljp/airootfs/etc/systemd/system/getty.target.wants/kmsconvt@tty1.service
+
+rm -rf archiso-reljp/
+mkarchiso -v -r -w /tmp/archiso-tmp -o archiso-reljp reljp</code></pre>
+<p>このISOファイルを使用すると、日本語表示に対応した kmscon
+が自動的に起動する。</p>
 <p><a href="index.html">HOME</a></p>
 </body>
 </html>
