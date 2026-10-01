@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-09-11" />
+  <meta name="dcterms.date" content="2026-10-02" />
   <title>Arch Linux の設定1</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定1</h1>
-<p class="date">2026-09-11</p>
+<p class="date">2026-10-02</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -178,6 +178,21 @@ cp -f /usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc ~/.local/share/fonts/
 cp /etc/fonts/conf.d/65-nonlatin.conf .
 sed -i &#39;s,IPAGothic,Noto Sans Mono CJK JP,g&#39; 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/</code></pre>
+<pre><code># コンソールを kmscon に変更
+sudo systemctl mask getty@tty1.service
+sudo systemctl enable kmsconvt@tty1.service
+
+# kmscon の設定ファイルを作成
+# フォント名の調べ方は次の通り
+# fc-scan --format &quot;%{family}\n&quot; /path/to/fontfile
+cat &lt;&lt; &#39;EOF&#39; &gt; kmscon.conf
+xkb-layout=jp
+font-engine=pango
+font-name=&quot;Noto Sans Mono CJK JP&quot;
+font-size=20
+EOF
+
+sudo mv kmscon.conf /etc/kmscon/</code></pre>
 <pre><code># [Radeon] ドライバをインストール
 if lspci -k | grep -q &#39;Kernel driver in use: amdgpu&#39;; then
     yay -S --needed vulkan-radeon libva-utils

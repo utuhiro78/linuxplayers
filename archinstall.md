@@ -106,7 +106,7 @@ rm -rf reljp/
 cp -r /usr/share/archiso/configs/releng/ reljp
 
 # 日本語表示用のパッケージをISOファイルに追加
-# 日本語フォントにはサイズが小さい otf-ipaexfont を使用
+# フォントは容量が小さい otf-ipaexfont を使用
 cat << 'EOF' >> reljp/packages.x86_64
 kmscon
 otf-ipaexfont
@@ -117,7 +117,7 @@ sort -u reljp/packages.x86_64 -o reljp/packages.x86_64
 
 # kmscon の設定ファイルを作成
 # フォント名の調べ方は次の通り
-# fc-scan --format "%{family}\n" /usr/share/fonts/OTF/ipaexg.ttf
+# fc-scan --format "%{family}\n" /path/to/fontfile
 mkdir -p reljp/airootfs/etc/kmscon/
 cat << 'EOF' > reljp/airootfs/etc/kmscon/kmscon.conf
 login=/usr/bin/bash --login
@@ -127,10 +127,9 @@ font-name="IPAexGothic"
 font-size=20
 EOF
 
-# getty@tty1 をマスク
+# コンソールを kmscon に変更
 ln -sf /dev/null reljp/airootfs/etc/systemd/system/getty@tty1.service
 
-# kmsconvt@tty1 を自動起動
 mkdir -p reljp/airootfs/etc/systemd/system/getty.target.wants
 ln -sf /usr/lib/systemd/system/kmsconvt@.service \
   reljp/airootfs/etc/systemd/system/getty.target.wants/kmsconvt@tty1.service

@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定1
-date: 2026-09-11
+date: 2026-10-02
 ---
 
 ## 最初に行うこと
@@ -172,6 +172,24 @@ cp -f /usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc ~/.local/share/fonts/
 cp /etc/fonts/conf.d/65-nonlatin.conf .
 sed -i 's,IPAGothic,Noto Sans Mono CJK JP,g' 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/
+```
+
+```
+# コンソールを kmscon に変更
+sudo systemctl mask getty@tty1.service
+sudo systemctl enable kmsconvt@tty1.service
+
+# kmscon の設定ファイルを作成
+# フォント名の調べ方は次の通り
+# fc-scan --format "%{family}\n" /path/to/fontfile
+cat << 'EOF' > kmscon.conf
+xkb-layout=jp
+font-engine=pango
+font-name="Noto Sans Mono CJK JP"
+font-size=20
+EOF
+
+sudo mv kmscon.conf /etc/kmscon/
 ```
 
 ```
