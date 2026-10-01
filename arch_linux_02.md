@@ -54,7 +54,7 @@ if orphans=$(pacman -Qdtq); then sudo pacman -Rns $orphans; else echo "No orphan
 
 ```
 yay -S --needed sddm
-sudo systemctl --force enable sddm.service
+sudo systemctl --force enable sddm
 ```
 
 ### Wine の設定
