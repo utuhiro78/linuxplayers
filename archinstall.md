@@ -101,11 +101,12 @@ wf-recorder -c h264_vaapi -d /dev/dri/renderD128 -p pix_fmt=nv12 \
 ## 参考: 日本語表示に対応したISOファイルを作成
 
 ```
-# archiso のプロファイル「releng」を「reljp」としてコピー
+# archiso のプロファイル「releng」から「reljp」を作成
 rm -rf reljp/
 cp -r /usr/share/archiso/configs/releng/ reljp
 
-# ISOファイルに収録するパッケージを追加
+# 日本語表示用のパッケージをISOファイルに追加
+# 日本語フォントにはサイズが小さい otf-ipaexfont を使用
 cat << 'EOF' >> reljp/packages.x86_64
 kmscon
 otf-ipaexfont
@@ -115,6 +116,8 @@ EOF
 sort -u reljp/packages.x86_64 -o reljp/packages.x86_64
 
 # kmscon の設定ファイルを作成
+# フォント名の調べ方は次の通り
+# fc-scan --format "%{family}\n" /usr/share/fonts/OTF/ipaexg.ttf
 mkdir -p reljp/airootfs/etc/kmscon/
 cat << 'EOF' > reljp/airootfs/etc/kmscon/kmscon.conf
 login=/usr/bin/bash --login
@@ -124,18 +127,20 @@ font-name="IPAexGothic"
 font-size=20
 EOF
 
-# getty@tty1 をマスクする
+# getty@tty1 をマスク
 ln -sf /dev/null reljp/airootfs/etc/systemd/system/getty@tty1.service
 
-# kmsconvt@tty1 を自動起動する
+# kmsconvt@tty1 を自動起動
 mkdir -p reljp/airootfs/etc/systemd/system/getty.target.wants
 ln -sf /usr/lib/systemd/system/kmsconvt@.service \
   reljp/airootfs/etc/systemd/system/getty.target.wants/kmsconvt@tty1.service
 
+# ISOファイルを archiso-reljp/ に出力
 rm -rf archiso-reljp/
 mkarchiso -v -r -w /tmp/archiso-tmp -o archiso-reljp reljp
 ```
 
-このISOファイルを使用すると、日本語表示に対応した kmscon が自動的に起動する。
+このISOファイルを使用すると、kmscon が自動的に起動する。
+あとは archinstall で Arch Linux をインストール。
 
 [HOME](index.html)
