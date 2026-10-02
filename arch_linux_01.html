@@ -179,6 +179,7 @@ cp /etc/fonts/conf.d/65-nonlatin.conf .
 sed -i &#39;s,IPAGothic,Noto Sans Mono CJK JP,g&#39; 65-nonlatin.conf
 sudo mv 65-nonlatin.conf /etc/fonts/conf.d/</code></pre>
 <pre><code># コンソールを kmscon に変更
+yay -S --needed kmscon
 sudo systemctl mask getty@tty1.service
 sudo systemctl enable kmsconvt@tty1.service
 
