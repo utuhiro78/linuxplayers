@@ -181,12 +181,13 @@ sudo systemctl enable kmsconvt@tty1.service
 
 # kmscon の設定ファイルを作成
 # フォント名の調べ方は次の通り
-# fc-scan --format "%{family}\n" /path/to/fontfile
+#   fc-scan --format "%{family}\n" /path/to/fontfile
+# 文字の拡大縮小は Ctrl+マウスホイール
 cat << 'EOF' > kmscon.conf
 xkb-layout=jp
 font-engine=pango
 font-name="Noto Sans Mono CJK JP"
-font-size=20
+font-size=18
 EOF
 
 sudo mv kmscon.conf /etc/kmscon/

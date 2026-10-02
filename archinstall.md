@@ -105,8 +105,8 @@ wf-recorder -c h264_vaapi -d /dev/dri/renderD128 -p pix_fmt=nv12 \
 rm -rf reljp/
 cp -r /usr/share/archiso/configs/releng/ reljp
 
-# 日本語表示用のパッケージをISOファイルに追加
-# フォントは容量が小さい otf-ipaexfont を使用
+# 日本語表示用のパッケージをパッケージリストに追加
+# フォントは容量の小さい otf-ipaexfont を使用
 cat << 'EOF' >> reljp/packages.x86_64
 kmscon
 otf-ipaexfont
@@ -117,19 +117,21 @@ sort -u reljp/packages.x86_64 -o reljp/packages.x86_64
 
 # kmscon の設定ファイルを作成
 # フォント名の調べ方は次の通り
-# fc-scan --format "%{family}\n" /path/to/fontfile
+#   fc-scan --format "%{family}\n" /path/to/fontfile
+# 文字の拡大縮小は Ctrl+マウスホイール
 mkdir -p reljp/airootfs/etc/kmscon/
 cat << 'EOF' > reljp/airootfs/etc/kmscon/kmscon.conf
 login=/usr/bin/bash --login
 xkb-layout=jp
 font-engine=pango
 font-name="IPAexGothic"
-font-size=20
+font-size=18
 EOF
 
-# コンソールを kmscon に変更
+# getty@tty1.service を無効にする
 ln -sf /dev/null reljp/airootfs/etc/systemd/system/getty@tty1.service
 
+# kmsconvt@tty1.service を有効にする
 mkdir -p reljp/airootfs/etc/systemd/system/getty.target.wants
 ln -sf /usr/lib/systemd/system/kmsconvt@.service \
   reljp/airootfs/etc/systemd/system/getty.target.wants/kmsconvt@tty1.service
