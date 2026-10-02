@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-09-28" />
+  <meta name="dcterms.date" content="2026-10-03" />
   <title>mpv の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">mpv の設定</h1>
-<p class="date">2026-09-28</p>
+<p class="date">2026-10-03</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -143,20 +143,24 @@ WHEEL_DOWN ignore
 WHEEL_LEFT ignore
 WHEEL_RIGHT ignore
 
-# PGUP と PGDWN で10分移動
+# PGUP と PGDWN で10分送り/10分戻し
 PGUP seek 600
-PGDWN seek -600</code></pre>
+PGDWN seek -600
+
+# : と ; で1フレーム送り/1フレーム戻し
+: frame-step
+; frame-back-step</code></pre>
 <pre><code># マウスの進むボタンと戻るボタンで次/前のファイルに移動
-MBTN_FORWARD playlist-next;show-text ${playlist} 2000
-MBTN_BACK playlist-prev;show-text ${playlist} 2000
+MBTN_FORWARD playlist-next; show-text ${playlist} 2000
+MBTN_BACK playlist-prev; show-text ${playlist} 2000
 
 # . と , で次/前のファイルに移動
-. playlist-next;show-text ${playlist} 2000
-, playlist-prev;show-text ${playlist} 2000
+. playlist-next; show-text ${playlist} 2000
+, playlist-prev; show-text ${playlist} 2000
 
 # \ と / で次/前のチャプターに移動
-\ add chapter 1
-/ add chapter -1</code></pre>
+\ add chapter 1; show-text ${chapter-list} 2000
+/ add chapter -1; show-text ${chapter-list} 2000</code></pre>
 <pre><code># i でファイル情報の表示をトグル
 # I でファイル情報を一時的に表示
 i script-binding stats/display-stats-toggle

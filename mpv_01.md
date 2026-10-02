@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-09-28
+date: 2026-10-03
 ---
 
 ## mpv の特徴
@@ -95,23 +95,27 @@ WHEEL_DOWN ignore
 WHEEL_LEFT ignore
 WHEEL_RIGHT ignore
 
-# PGUP と PGDWN で10分移動
+# PGUP と PGDWN で10分送り/10分戻し
 PGUP seek 600
 PGDWN seek -600
+
+# : と ; で1フレーム送り/1フレーム戻し
+: frame-step
+; frame-back-step
 ```
 
 ```
 # マウスの進むボタンと戻るボタンで次/前のファイルに移動
-MBTN_FORWARD playlist-next;show-text ${playlist} 2000
-MBTN_BACK playlist-prev;show-text ${playlist} 2000
+MBTN_FORWARD playlist-next; show-text ${playlist} 2000
+MBTN_BACK playlist-prev; show-text ${playlist} 2000
 
 # . と , で次/前のファイルに移動
-. playlist-next;show-text ${playlist} 2000
-, playlist-prev;show-text ${playlist} 2000
+. playlist-next; show-text ${playlist} 2000
+, playlist-prev; show-text ${playlist} 2000
 
 # \ と / で次/前のチャプターに移動
-\ add chapter 1
-/ add chapter -1
+\ add chapter 1; show-text ${chapter-list} 2000
+/ add chapter -1; show-text ${chapter-list} 2000
 ```
 
 ```
