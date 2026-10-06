@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-09-29" />
+  <meta name="dcterms.date" content="2026-10-06" />
   <title>Arch Linux の設定2</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Arch Linux の設定2</h1>
-<p class="date">2026-09-29</p>
+<p class="date">2026-10-06</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -314,7 +314,7 @@ sudo prevent-intellipark-sda</code></pre>
       &lt;/mousebind&gt;</code></pre>
 <h3 id="個人的に必要なパッケージ">個人的に必要なパッケージ</h3>
 <pre><code># パッケージ
-yay -S --needed bash-completion cmake dosfstools file-roller \
+yay -S --needed bash-completion cmake dosfstools \
 evince fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt \
 gnome-disk-utility less libva-utils lm_sensors mousepad mpv \
 ncdu noto-fonts noto-fonts-emoji 7zip fuse poppler-data \
@@ -328,10 +328,6 @@ chmod a+x yt-dlp
 sudo mv yt-dlp /usr/bin/
 # アップデート
 # sudo yt-dlp -U
-
-# yt-dlp で出力するファイルのタイトル部分を 200 バイト以下にする
-alias yt-dlp=&#39;yt-dlp -o &quot;%(title).200B [%(id)s].%(ext)s&quot;&#39;
-alias yt-dlp-fhd=&#39;yt-dlp -S res:1080 -o &quot;%(title).200B [%(id)s].%(ext)s&quot;&#39;
 
 # mousepad のカーソル位置を常に1行目にする
 mkdir -p ~/tmp_arch
@@ -407,6 +403,10 @@ alias duu=&quot;ncdu&quot;
 
 # ファイルリストを縦に並べる
 alias ls=&quot;ls -1&quot;
+
+# yt-dlp で出力するファイルのタイトル部分を 200 バイト以下にする
+alias yt-dlp=&#39;yt-dlp -o &quot;%(title).200B [%(id)s].%(ext)s&quot;&#39;
+alias yt-dlp-fhd=&#39;yt-dlp -S res:1080 -o &quot;%(title).200B [%(id)s].%(ext)s&quot;&#39;
 EOF</code></pre>
 <p><a href="index.html">HOME</a></p>
 </body>

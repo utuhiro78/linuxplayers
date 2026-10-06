@@ -1,6 +1,6 @@
 ---
 title: Arch Linux の設定2
-date: 2026-09-29
+date: 2026-10-06
 ---
 
 ### CPUの脆弱性が緩和されているか確認
@@ -368,7 +368,7 @@ mousepad ~/.config/openbox/rc.xml
 
 ```
 # パッケージ
-yay -S --needed bash-completion cmake dosfstools file-roller \
+yay -S --needed bash-completion cmake dosfstools \
 evince fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt \
 gnome-disk-utility less libva-utils lm_sensors mousepad mpv \
 ncdu noto-fonts noto-fonts-emoji 7zip fuse poppler-data \
@@ -382,10 +382,6 @@ chmod a+x yt-dlp
 sudo mv yt-dlp /usr/bin/
 # アップデート
 # sudo yt-dlp -U
-
-# yt-dlp で出力するファイルのタイトル部分を 200 バイト以下にする
-alias yt-dlp='yt-dlp -o "%(title).200B [%(id)s].%(ext)s"'
-alias yt-dlp-fhd='yt-dlp -S res:1080 -o "%(title).200B [%(id)s].%(ext)s"'
 
 # mousepad のカーソル位置を常に1行目にする
 mkdir -p ~/tmp_arch
@@ -461,6 +457,10 @@ alias duu="ncdu"
 
 # ファイルリストを縦に並べる
 alias ls="ls -1"
+
+# yt-dlp で出力するファイルのタイトル部分を 200 バイト以下にする
+alias yt-dlp='yt-dlp -o "%(title).200B [%(id)s].%(ext)s"'
+alias yt-dlp-fhd='yt-dlp -S res:1080 -o "%(title).200B [%(id)s].%(ext)s"'
 EOF
 ```
 
