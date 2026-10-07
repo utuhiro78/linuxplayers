@@ -20,12 +20,7 @@
 <li><a href="#ダウンロード" id="toc-ダウンロード">ダウンロード</a></li>
 <li><a href="#ventoy-をusbメモリにインストール"
 id="toc-ventoy-をusbメモリにインストール">Ventoy
-をUSBメモリにインストール</a>
-<ul>
-<li><a href="#xorg-の場合" id="toc-xorg-の場合">Xorg の場合</a></li>
-<li><a href="#wayland-コンポジターの場合"
-id="toc-wayland-コンポジターの場合">Wayland コンポジターの場合</a></li>
-</ul></li>
+をUSBメモリにインストール</a></li>
 <li><a href="#cachyos-のisoファイルをusbメモリにコピー"
 id="toc-cachyos-のisoファイルをusbメモリにコピー">CachyOS
 のISOファイルをUSBメモリにコピー</a></li>
@@ -44,30 +39,28 @@ CPUに応じて最適化されたパッケージを使用するので、性能�
 <p><a href="https://cachyos.org/download/">こちら</a>。</p>
 <h2 id="ventoy-をusbメモリにインストール">Ventoy
 をUSBメモリにインストール</h2>
-<p><a href="https://github.com/ventoy/Ventoy/releases">Ventoy</a>
-をUSBメモリにインストールしたあと、USBメモリにLinuxディストリビューションのISOファイルをコピーすると、ISOファイルを起動できるようになる。<br />
-複数のISOファイルをコピーすると、起動するISOファイルを選択できる。</p>
-<p>ventoy-*-linux.tar.gz をダウンロードして展開。<br />
-USBメモリを差し込んで次を実行。</p>
-<h3 id="xorg-の場合">Xorg の場合</h3>
-<pre><code>./VentoyGUI.x86_64</code></pre>
-<p><img src="images/cachyos_01/cachyos_50.webp" /></p>
-<p>インストール先を必ず確認。<br />
-新規インストールの場合は「Install」を選択。USBメモリ内のファイルはすべて消える。<br />
-既存の Ventoy
-をアップデートする場合は「Update」を選択。USBメモリ内のファイルは維持される。</p>
-<h3 id="wayland-コンポジターの場合">Wayland コンポジターの場合</h3>
-<p>GUI インストールができないので次を実行。</p>
-<p>新規インストールの場合:</p>
+<p><a href="https://github.com/ventoy/Ventoy/releases">こちら</a>から
+Ventoy をダウンロード。</p>
+<p>USBメモリを差し込んでデバイスのパスを確認。</p>
+<pre><code>lsblk -p | grep disk
+
+# /dev/sda           8:0    1 28.7G  0 disk 
+# /dev/zram0       253:0    0    4G  0 disk [SWAP]
+# /dev/nvme0n1     259:0    0  1.8T  0 disk </code></pre>
+<p>ディスクのサイズから /dev/sda がUSBデバイスのパスだと判断。</p>
+<p>Ventoy を /dev/sda にインストール。<br />
+Wayland ではGUI版を起動できないのでCUI版を使用する。<br />
+以下のコマンドでは無確認でフォーマットすることがないよう、パスを
+/dev/sdX にしている。</p>
+<p>新規の場合（USBメモリがフォーマットされる）:</p>
 <pre><code>sudo sh Ventoy2Disk.sh -i /dev/sdX</code></pre>
 <p>アップデートの場合:</p>
 <pre><code>sudo sh Ventoy2Disk.sh -u /dev/sdX</code></pre>
 <h2 id="cachyos-のisoファイルをusbメモリにコピー">CachyOS
 のISOファイルをUSBメモリにコピー</h2>
 <p>CachyOS のISOファイルをUSBメモリにコピーする。<br />
-<a href="https://kubuntu.org/getkubuntu/">Kubuntu</a>
-などの利用者が多いOSのISOファイルもコピーしておく。CachyOS
-のインストールが失敗したとき、別のOSのISOファイルがないと何もできなくなる。</p>
+<a href="https://kubuntu.org/download/">Kubuntu</a>
+などの利用者が多いOSのISOファイルもコピーする。インストールが失敗したとき、別のOSがないと何もできなくなる。</p>
 <h2 id="cachyos-をシステムにインストール">CachyOS
 をシステムにインストール</h2>
 <p>USBメモリを挿してPCの電源を入れ、ブートメニューキーを押す。<br />
@@ -121,7 +114,7 @@ Settings…」を選択。</p>
 「手動パーティション」を選択。</p>
 <p><img src="images/cachyos_01/cachyos_07.webp" /><br />
 パーティションを作成。</p>
-<table style="width:100%;">
+<table style="width:99%;">
 <colgroup>
 <col style="width: 23%" />
 <col style="width: 15%" />
@@ -141,14 +134,14 @@ Settings…」を選択。</p>
 <tbody>
 <tr>
 <td>/boot</td>
-<td>1024 MiB</td>
+<td>4096 MiB</td>
 <td>する</td>
 <td>fat32</td>
 <td>boot</td>
 </tr>
 <tr>
 <td>/</td>
-<td>20480 MiB</td>
+<td>30720 MiB</td>
 <td>する</td>
 <td>ext4</td>
 <td>なし</td>
@@ -162,11 +155,7 @@ Settings…」を選択。</p>
 </tr>
 </tbody>
 </table>
-<p>「/boot」は基本的には <a
-href="https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition">1024
-MiB</a> で足りる。<br />
-「/」は余裕をもたせるなら 30720 MiB にする。<br />
-「/home」は初めて作成する場合のみフォーマット。</p>
+<p>「/home」は初めて作成する場合のみフォーマット。</p>
 <p><img src="images/cachyos_01/cachyos_08.webp" /><br />
 /boot パーティションの編集例。</p>
 <p><img src="images/cachyos_01/cachyos_09.webp" /><br />

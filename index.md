@@ -2,9 +2,9 @@
 title: LinuxPlayers
 ---
 
+[Arch Linux のインストール](archinstall.html)
 [EndeavourOS のインストール](endeavour_01.html)
 [CachyOS のインストール](cachyos_01.html)
-[Arch Linux のインストール](archinstall.html)
 
 [Arch Linux の設定1](arch_linux_01.html) / [設定2](arch_linux_02.html)
 

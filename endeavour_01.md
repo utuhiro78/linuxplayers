@@ -9,7 +9,7 @@ EndeavourOS は Arch Linux をベースにしたディストリビューショ�
 Calamares で簡単にインストールできる。
 日本語フォントが入っているので文字化けしない。
 オンラインインストールを選択できるので、最新の環境をすぐに使える。
-CachyOS などと比べて[独自パッケージが少なく](https://github.com/endeavouros-team/repo/tree/master/endeavouros/x86_64)、純正のArch Linuxに近い。
+CachyOS と比べて[独自パッケージが少なく](https://github.com/endeavouros-team/repo/tree/master/endeavouros/x86_64)、純正の Arch Linux に近い。
 
 ## ダウンロード
 
@@ -17,29 +17,25 @@ CachyOS などと比べて[独自パッケージが少なく](https://github.com
 
 ## Ventoy をUSBメモリにインストール
 
-[Ventoy](https://github.com/ventoy/Ventoy/releases) をUSBメモリにインストールしたあと、USBメモリにLinuxディストリビューションのISOファイルをコピーすると、ISOファイルを起動できるようになる。
-複数のISOファイルをコピーすると、起動するISOファイルを選択できる。
+[こちら](https://github.com/ventoy/Ventoy/releases)から Ventoy をダウンロード。
 
-ventoy-*-linux.tar.gz をダウンロードして展開。
-USBメモリを差し込んで次を実行。
-
-### Xorg の場合
+USBメモリを差し込んでデバイスのパスを確認。
 
 ```
-./VentoyGUI.x86_64
+lsblk -p | grep disk
+
+# /dev/sda           8:0    1 28.7G  0 disk 
+# /dev/zram0       253:0    0    4G  0 disk [SWAP]
+# /dev/nvme0n1     259:0    0  1.8T  0 disk 
 ```
 
-![](images/endeavour_01/endeavour_50.webp)
+ディスクのサイズから /dev/sda がUSBデバイスのパスだと判断。
 
-インストール先を必ず確認。
-新規インストールの場合は「Install」を選択。USBメモリ内のファイルはすべて消える。
-既存の Ventoy をアップデートする場合は「Update」を選択。USBメモリ内のファイルは維持される。
+Ventoy を /dev/sda にインストール。
+Wayland ではGUI版を起動できないのでCUI版を使用する。
+以下のコマンドでは無確認でフォーマットすることがないよう、パスを /dev/sdX にしている。
 
-### Wayland コンポジターの場合
-
-GUI インストールができないので次を実行。
-
-新規インストールの場合:
+新規の場合（USBメモリがフォーマットされる）:
 
 ```
 sudo sh Ventoy2Disk.sh -i /dev/sdX
@@ -54,7 +50,7 @@ sudo sh Ventoy2Disk.sh -u /dev/sdX
 ## EndeavourOS のISOファイルをUSBメモリにコピー
 
 EndeavourOS のISOファイルをUSBメモリにコピーする。
-[Kubuntu](https://kubuntu.org/getkubuntu/) などの利用者が多いOSのISOファイルもコピーしておく。EndeavourOS のインストールが失敗したとき、別のOSのISOファイルがないと何もできなくなる。
+[Kubuntu](https://kubuntu.org/download/) などの利用者が多いOSのISOファイルもコピーする。インストールが失敗したとき、別のOSがないと何もできなくなる。
 
 ## EndeavourOS をシステムにインストール
 
@@ -113,12 +109,10 @@ Ventoy のメニューでISOファイルを選択。
 
 | パーティション  | サイズ    | フォーマット | ファイルシステム | フラグ    |
 | -------------- | --------- | ------------ | ---------------- | --------- |
-| /efi           | 1024 MiB  | する         | fat32            | boot      |
-| /              | 20480 MiB | する         | ext4             | なし      |
+| /efi           | 2048 MiB  | する         | fat32            | boot      |
+| /              | 30720 MiB | する         | ext4             | なし      |
 | /home          | 残り全部  | しない       | ext4             | なし      |
 
-「/efi」は基本的には [1024 MiB](https://wiki.archlinux.org/title/EFI_system_partition#Create_the_partition) で足りる。
-「/」は余裕をもたせるなら 30720 MiB にする。
 「/home」は初めて作成する場合のみフォーマット。
 
 ![](images/endeavour_01/endeavour_14.webp)
