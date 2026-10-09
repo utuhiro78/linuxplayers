@@ -1,6 +1,6 @@
 ---
 title: mpv の設定
-date: 2026-10-03
+date: 2026-10-09
 ---
 
 ## mpv の特徴
@@ -16,7 +16,7 @@ date: 2026-10-03
 
 ### mpv.conf を設定
 
-~/.config/mpv/mpv.conf を作成して次の行を追加。
+~/.config/mpv/mpv.conf を作成して、必要に応じて設定を変更。
 
 ```
 # ビデオ出力ドライバー
@@ -81,7 +81,7 @@ osd-playlist-entry=filename
 
 ### input.conf を設定
 
-~/.config/mpv/input.conf を作成して次の行を追加。デフォルトは[こちら](https://github.com/mpv-player/mpv/blob/master/etc/input.conf)。
+~/.config/mpv/input.conf を作成して、必要に応じてキー割り当てを変更。デフォルトは[こちら](https://github.com/mpv-player/mpv/blob/master/etc/input.conf)。
 
 ```
 # 右クリックで一時停止しない
@@ -119,7 +119,7 @@ MBTN_BACK playlist-prev; show-text ${playlist} 2000
 ```
 
 ```
-# i でファイル情報の表示をトグル
+# i でファイル情報の表示を切り替え
 # I でファイル情報を一時的に表示
 i script-binding stats/display-stats-toggle
 I script-binding stats/display-stats
@@ -131,22 +131,20 @@ Ctrl+d run gio trash "${path}"; playlist-remove current; show-text "\"${filename
 ESC quit
 ```
 
-### モニターに超解像技術が搭載されている場合
+## モニターに超解像技術が搭載されている場合
 
-モニターに超解像技術が搭載されている場合はオフにする。アップスケーラーの効果がわかりづらくなるので。
-REGZA を使用している場合は次のようにする。
+アップスケーラーの効果がわかりづらくなるので、モニターの超解像技術はオフにする。
+REGZA の場合は次のように設定する。
 
-- 低遅延モード: オン (オフだと黒背景時の赤文字が滲む)
-- レゾリューションプラス: オフ
-- ヒストグラムバックライト制御: オン
-- 質感リアライザー: オート (オフだと全体が白っぽくなる)
+  |  
+-- | --
+レゾリューションプラス | オフ
+質感リアライザー | オート (オフだと全体が白っぽくなる)
+低遅延モード | オン (オフだと黒背景時の赤文字が滲む)
 
 ## 外部のアップスケーラーをインストール
 
-### 注意
-
-FHDモニターでFHD動画を表示する場合など、1倍以下のサイズで表示する場合は何も変わらない。
-アップスケーラーが動作しているかどうかは、mpv での表示中に「i2」と入力すれば確認できる。
+2倍以上に拡大する場合でないと効果が分かりづらい。FHDモニターを使用している場合は、効果を感じる場面が少ないかもしれない。
 
 ### RAVU
 
@@ -238,6 +236,12 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders_high/
 
 ## アップスケーラーの品質を測定
 
+### 測定に使用する写真の選び方
+
+写真に文字が入っていると、アップスケーラーごとの差が出やすい。
+森林のように細かすぎる画像や、顔のアップのように変化が乏しい画像は、アップスケーラーごとの差が出にくいので避ける。
+余白の部分はアップスケーラーごとの差が出ないので、縦長の画像は 16:9 に加工する。
+
 ### 風景写真の場合
 
 ![](images/mpv/pexels-cateduart-38580804_downscaled.jpg)
@@ -245,12 +249,11 @@ mv ArtCNN_C4F*.glsl ~/.config/mpv/shaders_high/
 Source: "[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" by Catarina Duarte
 License: [https://www.pexels.com/ja-JP/license/](https://www.pexels.com/ja-JP/license/)
 
-街の風景写真でスコアを測定する。画像に文字が入っていると、鮮明さを目視で確認しやすい。
-森林のような細かい画像は、どのアップスケーラーを使用してもオリジナルに近づきにくい。顔のアップのような変化が乏しい画像は、どのアップスケーラーを使用しても似たようなスコアになる。
-余白が多いと変化する部分が少なくなるので、縦長の画像は 16:9 に加工する。
+"[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" をクリックして、右上の「Free download」をクリック。
 
-"[Bustling Alleyway in Osaka](https://www.pexels.com/photo/bustling-alleyway-in-osaka-japan-s-shopping-district-38580804/)" をクリックして右上の「Free download」をクリック。
-ダウンロードした画像を横 1760 ピクセルに縮小して、中央から 1760x990 のサイズで切り取る（FHD モニターでウィンドウ表示できるように、1080p より少し小さくする）。
+☘️ ソース画像を作成。
+ダウンロードした画像を、FHDモニターでウィンドウ表示できるサイズに加工する。
+横幅を 1760 ピクセルに縮小した後、中心部分を縦 990 ピクセルで切り取る。
 
 ```
 cat << 'EOF' > make-reference-images.sh
@@ -268,9 +271,7 @@ EOF
 sh make-reference-images.sh pexels-cateduart-38580804.jpg
 ```
 
-できた画像を「画像A」とする。
-
-「画像A」を 50% に縮小。
+☘️ ソース画像を 50% に縮小。
 
 ```
 cat << 'EOF' > make-downscaled-images.sh
@@ -287,12 +288,11 @@ EOF
 sh make-downscaled-images.sh pexels-cateduart-38580804_reference.png
 ```
 
-できた画像を「画像B」とする。
-「画像B」は JPEG 形式にする。PNG 形式だと動作しないアップスケーラーがある。
-アップスケーラーが動作しているかどうかは、mpv での表示中に「i2」と入力すれば確認できる。
+縮小画像は jpg にする。png だと動作しないアップスケーラーがある。
+mpv で拡大表示しているときに「i2」と入力すると、動作しているアップスケーラーを確認できる。
 
-「画像B」を mpv で 200% に拡大。
-以下のコードは「画像を表示→スクリーンショットを撮影→終了→次の画像を表示→」を、アップスケーラーの数だけ自動的に繰り返す。
+☘️ 縮小画像をアップスケーラーでソースのサイズに戻す。
+以下のコードは「縮小画像をアップスケーラーで拡大表示→スクリーンショットを撮影→終了→次のアップスケーラーで拡大表示→」を、アップスケーラーの数だけ自動的に繰り返す。
 
 ```
 cat << 'EOF' > make-upscaled-images.sh
@@ -323,10 +323,9 @@ EOF
 sh make-upscaled-images.sh pexels-cateduart-38580804_downscaled.jpg
 ```
 
-できた画像を「画像C」とする。
-「画像C」は PNG 形式にする。JPG 形式だとスコアが悪化する。
+拡大画像は png で保存する。jpg だと劣化してスコアが悪くなる。
 
-「画像A」と「画像C」の差を測定。
+☘️ ソースと拡大画像の差を測定。
 
 ```
 cat << 'EOF' > compare-upscaled-images.sh
@@ -356,7 +355,7 @@ mkdir -p gpu_low
 mv pexels-cateduart-38580804_upscaled-*.png gpu_low/
 ```
 
-続いて高負荷なアップスケーラーを測定。
+☘️ 高負荷なアップスケーラーを測定。
 
 ```
 mv ~/.config/mpv/shaders ~/.config/mpv/shaders_low
@@ -375,10 +374,9 @@ mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders
 
 ### 結果 (低負荷バリアント)
 
-スコアが小さいほどオリジナルに近い。
-順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。
+スコアが小さいほどソースに近い。
+順位はソースとの相性や、縮小画像の作成方法などによって大きく変わる。
 mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
-スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
 Upscaler | Score
 -- | --
@@ -399,10 +397,9 @@ lanczos | 4313.61 (0.0658214)
 
 ### 結果 (高負荷バリアント)
 
-スコアが小さいほどオリジナルに近い。
-順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。
+スコアが小さいほどソースに近い。
+順位はソースとの相性や、縮小画像の作成方法などによって大きく変わる。
 mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
-スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
 Upscaler | Score
 -- | --
@@ -440,7 +437,7 @@ mkdir -p gpu_low
 mv chihiro030_upscaled-*.png gpu_low/
 ```
 
-続いて高負荷なアップスケーラーを測定。
+高負荷なアップスケーラーを測定。
 
 ```
 mv ~/.config/mpv/shaders ~/.config/mpv/shaders_low
@@ -459,10 +456,9 @@ mv ~/.config/mpv/shaders_low ~/.config/mpv/shaders
 
 ### 結果 (低負荷バリアント)
 
-スコアが小さいほどオリジナルに近い。
-順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。
+スコアが小さいほどソースに近い。
+順位はソースとの相性や、縮小画像の作成方法などによって大きく変わる。
 mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
-スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
 Upscaler | Score
 -- | --
@@ -483,10 +479,9 @@ lanczos | 4045.02 (0.061723)
 
 ### 結果 (高負荷バリアント)
 
-スコアが小さいほどオリジナルに近い。
-順位は元画像との相性や、縮小画像の作成方法などによって大きく変わる。
+スコアが小さいほどソースに近い。
+順位はソースとの相性や、縮小画像の作成方法などによって大きく変わる。
 mpv のデフォルトは lanczos。それよりスコアが 200 以上小さいものを選ぶと、効果がわかりやすい。
-スコアの差が 100 以下だと、目視では効果がわかりにくい。
 
 Upscaler | Score
 -- | --
