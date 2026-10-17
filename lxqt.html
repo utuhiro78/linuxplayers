@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-08-20" />
+  <meta name="dcterms.date" content="2026-10-17" />
   <title>Labwc と LXQt の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Labwc と LXQt の設定</h1>
-<p class="date">2026-08-20</p>
+<p class="date">2026-10-17</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -25,6 +25,8 @@ id="toc-labwc-と-lxqt-をインストール">Labwc と LXQt
 id="toc-キーボードレイアウトをjpに変更">キーボードレイアウトを「jp」に変更</a></li>
 <li><a href="#マウスカーソルのテーマを変更"
 id="toc-マウスカーソルのテーマを変更">マウスカーソルのテーマを変更</a></li>
+<li><a href="#フォントを変更"
+id="toc-フォントを変更">フォントを変更</a></li>
 <li><a href="#ウィンドウのスナップを無効にする"
 id="toc-ウィンドウのスナップを無効にする">ウィンドウのスナップを無効にする</a></li>
 <li><a href="#マウスホイールでウィンドウを上に出す"
@@ -82,6 +84,11 @@ id="キーボードレイアウトをjpに変更">キーボードレイアウト
 <code>XCURSOR_THEME=Future-cursors</code> に変更。</p>
 <p><code># XCURSOR_SIZE=</code> を<br />
 <code>XCURSOR_SIZE=24</code> に変更。</p>
+<h3 id="フォントを変更">フォントを変更</h3>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p><code>&lt;name&gt;Sans&lt;/name&gt;</code> を<br />
+<code>&lt;name&gt;Noto Sans Mono CJK JP&lt;/name&gt;</code>
+にすべて置換。</p>
 <h3
 id="ウィンドウのスナップを無効にする">ウィンドウのスナップを無効にする</h3>
 <p>ウィンドウを画面最上部にドラッグしても、ウィンドウが拡大されないようにする。</p>

@@ -1,6 +1,6 @@
 ---
 title: Labwc と LXQt の設定
-date: 2026-08-20
+date: 2026-10-17
 ---
 
 ## Labwc と LXQt をインストール
@@ -37,6 +37,15 @@ mousepad ~/.config/labwc/environment
 
 `# XCURSOR_SIZE=` を
 `XCURSOR_SIZE=24` に変更。
+
+### フォントを変更
+
+```
+mousepad ~/.config/labwc/rc.xml
+```
+
+`<name>Sans</name>` を
+`<name>Noto Sans Mono CJK JP</name>` にすべて置換。
 
 ### ウィンドウのスナップを無効にする
 
