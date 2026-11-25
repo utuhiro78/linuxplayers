@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-06-30" />
+  <meta name="dcterms.date" content="2026-11-26" />
   <title>Firefox の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Firefox の設定</h1>
-<p class="date">2026-06-30</p>
+<p class="date">2026-11-26</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -52,6 +52,9 @@ id="toc-firefox-の終了時に履歴を消去">Firefox
 id="toc-mozilla-へのデータ送信をやめる">Mozilla
 へのデータ送信をやめる</a></li>
 <li><a href="#テーマを変更" id="toc-テーマを変更">テーマを変更</a></li>
+<li><a href="#nova-デザインの角丸を直角にする"
+id="toc-nova-デザインの角丸を直角にする">Nova
+デザインの角丸を直角にする</a></li>
 </ul></li>
 <li><a href="#拡張機能を追加"
 id="toc-拡張機能を追加">拡張機能を追加</a></li>
@@ -144,6 +147,32 @@ id="アドレスバーに入力候補を表示しない">アドレスバーに�
 <p><a
 href="https://addons.mozilla.org/ja/firefox/addon/google-chrome-light/">Google
 Chrome Light</a></p>
+<h3 id="nova-デザインの角丸を直角にする">Nova
+デザインの角丸を直角にする</h3>
+<p>about:config を開く。<br />
+「toolkit.legacyUserProfileCustomizations.stylesheets」を「true」にする。</p>
+<pre><code>mkdir -p ~/.config/mozilla/firefox/*.default-release-*/chrome
+cd ~/.config/mozilla/firefox/*.default-release-*/chrome/
+
+cat &lt;&lt; &#39;EOF&#39; &gt; userChrome.css
+:root {
+  --border-radius-small: 0 !important;
+  --border-radius-medium: 0 !important;
+  --border-radius-large: 0 !important;
+  --border-radius-xlarge: 0 !important;
+  --panel-border-radius: 0 !important;
+  --panel-menuitem-border-radius: 0 !important;
+}
+
+.tab-background,
+.tab-stack,
+.tab-content,
+#navigator-toolbox,
+#TabsToolbar,
+#nav-bar {
+  border-radius: 0 !important;
+}
+EOF</code></pre>
 <h2 id="拡張機能を追加">拡張機能を追加</h2>
 <p><a
 href="https://addons.mozilla.org/ja/firefox/addon/auth-helper/">Authenticator</a><br />

@@ -1,6 +1,6 @@
 ---
 title: Labwc と LXQt の設定
-date: 2026-11-17
+date: 2026-11-23
 ---
 
 ## Labwc と LXQt をインストール
@@ -28,13 +28,46 @@ labwc -r
 
 ### マウスカーソルの移動速度を変更
 
-[wayland-mouse](https://github.com/monfa-red/wayland-mouse) のバイナリをインストール。
+```
+mousepad ~/.config/labwc/rc.xml
+```
+
+この部分を、
+
+```
+      <pointerSpeed>0</pointerSpeed>
+      <accelProfile>adaptive</accelProfile>
+```
+
+1000 DPI のマウスの場合はこのようにする。
+
+```
+      <accelProfile>custom</accelProfile>
+      <motionCurve step="0.5" points="0.0 0.5757 1.2999 2.2216 3.3847 4.8151 6.51 8.4342 10.5274 12.7193 14.9453 17.1567 19.3233 21.431 23.477 25.4655 27.4037 29.2999 31.1623 32.9977 34.8123 36.6109 38.3971 40.1741 41.9442" />
+```
+
+1600 DPI のマウスの場合は、`motionCurve step="0.8"` にする。
+計算式: 0.5*(1600/1000) = 0.8
+
+移動速度を少し上げたい場合は、`motionCurve step=` の値を10%下げる。
+
+設定を反映させる。
+
+```
+labwc -r
+```
+
+#### 参考: motionCurve step の作成方法
+
+motionCurve step は [wayland-mouse](https://github.com/monfa-red/wayland-mouse) の値から作成した。
+
+wayland-mouse をインストール。
 
 ```
 sudo ./wayland-mouse install
 ```
 
-wayland-mouse と動作が重ならないように、labwc の加速度設定をフラットにする。
+wayland-mouse の加速度設定と重ならないように、labwc の加速度設定をフラットにする。
 
 ```
 mousepad ~/.config/labwc/rc.xml
@@ -58,8 +91,6 @@ Tab を3回押して「General」タブに移動し、「Mouse DPI」を変更�
 1000 DPI のマウスなら 1000 にする。即座に設定が反映されるので、マウスを動かしてカーソルの動きを確認。少し速くする場合は DPI を 900 に変更。
 違和感のない速度になったら「s」を押して保存。
 
-#### オプション: labwc/rc.xml 用の加速度プロファイルを作成
-
 wayland-mouse の状態を表示。
 
 ```
@@ -78,32 +109,6 @@ midpoint_speed=2857 transition_width=1429 smoothing_ms=6.0
 ```
       <accelProfile>custom</accelProfile>
       <motionCurve step="0.5" points="0.0 0.5757 1.2999 2.2216 3.3847 4.8151 6.51 8.4342 10.5274 12.7193 14.9453 17.1567 19.3233 21.431 23.477 25.4655 27.4037 29.2999 31.1623 32.9977 34.8123 36.6109 38.3971 40.1741 41.9442" />
-```
-
-~/.config/labwc/rc.xml のこの部分を、
-
-```
-      <pointerSpeed>0</pointerSpeed>
-      <accelProfile>flat</accelProfile>
-```
-
-このように書き換える。
-
-```
-      <accelProfile>custom</accelProfile>
-      <motionCurve step="0.5" points="0.0 0.5757 1.2999 2.2216 3.3847 4.8151 6.51 8.4342 10.5274 12.7193 14.9453 17.1567 19.3233 21.431 23.477 25.4655 27.4037 29.2999 31.1623 32.9977 34.8123 36.6109 38.3971 40.1741 41.9442" />
-```
-
-移動速度を少し上げたい場合は、`motionCurve step="0.5"` を `"0.45"` にする。
-
-使用中のマウスが 1600 DPI の場合は、`motionCurve step="0.5"` を `"0.8"` にする。
-計算式: 0.5*(1600/1000) = 0.8
-
-設定を反映させる。
-
-```
-sudo wayland-mouse uninstall
-labwc -r
 ```
 
 ### マウスカーソルのテーマを変更

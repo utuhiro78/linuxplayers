@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="dcterms.date" content="2026-11-17" />
+  <meta name="dcterms.date" content="2026-11-23" />
   <title>Labwc と LXQt の設定</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="github.css" />
@@ -12,7 +12,7 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">Labwc と LXQt の設定</h1>
-<p class="date">2026-11-17</p>
+<p class="date">2026-11-23</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -82,11 +82,28 @@ id="キーボードレイアウトをjpに変更">キーボードレイアウト
 <pre><code>labwc -r</code></pre>
 <h3
 id="マウスカーソルの移動速度を変更">マウスカーソルの移動速度を変更</h3>
-<p><a
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p>この部分を、</p>
+<pre><code>      &lt;pointerSpeed&gt;0&lt;/pointerSpeed&gt;
+      &lt;accelProfile&gt;adaptive&lt;/accelProfile&gt;</code></pre>
+<p>1000 DPI のマウスの場合はこのようにする。</p>
+<pre><code>      &lt;accelProfile&gt;custom&lt;/accelProfile&gt;
+      &lt;motionCurve step=&quot;0.5&quot; points=&quot;0.0 0.5757 1.2999 2.2216 3.3847 4.8151 6.51 8.4342 10.5274 12.7193 14.9453 17.1567 19.3233 21.431 23.477 25.4655 27.4037 29.2999 31.1623 32.9977 34.8123 36.6109 38.3971 40.1741 41.9442&quot; /&gt;</code></pre>
+<p>1600 DPI のマウスの場合は、<code>motionCurve step="0.8"</code>
+にする。<br />
+計算式: 0.5*(1600/1000) = 0.8</p>
+<p>移動速度を少し上げたい場合は、<code>motionCurve step=</code>
+の値を10%下げる。</p>
+<p>設定を反映させる。</p>
+<pre><code>labwc -r</code></pre>
+<h4 id="参考-motioncurve-step-の作成方法">参考: motionCurve step
+の作成方法</h4>
+<p>motionCurve step は <a
 href="https://github.com/monfa-red/wayland-mouse">wayland-mouse</a>
-のバイナリをインストール。</p>
+の値から作成した。</p>
+<p>wayland-mouse をインストール。</p>
 <pre><code>sudo ./wayland-mouse install</code></pre>
-<p>wayland-mouse と動作が重ならないように、labwc
+<p>wayland-mouse の加速度設定と重ならないように、labwc
 の加速度設定をフラットにする。</p>
 <pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
 <pre><code>  &lt;libinput&gt;
@@ -101,8 +118,6 @@ href="https://github.com/monfa-red/wayland-mouse">wayland-mouse</a>
 にする。即座に設定が反映されるので、マウスを動かしてカーソルの動きを確認。少し速くする場合は
 DPI を 900 に変更。<br />
 違和感のない速度になったら「s」を押して保存。</p>
-<h4 id="オプション-labwcrc.xml-用の加速度プロファイルを作成">オプション:
-labwc/rc.xml 用の加速度プロファイルを作成</h4>
 <p>wayland-mouse の状態を表示。</p>
 <pre><code>sudo wayland-mouse status</code></pre>
 <p>1000 DPI の場合は次のように表示される。</p>
@@ -112,21 +127,6 @@ midpoint_speed=2857 transition_width=1429 smoothing_ms=6.0</code></pre>
 の形式に変換すると、次のようになる。</p>
 <pre><code>      &lt;accelProfile&gt;custom&lt;/accelProfile&gt;
       &lt;motionCurve step=&quot;0.5&quot; points=&quot;0.0 0.5757 1.2999 2.2216 3.3847 4.8151 6.51 8.4342 10.5274 12.7193 14.9453 17.1567 19.3233 21.431 23.477 25.4655 27.4037 29.2999 31.1623 32.9977 34.8123 36.6109 38.3971 40.1741 41.9442&quot; /&gt;</code></pre>
-<p>~/.config/labwc/rc.xml のこの部分を、</p>
-<pre><code>      &lt;pointerSpeed&gt;0&lt;/pointerSpeed&gt;
-      &lt;accelProfile&gt;flat&lt;/accelProfile&gt;</code></pre>
-<p>このように書き換える。</p>
-<pre><code>      &lt;accelProfile&gt;custom&lt;/accelProfile&gt;
-      &lt;motionCurve step=&quot;0.5&quot; points=&quot;0.0 0.5757 1.2999 2.2216 3.3847 4.8151 6.51 8.4342 10.5274 12.7193 14.9453 17.1567 19.3233 21.431 23.477 25.4655 27.4037 29.2999 31.1623 32.9977 34.8123 36.6109 38.3971 40.1741 41.9442&quot; /&gt;</code></pre>
-<p>移動速度を少し上げたい場合は、<code>motionCurve step="0.5"</code> を
-<code>"0.45"</code> にする。</p>
-<p>使用中のマウスが 1600 DPI
-の場合は、<code>motionCurve step="0.5"</code> を <code>"0.8"</code>
-にする。<br />
-計算式: 0.5*(1600/1000) = 0.8</p>
-<p>設定を反映させる。</p>
-<pre><code>sudo wayland-mouse uninstall
-labwc -r</code></pre>
 <h3 id="マウスカーソルのテーマを変更">マウスカーソルのテーマを変更</h3>
 <pre><code>mousepad ~/.config/labwc/environment</code></pre>
 <p><code># XCURSOR_THEME=</code> を<br />

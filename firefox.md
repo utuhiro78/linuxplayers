@@ -1,6 +1,6 @@
 ---
 title: Firefox の設定
-date: 2026-06-30
+date: 2026-11-26
 ---
 
 ## 最初に行うこと
@@ -104,6 +104,36 @@ about:preferences#privacy を開く。
 ### テーマを変更
 
 [Google Chrome Light](https://addons.mozilla.org/ja/firefox/addon/google-chrome-light/)
+
+### Nova デザインの角丸を直角にする
+
+about:config を開く。
+「toolkit.legacyUserProfileCustomizations.stylesheets」を「true」にする。
+
+```
+mkdir -p ~/.config/mozilla/firefox/*.default-release-*/chrome
+cd ~/.config/mozilla/firefox/*.default-release-*/chrome/
+
+cat << 'EOF' > userChrome.css
+:root {
+  --border-radius-small: 0 !important;
+  --border-radius-medium: 0 !important;
+  --border-radius-large: 0 !important;
+  --border-radius-xlarge: 0 !important;
+  --panel-border-radius: 0 !important;
+  --panel-menuitem-border-radius: 0 !important;
+}
+
+.tab-background,
+.tab-stack,
+.tab-content,
+#navigator-toolbox,
+#TabsToolbar,
+#nav-bar {
+  border-radius: 0 !important;
+}
+EOF
+```
 
 ## 拡張機能を追加
 
