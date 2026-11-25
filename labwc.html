@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2026-11-23" />
+  <title>Labwc と LXQt の設定</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="github.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Labwc と LXQt の設定</h1>
+<p class="date">2026-11-23</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#labwc-と-lxqt-をインストール"
+id="toc-labwc-と-lxqt-をインストール">Labwc と LXQt
+をインストール</a></li>
+<li><a href="#labwc-を設定" id="toc-labwc-を設定">Labwc を設定</a>
+<ul>
+<li><a href="#キーボードレイアウトをjpに変更"
+id="toc-キーボードレイアウトをjpに変更">キーボードレイアウトを「jp」に変更</a></li>
+<li><a href="#マウスカーソルの移動速度を変更"
+id="toc-マウスカーソルの移動速度を変更">マウスカーソルの移動速度を変更</a></li>
+<li><a href="#マウスカーソルのテーマを変更"
+id="toc-マウスカーソルのテーマを変更">マウスカーソルのテーマを変更</a></li>
+<li><a href="#フォントを変更"
+id="toc-フォントを変更">フォントを変更</a></li>
+<li><a href="#ウィンドウのスナップを無効にする"
+id="toc-ウィンドウのスナップを無効にする">ウィンドウのスナップを無効にする</a></li>
+<li><a href="#マウスホイールでウィンドウを上に出す"
+id="toc-マウスホイールでウィンドウを上に出す">マウスホイールでウィンドウを上に出す</a></li>
+<li><a href="#中クリックによるテキスト貼り付けを有効にする"
+id="toc-中クリックによるテキスト貼り付けを有効にする">中クリックによるテキスト貼り付けを有効にする</a></li>
+<li><a href="#音量変更のショートカットを設定"
+id="toc-音量変更のショートカットを設定">音量変更のショートカットを設定</a></li>
+<li><a href="#qterminal-のドロップダウンを無効にする"
+id="toc-qterminal-のドロップダウンを無効にする">QTerminal
+のドロップダウンを無効にする</a></li>
+<li><a href="#壁紙を左クリックしたときにメニューを表示しない"
+id="toc-壁紙を左クリックしたときにメニューを表示しない">壁紙を左クリックしたときにメニューを表示しない</a></li>
+<li><a href="#壁紙を右クリックしたときに表示されるメニューを更新"
+id="toc-壁紙を右クリックしたときに表示されるメニューを更新">壁紙を右クリックしたときに表示されるメニューを更新</a></li>
+<li><a href="#labwc-のテーマを変更" id="toc-labwc-のテーマを変更">Labwc
+のテーマを変更</a></li>
+</ul></li>
+<li><a href="#lxqt-を設定" id="toc-lxqt-を設定">LXQt を設定</a>
+<ul>
+<li><a href="#noto-sans-mono-cjk-jpを等幅フォントとして認識させる"
+id="toc-noto-sans-mono-cjk-jpを等幅フォントとして認識させる">「Noto Sans
+Mono CJK JP」を等幅フォントとして認識させる</a></li>
+<li><a href="#世界時計の表示形式を設定"
+id="toc-世界時計の表示形式を設定">世界時計の表示形式を設定</a></li>
+<li><a href="#パネルを設定" id="toc-パネルを設定">パネルを設定</a></li>
+<li><a href="#lxqt-セッションを設定" id="toc-lxqt-セッションを設定">LXQt
+セッションを設定</a></li>
+<li><a href="#音量変更のステップ幅を設定"
+id="toc-音量変更のステップ幅を設定">音量変更のステップ幅を設定</a></li>
+<li><a href="#ファンシーメニューを設定"
+id="toc-ファンシーメニューを設定">ファンシーメニューを設定</a></li>
+<li><a href="#パネルに-cpu-の温度と使用率を表示"
+id="toc-パネルに-cpu-の温度と使用率を表示">パネルに CPU
+の温度と使用率を表示</a></li>
+<li><a href="#ディスプレイマネージャーを-emptty-に変更"
+id="toc-ディスプレイマネージャーを-emptty-に変更">ディスプレイマネージャーを
+emptty に変更</a></li>
+</ul></li>
+</ul>
+</nav>
+<h2 id="labwc-と-lxqt-をインストール">Labwc と LXQt をインストール</h2>
+<pre><code>yay -S --needed lxqt lxqt-wayland-session labwc qt6-tools</code></pre>
+<h2 id="labwc-を設定">Labwc を設定</h2>
+<h3
+id="キーボードレイアウトをjpに変更">キーボードレイアウトを「jp」に変更</h3>
+<pre><code>mousepad ~/.config/labwc/environment</code></pre>
+<p><code># XKB_DEFAULT_LAYOUT=se</code> を<br />
+<code>XKB_DEFAULT_LAYOUT=jp</code> に変更。</p>
+<p>設定を反映させる。</p>
+<pre><code>labwc -r</code></pre>
+<h3
+id="マウスカーソルの移動速度を変更">マウスカーソルの移動速度を変更</h3>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p>この部分を、</p>
+<pre><code>      &lt;pointerSpeed&gt;0&lt;/pointerSpeed&gt;
+      &lt;accelProfile&gt;adaptive&lt;/accelProfile&gt;</code></pre>
+<p>1000 DPI のマウスの場合はこのようにする。</p>
+<pre><code>      &lt;accelProfile&gt;custom&lt;/accelProfile&gt;
+      &lt;motionCurve step=&quot;0.5&quot; points=&quot;0.0 0.5757 1.2999 2.2216 3.3847 4.8151 6.51 8.4342 10.5274 12.7193 14.9453 17.1567 19.3233 21.431 23.477 25.4655 27.4037 29.2999 31.1623 32.9977 34.8123 36.6109 38.3971 40.1741 41.9442&quot; /&gt;</code></pre>
+<p>1600 DPI のマウスの場合は、<code>motionCurve step="0.8"</code>
+にする。<br />
+計算式: 0.5*(1600/1000) = 0.8</p>
+<p>移動速度を少し上げたい場合は、<code>motionCurve step=</code>
+の値を10%下げる。</p>
+<p>設定を反映させる。</p>
+<pre><code>labwc -r</code></pre>
+<h4 id="参考-motioncurve-step-の作成方法">参考: motionCurve step
+の作成方法</h4>
+<p>motionCurve step は <a
+href="https://github.com/monfa-red/wayland-mouse">wayland-mouse</a>
+の値から作成した。</p>
+<p>wayland-mouse をインストール。</p>
+<pre><code>sudo ./wayland-mouse install</code></pre>
+<p>wayland-mouse の加速度設定と重ならないように、labwc
+の加速度設定をフラットにする。</p>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<pre><code>  &lt;libinput&gt;
+    &lt;device category=&quot;default&quot;&gt;
+      &lt;pointerSpeed&gt;0&lt;/pointerSpeed&gt;
+      &lt;accelProfile&gt;flat&lt;/accelProfile&gt;</code></pre>
+<p>wayland-mouse でマウスの DPI を設定。</p>
+<pre><code>sudo wayland-mouse tune</code></pre>
+<p><img src="images/labwc/labwc_01.webp" /></p>
+<p>Tab を3回押して「General」タブに移動し、「Mouse DPI」を変更。<br />
+1000 DPI のマウスなら 1000
+にする。即座に設定が反映されるので、マウスを動かしてカーソルの動きを確認。少し速くする場合は
+DPI を 900 に変更。<br />
+違和感のない速度になったら「s」を押して保存。</p>
+<p>wayland-mouse の状態を表示。</p>
+<pre><code>sudo wayland-mouse status</code></pre>
+<p>1000 DPI の場合は次のように表示される。</p>
+<pre><code>pointer: enabled=true precision_gain=0.700 max_gain=3.500 
+midpoint_speed=2857 transition_width=1429 smoothing_ms=6.0</code></pre>
+<p>これを Google AI で labwc/rc.xml
+の形式に変換すると、次のようになる。</p>
+<pre><code>      &lt;accelProfile&gt;custom&lt;/accelProfile&gt;
+      &lt;motionCurve step=&quot;0.5&quot; points=&quot;0.0 0.5757 1.2999 2.2216 3.3847 4.8151 6.51 8.4342 10.5274 12.7193 14.9453 17.1567 19.3233 21.431 23.477 25.4655 27.4037 29.2999 31.1623 32.9977 34.8123 36.6109 38.3971 40.1741 41.9442&quot; /&gt;</code></pre>
+<h3 id="マウスカーソルのテーマを変更">マウスカーソルのテーマを変更</h3>
+<pre><code>mousepad ~/.config/labwc/environment</code></pre>
+<p><code># XCURSOR_THEME=</code> を<br />
+<code>XCURSOR_THEME=Future-cursors</code> に変更。</p>
+<p><code># XCURSOR_SIZE=</code> を<br />
+<code>XCURSOR_SIZE=24</code> に変更。</p>
+<h3 id="フォントを変更">フォントを変更</h3>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p><code>&lt;name&gt;Sans&lt;/name&gt;</code> を<br />
+<code>&lt;name&gt;Noto Sans Mono CJK JP&lt;/name&gt;</code>
+にすべて置換。</p>
+<h3
+id="ウィンドウのスナップを無効にする">ウィンドウのスナップを無効にする</h3>
+<p>ウィンドウを画面最上部にドラッグしても、ウィンドウが拡大されないようにする。</p>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p><code>&lt;range inner="10" outer="10" /&gt;</code> を<br />
+<code>&lt;range inner="0" outer="0" /&gt;</code> に変更。</p>
+<h3
+id="マウスホイールでウィンドウを上に出す">マウスホイールでウィンドウを上に出す</h3>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p><code>&lt;context name="TitleBar"&gt;</code> を次のように変更。</p>
+<pre><code>      &lt;mousebind direction=&quot;Up&quot; action=&quot;Scroll&quot;&gt;
+        &lt;action name=&quot;Focus&quot; /&gt;
+        &lt;action name=&quot;Raise&quot; /&gt;
+      &lt;/mousebind&gt;
+      &lt;mousebind direction=&quot;Down&quot; action=&quot;Scroll&quot;&gt;
+        &lt;action name=&quot;Focus&quot; /&gt;
+        &lt;action name=&quot;Raise&quot; /&gt;
+      &lt;/mousebind&gt;</code></pre>
+<p><code>&lt;context name="Client"&gt;</code> に次の行を追加。</p>
+<pre><code>      &lt;mousebind direction=&quot;Up&quot; action=&quot;Scroll&quot;&gt;
+        &lt;action name=&quot;Focus&quot; /&gt;
+        &lt;action name=&quot;Raise&quot; /&gt;
+      &lt;/mousebind&gt;
+      &lt;mousebind direction=&quot;Down&quot; action=&quot;Scroll&quot;&gt;
+        &lt;action name=&quot;Focus&quot; /&gt;
+        &lt;action name=&quot;Raise&quot; /&gt;
+      &lt;/mousebind&gt;</code></pre>
+<h3
+id="中クリックによるテキスト貼り付けを有効にする">中クリックによるテキスト貼り付けを有効にする</h3>
+<pre><code>gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true</code></pre>
+<h3
+id="音量変更のショートカットを設定">音量変更のショートカットを設定</h3>
+<p>「lxqt-config-globalkeyshortcuts」は Wayland
+ではサポートされていないので、<br />
+<code>~/.config/labwc/rc.xml</code> で設定する。</p>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p>「Ctrl+PageUp」「Ctrl+PageDown」で音量を変更する場合は、<br />
+<code>&lt;keyboard&gt;</code> に次の行を追加。</p>
+<pre><code>    &lt;keybind key=&quot;C-Next&quot;&gt;
+      &lt;action name=&quot;Execute&quot; command=&quot;lxqt-qdbus volume down&quot; /&gt;
+    &lt;/keybind&gt;
+    &lt;keybind key=&quot;C-Prior&quot;&gt;
+      &lt;action name=&quot;Execute&quot; command=&quot;lxqt-qdbus volume up&quot; /&gt;
+    &lt;/keybind&gt;</code></pre>
+<h3 id="qterminal-のドロップダウンを無効にする">QTerminal
+のドロップダウンを無効にする</h3>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p><code>&lt;keyboard&gt;</code> のこの部分を削除。</p>
+<pre><code>    &lt;!-- For qterminal dropdown --&gt;
+    &lt;keybind key=&quot;F12&quot;&gt;
+      &lt;action name=&quot;Execute&quot; command=&quot;qterminal -d&quot; /&gt;
+    &lt;/keybind&gt;</code></pre>
+<h3
+id="壁紙を左クリックしたときにメニューを表示しない">壁紙を左クリックしたときにメニューを表示しない</h3>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p><code>&lt;context name="Root"&gt;</code> のこの部分を削除。</p>
+<pre><code>      &lt;mousebind button=&quot;Left&quot; action=&quot;Press&quot;&gt;
+        &lt;action name=&quot;ShowMenu&quot; menu=&quot;root-menu&quot; /&gt;
+      &lt;/mousebind&gt;</code></pre>
+<h3
+id="壁紙を右クリックしたときに表示されるメニューを更新">壁紙を右クリックしたときに表示されるメニューを更新</h3>
+<pre><code>yay -S --needed labwc-menu-generator-git
+labwc-menu-generator --icons &gt; ~/.config/labwc/menu.xml
+labwc -r</code></pre>
+<h3 id="labwc-のテーマを変更">Labwc のテーマを変更</h3>
+<p>私は自分で作成した青系のテーマを使用しています。<br />
+<img src="images/labwc/Labwc-Blue/labwc-blue.webp" /></p>
+<p>ファイルは<a
+href="images/labwc/Labwc-Blue/themerc">こちら</a>。<br />
+ダウンロードしたファイルをインストール。</p>
+<pre><code>mkdir -p ~/.local/share/themes/Labwc-Blue/labwc
+mv themerc ~/.local/share/themes/Labwc-Blue/labwc/</code></pre>
+<p>rc.xml を編集。</p>
+<pre><code>mousepad ~/.config/labwc/rc.xml</code></pre>
+<p><code>&lt;theme&gt;</code> を次のように変更。</p>
+<pre><code>  &lt;theme&gt;
+    &lt;name&gt;Labwc-Blue&lt;/name&gt;</code></pre>
+<p>GUI で設定する場合は「labwc-tweaks」を使用する。</p>
+<h4 id="自分でテーマを作成する場合">自分でテーマを作成する場合</h4>
+<pre><code>mkdir -p ~/.local/share/themes/theme_name/labwc
+cp /usr/share/doc/labwc/themerc ~/.local/share/themes/theme_name/labwc/</code></pre>
+<p>ローカルの themerc を編集して適用。</p>
+<h2 id="lxqt-を設定">LXQt を設定</h2>
+<h3 id="noto-sans-mono-cjk-jpを等幅フォントとして認識させる">「Noto Sans
+Mono CJK JP」を等幅フォントとして認識させる</h3>
+<p>LXQt では「Noto Sans Mono CJK JP」が等幅フォントとして<a
+href="https://github.com/notofonts/noto-fonts/issues/2393">認識されない</a>ので、次のように修正。</p>
+<pre><code>mkdir -p ~/.config/fontconfig/conf.d
+mousepad ~/.config/fontconfig/conf.d/70-noto-mono.conf</code></pre>
+<p>次の内容を貼り付けて保存。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM &quot;fonts.dtd&quot;&gt;
+&lt;fontconfig&gt;
+    &lt;match target=&quot;scan&quot;&gt;
+        &lt;test name=&quot;family&quot;&gt;
+            &lt;string&gt;Noto Sans Mono CJK JP&lt;/string&gt;
+        &lt;/test&gt;
+        &lt;edit name=&quot;spacing&quot; mode=&quot;assign&quot;&gt;
+            &lt;int&gt;100&lt;/int&gt;
+        &lt;/edit&gt;
+    &lt;/match&gt;
+&lt;/fontconfig&gt;</code></pre>
+<p>フォント情報のキャッシュを更新。</p>
+<pre><code>fc-cache -f -v</code></pre>
+<p>次のコマンドで「Noto Sans Mono CJK JP」が表示されるのを確認。</p>
+<pre><code>fc-list :spacing=100 | grep -i &quot;Noto Sans Mono CJK JP:style=Regular&quot;</code></pre>
+<h3 id="世界時計の表示形式を設定">世界時計の表示形式を設定</h3>
+<p>「世界時計の設定」→「表示形式」タブ→<br />
+「形式を詳しく指定する」にチェックを入れる→<br />
+「指定」をクリック→<br />
+MM月dd日 (ddd) HH:mm</p>
+<h3 id="パネルを設定">パネルを設定</h3>
+<p>「パネルの設定」→「配置」→<br />
+幅: 38 ピクセル<br />
+アイコン: 32 ピクセル<br />
+場所: 画面上部</p>
+<h3 id="lxqt-セッションを設定">LXQt セッションを設定</h3>
+<p>「LXQt セッションの設定」→「基本設定」→<br />
+「セッション終了時に確認する」のチェックを外す。<br />
+「サスペンド/ハイバネートの前に画面をロックする」のチェックを外す。</p>
+<h3 id="音量変更のステップ幅を設定">音量変更のステップ幅を設定</h3>
+<p>「音量調節の設定」→<br />
+「音量変更のステップ幅」を 2 にする。</p>
+<h3 id="ファンシーメニューを設定">ファンシーメニューを設定</h3>
+<p>「ファンシーメニューの設定」→<br />
+「カテゴリの位置」を「左」にする。</p>
+<h3 id="パネルに-cpu-の温度と使用率を表示">パネルに CPU
+の温度と使用率を表示</h3>
+<pre><code>yay -S --needed python-psutil</code></pre>
+<p><a
+href="images/labwc/get_cpu_usage_and_temp.py">get_cpu_usage_and_temp.py</a>
+をダウンロード。<br />
+「ウィジェットの管理」で「カスタムコマンド」を追加。<br />
+「カスタムコマンドの設定」をクリックして次のコマンドを書く。</p>
+<pre><code>python ~/get_cpu_usage_and_temp.py</code></pre>
+<h3
+id="ディスプレイマネージャーを-emptty-に変更">ディスプレイマネージャーを
+emptty に変更</h3>
+<p>例: lightdm から emptty に変更</p>
+<pre><code>yay -S --needed emptty
+sudo systemctl disable lightdm.service
+sudo systemctl enable emptty.service</code></pre>
+<p>emptty の設定を変更。</p>
+<pre><code>cp /etc/emptty/conf .
+mousepad conf</code></pre>
+<p>次の箇所を変更。</p>
+<pre><code>DEFAULT_USER=ログイン名
+AUTOLOGIN_SESSION=&quot;LXQt (Wayland)&quot;
+LANG=ja_JP.UTF-8</code></pre>
+<p>ファイルを上書き。</p>
+<pre><code>sudo mv conf /etc/emptty/conf</code></pre>
+<p><a href="index.html">HOME</a></p>
+</body>
+</html>

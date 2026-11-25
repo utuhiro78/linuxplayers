@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2026-11-26" />
+  <title>Firefox の設定</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="github.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Firefox の設定</h1>
+<p class="date">2026-11-26</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#最初に行うこと" id="toc-最初に行うこと">最初に行うこと</a>
+<ul>
+<li><a href="#マウスホイールでタブを切り替える"
+id="toc-マウスホイールでタブを切り替える">マウスホイールでタブを切り替える</a></li>
+<li><a href="#ブックマークとパスワードをインポート"
+id="toc-ブックマークとパスワードをインポート">ブックマークとパスワードをインポート</a></li>
+<li><a href="#フォントを設定"
+id="toc-フォントを設定">フォントを設定</a></li>
+<li><a href="#ファイルの保存場所を毎回指定"
+id="toc-ファイルの保存場所を毎回指定">ファイルの保存場所を毎回指定</a></li>
+<li><a href="#drm-制御のコンテンツを再生"
+id="toc-drm-制御のコンテンツを再生">DRM 制御のコンテンツを再生</a></li>
+<li><a href="#起動時のページを空白にする"
+id="toc-起動時のページを空白にする">起動時のページを空白にする</a></li>
+<li><a href="#内蔵翻訳ツールを自動で開かない"
+id="toc-内蔵翻訳ツールを自動で開かない">内蔵翻訳ツールを自動で開かない</a></li>
+<li><a href="#右クリックメニューのai-チャットボットに尋ねるを消す"
+id="toc-右クリックメニューのai-チャットボットに尋ねるを消す">右クリックメニューの「AI
+チャットボットに尋ねる」を消す</a></li>
+<li><a href="#現在全画面表示モードですのメッセージを無効にする"
+id="toc-現在全画面表示モードですのメッセージを無効にする">「現在全画面表示モードです」のメッセージを無効にする</a></li>
+<li><a
+href="#ブックマークをミドルクリックで開いたあとにメニューを閉じない"
+id="toc-ブックマークをミドルクリックで開いたあとにメニューを閉じない">ブックマークをミドルクリックで開いたあとにメニューを閉じない</a></li>
+<li><a href="#動画にカーソルを載せたとき-pinp-のアイコンを表示しない"
+id="toc-動画にカーソルを載せたとき-pinp-のアイコンを表示しない">動画にカーソルを載せたとき
+PinP のアイコンを表示しない</a></li>
+<li><a href="#アドレスバーに入力候補を表示しない"
+id="toc-アドレスバーに入力候補を表示しない">アドレスバーに入力候補を表示しない</a></li>
+<li><a href="#firefox-の終了時に履歴を消去"
+id="toc-firefox-の終了時に履歴を消去">Firefox
+の終了時に履歴を消去</a></li>
+<li><a href="#mozilla-へのデータ送信をやめる"
+id="toc-mozilla-へのデータ送信をやめる">Mozilla
+へのデータ送信をやめる</a></li>
+<li><a href="#テーマを変更" id="toc-テーマを変更">テーマを変更</a></li>
+<li><a href="#nova-デザインの角丸を直角にする"
+id="toc-nova-デザインの角丸を直角にする">Nova
+デザインの角丸を直角にする</a></li>
+</ul></li>
+<li><a href="#拡張機能を追加"
+id="toc-拡張機能を追加">拡張機能を追加</a></li>
+<li><a href="#検索エンジンを追加"
+id="toc-検索エンジンを追加">検索エンジンを追加</a></li>
+<li><a href="#デフォルトの検索エンジンを変更"
+id="toc-デフォルトの検索エンジンを変更">デフォルトの検索エンジンを変更</a></li>
+<li><a href="#ブックマークをエクスポート"
+id="toc-ブックマークをエクスポート">ブックマークをエクスポート</a></li>
+<li><a href="#パスワードをエクスポート"
+id="toc-パスワードをエクスポート">パスワードをエクスポート</a></li>
+</ul>
+</nav>
+<h2 id="最初に行うこと">最初に行うこと</h2>
+<h3
+id="マウスホイールでタブを切り替える">マウスホイールでタブを切り替える</h3>
+<p>about:config を開く。<br />
+「toolkit.tabbox.switchByScrolling」を検索。<br />
+右端の「切り替え」アイコンをクリックして「true」にする。</p>
+<h3
+id="ブックマークとパスワードをインポート">ブックマークとパスワードをインポート</h3>
+<p>about:preferences#general を開く。<br />
+「データをインポート」をクリック。<br />
+「パスワード（CSV ファイルから）」を選んでインポート。<br />
+「ブックマーク（HTML ファイルから）」を選んでインポート。</p>
+<h3 id="フォントを設定">フォントを設定</h3>
+<p>about:preferences#general を開く。<br />
+「フォント」の詳細設定を開き、「日本語」「ラテン文字」「その他の表記体系」のフォントを設定。<br />
+私は次のようにしています。</p>
+<pre><code>プロポーショナル: ゴシック体, サイズ: 20
+明朝体: Noto Sans CJK JP, サイズ: 20
+ゴシック体: Noto Sans CJK JP, サイズ: 20
+等幅: Noto Sans Mono CJK JP, サイズ: 20
+最小フォントサイズ: 18</code></pre>
+<h3 id="ファイルの保存場所を毎回指定">ファイルの保存場所を毎回指定</h3>
+<p>about:preferences#general を開く。<br />
+「次のフォルダーに保存する」に書かれているフォルダーを変更。<br />
+「ファイルごとに保存先を指定する」にチェックをいれる。</p>
+<h3 id="drm-制御のコンテンツを再生">DRM 制御のコンテンツを再生</h3>
+<p>about:preferences#general を開く。<br />
+「DRM 制御のコンテンツを再生する」にチェックをいれる。<br />
+こうしないと TVer などが再生できない。</p>
+<h3 id="起動時のページを空白にする">起動時のページを空白にする</h3>
+<p>about:preferences#home を開く。<br />
+次のように設定する。</p>
+<pre><code>ホームページと新しいウィンドウ: 空白ページ
+新しいタブ: 空白ページ</code></pre>
+<h3
+id="内蔵翻訳ツールを自動で開かない">内蔵翻訳ツールを自動で開かない</h3>
+<p>about:config を開く。<br />
+「browser.translations.automaticallyPopup」を検索。<br />
+右端の「切り替え」アイコンをクリックして「false」にする。</p>
+<h3
+id="右クリックメニューのai-チャットボットに尋ねるを消す">右クリックメニューの「AI
+チャットボットに尋ねる」を消す</h3>
+<p>about:config を開く。<br />
+「browser.ml.chat.menu」を検索。<br />
+右端の「切り替え」アイコンをクリックして「false」にする。</p>
+<h3
+id="現在全画面表示モードですのメッセージを無効にする">「現在全画面表示モードです」のメッセージを無効にする</h3>
+<p>about:config を開く。<br />
+「full-screen-api.warning.timeout」を検索。<br />
+右側の鉛筆アイコンをクリックして「0」にする。<br />
+右側の「✓」をクリック。</p>
+<h3
+id="ブックマークをミドルクリックで開いたあとにメニューを閉じない">ブックマークをミドルクリックで開いたあとにメニューを閉じない</h3>
+<p>about:config を開く。<br />
+「browser.bookmarks.openInTabClosesMenu」を検索。<br />
+右端の「切り替え」アイコンをクリックして「false」にする。</p>
+<h3
+id="動画にカーソルを載せたとき-pinp-のアイコンを表示しない">動画にカーソルを載せたとき
+PinP のアイコンを表示しない</h3>
+<p>about:preferences#general を開く。<br />
+「ピクチャーインピクチャーの動画の操作を有効にする」のチェックを外す。</p>
+<h3
+id="アドレスバーに入力候補を表示しない">アドレスバーに入力候補を表示しない</h3>
+<p>about:preferences#search を開く。<br />
+「検索エンジンからの検索候補の表示方法を選択」のチェックをすべて外す。<br />
+「アドレスバーに表示する候補を選択」のチェックをすべて外す。</p>
+<h3 id="firefox-の終了時に履歴を消去">Firefox の終了時に履歴を消去</h3>
+<p>about:preferences#privacy を開く。<br />
+「Firefox の終了時に履歴を消去する」にチェックをいれる。<br />
+右側の「設定」クリックして「Cookie
+とサイトデータ」以外にチェックをいれる。</p>
+<h3 id="mozilla-へのデータ送信をやめる">Mozilla
+へのデータ送信をやめる</h3>
+<p>about:preferences#privacy を開く。<br />
+「Firefox のデータ収集と利用について」のチェックをすべて外す。</p>
+<h3 id="テーマを変更">テーマを変更</h3>
+<p><a
+href="https://addons.mozilla.org/ja/firefox/addon/google-chrome-light/">Google
+Chrome Light</a></p>
+<h3 id="nova-デザインの角丸を直角にする">Nova
+デザインの角丸を直角にする</h3>
+<p>about:config を開く。<br />
+「toolkit.legacyUserProfileCustomizations.stylesheets」を「true」にする。</p>
+<pre><code>mkdir -p ~/.config/mozilla/firefox/*.default-release-*/chrome
+cd ~/.config/mozilla/firefox/*.default-release-*/chrome/
+
+cat &lt;&lt; &#39;EOF&#39; &gt; userChrome.css
+:root {
+  --border-radius-small: 0 !important;
+  --border-radius-medium: 0 !important;
+  --border-radius-large: 0 !important;
+  --border-radius-xlarge: 0 !important;
+  --panel-border-radius: 0 !important;
+  --panel-menuitem-border-radius: 0 !important;
+}
+
+.tab-background,
+.tab-stack,
+.tab-content,
+#navigator-toolbox,
+#TabsToolbar,
+#nav-bar {
+  border-radius: 0 !important;
+}
+EOF</code></pre>
+<h2 id="拡張機能を追加">拡張機能を追加</h2>
+<p><a
+href="https://addons.mozilla.org/ja/firefox/addon/auth-helper/">Authenticator</a><br />
+<a
+href="https://addons.mozilla.org/ja/firefox/addon/close-left-tabs-button/">Close
+Left Tabs Button</a><br />
+<a
+href="https://addons.mozilla.org/ja/firefox/addon/close-other-tabs-btn/">Close
+Other Tabs Button</a><br />
+<a
+href="https://addons.mozilla.org/ja/firefox/addon/close-right-tabs-button/">Close
+Right Tabs Button</a><br />
+<a
+href="https://addons.mozilla.org/ja/firefox/addon/selection-search-ff/">Selection
+Search</a><br />
+<a
+href="https://addons.mozilla.org/ja/firefox/addon/cookiewhitelist/">Cookie
+Whitelist</a><br />
+<a
+href="https://addons.mozilla.org/ja/firefox/addon/471ae3f875c443e48e1f/">ShowPassword</a><br />
+<a
+href="https://addons.mozilla.org/ja/firefox/addon/traduzir-paginas-web/">TWP
+- Translate Web Pages</a><br />
+<a
+href="https://addons.mozilla.org/ja/firefox/addon/ublock-origin/">uBlock
+Origin</a><br />
+<a
+href="https://addons.mozilla.org/ja/firefox/addon/control-panel-for-youtube/">コントロールパネル
+for YouTube</a></p>
+<h2 id="検索エンジンを追加">検索エンジンを追加</h2>
+<p>about:preferences#search を開く。<br />
+「検索ショートカット」の「追加」をクリック。</p>
+<table>
+<thead>
+<tr>
+<th>検索エンジン</th>
+<th>キーワード</th>
+<th>URL（%s=検索語句）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Google Ja</td>
+<td>g</td>
+<td>https://www.google.co.jp/search?q=%s</td>
+</tr>
+<tr>
+<td>Google En</td>
+<td>ge</td>
+<td>https://www.google.co.jp/search?q=%s&amp;hl=en&amp;lr=lang_en</td>
+</tr>
+<tr>
+<td>Amazon</td>
+<td>a</td>
+<td>https://www.amazon.co.jp/s?k=%s</td>
+</tr>
+<tr>
+<td>ヨドバシ</td>
+<td>yo</td>
+<td>https://www.yodobashi.com/?word=%s</td>
+</tr>
+<tr>
+<td>楽天</td>
+<td>r</td>
+<td>https://search.rakuten.co.jp/search/mall/%s</td>
+</tr>
+<tr>
+<td>ビック</td>
+<td>b</td>
+<td>https://www.biccamera.com/bc/category/?q=%s</td>
+</tr>
+<tr>
+<td>TVer</td>
+<td>t</td>
+<td>https://tver.jp/search/%s</td>
+</tr>
+<tr>
+<td>YouTube</td>
+<td>y</td>
+<td>https://www.youtube.com/results?search_query=%s</td>
+</tr>
+<tr>
+<td>X</td>
+<td>x</td>
+<td>https://nitter.net/search?f=tweets&amp;q=%s</td>
+</tr>
+</tbody>
+</table>
+<h2
+id="デフォルトの検索エンジンを変更">デフォルトの検索エンジンを変更</h2>
+<p>about:preferences#search を開く。<br />
+「既定の検索エンジン」を変更。</p>
+<h2 id="ブックマークをエクスポート">ブックマークをエクスポート</h2>
+<p>ブラウザの右上にある「≡」をクリック。<br />
+「ブックマーク」をクリック。<br />
+一番下の「ブックマークを管理」をクリック。<br />
+「インポートとバックアップ」→「HTML としてエクスポート」を選択。</p>
+<h2 id="パスワードをエクスポート">パスワードをエクスポート</h2>
+<p>about:preferences#privacy を開く。<br />
+「保存されたパスワード」を選択。<br />
+画面右上の「⋯」をクリック→「パスワードをエクスポート」を選択。</p>
+<p><a href="index.html">HOME</a></p>
+</body>
+</html>
